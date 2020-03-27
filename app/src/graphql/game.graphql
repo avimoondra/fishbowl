@@ -1,0 +1,8 @@
+mutation StartNewGame {
+  insert_games(objects: [{}]) {
+    returning {
+      id
+      join_code
+    }
+  }
+}

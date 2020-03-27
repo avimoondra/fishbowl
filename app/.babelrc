@@ -1,0 +1,36 @@
+{
+  "presets": [
+    "@babel/preset-react",
+    [
+      "@babel/env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": "> 0.2%"
+        },
+        "useBuiltIns": "entry"
+      }
+    ]
+  ],
+
+  "plugins": [
+    [
+      "@babel/plugin-transform-typescript",
+      {
+        "allowNamespaces": true
+      }
+    ]
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        ["emotion", { "sourceMap": true, "hoist": false, "autoLabel": true }]
+      ]
+    },
+    "production": {
+      "plugins": [
+        ["emotion", { "sourceMap": false, "hoist": true, "autoLabel": true }]
+      ]
+    }
+  }
+}

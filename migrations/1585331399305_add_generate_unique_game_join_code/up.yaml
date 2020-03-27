@@ -1,0 +1,36 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      CREATE OR REPLACE FUNCTION random_text(INTEGER) RETURNS TEXT AS
+      $$
+      BEGIN
+        RETURN(SELECT array_to_string(array(
+          SELECT SUBSTRING('ABCDEFGHIJKLMNOPQRSTUVWXYZ' FROM floor(random()*26)::int+1 FOR 1)
+            FROM generate_series(1, $1)
+          ), ''));
+      END;
+      $$ LANGUAGE PLPGSQL;
+
+      CREATE OR REPLACE FUNCTION generate_unique_game_join_code() RETURNS TRIGGER AS
+      $$
+      DECLARE
+        new_code TEXT;
+      BEGIN
+        LOOP
+          new_code := random_text(4) AS TEXT;
+          BEGIN
+            UPDATE games SET join_code = new_code WHERE games.id = NEW.id;
+            RETURN NULL;
+            EXIT;
+          EXCEPTION WHEN unique_violation THEN
+          END;
+        END LOOP;
+      END;
+      $$ LANGUAGE PLPGSQL;
+
+      CREATE TRIGGER generate_unique_game_join_code
+        AFTER INSERT ON games
+        FOR EACH ROW
+        EXECUTE PROCEDURE generate_unique_game_join_code();
+  type: run_sql
