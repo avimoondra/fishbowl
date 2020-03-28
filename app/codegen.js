@@ -11,10 +11,10 @@ module.exports = {
       plugins: [
         "typescript",
         "typescript-operations",
-        "typescript-react-apollo",
-        "typescript-compatibility"
+        "typescript-react-apollo"
       ],
       config: {
+        noNamespaces: true,
         skipTypename: true,
         withHooks: true,
         withHOC: false,

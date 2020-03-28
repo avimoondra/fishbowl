@@ -161,6 +161,10 @@ export type GamesOrderBy = {
   time_limit_per_turn?: Maybe<OrderBy>;
 };
 
+export type GamesPkColumnsInput = {
+  id: Scalars['Int'];
+};
+
 export enum GamesSelectColumn {
   Id = 'id',
   JoinCode = 'join_code',
@@ -283,13 +287,21 @@ export type IntComparisonExp = {
 
 export type MutationRoot = {
   delete_games?: Maybe<GamesMutationResponse>;
+  delete_games_by_pk?: Maybe<Games>;
   insert_games?: Maybe<GamesMutationResponse>;
+  insert_games_one?: Maybe<Games>;
   update_games?: Maybe<GamesMutationResponse>;
+  update_games_by_pk?: Maybe<Games>;
 };
 
 
 export type MutationRootDeleteGamesArgs = {
   where: GamesBoolExp;
+};
+
+
+export type MutationRootDeleteGamesByPkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -299,10 +311,23 @@ export type MutationRootInsertGamesArgs = {
 };
 
 
+export type MutationRootInsertGamesOneArgs = {
+  object: GamesInsertInput;
+  on_conflict?: Maybe<GamesOnConflict>;
+};
+
+
 export type MutationRootUpdateGamesArgs = {
   _inc?: Maybe<GamesIncInput>;
   _set?: Maybe<GamesSetInput>;
   where: GamesBoolExp;
+};
+
+
+export type MutationRootUpdateGamesByPkArgs = {
+  _inc?: Maybe<GamesIncInput>;
+  _set?: Maybe<GamesSetInput>;
+  pk_columns: GamesPkColumnsInput;
 };
 
 export enum OrderBy {
@@ -393,16 +418,20 @@ export type SubscriptionRootGamesByPkArgs = {
 export type StartNewGameMutationVariables = {};
 
 
-export type StartNewGameMutation = { insert_games?: Maybe<{ returning: Array<Pick<Games, 'id' | 'join_code'>> }> };
+export type StartNewGameMutation = { insert_games_one?: Maybe<Pick<Games, 'id'>> };
+
+export type GameSubscriptionVariables = {
+  id: Scalars['Int'];
+};
+
+
+export type GameSubscription = { games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code'>> };
 
 
 export const StartNewGameDocument = gql`
     mutation StartNewGame {
-  insert_games(objects: [{}]) {
-    returning {
-      id
-      join_code
-    }
+  insert_games_one(object: {}) {
+    id
   }
 }
     `;
@@ -430,11 +459,33 @@ export function useStartNewGameMutation(baseOptions?: ApolloReactHooks.MutationH
 export type StartNewGameMutationHookResult = ReturnType<typeof useStartNewGameMutation>;
 export type StartNewGameMutationResult = ApolloReactCommon.MutationResult<StartNewGameMutation>;
 export type StartNewGameMutationOptions = ApolloReactCommon.BaseMutationOptions<StartNewGameMutation, StartNewGameMutationVariables>;
-export namespace StartNewGame {
-  export type Variables = StartNewGameMutationVariables;
-  export type Mutation = StartNewGameMutation;
-  export type InsertGames = StartNewGameMutation['insert_games'];
-  export type Returning = StartNewGameMutation['insert_games']['returning'][0];
-  export const Document = StartNewGameDocument;
-  export const use = useStartNewGameMutation;
+export const GameDocument = gql`
+    subscription Game($id: Int!) {
+  games_by_pk(id: $id) {
+    id
+    join_code
+  }
 }
+    `;
+
+/**
+ * __useGameSubscription__
+ *
+ * To run a query within a React component, call `useGameSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGameSubscription` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGameSubscription({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGameSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<GameSubscription, GameSubscriptionVariables>) {
+        return ApolloReactHooks.useSubscription<GameSubscription, GameSubscriptionVariables>(GameDocument, baseOptions);
+      }
+export type GameSubscriptionHookResult = ReturnType<typeof useGameSubscription>;
+export type GameSubscriptionResult = ApolloReactCommon.SubscriptionResult<GameSubscription>;

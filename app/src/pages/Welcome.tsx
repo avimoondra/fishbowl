@@ -2,39 +2,48 @@ import * as React from "react"
 import Button from "@material-ui/core/Button"
 import { Typography, TextField } from "@material-ui/core"
 import { Serif } from "styles/font"
-import { Link, Redirect, withRouter } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
 import routes from "routes"
-import { useStartNewGameMutation } from "generated/graphql"
+import { useStartNewGameMutation, useGameSubscription } from "generated/graphql"
+
+function StartingNewGame(props: { gameId: number }) {
+  const { data } = useGameSubscription({
+    variables: {
+      id: props.gameId
+    }
+  })
+  const joinCode = data?.games_by_pk?.join_code
+  if (joinCode) {
+    return (
+      <Redirect push to={routes.game.createLobbyRoute(joinCode)}></Redirect>
+    )
+  } else {
+    return null
+  }
+}
 
 function Welcome() {
   const [joinCode, setJoinCode] = React.useState("")
   const [canInputJoinCode, setCanJoinCode] = React.useState(false)
   const [isGeneratingJoinCode, setIsGeneratingJoinCode] = React.useState(false)
-  const [
-    startNewGameMutation,
-    { data, loading, error }
-  ] = useStartNewGameMutation()
-
-  const generateCode = async () => {
-    setIsGeneratingJoinCode(true)
-    const data = await startNewGameMutation()
-    debugger
-    const join_code = data.data?.insert_games?.returning[0].join_code
-    if (join_code) setJoinCode(join_code)
-    setIsGeneratingJoinCode(false)
-  }
+  const [startNewGame, { data }] = useStartNewGameMutation()
 
   return (
     <div>
       <Typography variant="h1">
         <Serif>Fishbowl</Serif>
       </Typography>
-      <Button onClick={() => generateCode()} disabled={isGeneratingJoinCode}>
-        {joinCode == "ABDC" ? (
-          <Redirect push to={routes.game.createLobbyRoute(joinCode)}></Redirect>
-        ) : (
-          <span> Host Game</span>
-        )}
+      {isGeneratingJoinCode && data?.insert_games_one?.id && (
+        <StartingNewGame gameId={data?.insert_games_one?.id}></StartingNewGame>
+      )}
+      <Button
+        onClick={() => {
+          setIsGeneratingJoinCode(true)
+          startNewGame()
+        }}
+        disabled={isGeneratingJoinCode}
+      >
+        Host Game
       </Button>
       {canInputJoinCode ? (
         <>

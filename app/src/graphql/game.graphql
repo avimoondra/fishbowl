@@ -1,8 +1,12 @@
 mutation StartNewGame {
-  insert_games(objects: [{}]) {
-    returning {
-      id
-      join_code
-    }
+  insert_games_one(object: {}) {
+    id
+  }
+}
+
+subscription Game($id: Int!) {
+  games_by_pk(id: $id) {
+    id
+    join_code
   }
 }
