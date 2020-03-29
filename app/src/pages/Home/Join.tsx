@@ -4,27 +4,24 @@ import { useJoinGameMutation, GameByJoinCodeDocument } from "generated/graphql"
 import { generatePath, Redirect } from "react-router-dom"
 import routes from "routes"
 import { useLazyQuery } from "@apollo/react-hooks"
-import { userUuid } from "contexts/CurrentUser"
+import { playerUuid } from "contexts/CurrentPlayer"
 
 function Join() {
   const [redirect, setRedirect] = React.useState(false)
   const [joinCode, setJoinCode] = React.useState<string | null>(null)
   const [joinGame] = useJoinGameMutation()
-  const [loadGame, { called, loading, data }] = useLazyQuery(
-    GameByJoinCodeDocument,
-    {
-      variables: { joinCode: joinCode?.toLocaleUpperCase() },
-      onCompleted: async data => {
-        await joinGame({
-          variables: {
-            gameId: data.games[0]?.id,
-            playerUuid: userUuid()
-          }
-        })
-        setRedirect(true)
-      }
+  const [loadGame] = useLazyQuery(GameByJoinCodeDocument, {
+    variables: { joinCode: joinCode?.toLocaleUpperCase() },
+    onCompleted: async data => {
+      await joinGame({
+        variables: {
+          gameId: data.games[0]?.id,
+          playerUuid: playerUuid()
+        }
+      })
+      setRedirect(true)
     }
-  )
+  })
 
   return (
     <>

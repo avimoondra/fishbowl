@@ -1,0 +1,45 @@
+query CurrentPlayer($playerUuid: uuid!, $joinCode: String!) {
+  players(
+    where: {
+      uuid: { _eq: $playerUuid }
+      game: { join_code: { _eq: $joinCode } }
+    }
+  ) {
+    id
+    uuid
+    username
+    game {
+      id
+      join_code
+      host {
+        id
+        username
+      }
+    }
+  }
+}
+
+subscription Game($id: Int!) {
+  games_by_pk(id: $id) {
+    id
+    join_code
+    starting_letter
+    time_limit_per_turn
+    num_entries_per_player
+    host {
+      id
+      username
+    }
+  }
+}
+
+query GameByJoinCode($joinCode: String!) {
+  games(where: { join_code: { _eq: $joinCode } }) {
+    id
+    join_code
+    host {
+      id
+      username
+    }
+  }
+}

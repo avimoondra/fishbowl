@@ -1,9 +1,9 @@
-import { generatePath } from "react-router-dom"
-
 const routes = {
   root: "/",
   game: {
-    lobby: "/game/:joinCode/lobby"
+    root: "/game/:joinCode/",
+    lobby: "/game/:joinCode/lobby",
+    teamAssignment: "/game/:joinCode/teams"
   }
 }
 

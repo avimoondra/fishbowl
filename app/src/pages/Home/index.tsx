@@ -2,8 +2,8 @@ import * as React from "react"
 import { Typography, Button } from "@material-ui/core"
 import { Serif } from "styles/font"
 import Join from "pages/Home/Join"
-import { userUuid } from "contexts/CurrentUser"
-import { useHostGameMutation } from "generated/graphql"
+import { playerUuid } from "contexts/CurrentPlayer"
+import { useStartGameMutation, useBecomeHostMutation } from "generated/graphql"
 import Host from "pages/Home/Host"
 
 enum PlayerState {
@@ -13,15 +13,12 @@ enum PlayerState {
 }
 
 function Home() {
+  const [gameId, setGameId] = React.useState<number | null>(null)
   const [playerState, setPlayerState] = React.useState<PlayerState>(
     PlayerState.Choosing
   )
-  const [hostGame, { data }] = useHostGameMutation({
-    variables: {
-      playerUuid: userUuid()
-    }
-  })
-  const gameId = data?.insert_games_one?.id
+  const [startGame] = useStartGameMutation()
+  const [becomeHost] = useBecomeHostMutation()
 
   return (
     <>
@@ -34,11 +31,26 @@ function Home() {
           <>
             {gameId && <Host gameId={gameId} />}
             <Button
-              onClick={() => {
+              onClick={async () => {
                 setPlayerState(PlayerState.Hosting)
-                hostGame()
+                const { data } = await startGame({
+                  variables: {
+                    playerUuid: playerUuid()
+                  }
+                })
+                const gameId = data?.insert_games_one?.id
+                const playerId = data?.insert_games_one?.players[0].id
+                if (gameId && playerId) {
+                  await becomeHost({
+                    variables: {
+                      gameId,
+                      playerId
+                    }
+                  })
+                  setGameId(gameId)
+                }
               }}
-              disabled={playerState == PlayerState.Hosting}
+              disabled={playerState === PlayerState.Hosting}
             >
               Host Game
             </Button>
@@ -47,7 +59,7 @@ function Home() {
             </Button>
           </>
         )}
-        {playerState == PlayerState.Joining && <Join></Join>}
+        {playerState === PlayerState.Joining && <Join></Join>}
       </div>
     </>
   )

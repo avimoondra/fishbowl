@@ -1,0 +1,29 @@
+mutation StartGame($playerUuid: uuid!) {
+  insert_games_one(object: { players: { data: [{ uuid: $playerUuid }] } }) {
+    id
+    join_code
+    players {
+      id
+      uuid
+    }
+  }
+}
+
+mutation BecomeHost($gameId: Int!, $playerId: Int!) {
+  update_games_by_pk(
+    pk_columns: { id: $gameId }
+    _set: { host_id: $playerId }
+  ) {
+    id
+    join_code
+    starting_letter
+    time_limit_per_turn
+    num_entries_per_player
+  }
+}
+
+mutation JoinGame($gameId: Int!, $playerUuid: uuid!) {
+  insert_players_one(object: { game_id: $gameId, uuid: $playerUuid }) {
+    id
+  }
+}

@@ -1,0 +1,12 @@
+- args:
+    name: games
+    table:
+      name: players
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: host_id
+        table:
+          name: games
+          schema: public
+  type: create_array_relationship
