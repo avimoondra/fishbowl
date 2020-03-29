@@ -1,63 +1,31 @@
 import * as React from "react"
-import { BrowserRouter, Switch, Route } from "react-router-dom"
-import ApolloClient from "apollo-client"
-import { split } from "apollo-link"
-import { getMainDefinition } from "apollo-utilities"
-import { InMemoryCache } from "apollo-cache-inmemory"
-import { HttpLink } from "apollo-link-http"
-import { WebSocketLink } from "apollo-link-ws"
-import { ApolloProvider } from "@apollo/react-hooks"
-
-import "./App.css"
-
+import { Switch, Route, BrowserRouter } from "react-router-dom"
 import routes from "./routes"
-import Welcome from "./pages/Welcome"
-
-const GRAPHQL_ENDPOINT = "http://localhost:8080/v1/graphql"
-const WS_GRAPHQL_ENDPOINT = "ws://localhost:8080/v1/graphql"
-
-const createApolloClient = () => {
-  const httpLink = new HttpLink({
-    uri: GRAPHQL_ENDPOINT,
-    credentials: "include"
-  })
-
-  const wsLink = new WebSocketLink({
-    uri: WS_GRAPHQL_ENDPOINT,
-    options: {
-      lazy: true,
-      reconnect: true
-    }
-  })
-
-  const link = split(
-    ({ query }) => {
-      const definition = getMainDefinition(query)
-      return (
-        definition.kind === "OperationDefinition" &&
-        definition.operation === "subscription"
-      )
-    },
-    wsLink,
-    httpLink
-  )
-
-  return new ApolloClient({
-    link: link,
-    cache: new InMemoryCache()
-  })
-}
+import Welcome from "./pages/Home"
+import Lobby from "pages/Lobby"
+import { CurrentGameContext } from "contexts/CurrentGame"
+import "App.css"
 
 function App() {
-  const client = createApolloClient()
+  const [gameId, setGameId] = React.useState<string | null>(null)
+  const [hostId, setHostId] = React.useState<number | null>(null)
+
   return (
-    <ApolloProvider client={client}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <CurrentGameContext.Provider
+        value={{
+          id: gameId,
+          updateId: (id: string) => setGameId(id),
+          hostId: hostId,
+          updateHostId: (id: number) => setHostId(id)
+        }}
+      >
         <Switch>
           <Route exact path={routes.root} component={Welcome} />
+          <Route exact path={routes.game.lobby} component={Lobby} />
         </Switch>
-      </BrowserRouter>
-    </ApolloProvider>
+      </CurrentGameContext.Provider>
+    </BrowserRouter>
   )
 }
 

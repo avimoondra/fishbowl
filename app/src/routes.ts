@@ -1,11 +1,10 @@
+import { generatePath } from "react-router-dom"
+
 const routes = {
   root: "/",
   game: {
-    lobby: "/game/:gameId/lobby",
-    createLobbyRoute: (gameId: string) => {
-      return routes.game.lobby.replace(":gameId", gameId);
-    }
+    lobby: "/game/:joinCode/lobby"
   }
-};
+}
 
-export default routes;
+export default routes

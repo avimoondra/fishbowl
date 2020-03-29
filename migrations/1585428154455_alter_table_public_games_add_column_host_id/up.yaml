@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."games" ADD COLUMN "host_id" integer NULL;
+  type: run_sql
