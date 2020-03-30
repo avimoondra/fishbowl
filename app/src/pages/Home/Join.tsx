@@ -38,7 +38,7 @@ function Join() {
         label="4-letter code"
         variant="outlined"
         value={joinCode}
-        onChange={(event: any) => setJoinCode(event.target.value)}
+        onChange={({ target: { value } }) => setJoinCode(value)}
         inputProps={{ maxLength: 4, style: { textTransform: "uppercase" } }}
         style={{ textTransform: "uppercase" }}
       ></TextField>

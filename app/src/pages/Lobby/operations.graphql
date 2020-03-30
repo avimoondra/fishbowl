@@ -3,7 +3,24 @@ mutation UpdateGameSettings($id: Int!, $input: games_set_input!) {
     id
     join_code
     starting_letter
-    time_limit_per_turn
+    seconds_per_turn
     num_entries_per_player
+  }
+}
+
+mutation UpdatePlayer($id: Int!, $input: players_set_input!) {
+  update_players_by_pk(pk_columns: { id: $id }, _set: $input) {
+    id
+    username
+  }
+}
+
+subscription WaitingRoom($gameId: Int!) {
+  games_by_pk(id: $gameId) {
+    id
+    players(where: { username: { _neq: null } }) {
+      id
+      username
+    }
   }
 }

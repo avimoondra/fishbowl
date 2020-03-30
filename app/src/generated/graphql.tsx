@@ -20,8 +20,8 @@ export type Games = {
   num_entries_per_player?: Maybe<Scalars['Int']>;
   players: Array<Players>;
   players_aggregate: PlayersAggregate;
+  seconds_per_turn?: Maybe<Scalars['Int']>;
   starting_letter?: Maybe<Scalars['String']>;
-  time_limit_per_turn?: Maybe<Scalars['Int']>;
 };
 
 
@@ -90,14 +90,14 @@ export type GamesAvgFields = {
   host_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
-  time_limit_per_turn?: Maybe<Scalars['Float']>;
+  seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesAvgOrderBy = {
   host_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
-  time_limit_per_turn?: Maybe<OrderBy>;
+  seconds_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesBoolExp = {
@@ -110,8 +110,8 @@ export type GamesBoolExp = {
   join_code?: Maybe<StringComparisonExp>;
   num_entries_per_player?: Maybe<IntComparisonExp>;
   players?: Maybe<PlayersBoolExp>;
+  seconds_per_turn?: Maybe<IntComparisonExp>;
   starting_letter?: Maybe<StringComparisonExp>;
-  time_limit_per_turn?: Maybe<IntComparisonExp>;
 };
 
 export enum GamesConstraint {
@@ -123,7 +123,7 @@ export type GamesIncInput = {
   host_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
-  time_limit_per_turn?: Maybe<Scalars['Int']>;
+  seconds_per_turn?: Maybe<Scalars['Int']>;
 };
 
 export type GamesInsertInput = {
@@ -133,8 +133,8 @@ export type GamesInsertInput = {
   join_code?: Maybe<Scalars['String']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
   players?: Maybe<PlayersArrRelInsertInput>;
+  seconds_per_turn?: Maybe<Scalars['Int']>;
   starting_letter?: Maybe<Scalars['String']>;
-  time_limit_per_turn?: Maybe<Scalars['Int']>;
 };
 
 export type GamesMaxFields = {
@@ -142,8 +142,8 @@ export type GamesMaxFields = {
   id?: Maybe<Scalars['Int']>;
   join_code?: Maybe<Scalars['String']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
+  seconds_per_turn?: Maybe<Scalars['Int']>;
   starting_letter?: Maybe<Scalars['String']>;
-  time_limit_per_turn?: Maybe<Scalars['Int']>;
 };
 
 export type GamesMaxOrderBy = {
@@ -151,8 +151,8 @@ export type GamesMaxOrderBy = {
   id?: Maybe<OrderBy>;
   join_code?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
+  seconds_per_turn?: Maybe<OrderBy>;
   starting_letter?: Maybe<OrderBy>;
-  time_limit_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesMinFields = {
@@ -160,8 +160,8 @@ export type GamesMinFields = {
   id?: Maybe<Scalars['Int']>;
   join_code?: Maybe<Scalars['String']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
+  seconds_per_turn?: Maybe<Scalars['Int']>;
   starting_letter?: Maybe<Scalars['String']>;
-  time_limit_per_turn?: Maybe<Scalars['Int']>;
 };
 
 export type GamesMinOrderBy = {
@@ -169,8 +169,8 @@ export type GamesMinOrderBy = {
   id?: Maybe<OrderBy>;
   join_code?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
+  seconds_per_turn?: Maybe<OrderBy>;
   starting_letter?: Maybe<OrderBy>;
-  time_limit_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesMutationResponse = {
@@ -196,8 +196,8 @@ export type GamesOrderBy = {
   join_code?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
   players_aggregate?: Maybe<PlayersAggregateOrderBy>;
+  seconds_per_turn?: Maybe<OrderBy>;
   starting_letter?: Maybe<OrderBy>;
-  time_limit_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesPkColumnsInput = {
@@ -209,8 +209,8 @@ export enum GamesSelectColumn {
   Id = 'id',
   JoinCode = 'join_code',
   NumEntriesPerPlayer = 'num_entries_per_player',
-  StartingLetter = 'starting_letter',
-  TimeLimitPerTurn = 'time_limit_per_turn'
+  SecondsPerTurn = 'seconds_per_turn',
+  StartingLetter = 'starting_letter'
 }
 
 export type GamesSetInput = {
@@ -218,64 +218,64 @@ export type GamesSetInput = {
   id?: Maybe<Scalars['Int']>;
   join_code?: Maybe<Scalars['String']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
+  seconds_per_turn?: Maybe<Scalars['Int']>;
   starting_letter?: Maybe<Scalars['String']>;
-  time_limit_per_turn?: Maybe<Scalars['Int']>;
 };
 
 export type GamesStddevFields = {
   host_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
-  time_limit_per_turn?: Maybe<Scalars['Float']>;
+  seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesStddevOrderBy = {
   host_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
-  time_limit_per_turn?: Maybe<OrderBy>;
+  seconds_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesStddevPopFields = {
   host_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
-  time_limit_per_turn?: Maybe<Scalars['Float']>;
+  seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesStddevPopOrderBy = {
   host_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
-  time_limit_per_turn?: Maybe<OrderBy>;
+  seconds_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesStddevSampFields = {
   host_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
-  time_limit_per_turn?: Maybe<Scalars['Float']>;
+  seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesStddevSampOrderBy = {
   host_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
-  time_limit_per_turn?: Maybe<OrderBy>;
+  seconds_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesSumFields = {
   host_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
-  time_limit_per_turn?: Maybe<Scalars['Int']>;
+  seconds_per_turn?: Maybe<Scalars['Int']>;
 };
 
 export type GamesSumOrderBy = {
   host_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
-  time_limit_per_turn?: Maybe<OrderBy>;
+  seconds_per_turn?: Maybe<OrderBy>;
 };
 
 export enum GamesUpdateColumn {
@@ -283,50 +283,50 @@ export enum GamesUpdateColumn {
   Id = 'id',
   JoinCode = 'join_code',
   NumEntriesPerPlayer = 'num_entries_per_player',
-  StartingLetter = 'starting_letter',
-  TimeLimitPerTurn = 'time_limit_per_turn'
+  SecondsPerTurn = 'seconds_per_turn',
+  StartingLetter = 'starting_letter'
 }
 
 export type GamesVarPopFields = {
   host_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
-  time_limit_per_turn?: Maybe<Scalars['Float']>;
+  seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesVarPopOrderBy = {
   host_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
-  time_limit_per_turn?: Maybe<OrderBy>;
+  seconds_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesVarSampFields = {
   host_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
-  time_limit_per_turn?: Maybe<Scalars['Float']>;
+  seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesVarSampOrderBy = {
   host_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
-  time_limit_per_turn?: Maybe<OrderBy>;
+  seconds_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesVarianceFields = {
   host_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
-  time_limit_per_turn?: Maybe<Scalars['Float']>;
+  seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesVarianceOrderBy = {
   host_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
-  time_limit_per_turn?: Maybe<OrderBy>;
+  seconds_per_turn?: Maybe<OrderBy>;
 };
 
 export type IntComparisonExp = {
@@ -829,13 +829,26 @@ export type CurrentPlayerQuery = { players: Array<(
     )> }
   )> };
 
+export type CurrentPlayerByIdQueryVariables = {
+  id: Scalars['Int'];
+};
+
+
+export type CurrentPlayerByIdQuery = { players_by_pk?: Maybe<(
+    Pick<Players, 'id' | 'uuid' | 'username'>
+    & { game?: Maybe<(
+      Pick<Games, 'id' | 'join_code'>
+      & { host?: Maybe<Pick<Players, 'id' | 'username'>> }
+    )> }
+  )> };
+
 export type GameSubscriptionVariables = {
   id: Scalars['Int'];
 };
 
 
 export type GameSubscription = { games_by_pk?: Maybe<(
-    Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'time_limit_per_turn' | 'num_entries_per_player'>
+    Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player'>
     & { host?: Maybe<Pick<Players, 'id' | 'username'>> }
   )> };
 
@@ -865,7 +878,7 @@ export type BecomeHostMutationVariables = {
 };
 
 
-export type BecomeHostMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'time_limit_per_turn' | 'num_entries_per_player'>> };
+export type BecomeHostMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player'>> };
 
 export type JoinGameMutationVariables = {
   gameId: Scalars['Int'];
@@ -881,7 +894,25 @@ export type UpdateGameSettingsMutationVariables = {
 };
 
 
-export type UpdateGameSettingsMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'time_limit_per_turn' | 'num_entries_per_player'>> };
+export type UpdateGameSettingsMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player'>> };
+
+export type UpdatePlayerMutationVariables = {
+  id: Scalars['Int'];
+  input: PlayersSetInput;
+};
+
+
+export type UpdatePlayerMutation = { update_players_by_pk?: Maybe<Pick<Players, 'id' | 'username'>> };
+
+export type WaitingRoomSubscriptionVariables = {
+  gameId: Scalars['Int'];
+};
+
+
+export type WaitingRoomSubscription = { games_by_pk?: Maybe<(
+    Pick<Games, 'id'>
+    & { players: Array<Pick<Players, 'id' | 'username'>> }
+  )> };
 
 
 export const CurrentPlayerDocument = gql`
@@ -928,13 +959,56 @@ export function useCurrentPlayerLazyQuery(baseOptions?: ApolloReactHooks.LazyQue
 export type CurrentPlayerQueryHookResult = ReturnType<typeof useCurrentPlayerQuery>;
 export type CurrentPlayerLazyQueryHookResult = ReturnType<typeof useCurrentPlayerLazyQuery>;
 export type CurrentPlayerQueryResult = ApolloReactCommon.QueryResult<CurrentPlayerQuery, CurrentPlayerQueryVariables>;
+export const CurrentPlayerByIdDocument = gql`
+    query CurrentPlayerById($id: Int!) {
+  players_by_pk(id: $id) {
+    id
+    uuid
+    username
+    game {
+      id
+      join_code
+      host {
+        id
+        username
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useCurrentPlayerByIdQuery__
+ *
+ * To run a query within a React component, call `useCurrentPlayerByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCurrentPlayerByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCurrentPlayerByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCurrentPlayerByIdQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<CurrentPlayerByIdQuery, CurrentPlayerByIdQueryVariables>) {
+        return ApolloReactHooks.useQuery<CurrentPlayerByIdQuery, CurrentPlayerByIdQueryVariables>(CurrentPlayerByIdDocument, baseOptions);
+      }
+export function useCurrentPlayerByIdLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<CurrentPlayerByIdQuery, CurrentPlayerByIdQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<CurrentPlayerByIdQuery, CurrentPlayerByIdQueryVariables>(CurrentPlayerByIdDocument, baseOptions);
+        }
+export type CurrentPlayerByIdQueryHookResult = ReturnType<typeof useCurrentPlayerByIdQuery>;
+export type CurrentPlayerByIdLazyQueryHookResult = ReturnType<typeof useCurrentPlayerByIdLazyQuery>;
+export type CurrentPlayerByIdQueryResult = ApolloReactCommon.QueryResult<CurrentPlayerByIdQuery, CurrentPlayerByIdQueryVariables>;
 export const GameDocument = gql`
     subscription Game($id: Int!) {
   games_by_pk(id: $id) {
     id
     join_code
     starting_letter
-    time_limit_per_turn
+    seconds_per_turn
     num_entries_per_player
     host {
       id
@@ -1046,7 +1120,7 @@ export const BecomeHostDocument = gql`
     id
     join_code
     starting_letter
-    time_limit_per_turn
+    seconds_per_turn
     num_entries_per_player
   }
 }
@@ -1116,7 +1190,7 @@ export const UpdateGameSettingsDocument = gql`
     id
     join_code
     starting_letter
-    time_limit_per_turn
+    seconds_per_turn
     num_entries_per_player
   }
 }
@@ -1147,3 +1221,70 @@ export function useUpdateGameSettingsMutation(baseOptions?: ApolloReactHooks.Mut
 export type UpdateGameSettingsMutationHookResult = ReturnType<typeof useUpdateGameSettingsMutation>;
 export type UpdateGameSettingsMutationResult = ApolloReactCommon.MutationResult<UpdateGameSettingsMutation>;
 export type UpdateGameSettingsMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateGameSettingsMutation, UpdateGameSettingsMutationVariables>;
+export const UpdatePlayerDocument = gql`
+    mutation UpdatePlayer($id: Int!, $input: players_set_input!) {
+  update_players_by_pk(pk_columns: {id: $id}, _set: $input) {
+    id
+    username
+  }
+}
+    `;
+export type UpdatePlayerMutationFn = ApolloReactCommon.MutationFunction<UpdatePlayerMutation, UpdatePlayerMutationVariables>;
+
+/**
+ * __useUpdatePlayerMutation__
+ *
+ * To run a mutation, you first call `useUpdatePlayerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePlayerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePlayerMutation, { data, loading, error }] = useUpdatePlayerMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdatePlayerMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdatePlayerMutation, UpdatePlayerMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdatePlayerMutation, UpdatePlayerMutationVariables>(UpdatePlayerDocument, baseOptions);
+      }
+export type UpdatePlayerMutationHookResult = ReturnType<typeof useUpdatePlayerMutation>;
+export type UpdatePlayerMutationResult = ApolloReactCommon.MutationResult<UpdatePlayerMutation>;
+export type UpdatePlayerMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdatePlayerMutation, UpdatePlayerMutationVariables>;
+export const WaitingRoomDocument = gql`
+    subscription WaitingRoom($gameId: Int!) {
+  games_by_pk(id: $gameId) {
+    id
+    players(where: {username: {_neq: null}}) {
+      id
+      username
+    }
+  }
+}
+    `;
+
+/**
+ * __useWaitingRoomSubscription__
+ *
+ * To run a query within a React component, call `useWaitingRoomSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useWaitingRoomSubscription` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWaitingRoomSubscription({
+ *   variables: {
+ *      gameId: // value for 'gameId'
+ *   },
+ * });
+ */
+export function useWaitingRoomSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<WaitingRoomSubscription, WaitingRoomSubscriptionVariables>) {
+        return ApolloReactHooks.useSubscription<WaitingRoomSubscription, WaitingRoomSubscriptionVariables>(WaitingRoomDocument, baseOptions);
+      }
+export type WaitingRoomSubscriptionHookResult = ReturnType<typeof useWaitingRoomSubscription>;
+export type WaitingRoomSubscriptionResult = ApolloReactCommon.SubscriptionResult<WaitingRoomSubscription>;

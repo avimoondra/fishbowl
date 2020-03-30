@@ -13,7 +13,7 @@ function App() {
         <Route
           path={routes.game.root}
           render={({ match }) => {
-            return <Game joinCode={match.params.joinCode}></Game>
+            return <Game joinCode={match.params.joinCode.toUpperCase()}></Game>
           }}
         />
       </Switch>

@@ -17,7 +17,7 @@ mutation BecomeHost($gameId: Int!, $playerId: Int!) {
     id
     join_code
     starting_letter
-    time_limit_per_turn
+    seconds_per_turn
     num_entries_per_player
   }
 }
