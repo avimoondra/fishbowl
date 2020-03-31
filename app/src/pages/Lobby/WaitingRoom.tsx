@@ -2,13 +2,15 @@ import * as React from "react"
 import { Button, Chip } from "@material-ui/core"
 import { useWaitingRoomSubscription } from "generated/graphql"
 import { PlayerRole, CurrentPlayerContext } from "contexts/CurrentPlayer"
+import { CurrentGameContext } from "contexts/CurrentGame"
 
 function WaitingRoom() {
   const MIN_NUMBER_OF_PLAYERS = 4
+  const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const { data } = useWaitingRoomSubscription({
     variables: {
-      gameId: currentPlayer.gameId
+      gameId: currentGame.id
     }
   })
 

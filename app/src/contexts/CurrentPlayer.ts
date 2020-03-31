@@ -1,5 +1,6 @@
 import { createContext } from "react"
 import { v4 as uuidv4 } from "uuid"
+import { CurrentPlayerQuery } from "generated/graphql"
 
 export const playerUuid = () => {
   const localStorageKey = "user.uuid"
@@ -17,18 +18,11 @@ export enum PlayerRole {
   Host
 }
 
-export type CurrentPlayerContextType = {
-  id: number
-  uuid: string
+export type CurrentPlayerContextType = CurrentPlayerQuery["players"][0] & {
   role: PlayerRole
-  gameId: number
-  hostId: number
 }
 
 export const CurrentPlayerContext = createContext<CurrentPlayerContextType>({
-  id: 0,
-  uuid: "",
-  role: PlayerRole.Participant,
-  gameId: 0,
-  hostId: 0
+  id: -1,
+  role: PlayerRole.Participant
 })

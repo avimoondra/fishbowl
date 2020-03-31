@@ -35,16 +35,27 @@ query CurrentPlayerById($id: Int!) {
   }
 }
 
-subscription Game($id: Int!) {
-  games_by_pk(id: $id) {
+subscription CurrentGame($joinCode: String!) {
+  games(where: { join_code: { _eq: $joinCode } }) {
     id
     join_code
     starting_letter
     seconds_per_turn
     num_entries_per_player
+    state
     host {
       id
       username
+    }
+    cards_aggregate {
+      aggregate {
+        count
+      }
+    }
+    players_aggregate {
+      aggregate {
+        count
+      }
     }
   }
 }
@@ -57,5 +68,12 @@ query GameByJoinCode($joinCode: String!) {
       id
       username
     }
+  }
+}
+
+subscription GameById($id: Int!) {
+  games_by_pk(id: $id) {
+    id
+    join_code
   }
 }

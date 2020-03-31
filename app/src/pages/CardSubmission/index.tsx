@@ -3,12 +3,15 @@ import { useYourCardsSubscription } from "generated/graphql"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import WaitingForSubmissions from "pages/CardSubmission/WaitingForSubmissions"
 import SubmissionForm from "pages/CardSubmission/SubmissionForm"
+import { CurrentGameContext } from "contexts/CurrentGame"
 
 function CardSubmission() {
   const currentPlayer = React.useContext(CurrentPlayerContext)
+  const currentGame = React.useContext(CurrentGameContext)
+
   const { data, loading } = useYourCardsSubscription({
     variables: {
-      gameId: currentPlayer.gameId,
+      gameId: currentGame.id,
       playerId: currentPlayer.id
     }
   })

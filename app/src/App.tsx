@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter } from "react-router-dom"
 import routes from "./routes"
 import "App.css"
 import Home from "pages/Home"
-import Game from "components/Game"
+import GameRoutes from "components/GameRoutes"
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <Route
           path={routes.game.root}
           render={({ match }) => {
-            return <Game joinCode={match.params.joinCode.toUpperCase()}></Game>
+            return <GameRoutes joinCode={match.params.joinCode.toUpperCase()}></GameRoutes>
           }}
         />
       </Switch>

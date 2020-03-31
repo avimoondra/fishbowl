@@ -2,21 +2,28 @@ import * as React from "react"
 import { Button } from "@material-ui/core"
 import { useSubmittedCardsSubscription } from "generated/graphql"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
+import { CurrentGameContext } from "contexts/CurrentGame"
 
 function WaitingForSubmissions() {
+  const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
-  const num_entries_per_player = 5
-  const num_players = 7
 
   const { data } = useSubmittedCardsSubscription({
     variables: {
-      gameId: currentPlayer.gameId
+      gameId: currentGame.id
     }
   })
 
-  const total = num_entries_per_player * num_players
+  const numEntriesPerPlayer = currentGame.num_entries_per_player
+  const numPlayers = currentGame.players_aggregate.aggregate?.count
+
+  if (!numEntriesPerPlayer || !numPlayers) {
+    return null
+  }
+
+  const total = numEntriesPerPlayer * numPlayers
   const submittedSoFar = data?.cards_aggregate.aggregate?.count
-  const allPlayersSubmitted = (submittedSoFar || 0) === total
+  const allPlayersSubmitted = total !== 0 && (submittedSoFar || 0) === total
 
   return (
     <>

@@ -1,0 +1,6 @@
+- args:
+    is_enum: true
+    table:
+      name: game_state
+      schema: public
+  type: set_table_is_enum

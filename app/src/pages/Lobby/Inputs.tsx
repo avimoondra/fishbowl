@@ -6,6 +6,7 @@ import {
   useUpdatePlayerMutation
 } from "generated/graphql"
 import { PlayerRole, CurrentPlayerContext } from "contexts/CurrentPlayer"
+import { CurrentGameContext } from "contexts/CurrentGame"
 export function UsernameInput(props: { userId: number; username: string }) {
   const [updatePlayer] = useUpdatePlayerMutation()
   const debouncedUpdatePlayer = React.useRef(
@@ -35,6 +36,7 @@ export function UsernameInput(props: { userId: number; username: string }) {
 
 export function LetterInput(props: { value: string }) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
+  const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
   const [textFieldValue, setTextFieldValue] = React.useState("")
   const canConfigureSettings = currentPlayer.role === PlayerRole.Host
@@ -55,7 +57,7 @@ export function LetterInput(props: { value: string }) {
         setTextFieldValue(value)
         updateGameSettings({
           variables: {
-            id: currentPlayer.gameId,
+            id: currentGame.id,
             input: { starting_letter: value }
           }
         })
@@ -66,6 +68,7 @@ export function LetterInput(props: { value: string }) {
 
 export function SecondsPerTurnInput(props: { value: string }) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
+  const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
   const [textFieldValue, setTextFieldValue] = React.useState("")
   const canConfigureSettings = currentPlayer.role === PlayerRole.Host
@@ -86,7 +89,7 @@ export function SecondsPerTurnInput(props: { value: string }) {
         setTextFieldValue(value)
         updateGameSettings({
           variables: {
-            id: currentPlayer.gameId,
+            id: currentGame.id,
             input: { seconds_per_turn: Number(value) }
           }
         })
@@ -97,6 +100,7 @@ export function SecondsPerTurnInput(props: { value: string }) {
 
 export function EntriesPerPlayerInput(props: { value: string }) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
+  const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
   const [textFieldValue, setTextFieldValue] = React.useState("")
   const canConfigureSettings = currentPlayer.role === PlayerRole.Host
@@ -117,7 +121,7 @@ export function EntriesPerPlayerInput(props: { value: string }) {
         setTextFieldValue(value)
         updateGameSettings({
           variables: {
-            id: currentPlayer.gameId,
+            id: currentGame.id,
             input: { num_entries_per_player: Number(value) }
           }
         })

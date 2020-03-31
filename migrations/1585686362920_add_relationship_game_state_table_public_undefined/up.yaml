@@ -1,0 +1,8 @@
+- args:
+    name: game_state
+    table:
+      name: games
+      schema: public
+    using:
+      foreign_key_constraint_on: state
+  type: create_object_relationship

@@ -1,10 +1,10 @@
 import * as React from "react"
-import { useGameSubscription } from "generated/graphql"
+import { useGameByIdSubscription } from "generated/graphql"
 import { generatePath, Redirect } from "react-router-dom"
 import routes from "routes"
 
 function Host(props: { gameId: number }) {
-  const { data } = useGameSubscription({
+  const { data } = useGameByIdSubscription({
     variables: {
       id: props.gameId
     }

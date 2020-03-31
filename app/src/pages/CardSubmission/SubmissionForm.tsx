@@ -4,9 +4,11 @@ import { useSubmitCardsMutation } from "generated/graphql"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { cloneDeep } from "lodash"
 import SubmissionCard from "pages/CardSubmission/SubmissionCard"
+import { CurrentGameContext } from "contexts/CurrentGame"
 
 function SubmissionForm() {
   const currentPlayer = React.useContext(CurrentPlayerContext)
+  const currentGame = React.useContext(CurrentGameContext)
   const num_entries_per_player = 5
 
   const [errors, setErrors] = React.useState<Array<boolean>>(
@@ -45,7 +47,7 @@ function SubmissionForm() {
               cards: words.map(word => {
                 return {
                   player_id: currentPlayer.id,
-                  game_id: currentPlayer.gameId,
+                  game_id: currentGame.id,
                   word: word
                 }
               })

@@ -270,7 +270,124 @@ export type CardsVarianceOrderBy = {
   player_id?: Maybe<OrderBy>;
 };
 
+export type GameState = {
+  value: Scalars['String'];
+};
+
+export type GameStateAggregate = {
+  aggregate?: Maybe<GameStateAggregateFields>;
+  nodes: Array<GameState>;
+};
+
+export type GameStateAggregateFields = {
+  count?: Maybe<Scalars['Int']>;
+  max?: Maybe<GameStateMaxFields>;
+  min?: Maybe<GameStateMinFields>;
+};
+
+
+export type GameStateAggregateFieldsCountArgs = {
+  columns?: Maybe<Array<GameStateSelectColumn>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+export type GameStateAggregateOrderBy = {
+  count?: Maybe<OrderBy>;
+  max?: Maybe<GameStateMaxOrderBy>;
+  min?: Maybe<GameStateMinOrderBy>;
+};
+
+export type GameStateArrRelInsertInput = {
+  data: Array<GameStateInsertInput>;
+  on_conflict?: Maybe<GameStateOnConflict>;
+};
+
+export type GameStateBoolExp = {
+  _and?: Maybe<Array<Maybe<GameStateBoolExp>>>;
+  _not?: Maybe<GameStateBoolExp>;
+  _or?: Maybe<Array<Maybe<GameStateBoolExp>>>;
+  value?: Maybe<StringComparisonExp>;
+};
+
+export enum GameStateConstraint {
+  GameStatePkey = 'game_state_pkey'
+}
+
+export enum GameStateEnum {
+  ActivePlay = 'active_play',
+  CardSubmission = 'card_submission',
+  Ended = 'ended',
+  Lobby = 'lobby',
+  TeamAssignment = 'team_assignment'
+}
+
+export type GameStateEnumComparisonExp = {
+  _eq?: Maybe<GameStateEnum>;
+  _in?: Maybe<Array<GameStateEnum>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _neq?: Maybe<GameStateEnum>;
+  _nin?: Maybe<Array<GameStateEnum>>;
+};
+
+export type GameStateInsertInput = {
+  value?: Maybe<Scalars['String']>;
+};
+
+export type GameStateMaxFields = {
+  value?: Maybe<Scalars['String']>;
+};
+
+export type GameStateMaxOrderBy = {
+  value?: Maybe<OrderBy>;
+};
+
+export type GameStateMinFields = {
+  value?: Maybe<Scalars['String']>;
+};
+
+export type GameStateMinOrderBy = {
+  value?: Maybe<OrderBy>;
+};
+
+export type GameStateMutationResponse = {
+  affected_rows: Scalars['Int'];
+  returning: Array<GameState>;
+};
+
+export type GameStateObjRelInsertInput = {
+  data: GameStateInsertInput;
+  on_conflict?: Maybe<GameStateOnConflict>;
+};
+
+export type GameStateOnConflict = {
+  constraint: GameStateConstraint;
+  update_columns: Array<GameStateUpdateColumn>;
+  where?: Maybe<GameStateBoolExp>;
+};
+
+export type GameStateOrderBy = {
+  value?: Maybe<OrderBy>;
+};
+
+export type GameStatePkColumnsInput = {
+  value: Scalars['String'];
+};
+
+export enum GameStateSelectColumn {
+  Value = 'value'
+}
+
+export type GameStateSetInput = {
+  value?: Maybe<Scalars['String']>;
+};
+
+export enum GameStateUpdateColumn {
+  Value = 'value'
+}
+
 export type Games = {
+  cards: Array<Cards>;
+  cards_aggregate: CardsAggregate;
   created_at: Scalars['timestamp'];
   host?: Maybe<Players>;
   host_id?: Maybe<Scalars['Int']>;
@@ -281,6 +398,25 @@ export type Games = {
   players_aggregate: PlayersAggregate;
   seconds_per_turn?: Maybe<Scalars['Int']>;
   starting_letter?: Maybe<Scalars['String']>;
+  state: GameStateEnum;
+};
+
+
+export type GamesCardsArgs = {
+  distinct_on?: Maybe<Array<CardsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<CardsOrderBy>>;
+  where?: Maybe<CardsBoolExp>;
+};
+
+
+export type GamesCardsAggregateArgs = {
+  distinct_on?: Maybe<Array<CardsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<CardsOrderBy>>;
+  where?: Maybe<CardsBoolExp>;
 };
 
 
@@ -363,6 +499,7 @@ export type GamesBoolExp = {
   _and?: Maybe<Array<Maybe<GamesBoolExp>>>;
   _not?: Maybe<GamesBoolExp>;
   _or?: Maybe<Array<Maybe<GamesBoolExp>>>;
+  cards?: Maybe<CardsBoolExp>;
   created_at?: Maybe<TimestampComparisonExp>;
   host?: Maybe<PlayersBoolExp>;
   host_id?: Maybe<IntComparisonExp>;
@@ -372,6 +509,7 @@ export type GamesBoolExp = {
   players?: Maybe<PlayersBoolExp>;
   seconds_per_turn?: Maybe<IntComparisonExp>;
   starting_letter?: Maybe<StringComparisonExp>;
+  state?: Maybe<GameStateEnumComparisonExp>;
 };
 
 export enum GamesConstraint {
@@ -387,6 +525,7 @@ export type GamesIncInput = {
 };
 
 export type GamesInsertInput = {
+  cards?: Maybe<CardsArrRelInsertInput>;
   created_at?: Maybe<Scalars['timestamp']>;
   host?: Maybe<PlayersObjRelInsertInput>;
   host_id?: Maybe<Scalars['Int']>;
@@ -396,6 +535,7 @@ export type GamesInsertInput = {
   players?: Maybe<PlayersArrRelInsertInput>;
   seconds_per_turn?: Maybe<Scalars['Int']>;
   starting_letter?: Maybe<Scalars['String']>;
+  state?: Maybe<GameStateEnum>;
 };
 
 export type GamesMaxFields = {
@@ -451,6 +591,7 @@ export type GamesOnConflict = {
 };
 
 export type GamesOrderBy = {
+  cards_aggregate?: Maybe<CardsAggregateOrderBy>;
   created_at?: Maybe<OrderBy>;
   host?: Maybe<PlayersOrderBy>;
   host_id?: Maybe<OrderBy>;
@@ -460,6 +601,7 @@ export type GamesOrderBy = {
   players_aggregate?: Maybe<PlayersAggregateOrderBy>;
   seconds_per_turn?: Maybe<OrderBy>;
   starting_letter?: Maybe<OrderBy>;
+  state?: Maybe<OrderBy>;
 };
 
 export type GamesPkColumnsInput = {
@@ -473,7 +615,8 @@ export enum GamesSelectColumn {
   JoinCode = 'join_code',
   NumEntriesPerPlayer = 'num_entries_per_player',
   SecondsPerTurn = 'seconds_per_turn',
-  StartingLetter = 'starting_letter'
+  StartingLetter = 'starting_letter',
+  State = 'state'
 }
 
 export type GamesSetInput = {
@@ -484,6 +627,7 @@ export type GamesSetInput = {
   num_entries_per_player?: Maybe<Scalars['Int']>;
   seconds_per_turn?: Maybe<Scalars['Int']>;
   starting_letter?: Maybe<Scalars['String']>;
+  state?: Maybe<GameStateEnum>;
 };
 
 export type GamesStddevFields = {
@@ -549,7 +693,8 @@ export enum GamesUpdateColumn {
   JoinCode = 'join_code',
   NumEntriesPerPlayer = 'num_entries_per_player',
   SecondsPerTurn = 'seconds_per_turn',
-  StartingLetter = 'starting_letter'
+  StartingLetter = 'starting_letter',
+  State = 'state'
 }
 
 export type GamesVarPopFields = {
@@ -609,18 +754,24 @@ export type IntComparisonExp = {
 export type MutationRoot = {
   delete_cards?: Maybe<CardsMutationResponse>;
   delete_cards_by_pk?: Maybe<Cards>;
+  delete_game_state?: Maybe<GameStateMutationResponse>;
+  delete_game_state_by_pk?: Maybe<GameState>;
   delete_games?: Maybe<GamesMutationResponse>;
   delete_games_by_pk?: Maybe<Games>;
   delete_players?: Maybe<PlayersMutationResponse>;
   delete_players_by_pk?: Maybe<Players>;
   insert_cards?: Maybe<CardsMutationResponse>;
   insert_cards_one?: Maybe<Cards>;
+  insert_game_state?: Maybe<GameStateMutationResponse>;
+  insert_game_state_one?: Maybe<GameState>;
   insert_games?: Maybe<GamesMutationResponse>;
   insert_games_one?: Maybe<Games>;
   insert_players?: Maybe<PlayersMutationResponse>;
   insert_players_one?: Maybe<Players>;
   update_cards?: Maybe<CardsMutationResponse>;
   update_cards_by_pk?: Maybe<Cards>;
+  update_game_state?: Maybe<GameStateMutationResponse>;
+  update_game_state_by_pk?: Maybe<GameState>;
   update_games?: Maybe<GamesMutationResponse>;
   update_games_by_pk?: Maybe<Games>;
   update_players?: Maybe<PlayersMutationResponse>;
@@ -635,6 +786,16 @@ export type MutationRootDeleteCardsArgs = {
 
 export type MutationRootDeleteCardsByPkArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationRootDeleteGameStateArgs = {
+  where: GameStateBoolExp;
+};
+
+
+export type MutationRootDeleteGameStateByPkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -667,6 +828,18 @@ export type MutationRootInsertCardsArgs = {
 export type MutationRootInsertCardsOneArgs = {
   object: CardsInsertInput;
   on_conflict?: Maybe<CardsOnConflict>;
+};
+
+
+export type MutationRootInsertGameStateArgs = {
+  objects: Array<GameStateInsertInput>;
+  on_conflict?: Maybe<GameStateOnConflict>;
+};
+
+
+export type MutationRootInsertGameStateOneArgs = {
+  object: GameStateInsertInput;
+  on_conflict?: Maybe<GameStateOnConflict>;
 };
 
 
@@ -705,6 +878,18 @@ export type MutationRootUpdateCardsByPkArgs = {
   _inc?: Maybe<CardsIncInput>;
   _set?: Maybe<CardsSetInput>;
   pk_columns: CardsPkColumnsInput;
+};
+
+
+export type MutationRootUpdateGameStateArgs = {
+  _set?: Maybe<GameStateSetInput>;
+  where: GameStateBoolExp;
+};
+
+
+export type MutationRootUpdateGameStateByPkArgs = {
+  _set?: Maybe<GameStateSetInput>;
+  pk_columns: GameStatePkColumnsInput;
 };
 
 
@@ -992,6 +1177,9 @@ export type QueryRoot = {
   cards: Array<Cards>;
   cards_aggregate: CardsAggregate;
   cards_by_pk?: Maybe<Cards>;
+  game_state: Array<GameState>;
+  game_state_aggregate: GameStateAggregate;
+  game_state_by_pk?: Maybe<GameState>;
   games: Array<Games>;
   games_aggregate: GamesAggregate;
   games_by_pk?: Maybe<Games>;
@@ -1021,6 +1209,29 @@ export type QueryRootCardsAggregateArgs = {
 
 export type QueryRootCardsByPkArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryRootGameStateArgs = {
+  distinct_on?: Maybe<Array<GameStateSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<GameStateOrderBy>>;
+  where?: Maybe<GameStateBoolExp>;
+};
+
+
+export type QueryRootGameStateAggregateArgs = {
+  distinct_on?: Maybe<Array<GameStateSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<GameStateOrderBy>>;
+  where?: Maybe<GameStateBoolExp>;
+};
+
+
+export type QueryRootGameStateByPkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -1091,6 +1302,9 @@ export type SubscriptionRoot = {
   cards: Array<Cards>;
   cards_aggregate: CardsAggregate;
   cards_by_pk?: Maybe<Cards>;
+  game_state: Array<GameState>;
+  game_state_aggregate: GameStateAggregate;
+  game_state_by_pk?: Maybe<GameState>;
   games: Array<Games>;
   games_aggregate: GamesAggregate;
   games_by_pk?: Maybe<Games>;
@@ -1120,6 +1334,29 @@ export type SubscriptionRootCardsAggregateArgs = {
 
 export type SubscriptionRootCardsByPkArgs = {
   id: Scalars['Int'];
+};
+
+
+export type SubscriptionRootGameStateArgs = {
+  distinct_on?: Maybe<Array<GameStateSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<GameStateOrderBy>>;
+  where?: Maybe<GameStateBoolExp>;
+};
+
+
+export type SubscriptionRootGameStateAggregateArgs = {
+  distinct_on?: Maybe<Array<GameStateSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<GameStateOrderBy>>;
+  where?: Maybe<GameStateBoolExp>;
+};
+
+
+export type SubscriptionRootGameStateByPkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -1221,14 +1458,14 @@ export type CurrentPlayerByIdQuery = { players_by_pk?: Maybe<(
     )> }
   )> };
 
-export type GameSubscriptionVariables = {
-  id: Scalars['Int'];
+export type CurrentGameSubscriptionVariables = {
+  joinCode: Scalars['String'];
 };
 
 
-export type GameSubscription = { games_by_pk?: Maybe<(
-    Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player'>
-    & { host?: Maybe<Pick<Players, 'id' | 'username'>> }
+export type CurrentGameSubscription = { games: Array<(
+    Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player' | 'state'>
+    & { host?: Maybe<Pick<Players, 'id' | 'username'>>, cards_aggregate: { aggregate?: Maybe<Pick<CardsAggregateFields, 'count'>> }, players_aggregate: { aggregate?: Maybe<Pick<PlayersAggregateFields, 'count'>> } }
   )> };
 
 export type GameByJoinCodeQueryVariables = {
@@ -1240,6 +1477,13 @@ export type GameByJoinCodeQuery = { games: Array<(
     Pick<Games, 'id' | 'join_code'>
     & { host?: Maybe<Pick<Players, 'id' | 'username'>> }
   )> };
+
+export type GameByIdSubscriptionVariables = {
+  id: Scalars['Int'];
+};
+
+
+export type GameByIdSubscription = { games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code'>> };
 
 export type YourCardsSubscriptionVariables = {
   playerId: Scalars['Int'];
@@ -1403,43 +1647,54 @@ export function useCurrentPlayerByIdLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type CurrentPlayerByIdQueryHookResult = ReturnType<typeof useCurrentPlayerByIdQuery>;
 export type CurrentPlayerByIdLazyQueryHookResult = ReturnType<typeof useCurrentPlayerByIdLazyQuery>;
 export type CurrentPlayerByIdQueryResult = ApolloReactCommon.QueryResult<CurrentPlayerByIdQuery, CurrentPlayerByIdQueryVariables>;
-export const GameDocument = gql`
-    subscription Game($id: Int!) {
-  games_by_pk(id: $id) {
+export const CurrentGameDocument = gql`
+    subscription CurrentGame($joinCode: String!) {
+  games(where: {join_code: {_eq: $joinCode}}) {
     id
     join_code
     starting_letter
     seconds_per_turn
     num_entries_per_player
+    state
     host {
       id
       username
+    }
+    cards_aggregate {
+      aggregate {
+        count
+      }
+    }
+    players_aggregate {
+      aggregate {
+        count
+      }
     }
   }
 }
     `;
 
 /**
- * __useGameSubscription__
+ * __useCurrentGameSubscription__
  *
- * To run a query within a React component, call `useGameSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGameSubscription` returns an object from Apollo Client that contains loading, error, and data properties 
+ * To run a query within a React component, call `useCurrentGameSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useCurrentGameSubscription` returns an object from Apollo Client that contains loading, error, and data properties 
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGameSubscription({
+ * const { data, loading, error } = useCurrentGameSubscription({
  *   variables: {
- *      id: // value for 'id'
+ *      joinCode: // value for 'joinCode'
  *   },
  * });
  */
-export function useGameSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<GameSubscription, GameSubscriptionVariables>) {
-        return ApolloReactHooks.useSubscription<GameSubscription, GameSubscriptionVariables>(GameDocument, baseOptions);
+export function useCurrentGameSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<CurrentGameSubscription, CurrentGameSubscriptionVariables>) {
+        return ApolloReactHooks.useSubscription<CurrentGameSubscription, CurrentGameSubscriptionVariables>(CurrentGameDocument, baseOptions);
       }
-export type GameSubscriptionHookResult = ReturnType<typeof useGameSubscription>;
-export type GameSubscriptionResult = ApolloReactCommon.SubscriptionResult<GameSubscription>;
+export type CurrentGameSubscriptionHookResult = ReturnType<typeof useCurrentGameSubscription>;
+export type CurrentGameSubscriptionResult = ApolloReactCommon.SubscriptionResult<CurrentGameSubscription>;
 export const GameByJoinCodeDocument = gql`
     query GameByJoinCode($joinCode: String!) {
   games(where: {join_code: {_eq: $joinCode}}) {
@@ -1478,6 +1733,36 @@ export function useGameByJoinCodeLazyQuery(baseOptions?: ApolloReactHooks.LazyQu
 export type GameByJoinCodeQueryHookResult = ReturnType<typeof useGameByJoinCodeQuery>;
 export type GameByJoinCodeLazyQueryHookResult = ReturnType<typeof useGameByJoinCodeLazyQuery>;
 export type GameByJoinCodeQueryResult = ApolloReactCommon.QueryResult<GameByJoinCodeQuery, GameByJoinCodeQueryVariables>;
+export const GameByIdDocument = gql`
+    subscription GameById($id: Int!) {
+  games_by_pk(id: $id) {
+    id
+    join_code
+  }
+}
+    `;
+
+/**
+ * __useGameByIdSubscription__
+ *
+ * To run a query within a React component, call `useGameByIdSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGameByIdSubscription` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGameByIdSubscription({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGameByIdSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<GameByIdSubscription, GameByIdSubscriptionVariables>) {
+        return ApolloReactHooks.useSubscription<GameByIdSubscription, GameByIdSubscriptionVariables>(GameByIdDocument, baseOptions);
+      }
+export type GameByIdSubscriptionHookResult = ReturnType<typeof useGameByIdSubscription>;
+export type GameByIdSubscriptionResult = ApolloReactCommon.SubscriptionResult<GameByIdSubscription>;
 export const YourCardsDocument = gql`
     subscription YourCards($playerId: Int!, $gameId: Int!) {
   cards_aggregate(where: {game_id: {_eq: $gameId}, player_id: {_eq: $playerId}}) {
