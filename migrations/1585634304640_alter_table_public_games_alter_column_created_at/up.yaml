@@ -1,0 +1,10 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."games" ALTER COLUMN "created_at" TYPE timestamp;
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."games" ALTER COLUMN "created_at" SET NOT NULL;
+  type: run_sql

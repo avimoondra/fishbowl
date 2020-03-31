@@ -9,10 +9,12 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  timestamp: any;
   uuid: any;
 };
 
 export type Games = {
+  created_at?: Maybe<Scalars['timestamp']>;
   host?: Maybe<Players>;
   host_id?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
@@ -104,6 +106,7 @@ export type GamesBoolExp = {
   _and?: Maybe<Array<Maybe<GamesBoolExp>>>;
   _not?: Maybe<GamesBoolExp>;
   _or?: Maybe<Array<Maybe<GamesBoolExp>>>;
+  created_at?: Maybe<TimestampComparisonExp>;
   host?: Maybe<PlayersBoolExp>;
   host_id?: Maybe<IntComparisonExp>;
   id?: Maybe<IntComparisonExp>;
@@ -127,6 +130,7 @@ export type GamesIncInput = {
 };
 
 export type GamesInsertInput = {
+  created_at?: Maybe<Scalars['timestamp']>;
   host?: Maybe<PlayersObjRelInsertInput>;
   host_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
@@ -190,6 +194,7 @@ export type GamesOnConflict = {
 };
 
 export type GamesOrderBy = {
+  created_at?: Maybe<OrderBy>;
   host?: Maybe<PlayersOrderBy>;
   host_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
@@ -205,6 +210,7 @@ export type GamesPkColumnsInput = {
 };
 
 export enum GamesSelectColumn {
+  CreatedAt = 'created_at',
   HostId = 'host_id',
   Id = 'id',
   JoinCode = 'join_code',
@@ -214,6 +220,7 @@ export enum GamesSelectColumn {
 }
 
 export type GamesSetInput = {
+  created_at?: Maybe<Scalars['timestamp']>;
   host_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   join_code?: Maybe<Scalars['String']>;
@@ -279,6 +286,7 @@ export type GamesSumOrderBy = {
 };
 
 export enum GamesUpdateColumn {
+  CreatedAt = 'created_at',
   HostId = 'host_id',
   Id = 'id',
   JoinCode = 'join_code',
@@ -438,6 +446,7 @@ export enum OrderBy {
 }
 
 export type Players = {
+  created_at?: Maybe<Scalars['timestamp']>;
   game?: Maybe<Games>;
   game_id?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
@@ -503,6 +512,7 @@ export type PlayersBoolExp = {
   _and?: Maybe<Array<Maybe<PlayersBoolExp>>>;
   _not?: Maybe<PlayersBoolExp>;
   _or?: Maybe<Array<Maybe<PlayersBoolExp>>>;
+  created_at?: Maybe<TimestampComparisonExp>;
   game?: Maybe<GamesBoolExp>;
   game_id?: Maybe<IntComparisonExp>;
   id?: Maybe<IntComparisonExp>;
@@ -520,6 +530,7 @@ export type PlayersIncInput = {
 };
 
 export type PlayersInsertInput = {
+  created_at?: Maybe<Scalars['timestamp']>;
   game?: Maybe<GamesObjRelInsertInput>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
@@ -572,6 +583,7 @@ export type PlayersOnConflict = {
 };
 
 export type PlayersOrderBy = {
+  created_at?: Maybe<OrderBy>;
   game?: Maybe<GamesOrderBy>;
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
@@ -584,6 +596,7 @@ export type PlayersPkColumnsInput = {
 };
 
 export enum PlayersSelectColumn {
+  CreatedAt = 'created_at',
   GameId = 'game_id',
   Id = 'id',
   Username = 'username',
@@ -591,6 +604,7 @@ export enum PlayersSelectColumn {
 }
 
 export type PlayersSetInput = {
+  created_at?: Maybe<Scalars['timestamp']>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['String']>;
@@ -638,6 +652,7 @@ export type PlayersSumOrderBy = {
 };
 
 export enum PlayersUpdateColumn {
+  CreatedAt = 'created_at',
   GameId = 'game_id',
   Id = 'id',
   Username = 'username',
@@ -803,6 +818,19 @@ export type SubscriptionRootPlayersByPkArgs = {
 };
 
 
+export type TimestampComparisonExp = {
+  _eq?: Maybe<Scalars['timestamp']>;
+  _gt?: Maybe<Scalars['timestamp']>;
+  _gte?: Maybe<Scalars['timestamp']>;
+  _in?: Maybe<Array<Scalars['timestamp']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['timestamp']>;
+  _lte?: Maybe<Scalars['timestamp']>;
+  _neq?: Maybe<Scalars['timestamp']>;
+  _nin?: Maybe<Array<Scalars['timestamp']>>;
+};
+
+
 export type UuidComparisonExp = {
   _eq?: Maybe<Scalars['uuid']>;
   _gt?: Maybe<Scalars['uuid']>;
@@ -910,7 +938,7 @@ export type WaitingRoomSubscriptionVariables = {
 
 
 export type WaitingRoomSubscription = { games_by_pk?: Maybe<(
-    Pick<Games, 'id'>
+    Pick<Games, 'id' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player'>
     & { players: Array<Pick<Players, 'id' | 'username'>> }
   )> };
 
@@ -1259,6 +1287,9 @@ export const WaitingRoomDocument = gql`
     subscription WaitingRoom($gameId: Int!) {
   games_by_pk(id: $gameId) {
     id
+    starting_letter
+    seconds_per_turn
+    num_entries_per_player
     players(where: {username: {_neq: null}}) {
       id
       username
