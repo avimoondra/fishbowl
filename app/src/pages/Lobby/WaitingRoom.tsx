@@ -6,7 +6,6 @@ import { PlayerRole, CurrentPlayerContext } from "contexts/CurrentPlayer"
 function WaitingRoom() {
   const MIN_NUMBER_OF_PLAYERS = 4
   const currentPlayer = React.useContext(CurrentPlayerContext)
-  debugger
   const { data } = useWaitingRoomSubscription({
     variables: {
       gameId: currentPlayer.gameId
@@ -40,7 +39,14 @@ function WaitingRoom() {
         )
       })}
       {canSeeStartGameButton && (
-        <Button disabled={!canStartGame} variant="contained" color="primary">
+        <Button
+          onClick={() => {
+            // advance game state
+          }}
+          disabled={!canStartGame}
+          variant="contained"
+          color="primary"
+        >
           Everyone's Here!
         </Button>
       )}

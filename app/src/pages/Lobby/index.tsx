@@ -4,7 +4,7 @@ import {
   useCurrentPlayerByIdQuery,
   useGameSubscription
 } from "generated/graphql"
-import { PlayerRole, CurrentPlayerContext } from "contexts/CurrentPlayer"
+import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
 import {
   UsernameInput,

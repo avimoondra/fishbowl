@@ -13,8 +13,265 @@ export type Scalars = {
   uuid: any;
 };
 
-export type Games = {
+export type Cards = {
+  created_at: Scalars['timestamp'];
+  game_id: Scalars['Int'];
+  id: Scalars['Int'];
+  player_id: Scalars['Int'];
+  word: Scalars['String'];
+};
+
+export type CardsAggregate = {
+  aggregate?: Maybe<CardsAggregateFields>;
+  nodes: Array<Cards>;
+};
+
+export type CardsAggregateFields = {
+  avg?: Maybe<CardsAvgFields>;
+  count?: Maybe<Scalars['Int']>;
+  max?: Maybe<CardsMaxFields>;
+  min?: Maybe<CardsMinFields>;
+  stddev?: Maybe<CardsStddevFields>;
+  stddev_pop?: Maybe<CardsStddevPopFields>;
+  stddev_samp?: Maybe<CardsStddevSampFields>;
+  sum?: Maybe<CardsSumFields>;
+  var_pop?: Maybe<CardsVarPopFields>;
+  var_samp?: Maybe<CardsVarSampFields>;
+  variance?: Maybe<CardsVarianceFields>;
+};
+
+
+export type CardsAggregateFieldsCountArgs = {
+  columns?: Maybe<Array<CardsSelectColumn>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+export type CardsAggregateOrderBy = {
+  avg?: Maybe<CardsAvgOrderBy>;
+  count?: Maybe<OrderBy>;
+  max?: Maybe<CardsMaxOrderBy>;
+  min?: Maybe<CardsMinOrderBy>;
+  stddev?: Maybe<CardsStddevOrderBy>;
+  stddev_pop?: Maybe<CardsStddevPopOrderBy>;
+  stddev_samp?: Maybe<CardsStddevSampOrderBy>;
+  sum?: Maybe<CardsSumOrderBy>;
+  var_pop?: Maybe<CardsVarPopOrderBy>;
+  var_samp?: Maybe<CardsVarSampOrderBy>;
+  variance?: Maybe<CardsVarianceOrderBy>;
+};
+
+export type CardsArrRelInsertInput = {
+  data: Array<CardsInsertInput>;
+  on_conflict?: Maybe<CardsOnConflict>;
+};
+
+export type CardsAvgFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+};
+
+export type CardsAvgOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+};
+
+export type CardsBoolExp = {
+  _and?: Maybe<Array<Maybe<CardsBoolExp>>>;
+  _not?: Maybe<CardsBoolExp>;
+  _or?: Maybe<Array<Maybe<CardsBoolExp>>>;
+  created_at?: Maybe<TimestampComparisonExp>;
+  game_id?: Maybe<IntComparisonExp>;
+  id?: Maybe<IntComparisonExp>;
+  player_id?: Maybe<IntComparisonExp>;
+  word?: Maybe<StringComparisonExp>;
+};
+
+export enum CardsConstraint {
+  CardsPkey = 'cards_pkey'
+}
+
+export type CardsIncInput = {
+  game_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  player_id?: Maybe<Scalars['Int']>;
+};
+
+export type CardsInsertInput = {
   created_at?: Maybe<Scalars['timestamp']>;
+  game_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  player_id?: Maybe<Scalars['Int']>;
+  word?: Maybe<Scalars['String']>;
+};
+
+export type CardsMaxFields = {
+  game_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  player_id?: Maybe<Scalars['Int']>;
+  word?: Maybe<Scalars['String']>;
+};
+
+export type CardsMaxOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+  word?: Maybe<OrderBy>;
+};
+
+export type CardsMinFields = {
+  game_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  player_id?: Maybe<Scalars['Int']>;
+  word?: Maybe<Scalars['String']>;
+};
+
+export type CardsMinOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+  word?: Maybe<OrderBy>;
+};
+
+export type CardsMutationResponse = {
+  affected_rows: Scalars['Int'];
+  returning: Array<Cards>;
+};
+
+export type CardsObjRelInsertInput = {
+  data: CardsInsertInput;
+  on_conflict?: Maybe<CardsOnConflict>;
+};
+
+export type CardsOnConflict = {
+  constraint: CardsConstraint;
+  update_columns: Array<CardsUpdateColumn>;
+  where?: Maybe<CardsBoolExp>;
+};
+
+export type CardsOrderBy = {
+  created_at?: Maybe<OrderBy>;
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+  word?: Maybe<OrderBy>;
+};
+
+export type CardsPkColumnsInput = {
+  id: Scalars['Int'];
+};
+
+export enum CardsSelectColumn {
+  CreatedAt = 'created_at',
+  GameId = 'game_id',
+  Id = 'id',
+  PlayerId = 'player_id',
+  Word = 'word'
+}
+
+export type CardsSetInput = {
+  created_at?: Maybe<Scalars['timestamp']>;
+  game_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  player_id?: Maybe<Scalars['Int']>;
+  word?: Maybe<Scalars['String']>;
+};
+
+export type CardsStddevFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+};
+
+export type CardsStddevOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+};
+
+export type CardsStddevPopFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+};
+
+export type CardsStddevPopOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+};
+
+export type CardsStddevSampFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+};
+
+export type CardsStddevSampOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+};
+
+export type CardsSumFields = {
+  game_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  player_id?: Maybe<Scalars['Int']>;
+};
+
+export type CardsSumOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+};
+
+export enum CardsUpdateColumn {
+  CreatedAt = 'created_at',
+  GameId = 'game_id',
+  Id = 'id',
+  PlayerId = 'player_id',
+  Word = 'word'
+}
+
+export type CardsVarPopFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+};
+
+export type CardsVarPopOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+};
+
+export type CardsVarSampFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+};
+
+export type CardsVarSampOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+};
+
+export type CardsVarianceFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+};
+
+export type CardsVarianceOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+};
+
+export type Games = {
+  created_at: Scalars['timestamp'];
   host?: Maybe<Players>;
   host_id?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
@@ -350,18 +607,34 @@ export type IntComparisonExp = {
 };
 
 export type MutationRoot = {
+  delete_cards?: Maybe<CardsMutationResponse>;
+  delete_cards_by_pk?: Maybe<Cards>;
   delete_games?: Maybe<GamesMutationResponse>;
   delete_games_by_pk?: Maybe<Games>;
   delete_players?: Maybe<PlayersMutationResponse>;
   delete_players_by_pk?: Maybe<Players>;
+  insert_cards?: Maybe<CardsMutationResponse>;
+  insert_cards_one?: Maybe<Cards>;
   insert_games?: Maybe<GamesMutationResponse>;
   insert_games_one?: Maybe<Games>;
   insert_players?: Maybe<PlayersMutationResponse>;
   insert_players_one?: Maybe<Players>;
+  update_cards?: Maybe<CardsMutationResponse>;
+  update_cards_by_pk?: Maybe<Cards>;
   update_games?: Maybe<GamesMutationResponse>;
   update_games_by_pk?: Maybe<Games>;
   update_players?: Maybe<PlayersMutationResponse>;
   update_players_by_pk?: Maybe<Players>;
+};
+
+
+export type MutationRootDeleteCardsArgs = {
+  where: CardsBoolExp;
+};
+
+
+export type MutationRootDeleteCardsByPkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -382,6 +655,18 @@ export type MutationRootDeletePlayersArgs = {
 
 export type MutationRootDeletePlayersByPkArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationRootInsertCardsArgs = {
+  objects: Array<CardsInsertInput>;
+  on_conflict?: Maybe<CardsOnConflict>;
+};
+
+
+export type MutationRootInsertCardsOneArgs = {
+  object: CardsInsertInput;
+  on_conflict?: Maybe<CardsOnConflict>;
 };
 
 
@@ -406,6 +691,20 @@ export type MutationRootInsertPlayersArgs = {
 export type MutationRootInsertPlayersOneArgs = {
   object: PlayersInsertInput;
   on_conflict?: Maybe<PlayersOnConflict>;
+};
+
+
+export type MutationRootUpdateCardsArgs = {
+  _inc?: Maybe<CardsIncInput>;
+  _set?: Maybe<CardsSetInput>;
+  where: CardsBoolExp;
+};
+
+
+export type MutationRootUpdateCardsByPkArgs = {
+  _inc?: Maybe<CardsIncInput>;
+  _set?: Maybe<CardsSetInput>;
+  pk_columns: CardsPkColumnsInput;
 };
 
 
@@ -446,7 +745,7 @@ export enum OrderBy {
 }
 
 export type Players = {
-  created_at?: Maybe<Scalars['timestamp']>;
+  created_at: Scalars['timestamp'];
   game?: Maybe<Games>;
   game_id?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
@@ -690,12 +989,38 @@ export type PlayersVarianceOrderBy = {
 };
 
 export type QueryRoot = {
+  cards: Array<Cards>;
+  cards_aggregate: CardsAggregate;
+  cards_by_pk?: Maybe<Cards>;
   games: Array<Games>;
   games_aggregate: GamesAggregate;
   games_by_pk?: Maybe<Games>;
   players: Array<Players>;
   players_aggregate: PlayersAggregate;
   players_by_pk?: Maybe<Players>;
+};
+
+
+export type QueryRootCardsArgs = {
+  distinct_on?: Maybe<Array<CardsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<CardsOrderBy>>;
+  where?: Maybe<CardsBoolExp>;
+};
+
+
+export type QueryRootCardsAggregateArgs = {
+  distinct_on?: Maybe<Array<CardsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<CardsOrderBy>>;
+  where?: Maybe<CardsBoolExp>;
+};
+
+
+export type QueryRootCardsByPkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -763,12 +1088,38 @@ export type StringComparisonExp = {
 };
 
 export type SubscriptionRoot = {
+  cards: Array<Cards>;
+  cards_aggregate: CardsAggregate;
+  cards_by_pk?: Maybe<Cards>;
   games: Array<Games>;
   games_aggregate: GamesAggregate;
   games_by_pk?: Maybe<Games>;
   players: Array<Players>;
   players_aggregate: PlayersAggregate;
   players_by_pk?: Maybe<Players>;
+};
+
+
+export type SubscriptionRootCardsArgs = {
+  distinct_on?: Maybe<Array<CardsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<CardsOrderBy>>;
+  where?: Maybe<CardsBoolExp>;
+};
+
+
+export type SubscriptionRootCardsAggregateArgs = {
+  distinct_on?: Maybe<Array<CardsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<CardsOrderBy>>;
+  where?: Maybe<CardsBoolExp>;
+};
+
+
+export type SubscriptionRootCardsByPkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -889,6 +1240,28 @@ export type GameByJoinCodeQuery = { games: Array<(
     Pick<Games, 'id' | 'join_code'>
     & { host?: Maybe<Pick<Players, 'id' | 'username'>> }
   )> };
+
+export type YourCardsSubscriptionVariables = {
+  playerId: Scalars['Int'];
+  gameId: Scalars['Int'];
+};
+
+
+export type YourCardsSubscription = { cards_aggregate: { aggregate?: Maybe<Pick<CardsAggregateFields, 'count'>> } };
+
+export type SubmitCardsMutationVariables = {
+  cards: Array<CardsInsertInput>;
+};
+
+
+export type SubmitCardsMutation = { insert_cards?: Maybe<{ returning: Array<Pick<Cards, 'id'>> }> };
+
+export type SubmittedCardsSubscriptionVariables = {
+  gameId: Scalars['Int'];
+};
+
+
+export type SubmittedCardsSubscription = { cards_aggregate: { aggregate?: Maybe<Pick<CardsAggregateFields, 'count'>> } };
 
 export type StartGameMutationVariables = {
   playerUuid: Scalars['uuid'];
@@ -1105,6 +1478,103 @@ export function useGameByJoinCodeLazyQuery(baseOptions?: ApolloReactHooks.LazyQu
 export type GameByJoinCodeQueryHookResult = ReturnType<typeof useGameByJoinCodeQuery>;
 export type GameByJoinCodeLazyQueryHookResult = ReturnType<typeof useGameByJoinCodeLazyQuery>;
 export type GameByJoinCodeQueryResult = ApolloReactCommon.QueryResult<GameByJoinCodeQuery, GameByJoinCodeQueryVariables>;
+export const YourCardsDocument = gql`
+    subscription YourCards($playerId: Int!, $gameId: Int!) {
+  cards_aggregate(where: {game_id: {_eq: $gameId}, player_id: {_eq: $playerId}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useYourCardsSubscription__
+ *
+ * To run a query within a React component, call `useYourCardsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useYourCardsSubscription` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useYourCardsSubscription({
+ *   variables: {
+ *      playerId: // value for 'playerId'
+ *      gameId: // value for 'gameId'
+ *   },
+ * });
+ */
+export function useYourCardsSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<YourCardsSubscription, YourCardsSubscriptionVariables>) {
+        return ApolloReactHooks.useSubscription<YourCardsSubscription, YourCardsSubscriptionVariables>(YourCardsDocument, baseOptions);
+      }
+export type YourCardsSubscriptionHookResult = ReturnType<typeof useYourCardsSubscription>;
+export type YourCardsSubscriptionResult = ApolloReactCommon.SubscriptionResult<YourCardsSubscription>;
+export const SubmitCardsDocument = gql`
+    mutation SubmitCards($cards: [cards_insert_input!]!) {
+  insert_cards(objects: $cards) {
+    returning {
+      id
+    }
+  }
+}
+    `;
+export type SubmitCardsMutationFn = ApolloReactCommon.MutationFunction<SubmitCardsMutation, SubmitCardsMutationVariables>;
+
+/**
+ * __useSubmitCardsMutation__
+ *
+ * To run a mutation, you first call `useSubmitCardsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSubmitCardsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [submitCardsMutation, { data, loading, error }] = useSubmitCardsMutation({
+ *   variables: {
+ *      cards: // value for 'cards'
+ *   },
+ * });
+ */
+export function useSubmitCardsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SubmitCardsMutation, SubmitCardsMutationVariables>) {
+        return ApolloReactHooks.useMutation<SubmitCardsMutation, SubmitCardsMutationVariables>(SubmitCardsDocument, baseOptions);
+      }
+export type SubmitCardsMutationHookResult = ReturnType<typeof useSubmitCardsMutation>;
+export type SubmitCardsMutationResult = ApolloReactCommon.MutationResult<SubmitCardsMutation>;
+export type SubmitCardsMutationOptions = ApolloReactCommon.BaseMutationOptions<SubmitCardsMutation, SubmitCardsMutationVariables>;
+export const SubmittedCardsDocument = gql`
+    subscription SubmittedCards($gameId: Int!) {
+  cards_aggregate(where: {game_id: {_eq: $gameId}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useSubmittedCardsSubscription__
+ *
+ * To run a query within a React component, call `useSubmittedCardsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubmittedCardsSubscription` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSubmittedCardsSubscription({
+ *   variables: {
+ *      gameId: // value for 'gameId'
+ *   },
+ * });
+ */
+export function useSubmittedCardsSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<SubmittedCardsSubscription, SubmittedCardsSubscriptionVariables>) {
+        return ApolloReactHooks.useSubscription<SubmittedCardsSubscription, SubmittedCardsSubscriptionVariables>(SubmittedCardsDocument, baseOptions);
+      }
+export type SubmittedCardsSubscriptionHookResult = ReturnType<typeof useSubmittedCardsSubscription>;
+export type SubmittedCardsSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubmittedCardsSubscription>;
 export const StartGameDocument = gql`
     mutation StartGame($playerUuid: uuid!) {
   insert_games_one(object: {players: {data: [{uuid: $playerUuid}]}}) {

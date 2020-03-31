@@ -3,7 +3,7 @@ const routes = {
   game: {
     root: "/game/:joinCode/",
     lobby: "/game/:joinCode/lobby",
-    writeCards: "/game/:joinCode/submit",
+    cardSubmission: "/game/:joinCode/cards",
     teamAssignment: "/game/:joinCode/teams"
   }
 }

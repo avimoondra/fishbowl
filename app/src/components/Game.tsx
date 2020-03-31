@@ -8,6 +8,7 @@ import { useCurrentPlayerQuery } from "generated/graphql"
 import TeamAssignment from "pages/TeamAssignment"
 import { playerUuid } from "contexts/CurrentPlayer"
 import GameStateRedirects from "components/GameStateRedirects"
+import CardSubmission from "pages/CardSubmission"
 
 // const GameState = {
 //   all_players_joined: 'path/to/teams',
@@ -40,6 +41,11 @@ function Game(props: { joinCode: string }) {
       <GameStateRedirects></GameStateRedirects>
       <Switch>
         <Route exact path={routes.game.lobby} component={Lobby} />
+        <Route
+          exact
+          path={routes.game.cardSubmission}
+          component={CardSubmission}
+        ></Route>
         <Route
           exact
           path={routes.game.teamAssignment}
