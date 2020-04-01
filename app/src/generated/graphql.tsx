@@ -934,6 +934,8 @@ export type Players = {
   game?: Maybe<Games>;
   game_id?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
+  team?: Maybe<Scalars['String']>;
+  team_sequence?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['String']>;
   uuid?: Maybe<Scalars['uuid']>;
 };
@@ -985,11 +987,13 @@ export type PlayersArrRelInsertInput = {
 export type PlayersAvgFields = {
   game_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersAvgOrderBy = {
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  team_sequence?: Maybe<OrderBy>;
 };
 
 export type PlayersBoolExp = {
@@ -1000,6 +1004,8 @@ export type PlayersBoolExp = {
   game?: Maybe<GamesBoolExp>;
   game_id?: Maybe<IntComparisonExp>;
   id?: Maybe<IntComparisonExp>;
+  team?: Maybe<StringComparisonExp>;
+  team_sequence?: Maybe<IntComparisonExp>;
   username?: Maybe<StringComparisonExp>;
   uuid?: Maybe<UuidComparisonExp>;
 };
@@ -1012,6 +1018,7 @@ export enum PlayersConstraint {
 export type PlayersIncInput = {
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  team_sequence?: Maybe<Scalars['Int']>;
 };
 
 export type PlayersInsertInput = {
@@ -1019,6 +1026,8 @@ export type PlayersInsertInput = {
   game?: Maybe<GamesObjRelInsertInput>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  team?: Maybe<Scalars['String']>;
+  team_sequence?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['String']>;
   uuid?: Maybe<Scalars['uuid']>;
 };
@@ -1026,6 +1035,8 @@ export type PlayersInsertInput = {
 export type PlayersMaxFields = {
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  team?: Maybe<Scalars['String']>;
+  team_sequence?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['String']>;
   uuid?: Maybe<Scalars['uuid']>;
 };
@@ -1033,6 +1044,8 @@ export type PlayersMaxFields = {
 export type PlayersMaxOrderBy = {
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  team?: Maybe<OrderBy>;
+  team_sequence?: Maybe<OrderBy>;
   username?: Maybe<OrderBy>;
   uuid?: Maybe<OrderBy>;
 };
@@ -1040,6 +1053,8 @@ export type PlayersMaxOrderBy = {
 export type PlayersMinFields = {
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  team?: Maybe<Scalars['String']>;
+  team_sequence?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['String']>;
   uuid?: Maybe<Scalars['uuid']>;
 };
@@ -1047,6 +1062,8 @@ export type PlayersMinFields = {
 export type PlayersMinOrderBy = {
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  team?: Maybe<OrderBy>;
+  team_sequence?: Maybe<OrderBy>;
   username?: Maybe<OrderBy>;
   uuid?: Maybe<OrderBy>;
 };
@@ -1072,6 +1089,8 @@ export type PlayersOrderBy = {
   game?: Maybe<GamesOrderBy>;
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  team?: Maybe<OrderBy>;
+  team_sequence?: Maybe<OrderBy>;
   username?: Maybe<OrderBy>;
   uuid?: Maybe<OrderBy>;
 };
@@ -1084,6 +1103,8 @@ export enum PlayersSelectColumn {
   CreatedAt = 'created_at',
   GameId = 'game_id',
   Id = 'id',
+  Team = 'team',
+  TeamSequence = 'team_sequence',
   Username = 'username',
   Uuid = 'uuid'
 }
@@ -1092,6 +1113,8 @@ export type PlayersSetInput = {
   created_at?: Maybe<Scalars['timestamp']>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  team?: Maybe<Scalars['String']>;
+  team_sequence?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['String']>;
   uuid?: Maybe<Scalars['uuid']>;
 };
@@ -1099,47 +1122,57 @@ export type PlayersSetInput = {
 export type PlayersStddevFields = {
   game_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersStddevOrderBy = {
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  team_sequence?: Maybe<OrderBy>;
 };
 
 export type PlayersStddevPopFields = {
   game_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersStddevPopOrderBy = {
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  team_sequence?: Maybe<OrderBy>;
 };
 
 export type PlayersStddevSampFields = {
   game_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersStddevSampOrderBy = {
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  team_sequence?: Maybe<OrderBy>;
 };
 
 export type PlayersSumFields = {
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  team_sequence?: Maybe<Scalars['Int']>;
 };
 
 export type PlayersSumOrderBy = {
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  team_sequence?: Maybe<OrderBy>;
 };
 
 export enum PlayersUpdateColumn {
   CreatedAt = 'created_at',
   GameId = 'game_id',
   Id = 'id',
+  Team = 'team',
+  TeamSequence = 'team_sequence',
   Username = 'username',
   Uuid = 'uuid'
 }
@@ -1147,31 +1180,37 @@ export enum PlayersUpdateColumn {
 export type PlayersVarPopFields = {
   game_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersVarPopOrderBy = {
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  team_sequence?: Maybe<OrderBy>;
 };
 
 export type PlayersVarSampFields = {
   game_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersVarSampOrderBy = {
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  team_sequence?: Maybe<OrderBy>;
 };
 
 export type PlayersVarianceFields = {
   game_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersVarianceOrderBy = {
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
+  team_sequence?: Maybe<OrderBy>;
 };
 
 export type QueryRoot = {
@@ -1466,7 +1505,7 @@ export type CurrentGameSubscriptionVariables = {
 
 export type CurrentGameSubscription = { games: Array<(
     Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player' | 'state'>
-    & { host?: Maybe<Pick<Players, 'id' | 'username'>>, cards: Array<Pick<Cards, 'id' | 'word'>>, players: Array<Pick<Players, 'id' | 'username'>> }
+    & { host?: Maybe<Pick<Players, 'id' | 'username'>>, cards: Array<Pick<Cards, 'id' | 'word'>>, players: Array<Pick<Players, 'id' | 'username' | 'team' | 'team_sequence'>> }
   )> };
 
 export type GameByJoinCodeQueryVariables = {
@@ -1556,7 +1595,7 @@ export type UpdatePlayerMutationVariables = {
 };
 
 
-export type UpdatePlayerMutation = { update_players_by_pk?: Maybe<Pick<Players, 'id' | 'username'>> };
+export type UpdatePlayerMutation = { update_players_by_pk?: Maybe<Pick<Players, 'id' | 'username' | 'team' | 'team_sequence'>> };
 
 export type WaitingRoomSubscriptionVariables = {
   gameId: Scalars['Int'];
@@ -1566,6 +1605,17 @@ export type WaitingRoomSubscriptionVariables = {
 export type WaitingRoomSubscription = { games_by_pk?: Maybe<(
     Pick<Games, 'id' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player'>
     & { players: Array<Pick<Players, 'id' | 'username'>> }
+  )> };
+
+export type UpdateAllPlayersMutationVariables = {
+  gameId: Scalars['Int'];
+  players: Array<PlayersInsertInput>;
+};
+
+
+export type UpdateAllPlayersMutation = { insert_games_one?: Maybe<(
+    Pick<Games, 'id'>
+    & { players: Array<Pick<Players, 'id' | 'game_id' | 'team' | 'team_sequence'>> }
   )> };
 
 
@@ -1676,6 +1726,8 @@ export const CurrentGameDocument = gql`
     players {
       id
       username
+      team
+      team_sequence
     }
   }
 }
@@ -2052,6 +2104,8 @@ export const UpdatePlayerDocument = gql`
   update_players_by_pk(pk_columns: {id: $id}, _set: $input) {
     id
     username
+    team
+    team_sequence
   }
 }
     `;
@@ -2117,3 +2171,42 @@ export function useWaitingRoomSubscription(baseOptions?: ApolloReactHooks.Subscr
       }
 export type WaitingRoomSubscriptionHookResult = ReturnType<typeof useWaitingRoomSubscription>;
 export type WaitingRoomSubscriptionResult = ApolloReactCommon.SubscriptionResult<WaitingRoomSubscription>;
+export const UpdateAllPlayersDocument = gql`
+    mutation UpdateAllPlayers($gameId: Int!, $players: [players_insert_input!]!) {
+  insert_games_one(object: {id: $gameId, players: {data: $players, on_conflict: {constraint: players_pkey, update_columns: [team]}}}, on_conflict: {constraint: games_pkey, update_columns: [id]}) {
+    id
+    players {
+      id
+      game_id
+      team
+      team_sequence
+    }
+  }
+}
+    `;
+export type UpdateAllPlayersMutationFn = ApolloReactCommon.MutationFunction<UpdateAllPlayersMutation, UpdateAllPlayersMutationVariables>;
+
+/**
+ * __useUpdateAllPlayersMutation__
+ *
+ * To run a mutation, you first call `useUpdateAllPlayersMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAllPlayersMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAllPlayersMutation, { data, loading, error }] = useUpdateAllPlayersMutation({
+ *   variables: {
+ *      gameId: // value for 'gameId'
+ *      players: // value for 'players'
+ *   },
+ * });
+ */
+export function useUpdateAllPlayersMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateAllPlayersMutation, UpdateAllPlayersMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateAllPlayersMutation, UpdateAllPlayersMutationVariables>(UpdateAllPlayersDocument, baseOptions);
+      }
+export type UpdateAllPlayersMutationHookResult = ReturnType<typeof useUpdateAllPlayersMutation>;
+export type UpdateAllPlayersMutationResult = ApolloReactCommon.MutationResult<UpdateAllPlayersMutation>;
+export type UpdateAllPlayersMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateAllPlayersMutation, UpdateAllPlayersMutationVariables>;

@@ -3,15 +3,18 @@ import { Button } from "@material-ui/core"
 import {
   useSubmittedCardsSubscription,
   GameStateEnum,
-  useUpdateGameStateMutation
+  useUpdateGameStateMutation,
+  useUpdateAllPlayersMutation
 } from "generated/graphql"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { CurrentGameContext } from "contexts/CurrentGame"
+import { teamsWithSequence } from "pages/TeamAssignment/team"
 
 function WaitingForSubmissions() {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const [updateGameState] = useUpdateGameStateMutation()
+  const [updateAllPlayers] = useUpdateAllPlayersMutation()
   const { data } = useSubmittedCardsSubscription({
     variables: {
       gameId: currentGame.id
@@ -36,7 +39,18 @@ function WaitingForSubmissions() {
           All players submitted, waiting on the host ot start the game!
           {currentPlayer.role === PlayerRole.Host ? (
             <Button
-              onClick={() => {
+              onClick={async () => {
+                const players = teamsWithSequence(currentGame.players)
+                await updateAllPlayers({
+                  variables: {
+                    gameId: currentGame.id,
+                    players: players.map(({ id, team, team_sequence }) => ({
+                      id,
+                      team,
+                      team_sequence
+                    }))
+                  }
+                })
                 updateGameState({
                   variables: {
                     id: currentGame.id,

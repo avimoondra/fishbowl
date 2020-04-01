@@ -1,0 +1,20 @@
+mutation UpdateAllPlayers($gameId: Int!, $players: [players_insert_input!]!) {
+  insert_games_one(
+    object: {
+      id: $gameId
+      players: {
+        data: $players
+        on_conflict: { constraint: players_pkey, update_columns: [team] }
+      }
+    }
+    on_conflict: { constraint: games_pkey, update_columns: [id] }
+  ) {
+    id
+    players {
+      id
+      game_id
+      team
+      team_sequence
+    }
+  }
+}

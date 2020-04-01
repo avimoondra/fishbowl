@@ -12,6 +12,8 @@ mutation UpdatePlayer($id: Int!, $input: players_set_input!) {
   update_players_by_pk(pk_columns: { id: $id }, _set: $input) {
     id
     username
+    team
+    team_sequence
   }
 }
 

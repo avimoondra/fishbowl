@@ -54,6 +54,8 @@ subscription CurrentGame($joinCode: String!) {
     players {
       id
       username
+      team
+      team_sequence
     }
   }
 }
