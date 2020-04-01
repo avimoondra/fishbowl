@@ -23,7 +23,12 @@ mutation BecomeHost($gameId: Int!, $playerId: Int!) {
 }
 
 mutation JoinGame($gameId: Int!, $playerUuid: uuid!) {
-  insert_players_one(object: { game_id: $gameId, uuid: $playerUuid }) {
+  insert_players_one(
+    object: { game_id: $gameId, uuid: $playerUuid }
+    on_conflict: { constraint: players_uuid_game_id_key, update_columns: [] }
+  ) {
     id
+    uuid
+    game_id
   }
 }

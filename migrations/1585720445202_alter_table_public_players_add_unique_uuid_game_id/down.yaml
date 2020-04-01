@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."players" drop constraint "players_uuid_game_id_key";
+  type: run_sql

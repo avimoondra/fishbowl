@@ -1005,7 +1005,8 @@ export type PlayersBoolExp = {
 };
 
 export enum PlayersConstraint {
-  PlayersPkey = 'players_pkey'
+  PlayersPkey = 'players_pkey',
+  PlayersUuidGameIdKey = 'players_uuid_game_id_key'
 }
 
 export type PlayersIncInput = {
@@ -1539,7 +1540,7 @@ export type JoinGameMutationVariables = {
 };
 
 
-export type JoinGameMutation = { insert_players_one?: Maybe<Pick<Players, 'id'>> };
+export type JoinGameMutation = { insert_players_one?: Maybe<Pick<Players, 'id' | 'uuid' | 'game_id'>> };
 
 export type UpdateGameSettingsMutationVariables = {
   id: Scalars['Int'];
@@ -1976,8 +1977,10 @@ export type BecomeHostMutationResult = ApolloReactCommon.MutationResult<BecomeHo
 export type BecomeHostMutationOptions = ApolloReactCommon.BaseMutationOptions<BecomeHostMutation, BecomeHostMutationVariables>;
 export const JoinGameDocument = gql`
     mutation JoinGame($gameId: Int!, $playerUuid: uuid!) {
-  insert_players_one(object: {game_id: $gameId, uuid: $playerUuid}) {
+  insert_players_one(object: {game_id: $gameId, uuid: $playerUuid}, on_conflict: {constraint: players_uuid_game_id_key, update_columns: []}) {
     id
+    uuid
+    game_id
   }
 }
     `;
