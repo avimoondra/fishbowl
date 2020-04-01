@@ -1,13 +1,20 @@
 import * as React from "react"
 import { Button, Chip } from "@material-ui/core"
-import { useWaitingRoomSubscription } from "generated/graphql"
+import {
+  useWaitingRoomSubscription,
+  useUpdateGameStateMutation,
+  GameStateEnum
+} from "generated/graphql"
 import { PlayerRole, CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { CurrentGameContext } from "contexts/CurrentGame"
 
 function WaitingRoom() {
-  const MIN_NUMBER_OF_PLAYERS = 4
+  const MIN_NUMBER_OF_PLAYERS = 2 // TODO: Update to 4.
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
+
+  const [updateGameState] = useUpdateGameStateMutation()
+
   const { data } = useWaitingRoomSubscription({
     variables: {
       gameId: currentGame.id
@@ -43,7 +50,12 @@ function WaitingRoom() {
       {canSeeStartGameButton && (
         <Button
           onClick={() => {
-            // advance game state
+            updateGameState({
+              variables: {
+                id: currentGame.id,
+                state: GameStateEnum.CardSubmission
+              }
+            })
           }}
           disabled={!canStartGame}
           variant="contained"

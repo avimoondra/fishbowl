@@ -7,16 +7,22 @@ import SubmissionCard from "pages/CardSubmission/SubmissionCard"
 import { CurrentGameContext } from "contexts/CurrentGame"
 
 function SubmissionForm() {
+  const DEFAULT_NUM_ENTRIES = 3
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
-  const num_entries_per_player = 5
 
   const [errors, setErrors] = React.useState<Array<boolean>>(
-    Array.from({ length: num_entries_per_player }, () => false)
+    Array.from(
+      { length: currentGame.num_entries_per_player || DEFAULT_NUM_ENTRIES },
+      () => false
+    )
   )
   const [submitCards, { called }] = useSubmitCardsMutation()
   const [words, setWords] = React.useState<Array<string>>(
-    Array.from({ length: num_entries_per_player }, () => "")
+    Array.from(
+      { length: currentGame.num_entries_per_player || DEFAULT_NUM_ENTRIES },
+      () => ""
+    )
   )
   const hasErrors = errors.some(hasError => hasError)
   const emptyWords = words.some(word => word.length < 1)

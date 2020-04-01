@@ -1,13 +1,17 @@
 import * as React from "react"
 import { Button } from "@material-ui/core"
-import { useSubmittedCardsSubscription } from "generated/graphql"
+import {
+  useSubmittedCardsSubscription,
+  GameStateEnum,
+  useUpdateGameStateMutation
+} from "generated/graphql"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { CurrentGameContext } from "contexts/CurrentGame"
 
 function WaitingForSubmissions() {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
-
+  const [updateGameState] = useUpdateGameStateMutation()
   const { data } = useSubmittedCardsSubscription({
     variables: {
       gameId: currentGame.id
@@ -15,7 +19,7 @@ function WaitingForSubmissions() {
   })
 
   const numEntriesPerPlayer = currentGame.num_entries_per_player
-  const numPlayers = currentGame.players_aggregate.aggregate?.count
+  const numPlayers = currentGame.players.length
 
   if (!numEntriesPerPlayer || !numPlayers) {
     return null
@@ -33,7 +37,12 @@ function WaitingForSubmissions() {
           {currentPlayer.role === PlayerRole.Host ? (
             <Button
               onClick={() => {
-                // advance game state
+                updateGameState({
+                  variables: {
+                    id: currentGame.id,
+                    state: GameStateEnum.TeamAssignment
+                  }
+                })
               }}
             >
               Assign Teams

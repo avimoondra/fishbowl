@@ -1465,7 +1465,7 @@ export type CurrentGameSubscriptionVariables = {
 
 export type CurrentGameSubscription = { games: Array<(
     Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player' | 'state'>
-    & { host?: Maybe<Pick<Players, 'id' | 'username'>>, cards_aggregate: { aggregate?: Maybe<Pick<CardsAggregateFields, 'count'>> }, players_aggregate: { aggregate?: Maybe<Pick<PlayersAggregateFields, 'count'>> } }
+    & { host?: Maybe<Pick<Players, 'id' | 'username'>>, cards: Array<Pick<Cards, 'id' | 'word'>>, players: Array<Pick<Players, 'id' | 'username'>> }
   )> };
 
 export type GameByJoinCodeQueryVariables = {
@@ -1484,6 +1484,14 @@ export type GameByIdSubscriptionVariables = {
 
 
 export type GameByIdSubscription = { games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code'>> };
+
+export type UpdateGameStateMutationVariables = {
+  id: Scalars['Int'];
+  state: GameStateEnum;
+};
+
+
+export type UpdateGameStateMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'state'>> };
 
 export type YourCardsSubscriptionVariables = {
   playerId: Scalars['Int'];
@@ -1660,15 +1668,13 @@ export const CurrentGameDocument = gql`
       id
       username
     }
-    cards_aggregate {
-      aggregate {
-        count
-      }
+    cards {
+      id
+      word
     }
-    players_aggregate {
-      aggregate {
-        count
-      }
+    players {
+      id
+      username
     }
   }
 }
@@ -1763,6 +1769,40 @@ export function useGameByIdSubscription(baseOptions?: ApolloReactHooks.Subscript
       }
 export type GameByIdSubscriptionHookResult = ReturnType<typeof useGameByIdSubscription>;
 export type GameByIdSubscriptionResult = ApolloReactCommon.SubscriptionResult<GameByIdSubscription>;
+export const UpdateGameStateDocument = gql`
+    mutation UpdateGameState($id: Int!, $state: game_state_enum!) {
+  update_games_by_pk(pk_columns: {id: $id}, _set: {state: $state}) {
+    id
+    state
+  }
+}
+    `;
+export type UpdateGameStateMutationFn = ApolloReactCommon.MutationFunction<UpdateGameStateMutation, UpdateGameStateMutationVariables>;
+
+/**
+ * __useUpdateGameStateMutation__
+ *
+ * To run a mutation, you first call `useUpdateGameStateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateGameStateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateGameStateMutation, { data, loading, error }] = useUpdateGameStateMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      state: // value for 'state'
+ *   },
+ * });
+ */
+export function useUpdateGameStateMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateGameStateMutation, UpdateGameStateMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateGameStateMutation, UpdateGameStateMutationVariables>(UpdateGameStateDocument, baseOptions);
+      }
+export type UpdateGameStateMutationHookResult = ReturnType<typeof useUpdateGameStateMutation>;
+export type UpdateGameStateMutationResult = ApolloReactCommon.MutationResult<UpdateGameStateMutation>;
+export type UpdateGameStateMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateGameStateMutation, UpdateGameStateMutationVariables>;
 export const YourCardsDocument = gql`
     subscription YourCards($playerId: Int!, $gameId: Int!) {
   cards_aggregate(where: {game_id: {_eq: $gameId}, player_id: {_eq: $playerId}}) {

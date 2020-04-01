@@ -47,15 +47,13 @@ subscription CurrentGame($joinCode: String!) {
       id
       username
     }
-    cards_aggregate {
-      aggregate {
-        count
-      }
+    cards {
+      id
+      word
     }
-    players_aggregate {
-      aggregate {
-        count
-      }
+    players {
+      id
+      username
     }
   }
 }
@@ -75,5 +73,12 @@ subscription GameById($id: Int!) {
   games_by_pk(id: $id) {
     id
     join_code
+  }
+}
+
+mutation UpdateGameState($id: Int!, $state: game_state_enum!) {
+  update_games_by_pk(pk_columns: { id: $id }, _set: { state: $state }) {
+    id
+    state
   }
 }

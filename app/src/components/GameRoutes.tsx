@@ -1,12 +1,11 @@
 import * as React from "react"
-import { Switch, Route } from "react-router-dom"
+import { Switch, Route, Redirect } from "react-router-dom"
 import routes from "routes"
 import Lobby from "pages/Lobby"
 
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
   useCurrentPlayerQuery,
-  CurrentGameSubscription,
   useCurrentGameSubscription
 } from "generated/graphql"
 import TeamAssignment from "pages/TeamAssignment"
@@ -19,12 +18,16 @@ function CurrentPlayerProvider(props: {
   joinCode: string
   children: React.ReactNode
 }) {
-  const { data } = useCurrentPlayerQuery({
+  const { data, loading } = useCurrentPlayerQuery({
     variables: {
       joinCode: props.joinCode,
       playerUuid: playerUuid()
     }
   })
+
+  if (!loading && !data?.players[0]) {
+    return <Redirect to={routes.root}></Redirect>
+  }
 
   return data?.players[0]?.game?.host?.id ? (
     <CurrentPlayerContext.Provider
@@ -62,7 +65,7 @@ function GameRoutes(props: { joinCode: string }) {
   return (
     <CurrentPlayerProvider joinCode={props.joinCode}>
       <CurrentGameProvider joinCode={props.joinCode}>
-        <GameStateRedirects></GameStateRedirects>
+        <GameStateRedirects joinCode={props.joinCode}></GameStateRedirects>
         <Switch>
           <Route exact path={routes.game.lobby} component={Lobby} />
           <Route
