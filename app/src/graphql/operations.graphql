@@ -8,6 +8,8 @@ query CurrentPlayer($playerUuid: uuid!, $joinCode: String!) {
     id
     uuid
     username
+    team
+    team_sequence
     game {
       id
       join_code
@@ -56,6 +58,12 @@ subscription CurrentGame($joinCode: String!) {
       username
       team
       team_sequence
+    }
+    turns {
+      id
+      player_id
+      started_at
+      completed_card_ids
     }
   }
 }

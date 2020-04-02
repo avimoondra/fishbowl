@@ -11,6 +11,7 @@ export type Scalars = {
   Float: number;
   timestamp: any;
   uuid: any;
+  jsonb: any;
 };
 
 export type Cards = {
@@ -399,6 +400,8 @@ export type Games = {
   seconds_per_turn?: Maybe<Scalars['Int']>;
   starting_letter?: Maybe<Scalars['String']>;
   state: GameStateEnum;
+  turns: Array<Turns>;
+  turns_aggregate: TurnsAggregate;
 };
 
 
@@ -435,6 +438,24 @@ export type GamesPlayersAggregateArgs = {
   offset?: Maybe<Scalars['Int']>;
   order_by?: Maybe<Array<PlayersOrderBy>>;
   where?: Maybe<PlayersBoolExp>;
+};
+
+
+export type GamesTurnsArgs = {
+  distinct_on?: Maybe<Array<TurnsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<TurnsOrderBy>>;
+  where?: Maybe<TurnsBoolExp>;
+};
+
+
+export type GamesTurnsAggregateArgs = {
+  distinct_on?: Maybe<Array<TurnsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<TurnsOrderBy>>;
+  where?: Maybe<TurnsBoolExp>;
 };
 
 export type GamesAggregate = {
@@ -510,6 +531,7 @@ export type GamesBoolExp = {
   seconds_per_turn?: Maybe<IntComparisonExp>;
   starting_letter?: Maybe<StringComparisonExp>;
   state?: Maybe<GameStateEnumComparisonExp>;
+  turns?: Maybe<TurnsBoolExp>;
 };
 
 export enum GamesConstraint {
@@ -536,6 +558,7 @@ export type GamesInsertInput = {
   seconds_per_turn?: Maybe<Scalars['Int']>;
   starting_letter?: Maybe<Scalars['String']>;
   state?: Maybe<GameStateEnum>;
+  turns?: Maybe<TurnsArrRelInsertInput>;
 };
 
 export type GamesMaxFields = {
@@ -602,6 +625,7 @@ export type GamesOrderBy = {
   seconds_per_turn?: Maybe<OrderBy>;
   starting_letter?: Maybe<OrderBy>;
   state?: Maybe<OrderBy>;
+  turns_aggregate?: Maybe<TurnsAggregateOrderBy>;
 };
 
 export type GamesPkColumnsInput = {
@@ -751,6 +775,24 @@ export type IntComparisonExp = {
   _nin?: Maybe<Array<Scalars['Int']>>;
 };
 
+
+export type JsonbComparisonExp = {
+  _contained_in?: Maybe<Scalars['jsonb']>;
+  _contains?: Maybe<Scalars['jsonb']>;
+  _eq?: Maybe<Scalars['jsonb']>;
+  _gt?: Maybe<Scalars['jsonb']>;
+  _gte?: Maybe<Scalars['jsonb']>;
+  _has_key?: Maybe<Scalars['String']>;
+  _has_keys_all?: Maybe<Array<Scalars['String']>>;
+  _has_keys_any?: Maybe<Array<Scalars['String']>>;
+  _in?: Maybe<Array<Scalars['jsonb']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['jsonb']>;
+  _lte?: Maybe<Scalars['jsonb']>;
+  _neq?: Maybe<Scalars['jsonb']>;
+  _nin?: Maybe<Array<Scalars['jsonb']>>;
+};
+
 export type MutationRoot = {
   delete_cards?: Maybe<CardsMutationResponse>;
   delete_cards_by_pk?: Maybe<Cards>;
@@ -760,6 +802,8 @@ export type MutationRoot = {
   delete_games_by_pk?: Maybe<Games>;
   delete_players?: Maybe<PlayersMutationResponse>;
   delete_players_by_pk?: Maybe<Players>;
+  delete_turns?: Maybe<TurnsMutationResponse>;
+  delete_turns_by_pk?: Maybe<Turns>;
   insert_cards?: Maybe<CardsMutationResponse>;
   insert_cards_one?: Maybe<Cards>;
   insert_game_state?: Maybe<GameStateMutationResponse>;
@@ -768,6 +812,8 @@ export type MutationRoot = {
   insert_games_one?: Maybe<Games>;
   insert_players?: Maybe<PlayersMutationResponse>;
   insert_players_one?: Maybe<Players>;
+  insert_turns?: Maybe<TurnsMutationResponse>;
+  insert_turns_one?: Maybe<Turns>;
   update_cards?: Maybe<CardsMutationResponse>;
   update_cards_by_pk?: Maybe<Cards>;
   update_game_state?: Maybe<GameStateMutationResponse>;
@@ -776,6 +822,8 @@ export type MutationRoot = {
   update_games_by_pk?: Maybe<Games>;
   update_players?: Maybe<PlayersMutationResponse>;
   update_players_by_pk?: Maybe<Players>;
+  update_turns?: Maybe<TurnsMutationResponse>;
+  update_turns_by_pk?: Maybe<Turns>;
 };
 
 
@@ -815,6 +863,16 @@ export type MutationRootDeletePlayersArgs = {
 
 
 export type MutationRootDeletePlayersByPkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationRootDeleteTurnsArgs = {
+  where: TurnsBoolExp;
+};
+
+
+export type MutationRootDeleteTurnsByPkArgs = {
   id: Scalars['Int'];
 };
 
@@ -864,6 +922,18 @@ export type MutationRootInsertPlayersArgs = {
 export type MutationRootInsertPlayersOneArgs = {
   object: PlayersInsertInput;
   on_conflict?: Maybe<PlayersOnConflict>;
+};
+
+
+export type MutationRootInsertTurnsArgs = {
+  objects: Array<TurnsInsertInput>;
+  on_conflict?: Maybe<TurnsOnConflict>;
+};
+
+
+export type MutationRootInsertTurnsOneArgs = {
+  object: TurnsInsertInput;
+  on_conflict?: Maybe<TurnsOnConflict>;
 };
 
 
@@ -918,6 +988,30 @@ export type MutationRootUpdatePlayersByPkArgs = {
   _inc?: Maybe<PlayersIncInput>;
   _set?: Maybe<PlayersSetInput>;
   pk_columns: PlayersPkColumnsInput;
+};
+
+
+export type MutationRootUpdateTurnsArgs = {
+  _append?: Maybe<TurnsAppendInput>;
+  _delete_at_path?: Maybe<TurnsDeleteAtPathInput>;
+  _delete_elem?: Maybe<TurnsDeleteElemInput>;
+  _delete_key?: Maybe<TurnsDeleteKeyInput>;
+  _inc?: Maybe<TurnsIncInput>;
+  _prepend?: Maybe<TurnsPrependInput>;
+  _set?: Maybe<TurnsSetInput>;
+  where: TurnsBoolExp;
+};
+
+
+export type MutationRootUpdateTurnsByPkArgs = {
+  _append?: Maybe<TurnsAppendInput>;
+  _delete_at_path?: Maybe<TurnsDeleteAtPathInput>;
+  _delete_elem?: Maybe<TurnsDeleteElemInput>;
+  _delete_key?: Maybe<TurnsDeleteKeyInput>;
+  _inc?: Maybe<TurnsIncInput>;
+  _prepend?: Maybe<TurnsPrependInput>;
+  _set?: Maybe<TurnsSetInput>;
+  pk_columns: TurnsPkColumnsInput;
 };
 
 export enum OrderBy {
@@ -1226,6 +1320,9 @@ export type QueryRoot = {
   players: Array<Players>;
   players_aggregate: PlayersAggregate;
   players_by_pk?: Maybe<Players>;
+  turns: Array<Turns>;
+  turns_aggregate: TurnsAggregate;
+  turns_by_pk?: Maybe<Turns>;
 };
 
 
@@ -1320,6 +1417,29 @@ export type QueryRootPlayersByPkArgs = {
   id: Scalars['Int'];
 };
 
+
+export type QueryRootTurnsArgs = {
+  distinct_on?: Maybe<Array<TurnsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<TurnsOrderBy>>;
+  where?: Maybe<TurnsBoolExp>;
+};
+
+
+export type QueryRootTurnsAggregateArgs = {
+  distinct_on?: Maybe<Array<TurnsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<TurnsOrderBy>>;
+  where?: Maybe<TurnsBoolExp>;
+};
+
+
+export type QueryRootTurnsByPkArgs = {
+  id: Scalars['Int'];
+};
+
 export type StringComparisonExp = {
   _eq?: Maybe<Scalars['String']>;
   _gt?: Maybe<Scalars['String']>;
@@ -1351,6 +1471,9 @@ export type SubscriptionRoot = {
   players: Array<Players>;
   players_aggregate: PlayersAggregate;
   players_by_pk?: Maybe<Players>;
+  turns: Array<Turns>;
+  turns_aggregate: TurnsAggregate;
+  turns_by_pk?: Maybe<Turns>;
 };
 
 
@@ -1446,6 +1569,29 @@ export type SubscriptionRootPlayersByPkArgs = {
 };
 
 
+export type SubscriptionRootTurnsArgs = {
+  distinct_on?: Maybe<Array<TurnsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<TurnsOrderBy>>;
+  where?: Maybe<TurnsBoolExp>;
+};
+
+
+export type SubscriptionRootTurnsAggregateArgs = {
+  distinct_on?: Maybe<Array<TurnsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<TurnsOrderBy>>;
+  where?: Maybe<TurnsBoolExp>;
+};
+
+
+export type SubscriptionRootTurnsByPkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type TimestampComparisonExp = {
   _eq?: Maybe<Scalars['timestamp']>;
   _gt?: Maybe<Scalars['timestamp']>;
@@ -1456,6 +1602,334 @@ export type TimestampComparisonExp = {
   _lte?: Maybe<Scalars['timestamp']>;
   _neq?: Maybe<Scalars['timestamp']>;
   _nin?: Maybe<Array<Scalars['timestamp']>>;
+};
+
+export type Turns = {
+  completed_card_ids: Scalars['jsonb'];
+  created_at: Scalars['timestamp'];
+  ended_at?: Maybe<Scalars['timestamp']>;
+  game: Games;
+  game_id: Scalars['Int'];
+  id: Scalars['Int'];
+  player: Players;
+  player_id: Scalars['Int'];
+  seconds_per_turn_override?: Maybe<Scalars['Int']>;
+  started_at?: Maybe<Scalars['timestamp']>;
+};
+
+
+export type TurnsCompletedCardIdsArgs = {
+  path?: Maybe<Scalars['String']>;
+};
+
+export type TurnsAggregate = {
+  aggregate?: Maybe<TurnsAggregateFields>;
+  nodes: Array<Turns>;
+};
+
+export type TurnsAggregateFields = {
+  avg?: Maybe<TurnsAvgFields>;
+  count?: Maybe<Scalars['Int']>;
+  max?: Maybe<TurnsMaxFields>;
+  min?: Maybe<TurnsMinFields>;
+  stddev?: Maybe<TurnsStddevFields>;
+  stddev_pop?: Maybe<TurnsStddevPopFields>;
+  stddev_samp?: Maybe<TurnsStddevSampFields>;
+  sum?: Maybe<TurnsSumFields>;
+  var_pop?: Maybe<TurnsVarPopFields>;
+  var_samp?: Maybe<TurnsVarSampFields>;
+  variance?: Maybe<TurnsVarianceFields>;
+};
+
+
+export type TurnsAggregateFieldsCountArgs = {
+  columns?: Maybe<Array<TurnsSelectColumn>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+export type TurnsAggregateOrderBy = {
+  avg?: Maybe<TurnsAvgOrderBy>;
+  count?: Maybe<OrderBy>;
+  max?: Maybe<TurnsMaxOrderBy>;
+  min?: Maybe<TurnsMinOrderBy>;
+  stddev?: Maybe<TurnsStddevOrderBy>;
+  stddev_pop?: Maybe<TurnsStddevPopOrderBy>;
+  stddev_samp?: Maybe<TurnsStddevSampOrderBy>;
+  sum?: Maybe<TurnsSumOrderBy>;
+  var_pop?: Maybe<TurnsVarPopOrderBy>;
+  var_samp?: Maybe<TurnsVarSampOrderBy>;
+  variance?: Maybe<TurnsVarianceOrderBy>;
+};
+
+export type TurnsAppendInput = {
+  completed_card_ids?: Maybe<Scalars['jsonb']>;
+};
+
+export type TurnsArrRelInsertInput = {
+  data: Array<TurnsInsertInput>;
+  on_conflict?: Maybe<TurnsOnConflict>;
+};
+
+export type TurnsAvgFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+  seconds_per_turn_override?: Maybe<Scalars['Float']>;
+};
+
+export type TurnsAvgOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+  seconds_per_turn_override?: Maybe<OrderBy>;
+};
+
+export type TurnsBoolExp = {
+  _and?: Maybe<Array<Maybe<TurnsBoolExp>>>;
+  _not?: Maybe<TurnsBoolExp>;
+  _or?: Maybe<Array<Maybe<TurnsBoolExp>>>;
+  completed_card_ids?: Maybe<JsonbComparisonExp>;
+  created_at?: Maybe<TimestampComparisonExp>;
+  ended_at?: Maybe<TimestampComparisonExp>;
+  game?: Maybe<GamesBoolExp>;
+  game_id?: Maybe<IntComparisonExp>;
+  id?: Maybe<IntComparisonExp>;
+  player?: Maybe<PlayersBoolExp>;
+  player_id?: Maybe<IntComparisonExp>;
+  seconds_per_turn_override?: Maybe<IntComparisonExp>;
+  started_at?: Maybe<TimestampComparisonExp>;
+};
+
+export enum TurnsConstraint {
+  TurnsPkey = 'turns_pkey'
+}
+
+export type TurnsDeleteAtPathInput = {
+  completed_card_ids?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type TurnsDeleteElemInput = {
+  completed_card_ids?: Maybe<Scalars['Int']>;
+};
+
+export type TurnsDeleteKeyInput = {
+  completed_card_ids?: Maybe<Scalars['String']>;
+};
+
+export type TurnsIncInput = {
+  game_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  player_id?: Maybe<Scalars['Int']>;
+  seconds_per_turn_override?: Maybe<Scalars['Int']>;
+};
+
+export type TurnsInsertInput = {
+  completed_card_ids?: Maybe<Scalars['jsonb']>;
+  created_at?: Maybe<Scalars['timestamp']>;
+  ended_at?: Maybe<Scalars['timestamp']>;
+  game?: Maybe<GamesObjRelInsertInput>;
+  game_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  player?: Maybe<PlayersObjRelInsertInput>;
+  player_id?: Maybe<Scalars['Int']>;
+  seconds_per_turn_override?: Maybe<Scalars['Int']>;
+  started_at?: Maybe<Scalars['timestamp']>;
+};
+
+export type TurnsMaxFields = {
+  game_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  player_id?: Maybe<Scalars['Int']>;
+  seconds_per_turn_override?: Maybe<Scalars['Int']>;
+};
+
+export type TurnsMaxOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+  seconds_per_turn_override?: Maybe<OrderBy>;
+};
+
+export type TurnsMinFields = {
+  game_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  player_id?: Maybe<Scalars['Int']>;
+  seconds_per_turn_override?: Maybe<Scalars['Int']>;
+};
+
+export type TurnsMinOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+  seconds_per_turn_override?: Maybe<OrderBy>;
+};
+
+export type TurnsMutationResponse = {
+  affected_rows: Scalars['Int'];
+  returning: Array<Turns>;
+};
+
+export type TurnsObjRelInsertInput = {
+  data: TurnsInsertInput;
+  on_conflict?: Maybe<TurnsOnConflict>;
+};
+
+export type TurnsOnConflict = {
+  constraint: TurnsConstraint;
+  update_columns: Array<TurnsUpdateColumn>;
+  where?: Maybe<TurnsBoolExp>;
+};
+
+export type TurnsOrderBy = {
+  completed_card_ids?: Maybe<OrderBy>;
+  created_at?: Maybe<OrderBy>;
+  ended_at?: Maybe<OrderBy>;
+  game?: Maybe<GamesOrderBy>;
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player?: Maybe<PlayersOrderBy>;
+  player_id?: Maybe<OrderBy>;
+  seconds_per_turn_override?: Maybe<OrderBy>;
+  started_at?: Maybe<OrderBy>;
+};
+
+export type TurnsPkColumnsInput = {
+  id: Scalars['Int'];
+};
+
+export type TurnsPrependInput = {
+  completed_card_ids?: Maybe<Scalars['jsonb']>;
+};
+
+export enum TurnsSelectColumn {
+  CompletedCardIds = 'completed_card_ids',
+  CreatedAt = 'created_at',
+  EndedAt = 'ended_at',
+  GameId = 'game_id',
+  Id = 'id',
+  PlayerId = 'player_id',
+  SecondsPerTurnOverride = 'seconds_per_turn_override',
+  StartedAt = 'started_at'
+}
+
+export type TurnsSetInput = {
+  completed_card_ids?: Maybe<Scalars['jsonb']>;
+  created_at?: Maybe<Scalars['timestamp']>;
+  ended_at?: Maybe<Scalars['timestamp']>;
+  game_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  player_id?: Maybe<Scalars['Int']>;
+  seconds_per_turn_override?: Maybe<Scalars['Int']>;
+  started_at?: Maybe<Scalars['timestamp']>;
+};
+
+export type TurnsStddevFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+  seconds_per_turn_override?: Maybe<Scalars['Float']>;
+};
+
+export type TurnsStddevOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+  seconds_per_turn_override?: Maybe<OrderBy>;
+};
+
+export type TurnsStddevPopFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+  seconds_per_turn_override?: Maybe<Scalars['Float']>;
+};
+
+export type TurnsStddevPopOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+  seconds_per_turn_override?: Maybe<OrderBy>;
+};
+
+export type TurnsStddevSampFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+  seconds_per_turn_override?: Maybe<Scalars['Float']>;
+};
+
+export type TurnsStddevSampOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+  seconds_per_turn_override?: Maybe<OrderBy>;
+};
+
+export type TurnsSumFields = {
+  game_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  player_id?: Maybe<Scalars['Int']>;
+  seconds_per_turn_override?: Maybe<Scalars['Int']>;
+};
+
+export type TurnsSumOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+  seconds_per_turn_override?: Maybe<OrderBy>;
+};
+
+export enum TurnsUpdateColumn {
+  CompletedCardIds = 'completed_card_ids',
+  CreatedAt = 'created_at',
+  EndedAt = 'ended_at',
+  GameId = 'game_id',
+  Id = 'id',
+  PlayerId = 'player_id',
+  SecondsPerTurnOverride = 'seconds_per_turn_override',
+  StartedAt = 'started_at'
+}
+
+export type TurnsVarPopFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+  seconds_per_turn_override?: Maybe<Scalars['Float']>;
+};
+
+export type TurnsVarPopOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+  seconds_per_turn_override?: Maybe<OrderBy>;
+};
+
+export type TurnsVarSampFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+  seconds_per_turn_override?: Maybe<Scalars['Float']>;
+};
+
+export type TurnsVarSampOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+  seconds_per_turn_override?: Maybe<OrderBy>;
+};
+
+export type TurnsVarianceFields = {
+  game_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  player_id?: Maybe<Scalars['Float']>;
+  seconds_per_turn_override?: Maybe<Scalars['Float']>;
+};
+
+export type TurnsVarianceOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  player_id?: Maybe<OrderBy>;
+  seconds_per_turn_override?: Maybe<OrderBy>;
 };
 
 
@@ -1478,7 +1952,7 @@ export type CurrentPlayerQueryVariables = {
 
 
 export type CurrentPlayerQuery = { players: Array<(
-    Pick<Players, 'id' | 'uuid' | 'username'>
+    Pick<Players, 'id' | 'uuid' | 'username' | 'team' | 'team_sequence'>
     & { game?: Maybe<(
       Pick<Games, 'id' | 'join_code'>
       & { host?: Maybe<Pick<Players, 'id' | 'username'>> }
@@ -1505,7 +1979,7 @@ export type CurrentGameSubscriptionVariables = {
 
 export type CurrentGameSubscription = { games: Array<(
     Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player' | 'state'>
-    & { host?: Maybe<Pick<Players, 'id' | 'username'>>, cards: Array<Pick<Cards, 'id' | 'word'>>, players: Array<Pick<Players, 'id' | 'username' | 'team' | 'team_sequence'>> }
+    & { host?: Maybe<Pick<Players, 'id' | 'username'>>, cards: Array<Pick<Cards, 'id' | 'word'>>, players: Array<Pick<Players, 'id' | 'username' | 'team' | 'team_sequence'>>, turns: Array<Pick<Turns, 'id' | 'player_id' | 'started_at' | 'completed_card_ids'>> }
   )> };
 
 export type GameByJoinCodeQueryVariables = {
@@ -1607,6 +2081,34 @@ export type WaitingRoomSubscription = { games_by_pk?: Maybe<(
     & { players: Array<Pick<Players, 'id' | 'username'>> }
   )> };
 
+export type CreateTurnMutationVariables = {
+  gameId: Scalars['Int'];
+  playerId: Scalars['Int'];
+};
+
+
+export type CreateTurnMutation = { insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id'>> };
+
+export type StartTurnMutationVariables = {
+  currentTurnId: Scalars['Int'];
+  startedAt: Scalars['timestamp'];
+};
+
+
+export type StartTurnMutation = { update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'started_at'>> };
+
+export type EndCurrentTurnAndStartNextTurnMutationVariables = {
+  currentTurnId: Scalars['Int'];
+  completedCardIds: Scalars['jsonb'];
+  endedAt: Scalars['timestamp'];
+  gameId: Scalars['Int'];
+  nextTurnplayerId: Scalars['Int'];
+  nextTurnSecondsPerTurnOverride?: Maybe<Scalars['Int']>;
+};
+
+
+export type EndCurrentTurnAndStartNextTurnMutation = { update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'ended_at' | 'completed_card_ids'>>, insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id'>> };
+
 export type UpdateAllPlayersMutationVariables = {
   gameId: Scalars['Int'];
   players: Array<PlayersInsertInput>;
@@ -1625,6 +2127,8 @@ export const CurrentPlayerDocument = gql`
     id
     uuid
     username
+    team
+    team_sequence
     game {
       id
       join_code
@@ -1728,6 +2232,12 @@ export const CurrentGameDocument = gql`
       username
       team
       team_sequence
+    }
+    turns {
+      id
+      player_id
+      started_at
+      completed_card_ids
     }
   }
 }
@@ -2171,6 +2681,119 @@ export function useWaitingRoomSubscription(baseOptions?: ApolloReactHooks.Subscr
       }
 export type WaitingRoomSubscriptionHookResult = ReturnType<typeof useWaitingRoomSubscription>;
 export type WaitingRoomSubscriptionResult = ApolloReactCommon.SubscriptionResult<WaitingRoomSubscription>;
+export const CreateTurnDocument = gql`
+    mutation CreateTurn($gameId: Int!, $playerId: Int!) {
+  insert_turns_one(object: {game_id: $gameId, player_id: $playerId}) {
+    id
+    game_id
+    player_id
+  }
+}
+    `;
+export type CreateTurnMutationFn = ApolloReactCommon.MutationFunction<CreateTurnMutation, CreateTurnMutationVariables>;
+
+/**
+ * __useCreateTurnMutation__
+ *
+ * To run a mutation, you first call `useCreateTurnMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTurnMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTurnMutation, { data, loading, error }] = useCreateTurnMutation({
+ *   variables: {
+ *      gameId: // value for 'gameId'
+ *      playerId: // value for 'playerId'
+ *   },
+ * });
+ */
+export function useCreateTurnMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateTurnMutation, CreateTurnMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateTurnMutation, CreateTurnMutationVariables>(CreateTurnDocument, baseOptions);
+      }
+export type CreateTurnMutationHookResult = ReturnType<typeof useCreateTurnMutation>;
+export type CreateTurnMutationResult = ApolloReactCommon.MutationResult<CreateTurnMutation>;
+export type CreateTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateTurnMutation, CreateTurnMutationVariables>;
+export const StartTurnDocument = gql`
+    mutation StartTurn($currentTurnId: Int!, $startedAt: timestamp!) {
+  update_turns_by_pk(pk_columns: {id: $currentTurnId}, _set: {started_at: $startedAt}) {
+    id
+    started_at
+  }
+}
+    `;
+export type StartTurnMutationFn = ApolloReactCommon.MutationFunction<StartTurnMutation, StartTurnMutationVariables>;
+
+/**
+ * __useStartTurnMutation__
+ *
+ * To run a mutation, you first call `useStartTurnMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStartTurnMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [startTurnMutation, { data, loading, error }] = useStartTurnMutation({
+ *   variables: {
+ *      currentTurnId: // value for 'currentTurnId'
+ *      startedAt: // value for 'startedAt'
+ *   },
+ * });
+ */
+export function useStartTurnMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<StartTurnMutation, StartTurnMutationVariables>) {
+        return ApolloReactHooks.useMutation<StartTurnMutation, StartTurnMutationVariables>(StartTurnDocument, baseOptions);
+      }
+export type StartTurnMutationHookResult = ReturnType<typeof useStartTurnMutation>;
+export type StartTurnMutationResult = ApolloReactCommon.MutationResult<StartTurnMutation>;
+export type StartTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<StartTurnMutation, StartTurnMutationVariables>;
+export const EndCurrentTurnAndStartNextTurnDocument = gql`
+    mutation EndCurrentTurnAndStartNextTurn($currentTurnId: Int!, $completedCardIds: jsonb!, $endedAt: timestamp!, $gameId: Int!, $nextTurnplayerId: Int!, $nextTurnSecondsPerTurnOverride: Int) {
+  update_turns_by_pk(pk_columns: {id: $currentTurnId}, _set: {ended_at: $endedAt, completed_card_ids: $completedCardIds}) {
+    id
+    ended_at
+    completed_card_ids
+  }
+  insert_turns_one(object: {game_id: $gameId, player_id: $nextTurnplayerId, seconds_per_turn_override: $nextTurnSecondsPerTurnOverride}) {
+    id
+    game_id
+    player_id
+  }
+}
+    `;
+export type EndCurrentTurnAndStartNextTurnMutationFn = ApolloReactCommon.MutationFunction<EndCurrentTurnAndStartNextTurnMutation, EndCurrentTurnAndStartNextTurnMutationVariables>;
+
+/**
+ * __useEndCurrentTurnAndStartNextTurnMutation__
+ *
+ * To run a mutation, you first call `useEndCurrentTurnAndStartNextTurnMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEndCurrentTurnAndStartNextTurnMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [endCurrentTurnAndStartNextTurnMutation, { data, loading, error }] = useEndCurrentTurnAndStartNextTurnMutation({
+ *   variables: {
+ *      currentTurnId: // value for 'currentTurnId'
+ *      completedCardIds: // value for 'completedCardIds'
+ *      endedAt: // value for 'endedAt'
+ *      gameId: // value for 'gameId'
+ *      nextTurnplayerId: // value for 'nextTurnplayerId'
+ *      nextTurnSecondsPerTurnOverride: // value for 'nextTurnSecondsPerTurnOverride'
+ *   },
+ * });
+ */
+export function useEndCurrentTurnAndStartNextTurnMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<EndCurrentTurnAndStartNextTurnMutation, EndCurrentTurnAndStartNextTurnMutationVariables>) {
+        return ApolloReactHooks.useMutation<EndCurrentTurnAndStartNextTurnMutation, EndCurrentTurnAndStartNextTurnMutationVariables>(EndCurrentTurnAndStartNextTurnDocument, baseOptions);
+      }
+export type EndCurrentTurnAndStartNextTurnMutationHookResult = ReturnType<typeof useEndCurrentTurnAndStartNextTurnMutation>;
+export type EndCurrentTurnAndStartNextTurnMutationResult = ApolloReactCommon.MutationResult<EndCurrentTurnAndStartNextTurnMutation>;
+export type EndCurrentTurnAndStartNextTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<EndCurrentTurnAndStartNextTurnMutation, EndCurrentTurnAndStartNextTurnMutationVariables>;
 export const UpdateAllPlayersDocument = gql`
     mutation UpdateAllPlayers($gameId: Int!, $players: [players_insert_input!]!) {
   insert_games_one(object: {id: $gameId, players: {data: $players, on_conflict: {constraint: players_pkey, update_columns: [team]}}}, on_conflict: {constraint: games_pkey, update_columns: [id]}) {

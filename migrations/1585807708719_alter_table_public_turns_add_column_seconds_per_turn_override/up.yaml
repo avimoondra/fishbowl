@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."turns" ADD COLUMN "seconds_per_turn_override" integer
+      NULL;
+  type: run_sql

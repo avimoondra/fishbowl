@@ -1,0 +1,46 @@
+mutation CreateTurn($gameId: Int!, $playerId: Int!) {
+  insert_turns_one(object: { game_id: $gameId, player_id: $playerId }) {
+    id
+    game_id
+    player_id
+  }
+}
+
+mutation StartTurn($currentTurnId: Int!, $startedAt: timestamp!) {
+  update_turns_by_pk(
+    pk_columns: { id: $currentTurnId }
+    _set: { started_at: $startedAt }
+  ) {
+    id
+    started_at
+  }
+}
+
+mutation EndCurrentTurnAndStartNextTurn(
+  $currentTurnId: Int!
+  $completedCardIds: jsonb!
+  $endedAt: timestamp!
+  $gameId: Int!
+  $nextTurnplayerId: Int!
+  $nextTurnSecondsPerTurnOverride: Int
+) {
+  update_turns_by_pk(
+    pk_columns: { id: $currentTurnId }
+    _set: { ended_at: $endedAt, completed_card_ids: $completedCardIds }
+  ) {
+    id
+    ended_at
+    completed_card_ids
+  }
+  insert_turns_one(
+    object: {
+      game_id: $gameId
+      player_id: $nextTurnplayerId
+      seconds_per_turn_override: $nextTurnSecondsPerTurnOverride
+    }
+  ) {
+    id
+    game_id
+    player_id
+  }
+}

@@ -1,0 +1,12 @@
+- args:
+    name: turns
+    table:
+      name: games
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: game_id
+        table:
+          name: turns
+          schema: public
+  type: create_array_relationship

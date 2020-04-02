@@ -7,5 +7,6 @@ export const CurrentGameContext = createContext<CurrentGameContextType>({
   id: -1,
   state: GameStateEnum.Lobby,
   cards: [],
-  players: []
+  players: [],
+  turns: []
 })

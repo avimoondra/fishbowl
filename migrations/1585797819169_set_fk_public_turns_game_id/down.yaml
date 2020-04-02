@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."turns" drop constraint "turns_game_id_fkey";
+  type: run_sql

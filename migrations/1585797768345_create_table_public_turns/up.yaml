@@ -1,0 +1,13 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE TABLE "public"."turns"("id" serial NOT NULL, "player_id" integer NOT
+      NULL, "created_at" timestamp NOT NULL DEFAULT now(), "started_at" timestamp,
+      "ended_at" timestamp, "completed_card_ids" jsonb NOT NULL DEFAULT jsonb_build_array(),
+      PRIMARY KEY ("id") , FOREIGN KEY ("player_id") REFERENCES "public"."players"("id")
+      ON UPDATE restrict ON DELETE restrict);
+  type: run_sql
+- args:
+    name: turns
+    schema: public
+  type: add_existing_table_or_view

@@ -2,7 +2,6 @@ import * as React from "react"
 import { Switch, Route, Redirect } from "react-router-dom"
 import routes from "routes"
 import Lobby from "pages/Lobby"
-
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
   useCurrentPlayerQuery,
@@ -13,6 +12,8 @@ import { playerUuid } from "contexts/CurrentPlayer"
 import GameStateRedirects from "components/GameStateRedirects"
 import CardSubmission from "pages/CardSubmission"
 import { CurrentGameContext } from "contexts/CurrentGame"
+import Play from "pages/Play"
+import EndGame from "pages/EndGame"
 
 function CurrentPlayerProvider(props: {
   joinCode: string
@@ -78,6 +79,8 @@ function GameRoutes(props: { joinCode: string }) {
             path={routes.game.teamAssignment}
             component={TeamAssignment}
           ></Route>
+          <Route exact path={routes.game.play} component={Play}></Route>
+          <Route exact path={routes.game.ended} component={EndGame}></Route>
         </Switch>
       </CurrentGameProvider>
     </CurrentPlayerProvider>

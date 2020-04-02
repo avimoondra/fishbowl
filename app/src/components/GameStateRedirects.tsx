@@ -9,60 +9,50 @@ import {
 } from "react-router-dom"
 import routes from "routes"
 
+const stateRoutePairs = [
+  {
+    state: GameStateEnum.Lobby,
+    route: routes.game.lobby
+  },
+  {
+    state: GameStateEnum.CardSubmission,
+    route: routes.game.cardSubmission
+  },
+  {
+    state: GameStateEnum.TeamAssignment,
+    route: routes.game.teamAssignment
+  },
+  {
+    state: GameStateEnum.ActivePlay,
+    route: routes.game.play
+  },
+  {
+    state: GameStateEnum.Ended,
+    route: routes.game.ended
+  }
+]
+
 function GameStateRedirects(props: { joinCode: string }) {
   const location = useLocation()
   const currentGame = React.useContext(CurrentGameContext)
-
-  // TODO consolidate this code
+  const pair = stateRoutePairs.find(pair => pair.state === currentGame.state)
   if (
-    currentGame.state === GameStateEnum.Lobby &&
+    pair?.state &&
     !matchPath(location.pathname, {
-      path: routes.game.lobby,
+      path: pair.route,
       exact: true
     })
   ) {
     return (
       <Redirect
-        to={generatePath(routes.game.lobby, {
+        to={generatePath(pair.route, {
           joinCode: props.joinCode
         })}
       ></Redirect>
     )
+  } else {
+    return null
   }
-
-  if (
-    currentGame.state === GameStateEnum.CardSubmission &&
-    !matchPath(location.pathname, {
-      path: routes.game.cardSubmission,
-      exact: true
-    })
-  ) {
-    return (
-      <Redirect
-        to={generatePath(routes.game.cardSubmission, {
-          joinCode: props.joinCode
-        })}
-      ></Redirect>
-    )
-  }
-
-  if (
-    currentGame.state === GameStateEnum.TeamAssignment &&
-    !matchPath(location.pathname, {
-      path: routes.game.teamAssignment,
-      exact: true
-    })
-  ) {
-    return (
-      <Redirect
-        to={generatePath(routes.game.teamAssignment, {
-          joinCode: props.joinCode
-        })}
-      ></Redirect>
-    )
-  }
-
-  return <></>
 }
 
 export default GameStateRedirects

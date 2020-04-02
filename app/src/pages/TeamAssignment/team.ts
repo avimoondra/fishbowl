@@ -1,7 +1,7 @@
 import { shuffle, compact, cloneDeep } from "lodash"
 import { CurrentGameSubscription } from "generated/graphql"
 
-enum Team {
+export enum Team {
   Red = "red",
   Blue = "blue"
 }
@@ -40,6 +40,6 @@ export function teamsWithSequence(players: Players) {
     })
   const orderedPlayers = interleave(redTeam, blueTeam)
   return orderedPlayers.map((player: Player, index) => {
-    return { ...player, team_sequence: index }
+    return { ...player, team_sequence: index + 1 }
   })
 }
