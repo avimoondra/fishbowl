@@ -1234,7 +1234,7 @@
             "description": "",
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "timestamp_comparison_exp",
+              "name": "timestamptz_comparison_exp",
               "ofType": null
             },
             "defaultValue": null
@@ -1286,7 +1286,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "timestamp_comparison_exp",
+        "name": "timestamptz_comparison_exp",
         "description": "",
         "fields": null,
         "inputFields": [
@@ -1295,7 +1295,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -1305,7 +1305,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -1315,7 +1315,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -1331,7 +1331,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "timestamp",
+                  "name": "timestamptz",
                   "ofType": null
                 }
               }
@@ -1353,7 +1353,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -1363,7 +1363,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -1373,7 +1373,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -1389,7 +1389,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "timestamp",
+                  "name": "timestamptz",
                   "ofType": null
                 }
               }
@@ -1403,7 +1403,7 @@
       },
       {
         "kind": "SCALAR",
-        "name": "timestamp",
+        "name": "timestamptz",
         "description": null,
         "fields": null,
         "inputFields": null,
@@ -1739,7 +1739,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "timestamp",
+                "name": "timestamptz",
                 "ofType": null
               }
             },
@@ -2098,6 +2098,18 @@
         "description": "",
         "fields": [
           {
+            "name": "created_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "game_id",
             "description": "",
             "args": [],
@@ -2156,6 +2168,18 @@
         "name": "cards_min_fields",
         "description": "",
         "fields": [
+          {
+            "name": "created_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "game_id",
             "description": "",
@@ -3191,6 +3215,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "created_at",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "game_id",
             "description": "",
             "type": {
@@ -3241,6 +3275,16 @@
         "description": "",
         "fields": null,
         "inputFields": [
+          {
+            "name": "created_at",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
           {
             "name": "game_id",
             "description": "",
@@ -3833,6 +3877,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "created_at",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "game_id",
             "description": "",
             "type": {
@@ -3903,6 +3957,16 @@
         "description": "",
         "fields": null,
         "inputFields": [
+          {
+            "name": "created_at",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
           {
             "name": "game_id",
             "description": "",
@@ -4434,6 +4498,26 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "created_at",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "ended_at",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "game_id",
             "description": "",
             "type": {
@@ -4465,6 +4549,16 @@
           },
           {
             "name": "seconds_per_turn_override",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "started_at",
             "description": "",
             "type": {
               "kind": "ENUM",
@@ -4485,6 +4579,26 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "created_at",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "ended_at",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "game_id",
             "description": "",
             "type": {
@@ -4516,6 +4630,16 @@
           },
           {
             "name": "seconds_per_turn_override",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "started_at",
             "description": "",
             "type": {
               "kind": "ENUM",
@@ -4945,7 +5069,7 @@
             "description": "",
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "timestamp_comparison_exp",
+              "name": "timestamptz_comparison_exp",
               "ofType": null
             },
             "defaultValue": null
@@ -5104,7 +5228,7 @@
             "description": "",
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "timestamp_comparison_exp",
+              "name": "timestamptz_comparison_exp",
               "ofType": null
             },
             "defaultValue": null
@@ -5488,7 +5612,7 @@
             "description": "",
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "timestamp_comparison_exp",
+              "name": "timestamptz_comparison_exp",
               "ofType": null
             },
             "defaultValue": null
@@ -5498,7 +5622,7 @@
             "description": "",
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "timestamp_comparison_exp",
+              "name": "timestamptz_comparison_exp",
               "ofType": null
             },
             "defaultValue": null
@@ -5568,7 +5692,7 @@
             "description": "",
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "timestamp_comparison_exp",
+              "name": "timestamptz_comparison_exp",
               "ofType": null
             },
             "defaultValue": null
@@ -5959,7 +6083,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "timestamp",
+                "name": "timestamptz",
                 "ofType": null
               }
             },
@@ -6438,7 +6562,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "timestamp",
+                "name": "timestamptz",
                 "ofType": null
               }
             },
@@ -6864,6 +6988,18 @@
         "description": "",
         "fields": [
           {
+            "name": "created_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "game_id",
             "description": "",
             "args": [],
@@ -6946,6 +7082,18 @@
         "name": "players_min_fields",
         "description": "",
         "fields": [
+          {
+            "name": "created_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "game_id",
             "description": "",
@@ -7564,7 +7712,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "timestamp",
+                "name": "timestamptz",
                 "ofType": null
               }
             },
@@ -7577,7 +7725,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "isDeprecated": false,
@@ -7681,7 +7829,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "isDeprecated": false,
@@ -7977,6 +8125,30 @@
         "description": "",
         "fields": [
           {
+            "name": "created_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ended_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "game_id",
             "description": "",
             "args": [],
@@ -8019,6 +8191,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "started_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
               "ofType": null
             },
             "isDeprecated": false,
@@ -8036,6 +8220,30 @@
         "description": "",
         "fields": [
           {
+            "name": "created_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ended_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "game_id",
             "description": "",
             "args": [],
@@ -8078,6 +8286,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "started_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
               "ofType": null
             },
             "isDeprecated": false,
@@ -8786,6 +9006,18 @@
         "description": "",
         "fields": [
           {
+            "name": "created_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "host_id",
             "description": "",
             "args": [],
@@ -8868,6 +9100,18 @@
         "name": "games_min_fields",
         "description": "",
         "fields": [
+          {
+            "name": "created_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "host_id",
             "description": "",
@@ -10866,7 +11110,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -11164,7 +11408,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -11363,7 +11607,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -11857,7 +12101,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -11867,7 +12111,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -11937,7 +12181,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -12132,7 +12376,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -12315,7 +12559,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -12472,7 +12716,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -12748,7 +12992,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -12758,7 +13002,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -12808,7 +13052,7 @@
             "description": "",
             "type": {
               "kind": "SCALAR",
-              "name": "timestamp",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null
@@ -15030,6 +15274,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "created_at",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "host_id",
             "description": "",
             "type": {
@@ -15100,6 +15354,16 @@
         "description": "",
         "fields": null,
         "inputFields": [
+          {
+            "name": "created_at",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
           {
             "name": "host_id",
             "description": "",

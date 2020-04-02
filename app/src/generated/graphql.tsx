@@ -9,13 +9,13 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  timestamp: any;
+  timestamptz: any;
   uuid: any;
   jsonb: any;
 };
 
 export type Cards = {
-  created_at: Scalars['timestamp'];
+  created_at: Scalars['timestamptz'];
   game_id: Scalars['Int'];
   id: Scalars['Int'];
   player_id: Scalars['Int'];
@@ -82,7 +82,7 @@ export type CardsBoolExp = {
   _and?: Maybe<Array<Maybe<CardsBoolExp>>>;
   _not?: Maybe<CardsBoolExp>;
   _or?: Maybe<Array<Maybe<CardsBoolExp>>>;
-  created_at?: Maybe<TimestampComparisonExp>;
+  created_at?: Maybe<TimestamptzComparisonExp>;
   game_id?: Maybe<IntComparisonExp>;
   id?: Maybe<IntComparisonExp>;
   player_id?: Maybe<IntComparisonExp>;
@@ -100,7 +100,7 @@ export type CardsIncInput = {
 };
 
 export type CardsInsertInput = {
-  created_at?: Maybe<Scalars['timestamp']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   player_id?: Maybe<Scalars['Int']>;
@@ -108,6 +108,7 @@ export type CardsInsertInput = {
 };
 
 export type CardsMaxFields = {
+  created_at?: Maybe<Scalars['timestamptz']>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   player_id?: Maybe<Scalars['Int']>;
@@ -115,6 +116,7 @@ export type CardsMaxFields = {
 };
 
 export type CardsMaxOrderBy = {
+  created_at?: Maybe<OrderBy>;
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   player_id?: Maybe<OrderBy>;
@@ -122,6 +124,7 @@ export type CardsMaxOrderBy = {
 };
 
 export type CardsMinFields = {
+  created_at?: Maybe<Scalars['timestamptz']>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   player_id?: Maybe<Scalars['Int']>;
@@ -129,6 +132,7 @@ export type CardsMinFields = {
 };
 
 export type CardsMinOrderBy = {
+  created_at?: Maybe<OrderBy>;
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   player_id?: Maybe<OrderBy>;
@@ -172,7 +176,7 @@ export enum CardsSelectColumn {
 }
 
 export type CardsSetInput = {
-  created_at?: Maybe<Scalars['timestamp']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   player_id?: Maybe<Scalars['Int']>;
@@ -389,7 +393,7 @@ export enum GameStateUpdateColumn {
 export type Games = {
   cards: Array<Cards>;
   cards_aggregate: CardsAggregate;
-  created_at: Scalars['timestamp'];
+  created_at: Scalars['timestamptz'];
   host?: Maybe<Players>;
   host_id?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
@@ -521,7 +525,7 @@ export type GamesBoolExp = {
   _not?: Maybe<GamesBoolExp>;
   _or?: Maybe<Array<Maybe<GamesBoolExp>>>;
   cards?: Maybe<CardsBoolExp>;
-  created_at?: Maybe<TimestampComparisonExp>;
+  created_at?: Maybe<TimestamptzComparisonExp>;
   host?: Maybe<PlayersBoolExp>;
   host_id?: Maybe<IntComparisonExp>;
   id?: Maybe<IntComparisonExp>;
@@ -548,7 +552,7 @@ export type GamesIncInput = {
 
 export type GamesInsertInput = {
   cards?: Maybe<CardsArrRelInsertInput>;
-  created_at?: Maybe<Scalars['timestamp']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   host?: Maybe<PlayersObjRelInsertInput>;
   host_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
@@ -562,6 +566,7 @@ export type GamesInsertInput = {
 };
 
 export type GamesMaxFields = {
+  created_at?: Maybe<Scalars['timestamptz']>;
   host_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   join_code?: Maybe<Scalars['String']>;
@@ -571,6 +576,7 @@ export type GamesMaxFields = {
 };
 
 export type GamesMaxOrderBy = {
+  created_at?: Maybe<OrderBy>;
   host_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   join_code?: Maybe<OrderBy>;
@@ -580,6 +586,7 @@ export type GamesMaxOrderBy = {
 };
 
 export type GamesMinFields = {
+  created_at?: Maybe<Scalars['timestamptz']>;
   host_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   join_code?: Maybe<Scalars['String']>;
@@ -589,6 +596,7 @@ export type GamesMinFields = {
 };
 
 export type GamesMinOrderBy = {
+  created_at?: Maybe<OrderBy>;
   host_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   join_code?: Maybe<OrderBy>;
@@ -644,7 +652,7 @@ export enum GamesSelectColumn {
 }
 
 export type GamesSetInput = {
-  created_at?: Maybe<Scalars['timestamp']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   host_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   join_code?: Maybe<Scalars['String']>;
@@ -1024,7 +1032,7 @@ export enum OrderBy {
 }
 
 export type Players = {
-  created_at: Scalars['timestamp'];
+  created_at: Scalars['timestamptz'];
   game?: Maybe<Games>;
   game_id?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
@@ -1094,7 +1102,7 @@ export type PlayersBoolExp = {
   _and?: Maybe<Array<Maybe<PlayersBoolExp>>>;
   _not?: Maybe<PlayersBoolExp>;
   _or?: Maybe<Array<Maybe<PlayersBoolExp>>>;
-  created_at?: Maybe<TimestampComparisonExp>;
+  created_at?: Maybe<TimestamptzComparisonExp>;
   game?: Maybe<GamesBoolExp>;
   game_id?: Maybe<IntComparisonExp>;
   id?: Maybe<IntComparisonExp>;
@@ -1116,7 +1124,7 @@ export type PlayersIncInput = {
 };
 
 export type PlayersInsertInput = {
-  created_at?: Maybe<Scalars['timestamp']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   game?: Maybe<GamesObjRelInsertInput>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
@@ -1127,6 +1135,7 @@ export type PlayersInsertInput = {
 };
 
 export type PlayersMaxFields = {
+  created_at?: Maybe<Scalars['timestamptz']>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   team?: Maybe<Scalars['String']>;
@@ -1136,6 +1145,7 @@ export type PlayersMaxFields = {
 };
 
 export type PlayersMaxOrderBy = {
+  created_at?: Maybe<OrderBy>;
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   team?: Maybe<OrderBy>;
@@ -1145,6 +1155,7 @@ export type PlayersMaxOrderBy = {
 };
 
 export type PlayersMinFields = {
+  created_at?: Maybe<Scalars['timestamptz']>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   team?: Maybe<Scalars['String']>;
@@ -1154,6 +1165,7 @@ export type PlayersMinFields = {
 };
 
 export type PlayersMinOrderBy = {
+  created_at?: Maybe<OrderBy>;
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   team?: Maybe<OrderBy>;
@@ -1204,7 +1216,7 @@ export enum PlayersSelectColumn {
 }
 
 export type PlayersSetInput = {
-  created_at?: Maybe<Scalars['timestamp']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   team?: Maybe<Scalars['String']>;
@@ -1592,29 +1604,29 @@ export type SubscriptionRootTurnsByPkArgs = {
 };
 
 
-export type TimestampComparisonExp = {
-  _eq?: Maybe<Scalars['timestamp']>;
-  _gt?: Maybe<Scalars['timestamp']>;
-  _gte?: Maybe<Scalars['timestamp']>;
-  _in?: Maybe<Array<Scalars['timestamp']>>;
+export type TimestamptzComparisonExp = {
+  _eq?: Maybe<Scalars['timestamptz']>;
+  _gt?: Maybe<Scalars['timestamptz']>;
+  _gte?: Maybe<Scalars['timestamptz']>;
+  _in?: Maybe<Array<Scalars['timestamptz']>>;
   _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['timestamp']>;
-  _lte?: Maybe<Scalars['timestamp']>;
-  _neq?: Maybe<Scalars['timestamp']>;
-  _nin?: Maybe<Array<Scalars['timestamp']>>;
+  _lt?: Maybe<Scalars['timestamptz']>;
+  _lte?: Maybe<Scalars['timestamptz']>;
+  _neq?: Maybe<Scalars['timestamptz']>;
+  _nin?: Maybe<Array<Scalars['timestamptz']>>;
 };
 
 export type Turns = {
   completed_card_ids: Scalars['jsonb'];
-  created_at: Scalars['timestamp'];
-  ended_at?: Maybe<Scalars['timestamp']>;
+  created_at: Scalars['timestamptz'];
+  ended_at?: Maybe<Scalars['timestamptz']>;
   game: Games;
   game_id: Scalars['Int'];
   id: Scalars['Int'];
   player: Players;
   player_id: Scalars['Int'];
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
-  started_at?: Maybe<Scalars['timestamp']>;
+  started_at?: Maybe<Scalars['timestamptz']>;
 };
 
 
@@ -1689,15 +1701,15 @@ export type TurnsBoolExp = {
   _not?: Maybe<TurnsBoolExp>;
   _or?: Maybe<Array<Maybe<TurnsBoolExp>>>;
   completed_card_ids?: Maybe<JsonbComparisonExp>;
-  created_at?: Maybe<TimestampComparisonExp>;
-  ended_at?: Maybe<TimestampComparisonExp>;
+  created_at?: Maybe<TimestamptzComparisonExp>;
+  ended_at?: Maybe<TimestamptzComparisonExp>;
   game?: Maybe<GamesBoolExp>;
   game_id?: Maybe<IntComparisonExp>;
   id?: Maybe<IntComparisonExp>;
   player?: Maybe<PlayersBoolExp>;
   player_id?: Maybe<IntComparisonExp>;
   seconds_per_turn_override?: Maybe<IntComparisonExp>;
-  started_at?: Maybe<TimestampComparisonExp>;
+  started_at?: Maybe<TimestamptzComparisonExp>;
 };
 
 export enum TurnsConstraint {
@@ -1725,43 +1737,55 @@ export type TurnsIncInput = {
 
 export type TurnsInsertInput = {
   completed_card_ids?: Maybe<Scalars['jsonb']>;
-  created_at?: Maybe<Scalars['timestamp']>;
-  ended_at?: Maybe<Scalars['timestamp']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  ended_at?: Maybe<Scalars['timestamptz']>;
   game?: Maybe<GamesObjRelInsertInput>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   player?: Maybe<PlayersObjRelInsertInput>;
   player_id?: Maybe<Scalars['Int']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
-  started_at?: Maybe<Scalars['timestamp']>;
+  started_at?: Maybe<Scalars['timestamptz']>;
 };
 
 export type TurnsMaxFields = {
+  created_at?: Maybe<Scalars['timestamptz']>;
+  ended_at?: Maybe<Scalars['timestamptz']>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   player_id?: Maybe<Scalars['Int']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
+  started_at?: Maybe<Scalars['timestamptz']>;
 };
 
 export type TurnsMaxOrderBy = {
+  created_at?: Maybe<OrderBy>;
+  ended_at?: Maybe<OrderBy>;
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   player_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
+  started_at?: Maybe<OrderBy>;
 };
 
 export type TurnsMinFields = {
+  created_at?: Maybe<Scalars['timestamptz']>;
+  ended_at?: Maybe<Scalars['timestamptz']>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   player_id?: Maybe<Scalars['Int']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
+  started_at?: Maybe<Scalars['timestamptz']>;
 };
 
 export type TurnsMinOrderBy = {
+  created_at?: Maybe<OrderBy>;
+  ended_at?: Maybe<OrderBy>;
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   player_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
+  started_at?: Maybe<OrderBy>;
 };
 
 export type TurnsMutationResponse = {
@@ -1814,13 +1838,13 @@ export enum TurnsSelectColumn {
 
 export type TurnsSetInput = {
   completed_card_ids?: Maybe<Scalars['jsonb']>;
-  created_at?: Maybe<Scalars['timestamp']>;
-  ended_at?: Maybe<Scalars['timestamp']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  ended_at?: Maybe<Scalars['timestamptz']>;
   game_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   player_id?: Maybe<Scalars['Int']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
-  started_at?: Maybe<Scalars['timestamp']>;
+  started_at?: Maybe<Scalars['timestamptz']>;
 };
 
 export type TurnsStddevFields = {
@@ -2091,7 +2115,7 @@ export type CreateTurnMutation = { insert_turns_one?: Maybe<Pick<Turns, 'id' | '
 
 export type StartTurnMutationVariables = {
   currentTurnId: Scalars['Int'];
-  startedAt: Scalars['timestamp'];
+  startedAt: Scalars['timestamptz'];
 };
 
 
@@ -2100,7 +2124,7 @@ export type StartTurnMutation = { update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 
 export type EndCurrentTurnAndStartNextTurnMutationVariables = {
   currentTurnId: Scalars['Int'];
   completedCardIds: Scalars['jsonb'];
-  endedAt: Scalars['timestamp'];
+  endedAt: Scalars['timestamptz'];
   gameId: Scalars['Int'];
   nextTurnplayerId: Scalars['Int'];
   nextTurnSecondsPerTurnOverride?: Maybe<Scalars['Int']>;
@@ -2717,7 +2741,7 @@ export type CreateTurnMutationHookResult = ReturnType<typeof useCreateTurnMutati
 export type CreateTurnMutationResult = ApolloReactCommon.MutationResult<CreateTurnMutation>;
 export type CreateTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateTurnMutation, CreateTurnMutationVariables>;
 export const StartTurnDocument = gql`
-    mutation StartTurn($currentTurnId: Int!, $startedAt: timestamp!) {
+    mutation StartTurn($currentTurnId: Int!, $startedAt: timestamptz!) {
   update_turns_by_pk(pk_columns: {id: $currentTurnId}, _set: {started_at: $startedAt}) {
     id
     started_at
@@ -2751,7 +2775,7 @@ export type StartTurnMutationHookResult = ReturnType<typeof useStartTurnMutation
 export type StartTurnMutationResult = ApolloReactCommon.MutationResult<StartTurnMutation>;
 export type StartTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<StartTurnMutation, StartTurnMutationVariables>;
 export const EndCurrentTurnAndStartNextTurnDocument = gql`
-    mutation EndCurrentTurnAndStartNextTurn($currentTurnId: Int!, $completedCardIds: jsonb!, $endedAt: timestamp!, $gameId: Int!, $nextTurnplayerId: Int!, $nextTurnSecondsPerTurnOverride: Int) {
+    mutation EndCurrentTurnAndStartNextTurn($currentTurnId: Int!, $completedCardIds: jsonb!, $endedAt: timestamptz!, $gameId: Int!, $nextTurnplayerId: Int!, $nextTurnSecondsPerTurnOverride: Int) {
   update_turns_by_pk(pk_columns: {id: $currentTurnId}, _set: {ended_at: $endedAt, completed_card_ids: $completedCardIds}) {
     id
     ended_at
@@ -2796,7 +2820,7 @@ export type EndCurrentTurnAndStartNextTurnMutationResult = ApolloReactCommon.Mut
 export type EndCurrentTurnAndStartNextTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<EndCurrentTurnAndStartNextTurnMutation, EndCurrentTurnAndStartNextTurnMutationVariables>;
 export const UpdateAllPlayersDocument = gql`
     mutation UpdateAllPlayers($gameId: Int!, $players: [players_insert_input!]!) {
-  insert_games_one(object: {id: $gameId, players: {data: $players, on_conflict: {constraint: players_pkey, update_columns: [team]}}}, on_conflict: {constraint: games_pkey, update_columns: [id]}) {
+  insert_games_one(object: {id: $gameId, players: {data: $players, on_conflict: {constraint: players_pkey, update_columns: [team, team_sequence]}}}, on_conflict: {constraint: games_pkey, update_columns: [id]}) {
     id
     players {
       id

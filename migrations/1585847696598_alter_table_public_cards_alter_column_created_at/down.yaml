@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."cards" ALTER COLUMN "created_at" TYPE timestamp without
+      time zone;
+  type: run_sql

@@ -4,7 +4,10 @@ mutation UpdateAllPlayers($gameId: Int!, $players: [players_insert_input!]!) {
       id: $gameId
       players: {
         data: $players
-        on_conflict: { constraint: players_pkey, update_columns: [team] }
+        on_conflict: {
+          constraint: players_pkey
+          update_columns: [team, team_sequence]
+        }
       }
     }
     on_conflict: { constraint: games_pkey, update_columns: [id] }

@@ -26,6 +26,7 @@ function interleave(arr1: Array<any>, arr2: Array<any>) {
 type Player = CurrentGameSubscription["games"][0]["players"][0]
 type Players = Array<Player>
 export function teamsWithSequence(players: Players) {
+  debugger
   const shuffledPlayers = shuffle(players)
   const halfLength = Math.ceil(shuffledPlayers.length / 2)
   const redTeam = cloneDeep(shuffledPlayers)
@@ -39,7 +40,11 @@ export function teamsWithSequence(players: Players) {
       return { ...player, team: Team.Blue }
     })
   const orderedPlayers = interleave(redTeam, blueTeam)
-  return orderedPlayers.map((player: Player, index) => {
-    return { ...player, team_sequence: index + 1 }
-  })
+  debugger
+  const orderedPlayersWithSequence = orderedPlayers.map(
+    (player: Player, index) => {
+      return { ...player, team_sequence: index + 1 }
+    }
+  )
+  return orderedPlayersWithSequence
 }

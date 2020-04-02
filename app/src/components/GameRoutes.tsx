@@ -49,11 +49,15 @@ function CurrentGameProvider(props: {
   joinCode: string
   children: React.ReactNode
 }) {
-  const { data } = useCurrentGameSubscription({
+  const { data, loading } = useCurrentGameSubscription({
     variables: {
       joinCode: props.joinCode
     }
   })
+
+  if (!loading && !data?.games[0]) {
+    return <Redirect to={routes.root}></Redirect>
+  }
 
   return data?.games[0] ? (
     <CurrentGameContext.Provider value={data.games[0]}>

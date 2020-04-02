@@ -41,6 +41,7 @@ function WaitingForSubmissions() {
             <Button
               onClick={async () => {
                 const players = teamsWithSequence(currentGame.players)
+                debugger
                 await updateAllPlayers({
                   variables: {
                     gameId: currentGame.id,
