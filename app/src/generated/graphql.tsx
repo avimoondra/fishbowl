@@ -2131,7 +2131,7 @@ export type EndCurrentTurnAndStartNextTurnMutationVariables = {
 };
 
 
-export type EndCurrentTurnAndStartNextTurnMutation = { update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'ended_at' | 'completed_card_ids'>>, insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id'>> };
+export type EndCurrentTurnAndStartNextTurnMutation = { update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'ended_at' | 'completed_card_ids'>>, insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id' | 'seconds_per_turn_override'>> };
 
 export type UpdateAllPlayersMutationVariables = {
   gameId: Scalars['Int'];
@@ -2785,6 +2785,7 @@ export const EndCurrentTurnAndStartNextTurnDocument = gql`
     id
     game_id
     player_id
+    seconds_per_turn_override
   }
 }
     `;

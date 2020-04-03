@@ -1,5 +1,14 @@
 import { CurrentGameSubscription } from "generated/graphql"
-import { sortBy, lastIndexOf, last, difference, filter } from "lodash"
+import {
+  sortBy,
+  difference,
+  filter,
+  reject,
+  countBy,
+  max,
+  values,
+  groupBy
+} from "lodash"
 
 export function nextPlayer(
   activePlayer: CurrentGameSubscription["games"][0]["players"][0] | null,
@@ -17,20 +26,32 @@ export function nextPlayer(
 
 export function drawableCards(
   turns: CurrentGameSubscription["games"][0]["turns"],
+  cards: CurrentGameSubscription["games"][0]["cards"]
+) {
+  const allCompletedCardIds = turns.flatMap(turn => turn.completed_card_ids)
+
+  const maxCount = max(values(countBy(allCompletedCardIds)))
+
+  let completedCardIdsForRound = filter(
+    groupBy(allCompletedCardIds),
+    arr => arr.length === maxCount
+  ).map(arr => arr[0])
+
+  const remainingIdsForRound = difference(
+    cards.map(card => card.id),
+    completedCardIdsForRound
+  )
+
+  if (remainingIdsForRound.length === 0) {
+    return cards
+  } else {
+    return filter(cards, card => remainingIdsForRound.includes(card.id))
+  }
+}
+
+export function drawableCardsWithoutCompletedCardsInActiveTurn(
   cards: CurrentGameSubscription["games"][0]["cards"],
   completedCardIdsInActiveTurn: Array<number>
 ) {
-  const cardsSortedById = sortBy(cards, ["id"])
-  const completedCardIds = turns.flatMap(turn => turn.completed_card_ids)
-  const index = lastIndexOf(completedCardIds, last(cardsSortedById)?.id)
-  const remainingIds = difference(
-    cards.map(card => card.id),
-    completedCardIds.splice(index + 1)
-  )
-  return filter(
-    cards,
-    card =>
-      remainingIds.includes(card.id) &&
-      !completedCardIdsInActiveTurn.includes(card.id)
-  )
+  return reject(cards, card => completedCardIdsInActiveTurn.includes(card.id))
 }

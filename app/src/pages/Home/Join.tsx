@@ -7,7 +7,7 @@ import { useLazyQuery } from "@apollo/react-hooks"
 import { playerUuid } from "contexts/CurrentPlayer"
 
 function Join() {
-  const [redirect, setRedirect] = React.useState(false)
+  const [redirectRoute, setRedirectRoute] = React.useState("")
   const [joinCode, setJoinCode] = React.useState<string | null>(null)
   const [joinGame] = useJoinGameMutation()
   const [loadGame] = useLazyQuery(GameByJoinCodeDocument, {
@@ -15,24 +15,24 @@ function Join() {
     onCompleted: async data => {
       await joinGame({
         variables: {
-          gameId: data.games[0]?.id,
+          gameId: data.games[0].id,
           playerUuid: playerUuid()
         }
       })
-      setRedirect(true)
+      setRedirectRoute(
+        generatePath(routes.game.lobby, {
+          joinCode: data.games[0].join_code
+        })
+      )
+    },
+    onError: _ => {
+      setRedirectRoute(routes.game.root)
     }
   })
 
   return (
     <>
-      {redirect && joinCode && (
-        <Redirect
-          push
-          to={generatePath(routes.game.lobby, {
-            joinCode: joinCode
-          })}
-        />
-      )}
+      {redirectRoute && joinCode && <Redirect push to={redirectRoute} />}
       <TextField
         size="small"
         label="4-letter code"

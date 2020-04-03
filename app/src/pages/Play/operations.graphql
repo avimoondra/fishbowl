@@ -42,5 +42,6 @@ mutation EndCurrentTurnAndStartNextTurn(
     id
     game_id
     player_id
+    seconds_per_turn_override
   }
 }

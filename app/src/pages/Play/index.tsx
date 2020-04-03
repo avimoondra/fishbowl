@@ -1,14 +1,21 @@
 import * as React from "react"
 import { CurrentGameContext } from "contexts/CurrentGame"
-import { Redirect } from "react-router-dom"
+import { Redirect, generatePath } from "react-router-dom"
 import { last, sample } from "lodash"
-import { CurrentPlayerContext } from "contexts/CurrentPlayer"
+import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import routes from "routes"
 import {
   CurrentGameSubscription,
-  useEndCurrentTurnAndStartNextTurnMutation
+  useEndCurrentTurnAndStartNextTurnMutation,
+  useStartTurnMutation,
+  useUpdateGameStateMutation,
+  GameStateEnum
 } from "generated/graphql"
-import { nextPlayer, drawableCards } from "pages/Play/turn"
+import {
+  nextPlayer,
+  drawableCards,
+  drawableCardsWithoutCompletedCardsInActiveTurn
+} from "pages/Play/turn"
 import { Button, Card } from "@material-ui/core"
 import { timestamptzNow } from "pages/Play/time"
 
@@ -23,57 +30,84 @@ function ActivePlayerContent(
 ) {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
+  const [startTurn] = useStartTurnMutation()
   const [endTurn] = useEndCurrentTurnAndStartNextTurnMutation()
+  const cardsInBowl = drawableCards(currentGame.turns, currentGame.cards)
+  const [activeCard, setActiveCard] = React.useState<
+    CurrentGameSubscription["games"][0]["cards"][0] | null
+  >(null)
   const [
     completedCardIdsInActiveTurn,
     setCompletedCardIdsInActiveTurn
   ] = React.useState<Array<number>>([])
-  const cards = drawableCards(
-    currentGame.turns,
-    currentGame.cards,
+  const [turnStarted, setTurnStarted] = React.useState(false)
+
+  const cardsInBowlWithoutCompleted = drawableCardsWithoutCompletedCardsInActiveTurn(
+    cardsInBowl,
     completedCardIdsInActiveTurn
   )
-  const [activeCard, setActiveCard] = React.useState(sample(cards))
 
   return (
     <>
       <div>It's your turn!! Look alive.</div>
       {activeCard && <Card>{activeCard.word}</Card>}
-      <Button
-        onClick={() => {
-          if (!activeCard?.id) {
-            return null //TODO maybe referesh the page, bad state?
-          }
-          if (cards.length === 0) {
-            endTurn({
+      {!turnStarted && (
+        <Button
+          onClick={async () => {
+            await startTurn({
               variables: {
                 currentTurnId: props.turn.id,
-                completedCardIds: [],
-                endedAt: timestamptzNow(),
-                gameId: currentGame.id,
-                nextTurnplayerId: currentPlayer.id,
-                nextTurnSecondsPerTurnOverride: null
+                startedAt: timestamptzNow()
               }
             })
-          } else {
-            const completed = completedCardIdsInActiveTurn.concat(activeCard.id)
-            setCompletedCardIdsInActiveTurn(completed)
-            setActiveCard(
-              sample(
-                drawableCards(currentGame.turns, currentGame.cards, completed)
+            setTurnStarted(true)
+            setActiveCard(sample(cardsInBowlWithoutCompleted) || null)
+          }}
+        >
+          Start Turn
+        </Button>
+      )}
+      {turnStarted && (
+        <Button
+          onClick={async () => {
+            if (activeCard?.id) {
+              const completed = completedCardIdsInActiveTurn.concat(
+                activeCard.id
               )
-            )
-          }
-        }}
-      >
-        Next Card
-      </Button>
+              const nextSet = drawableCardsWithoutCompletedCardsInActiveTurn(
+                cardsInBowl,
+                completed
+              )
+              if (nextSet.length === 0) {
+                await endTurn({
+                  variables: {
+                    currentTurnId: props.turn.id,
+                    completedCardIds: completed,
+                    endedAt: timestamptzNow(),
+                    gameId: currentGame.id,
+                    nextTurnplayerId: currentPlayer.id,
+                    nextTurnSecondsPerTurnOverride: null
+                  }
+                })
+                window.location.reload()
+                // setCompletedCardIdsInActiveTurn([])
+                // setActiveCard(null)
+              } else {
+                setCompletedCardIdsInActiveTurn(completed)
+                setActiveCard(sample(nextSet) || null)
+              }
+            }
+          }}
+        >
+          Next Card
+        </Button>
+      )}
       <Button
         onClick={() => {
           endTurn({
             variables: {
               currentTurnId: props.turn.id,
-              completedCardIds: [],
+              completedCardIds: completedCardIdsInActiveTurn,
               endedAt: timestamptzNow(),
               gameId: currentGame.id,
               nextTurnplayerId: nextPlayer(
@@ -127,18 +161,48 @@ function StandbyTeamContent(props: ContentProps) {
 function Play() {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
-
+  const [updateGameState] = useUpdateGameStateMutation()
   const completedCardIds = currentGame.turns.flatMap(
     turn => turn.completed_card_ids
   )
+
+  console.log("Num completed cards", completedCardIds.length)
+  console.log("Target", currentGame.cards.length)
+
   if (
-    completedCardIds.length ===
-    (currentGame.num_entries_per_player || 0) * currentGame.cards.length
+    completedCardIds.length === 3 * currentGame.cards.length &&
+    currentGame.join_code
   ) {
-    return <Redirect to={routes.game.ended}></Redirect>
+    return (
+      <div>
+        Game is over - host will end the game!
+        {currentPlayer.role === PlayerRole.Host ? (
+          <Button
+            onClick={() => {
+              updateGameState({
+                variables: {
+                  id: currentGame.id,
+                  state: GameStateEnum.Ended
+                }
+              })
+            }}
+          >
+            {" "}
+            End Game
+          </Button>
+        ) : null}
+      </div>
+    )
   }
 
-  // banner?
+  let banner = null
+  if (completedCardIds.length === 0) {
+    banner = <div>Round 1. Taboo</div>
+  } else if (completedCardIds.length / currentGame.cards.length === 1.0) {
+    banner = <div>Round 2. Charades </div>
+  } else if (completedCardIds.length / currentGame.cards.length === 2.0) {
+    banner = <div>Round 3. Password </div>
+  }
 
   const turn = last(currentGame.turns)
   const activePlayer = currentGame.players.find(
@@ -149,16 +213,26 @@ function Play() {
     return null
   }
 
+  let content = null
   if (activePlayer.team === currentPlayer.team) {
-    return (
+    content = (
       <ActiveTeamContent
         turn={turn}
         activePlayer={activePlayer}
       ></ActiveTeamContent>
     )
   } else {
-    return <StandbyTeamContent activePlayer={activePlayer}></StandbyTeamContent>
+    content = (
+      <StandbyTeamContent activePlayer={activePlayer}></StandbyTeamContent>
+    )
   }
+
+  return (
+    <>
+      {banner}
+      {content}
+    </>
+  )
 }
 
 export default Play
