@@ -5,17 +5,30 @@ import * as serviceWorker from "serviceWorker"
 
 import ApolloWrapper from "ApolloWrapper"
 import App from "App"
-import { CssBaseline, ThemeProvider, createMuiTheme } from "@material-ui/core"
+import {
+  CssBaseline,
+  ThemeProvider,
+  createMuiTheme,
+  Container,
+  makeStyles
+} from "@material-ui/core"
 
-const theme = createMuiTheme({
+export const useTitleStyle = makeStyles({
+  title: {
+    fontFamily: "Playfair Display; serif"
+  }
 })
+
+const theme = createMuiTheme({})
 
 ReactDOM.render(
   <React.StrictMode>
     <ApolloWrapper>
       <ThemeProvider theme={theme}>
         <CssBaseline>
-          <App></App>
+          <Container maxWidth="sm" style={{ marginTop: "30px" }}>
+            <App></App>
+          </Container>
         </CssBaseline>
       </ThemeProvider>
     </ApolloWrapper>

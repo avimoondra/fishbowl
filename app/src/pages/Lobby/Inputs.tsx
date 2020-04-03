@@ -26,6 +26,7 @@ export function UsernameInput(props: { userId: number; username: string }) {
     <TextField
       label="Username"
       variant="outlined"
+      size="medium"
       defaultValue={props.username || ""}
       onChange={({ target: { value } }) => {
         debouncedUpdatePlayer.current(value)
@@ -49,6 +50,7 @@ export function LetterInput(props: { value: string }) {
     <TextField
       label="Letter"
       variant="outlined"
+      size="medium"
       defaultValue={props.value}
       value={textFieldValue}
       inputProps={{ maxLength: 1, style: { textTransform: "uppercase" } }}
@@ -81,6 +83,7 @@ export function SecondsPerTurnInput(props: { value: string }) {
     <TextField
       label="Seconds Per Turn"
       variant="outlined"
+      size="medium"
       defaultValue={props.value}
       value={textFieldValue}
       inputProps={{ style: { textTransform: "uppercase" } }}
@@ -113,6 +116,7 @@ export function EntriesPerPlayerInput(props: { value: string }) {
     <TextField
       label="Entries Per Player"
       variant="outlined"
+      size="medium"
       defaultValue={props.value}
       value={textFieldValue}
       inputProps={{ style: { textTransform: "uppercase" } }}

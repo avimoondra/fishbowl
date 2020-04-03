@@ -1,5 +1,14 @@
 import * as React from "react"
-import { Button, Chip } from "@material-ui/core"
+import {
+  Button,
+  Chip,
+  Box,
+  Paper,
+  makeStyles,
+  createStyles,
+  Theme,
+  Grid
+} from "@material-ui/core"
 import {
   useWaitingRoomSubscription,
   useUpdateGameStateMutation,
@@ -9,14 +18,30 @@ import { PlayerRole, CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { every } from "lodash"
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    subsection: {
+      margin: theme.spacing(2)
+    },
+    playerList: {
+      minHeight: "120px",
+      maxHeight: "180px",
+      padding: "10px",
+      overflow: "auto",
+      "& > *": {
+        margin: theme.spacing(0.5)
+      }
+    }
+  })
+)
+
 function WaitingRoom() {
+  const classes = useStyles()
   const MIN_NUMBER_OF_PLAYERS = 2 // TODO: Update to 4.
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
-
   const [updateGameState] = useUpdateGameStateMutation()
-
-  const { data } = useWaitingRoomSubscription({
+  const { data, loading } = useWaitingRoomSubscription({
     variables: {
       gameId: currentGame.id
     }
@@ -33,38 +58,47 @@ function WaitingRoom() {
 
   return (
     <>
-      {players.length < MIN_NUMBER_OF_PLAYERS && (
-        <div>You need at least 4 players!</div>
-      )}
-      {players?.map(player => {
-        return (
-          player.username && (
-            <Chip
-              key={player.username}
-              color="secondary"
-              variant="outlined"
-              label={player.username}
-            ></Chip>
-          )
-        )
-      })}
-      {canSeeStartGameButton && (
-        <Button
-          onClick={() => {
-            updateGameState({
-              variables: {
-                id: currentGame.id,
-                state: GameStateEnum.CardSubmission
-              }
-            })
-          }}
-          disabled={!canStartGame && !every(players, player => player.username)}
-          variant="contained"
-          color="primary"
-        >
-          Everyone's Here!
-        </Button>
-      )}
+      <Grid item>
+        <Paper elevation={2} className={classes.playerList}>
+          {!loading && players.length < MIN_NUMBER_OF_PLAYERS && (
+            <div>You need at least 4 players!</div>
+          )}
+          {players?.map(player => {
+            return (
+              player.username && (
+                <Chip
+                  key={player.username}
+                  color="secondary"
+                  variant="outlined"
+                  label={player.username}
+                ></Chip>
+              )
+            )
+          })}
+        </Paper>
+      </Grid>
+      <Grid item>
+        {canSeeStartGameButton && (
+          <Button
+            onClick={() => {
+              updateGameState({
+                variables: {
+                  id: currentGame.id,
+                  state: GameStateEnum.CardSubmission
+                }
+              })
+            }}
+            disabled={
+              loading ||
+              (!canStartGame && !every(players, player => player.username))
+            }
+            variant="contained"
+            color="primary"
+          >
+            Everyone's Here!
+          </Button>
+        )}
+      </Grid>
     </>
   )
 }

@@ -11,6 +11,7 @@ import { playerUuid } from "contexts/CurrentPlayer"
 import { useStartGameMutation, useBecomeHostMutation } from "generated/graphql"
 import HostRedirect from "pages/Home/Host"
 import Fishbowl from "components/FishbowlAnimation"
+import { useTitleStyle } from "index"
 
 enum PlayerState {
   Joining = 1,
@@ -18,14 +19,8 @@ enum PlayerState {
   Choosing
 }
 
-const useStyles = makeStyles({
-  title: {
-    fontFamily: "Playfair Display; serif"
-  }
-})
-
 function Home() {
-  const classes = useStyles()
+  const titleClasses = useTitleStyle()
   const [gameId, setGameId] = React.useState<number | null>(null)
   const [playerState, setPlayerState] = React.useState<PlayerState>(
     PlayerState.Choosing
@@ -34,10 +29,10 @@ function Home() {
   const [becomeHost] = useBecomeHostMutation()
 
   return (
-    <Container maxWidth="sm" style={{ marginTop: "30px" }}>
+    <>
       <Grid container spacing={3} alignItems="center" direction="column">
         <Grid item xs={12}>
-          <Typography variant="h2" className={classes.title}>
+          <Typography variant="h2" className={titleClasses.title}>
             Fishbowl
           </Typography>
         </Grid>
@@ -93,7 +88,7 @@ function Home() {
         </Grid>
       </Grid>
       <Fishbowl></Fishbowl>
-    </Container>
+    </>
   )
 }
 
