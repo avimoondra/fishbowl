@@ -3,7 +3,7 @@ import { useGameByIdSubscription } from "generated/graphql"
 import { generatePath, Redirect } from "react-router-dom"
 import routes from "routes"
 
-function Host(props: { gameId: number }) {
+function HostRedirect(props: { gameId: number }) {
   const { data } = useGameByIdSubscription({
     variables: {
       id: props.gameId
@@ -24,4 +24,4 @@ function Host(props: { gameId: number }) {
   }
 }
 
-export default Host
+export default HostRedirect

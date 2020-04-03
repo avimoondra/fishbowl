@@ -1,10 +1,15 @@
 import * as React from "react"
-import { Typography, Button } from "@material-ui/core"
-import { Serif } from "styles/font"
+import {
+  Typography,
+  Button,
+  Container,
+  Grid,
+  makeStyles
+} from "@material-ui/core"
 import Join from "pages/Home/Join"
 import { playerUuid } from "contexts/CurrentPlayer"
 import { useStartGameMutation, useBecomeHostMutation } from "generated/graphql"
-import Host from "pages/Home/Host"
+import HostRedirect from "pages/Home/Host"
 import Fishbowl from "components/FishbowlAnimation"
 
 enum PlayerState {
@@ -13,7 +18,14 @@ enum PlayerState {
   Choosing
 }
 
+const useStyles = makeStyles({
+  title: {
+    fontFamily: "Playfair Display; serif"
+  }
+})
+
 function Home() {
+  const classes = useStyles()
   const [gameId, setGameId] = React.useState<number | null>(null)
   const [playerState, setPlayerState] = React.useState<PlayerState>(
     PlayerState.Choosing
@@ -22,48 +34,66 @@ function Home() {
   const [becomeHost] = useBecomeHostMutation()
 
   return (
-    <>
-      <div>
-        <Typography variant="h1">
-          <Serif>Fishbowl</Serif>
-        </Typography>
-
-        {[PlayerState.Choosing, PlayerState.Hosting].includes(playerState) && (
-          <>
-            {gameId && <Host gameId={gameId} />}
-            <Button
-              onClick={async () => {
-                setPlayerState(PlayerState.Hosting)
-                const { data } = await startGame({
-                  variables: {
-                    playerUuid: playerUuid()
-                  }
-                })
-                const gameId = data?.insert_games_one?.id
-                const playerId = data?.insert_games_one?.players[0].id
-                if (gameId && playerId) {
-                  await becomeHost({
+    <Container maxWidth="sm" style={{ marginTop: "30px" }}>
+      <Grid container spacing={3} alignItems="center" direction="column">
+        <Grid item xs={12}>
+          <Typography variant="h2" className={classes.title}>
+            Fishbowl
+          </Typography>
+        </Grid>
+        <Grid item xs={12} direction="row">
+          {[PlayerState.Choosing, PlayerState.Hosting].includes(
+            playerState
+          ) && (
+            <>
+              {gameId && <HostRedirect gameId={gameId} />}
+              <Button
+                style={{ marginRight: "10px" }}
+                variant="outlined"
+                size="large"
+                onClick={async () => {
+                  setPlayerState(PlayerState.Hosting)
+                  const { data } = await startGame({
                     variables: {
-                      gameId,
-                      playerId
+                      playerUuid: playerUuid()
                     }
                   })
-                  setGameId(gameId)
-                }
+                  const gameId = data?.insert_games_one?.id
+                  const playerId = data?.insert_games_one?.players[0].id
+                  if (gameId && playerId) {
+                    await becomeHost({
+                      variables: {
+                        gameId,
+                        playerId
+                      }
+                    })
+                    setGameId(gameId)
+                  }
+                }}
+                disabled={playerState === PlayerState.Hosting}
+              >
+                Host Game
+              </Button>
+              <Button
+                size="large"
+                variant="outlined"
+                onClick={() => setPlayerState(PlayerState.Joining)}
+              >
+                Join Game
+              </Button>
+            </>
+          )}
+          {playerState === PlayerState.Joining && (
+            <Join
+              onBack={() => {
+                setPlayerState(PlayerState.Choosing)
               }}
-              disabled={playerState === PlayerState.Hosting}
-            >
-              Host Game
-            </Button>
-            <Button onClick={() => setPlayerState(PlayerState.Joining)}>
-              Join Game
-            </Button>
-          </>
-        )}
-        {playerState === PlayerState.Joining && <Join></Join>}
-      </div>
+            ></Join>
+          )}
+        </Grid>
+      </Grid>
       <Fishbowl></Fishbowl>
-    </>
+    </Container>
   )
 }
 

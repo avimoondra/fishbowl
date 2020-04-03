@@ -5,11 +5,19 @@ import * as serviceWorker from "serviceWorker"
 
 import ApolloWrapper from "ApolloWrapper"
 import App from "App"
+import { CssBaseline, ThemeProvider, createMuiTheme } from "@material-ui/core"
+
+const theme = createMuiTheme({
+})
 
 ReactDOM.render(
   <React.StrictMode>
     <ApolloWrapper>
-      <App></App>
+      <ThemeProvider theme={theme}>
+        <CssBaseline>
+          <App></App>
+        </CssBaseline>
+      </ThemeProvider>
     </ApolloWrapper>
   </React.StrictMode>,
   document.getElementById("root")

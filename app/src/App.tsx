@@ -1,9 +1,9 @@
 import * as React from "react"
 import { Switch, Route, BrowserRouter } from "react-router-dom"
 import routes from "./routes"
-import "App.css"
 import Home from "pages/Home"
 import GameRoutes from "components/GameRoutes"
+import { createMuiTheme } from "@material-ui/core"
 
 function App() {
   return (
@@ -13,7 +13,11 @@ function App() {
         <Route
           path={routes.game.root}
           render={({ match }) => {
-            return <GameRoutes joinCode={match.params.joinCode.toUpperCase()}></GameRoutes>
+            return (
+              <GameRoutes
+                joinCode={match.params.joinCode.toUpperCase()}
+              ></GameRoutes>
+            )
           }}
         />
       </Switch>

@@ -5,14 +5,14 @@ import "./style.css"
 
 function Fishbowl() {
   return (
-    <div className="background">
+    <>
       <div className="bowl">
         <div className="water">
           <img src="fish.png" className="fish"></img>
         </div>
       </div>
       <div className="shadow"></div>
-    </div>
+    </>
   )
 }
 
