@@ -5,6 +5,7 @@ import Join from "pages/Home/Join"
 import { playerUuid } from "contexts/CurrentPlayer"
 import { useStartGameMutation, useBecomeHostMutation } from "generated/graphql"
 import Host from "pages/Home/Host"
+import Fishbowl from "components/FishbowlAnimation"
 
 enum PlayerState {
   Joining = 1,
@@ -61,6 +62,7 @@ function Home() {
         )}
         {playerState === PlayerState.Joining && <Join></Join>}
       </div>
+      <Fishbowl></Fishbowl>
     </>
   )
 }
