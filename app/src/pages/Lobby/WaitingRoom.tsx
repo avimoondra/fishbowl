@@ -7,6 +7,7 @@ import {
 } from "generated/graphql"
 import { PlayerRole, CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { CurrentGameContext } from "contexts/CurrentGame"
+import { every } from "lodash"
 
 function WaitingRoom() {
   const MIN_NUMBER_OF_PLAYERS = 2 // TODO: Update to 4.
@@ -57,7 +58,7 @@ function WaitingRoom() {
               }
             })
           }}
-          disabled={!canStartGame}
+          disabled={!canStartGame && !every(players, player => player.username)}
           variant="contained"
           color="primary"
         >
