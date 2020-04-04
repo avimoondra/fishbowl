@@ -1,23 +1,20 @@
-import * as React from "react"
+import { ApolloProvider } from "@apollo/react-hooks"
+import { InMemoryCache } from "apollo-cache-inmemory"
 import ApolloClient from "apollo-client"
 import { split } from "apollo-link"
-import { getMainDefinition } from "apollo-utilities"
-import { InMemoryCache } from "apollo-cache-inmemory"
 import { HttpLink } from "apollo-link-http"
 import { WebSocketLink } from "apollo-link-ws"
-import { ApolloProvider } from "@apollo/react-hooks"
-
-const GRAPHQL_ENDPOINT = "http://localhost:8080/v1/graphql"
-const WS_GRAPHQL_ENDPOINT = "ws://localhost:8080/v1/graphql"
+import { getMainDefinition } from "apollo-utilities"
+import * as React from "react"
 
 const createApolloClient = () => {
   const httpLink = new HttpLink({
-    uri: GRAPHQL_ENDPOINT,
+    uri: process.env.FISHBOWL_GRAPHQL_ENDPOINT,
     credentials: "include"
   })
 
   const wsLink = new WebSocketLink({
-    uri: WS_GRAPHQL_ENDPOINT,
+    uri: process.env.FISHBOWL_WS_GRAPHQL_ENDPOINT || "",
     options: {
       lazy: true,
       reconnect: true
