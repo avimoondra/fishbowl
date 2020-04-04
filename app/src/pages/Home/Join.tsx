@@ -1,10 +1,10 @@
+import { useLazyQuery } from "@apollo/react-hooks"
+import { Button, Grid, TextField } from "@material-ui/core"
+import { playerUuid } from "contexts/CurrentPlayer"
+import { GameByJoinCodeDocument, useJoinGameMutation } from "generated/graphql"
 import * as React from "react"
-import { TextField, Button, Grid } from "@material-ui/core"
-import { useJoinGameMutation, GameByJoinCodeDocument } from "generated/graphql"
 import { generatePath, Redirect } from "react-router-dom"
 import routes from "routes"
-import { useLazyQuery } from "@apollo/react-hooks"
-import { playerUuid } from "contexts/CurrentPlayer"
 
 function Join(props: { onBack: () => void }) {
   const [redirectRoute, setRedirectRoute] = React.useState("")

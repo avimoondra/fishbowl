@@ -1,6 +1,6 @@
-import * as React from "react"
-import { Card, TextField, styled, Box } from "@material-ui/core"
+import { TextField } from "@material-ui/core"
 import BowlCard from "components/BowlCard"
+import * as React from "react"
 
 function SubmissionCard(props: {
   onChange: (value: string) => void

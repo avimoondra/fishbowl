@@ -1,25 +1,23 @@
-import * as React from "react"
-import { CurrentGameContext } from "contexts/CurrentGame"
-import { Redirect, generatePath } from "react-router-dom"
-import { last, sample } from "lodash"
-import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import routes from "routes"
-import {
-  CurrentGameSubscription,
-  useEndCurrentTurnAndStartNextTurnMutation,
-  useStartTurnMutation,
-  useUpdateGameStateMutation,
-  GameStateEnum
-} from "generated/graphql"
-import {
-  nextPlayer,
-  drawableCards,
-  drawableCardsWithoutCompletedCardsInActiveTurn
-} from "pages/Play/turn"
-import { Button, Card, Typography } from "@material-ui/core"
-import { timestamptzNow } from "pages/Play/time"
+import { Button, Typography } from "@material-ui/core"
 import BowlCard from "components/BowlCard"
 import PlayerChip from "components/PlayerChip"
+import { CurrentGameContext } from "contexts/CurrentGame"
+import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
+import {
+  CurrentGameSubscription,
+  GameStateEnum,
+  useEndCurrentTurnAndStartNextTurnMutation,
+  useStartTurnMutation,
+  useUpdateGameStateMutation
+} from "generated/graphql"
+import { last, sample } from "lodash"
+import { timestamptzNow } from "pages/Play/time"
+import {
+  drawableCards,
+  drawableCardsWithoutCompletedCardsInActiveTurn,
+  nextPlayer
+} from "pages/Play/turn"
+import * as React from "react"
 
 type ContentProps = {
   activePlayer: CurrentGameSubscription["games"][0]["players"][0]

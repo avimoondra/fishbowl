@@ -1,5 +1,5 @@
-import * as React from "react"
 import { useGameByIdSubscription } from "generated/graphql"
+import * as React from "react"
 import { generatePath, Redirect } from "react-router-dom"
 import routes from "routes"
 

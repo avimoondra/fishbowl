@@ -1,16 +1,16 @@
-import * as React from "react"
 import { Button, Grid, Typography } from "@material-ui/core"
-import {
-  useSubmittedCardsSubscription,
-  GameStateEnum,
-  useUpdateGameStateMutation,
-  useUpdateAllPlayersMutation
-} from "generated/graphql"
-import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import { CurrentGameContext } from "contexts/CurrentGame"
-import { teamsWithSequence } from "pages/TeamAssignment/team"
-import { Title } from "pages/CardSubmission"
 import Fishbowl from "components/FishbowlAnimation"
+import { CurrentGameContext } from "contexts/CurrentGame"
+import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
+import {
+  GameStateEnum,
+  useSubmittedCardsSubscription,
+  useUpdateAllPlayersMutation,
+  useUpdateGameStateMutation
+} from "generated/graphql"
+import { Title } from "pages/CardSubmission"
+import { teamsWithSequence } from "pages/TeamAssignment/team"
+import * as React from "react"
 
 function WaitingForSubmissions() {
   const currentGame = React.useContext(CurrentGameContext)

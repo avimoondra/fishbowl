@@ -1,13 +1,6 @@
-import * as React from "react"
-import {
-  makeStyles,
-  createStyles,
-  Theme,
-  Paper,
-  styled
-} from "@material-ui/core"
+import { createStyles, makeStyles, Paper, Theme } from "@material-ui/core"
 import PlayerChip from "components/PlayerChip"
-import { Team } from "pages/TeamAssignment/team"
+import * as React from "react"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

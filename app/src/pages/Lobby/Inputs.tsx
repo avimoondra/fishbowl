@@ -1,12 +1,12 @@
-import * as React from "react"
-import { debounce } from "lodash"
 import { TextField } from "@material-ui/core"
+import { CurrentGameContext } from "contexts/CurrentGame"
+import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
   useUpdateGameSettingsMutation,
   useUpdatePlayerMutation
 } from "generated/graphql"
-import { PlayerRole, CurrentPlayerContext } from "contexts/CurrentPlayer"
-import { CurrentGameContext } from "contexts/CurrentGame"
+import { debounce } from "lodash"
+import * as React from "react"
 export function UsernameInput(props: { userId: number; username: string }) {
   const [updatePlayer] = useUpdatePlayerMutation()
   const debouncedUpdatePlayer = React.useRef(

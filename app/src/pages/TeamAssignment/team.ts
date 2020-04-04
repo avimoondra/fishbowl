@@ -1,5 +1,5 @@
-import { shuffle, compact, cloneDeep } from "lodash"
 import { CurrentGameSubscription } from "generated/graphql"
+import { cloneDeep, compact, shuffle } from "lodash"
 
 export enum Team {
   Red = "red",

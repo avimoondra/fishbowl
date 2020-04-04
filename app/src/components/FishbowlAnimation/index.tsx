@@ -10,7 +10,7 @@ function Fishbowl() {
         <div className="bowlTop"></div>
         <div className="water">
           <div className="waterTop"></div>
-          <img src="fish.png" className="fish"></img>
+          <img src="fish.png" className="fish" alt=""></img>
         </div>
       </div>
       <div className="shadow"></div>

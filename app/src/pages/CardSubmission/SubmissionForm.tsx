@@ -1,18 +1,11 @@
-import * as React from "react"
-import {
-  Button,
-  Grid,
-  makeStyles,
-  Theme,
-  createStyles,
-  Typography
-} from "@material-ui/core"
-import { useSubmitCardsMutation } from "generated/graphql"
-import { CurrentPlayerContext } from "contexts/CurrentPlayer"
-import { cloneDeep } from "lodash"
-import SubmissionCard from "pages/CardSubmission/SubmissionCard"
+import { Button, Grid } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
+import { CurrentPlayerContext } from "contexts/CurrentPlayer"
+import { useSubmitCardsMutation } from "generated/graphql"
+import { cloneDeep } from "lodash"
 import { Title } from "pages/CardSubmission"
+import SubmissionCard from "pages/CardSubmission/SubmissionCard"
+import * as React from "react"
 
 function SubmissionForm() {
   const DEFAULT_NUM_ENTRIES = 3

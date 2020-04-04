@@ -1,13 +1,13 @@
 import { CurrentGameSubscription } from "generated/graphql"
 import {
-  sortBy,
+  countBy,
   difference,
   filter,
-  reject,
-  countBy,
+  groupBy,
   max,
-  values,
-  groupBy
+  reject,
+  sortBy,
+  values
 } from "lodash"
 
 export function nextPlayer(

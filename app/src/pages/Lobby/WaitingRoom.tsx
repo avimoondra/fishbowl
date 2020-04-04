@@ -1,24 +1,20 @@
-import * as React from "react"
 import {
   Button,
-  Chip,
-  Box,
-  Paper,
-  makeStyles,
   createStyles,
-  Theme,
-  Grid
+  Grid,
+  makeStyles,
+  Theme
 } from "@material-ui/core"
-import {
-  useWaitingRoomSubscription,
-  useUpdateGameStateMutation,
-  GameStateEnum
-} from "generated/graphql"
-import { PlayerRole, CurrentPlayerContext } from "contexts/CurrentPlayer"
-import { CurrentGameContext } from "contexts/CurrentGame"
-import { every } from "lodash"
-import PlayerChip from "components/PlayerChip"
 import PlayerArena from "components/PlayerArena"
+import { CurrentGameContext } from "contexts/CurrentGame"
+import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
+import {
+  GameStateEnum,
+  useUpdateGameStateMutation,
+  useWaitingRoomSubscription
+} from "generated/graphql"
+import { every } from "lodash"
+import * as React from "react"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

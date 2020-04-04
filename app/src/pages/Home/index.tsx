@@ -1,17 +1,11 @@
-import * as React from "react"
-import {
-  Typography,
-  Button,
-  Container,
-  Grid,
-  makeStyles
-} from "@material-ui/core"
-import Join from "pages/Home/Join"
-import { playerUuid } from "contexts/CurrentPlayer"
-import { useStartGameMutation, useBecomeHostMutation } from "generated/graphql"
-import HostRedirect from "pages/Home/Host"
+import { Button, Grid, Typography } from "@material-ui/core"
 import Fishbowl from "components/FishbowlAnimation"
+import { playerUuid } from "contexts/CurrentPlayer"
+import { useBecomeHostMutation, useStartGameMutation } from "generated/graphql"
 import { useTitleStyle } from "index"
+import HostRedirect from "pages/Home/Host"
+import Join from "pages/Home/Join"
+import * as React from "react"
 
 enum PlayerState {
   Joining = 1,

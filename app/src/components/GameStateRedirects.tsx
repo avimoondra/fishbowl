@@ -1,11 +1,11 @@
-import * as React from "react"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { GameStateEnum } from "generated/graphql"
+import * as React from "react"
 import {
-  useLocation,
+  generatePath,
   matchPath,
   Redirect,
-  generatePath
+  useLocation
 } from "react-router-dom"
 import routes from "routes"
 

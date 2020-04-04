@@ -1,6 +1,6 @@
+import { CurrentPlayerQuery } from "generated/graphql"
 import { createContext } from "react"
 import { v4 as uuidv4 } from "uuid"
-import { CurrentPlayerQuery } from "generated/graphql"
 
 export const playerUuid = () => {
   const localStorageKey = "user.uuid"

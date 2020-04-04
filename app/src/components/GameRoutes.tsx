@@ -1,19 +1,22 @@
-import * as React from "react"
-import { Switch, Route, Redirect } from "react-router-dom"
-import routes from "routes"
-import Lobby from "pages/Lobby"
-import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import {
-  useCurrentPlayerQuery,
-  useCurrentGameSubscription
-} from "generated/graphql"
-import TeamAssignment from "pages/TeamAssignment"
-import { playerUuid } from "contexts/CurrentPlayer"
 import GameStateRedirects from "components/GameStateRedirects"
-import CardSubmission from "pages/CardSubmission"
 import { CurrentGameContext } from "contexts/CurrentGame"
-import Play from "pages/Play"
+import {
+  CurrentPlayerContext,
+  PlayerRole,
+  playerUuid
+} from "contexts/CurrentPlayer"
+import {
+  useCurrentGameSubscription,
+  useCurrentPlayerQuery
+} from "generated/graphql"
+import CardSubmission from "pages/CardSubmission"
 import EndGame from "pages/EndGame"
+import Lobby from "pages/Lobby"
+import Play from "pages/Play"
+import TeamAssignment from "pages/TeamAssignment"
+import * as React from "react"
+import { Redirect, Route, Switch } from "react-router-dom"
+import routes from "routes"
 
 function CurrentPlayerProvider(props: {
   joinCode: string

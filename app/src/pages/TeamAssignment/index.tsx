@@ -1,17 +1,17 @@
-import * as React from "react"
+import { Button, Grid, Typography } from "@material-ui/core"
+import PlayerArena from "components/PlayerArena"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import { Button, Divider, Typography, Grid } from "@material-ui/core"
 import {
-  useUpdateGameStateMutation,
+  GameStateEnum,
   useCreateTurnMutation,
-  GameStateEnum
+  useUpdateGameStateMutation
 } from "generated/graphql"
+import { filter } from "lodash"
+import { Title } from "pages/CardSubmission"
 import { nextPlayer } from "pages/Play/turn"
 import { Team, TeamColor } from "pages/TeamAssignment/team"
-import { filter } from "lodash"
-import PlayerArena from "components/PlayerArena"
-import { Title } from "pages/CardSubmission"
+import * as React from "react"
 
 function TeamAssignment() {
   const currentPlayer = React.useContext(CurrentPlayerContext)

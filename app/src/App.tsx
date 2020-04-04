@@ -1,9 +1,8 @@
-import * as React from "react"
-import { Switch, Route, BrowserRouter } from "react-router-dom"
-import routes from "./routes"
-import Home from "pages/Home"
 import GameRoutes from "components/GameRoutes"
-import { createMuiTheme } from "@material-ui/core"
+import Home from "pages/Home"
+import * as React from "react"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
+import routes from "./routes"
 
 function App() {
   return (

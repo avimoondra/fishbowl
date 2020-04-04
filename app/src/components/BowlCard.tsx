@@ -1,5 +1,5 @@
+import { Box, Card, styled } from "@material-ui/core"
 import * as React from "react"
-import { Card, styled, Box } from "@material-ui/core"
 
 function BowlCard(props: { children: React.ReactNode }) {
   return (

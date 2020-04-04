@@ -1,23 +1,23 @@
-import * as React from "react"
 import {
+  createStyles,
   Divider,
   Grid,
-  Typography,
   makeStyles,
-  createStyles,
-  Theme
+  Theme,
+  Typography
 } from "@material-ui/core"
+import Fishbowl from "components/FishbowlAnimation"
+import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import WaitingRoom from "pages/Lobby/WaitingRoom"
+import { useTitleStyle } from "index"
 import {
-  UsernameInput,
+  EntriesPerPlayerInput,
   LetterInput,
   SecondsPerTurnInput,
-  EntriesPerPlayerInput
+  UsernameInput
 } from "pages/Lobby/Inputs"
-import { CurrentGameContext } from "contexts/CurrentGame"
-import { useTitleStyle } from "index"
-import Fishbowl from "components/FishbowlAnimation"
+import WaitingRoom from "pages/Lobby/WaitingRoom"
+import * as React from "react"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

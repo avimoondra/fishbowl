@@ -1,6 +1,6 @@
-import * as React from "react"
-import { Chip, PropTypes } from "@material-ui/core"
+import { Chip } from "@material-ui/core"
 import { Team } from "pages/TeamAssignment/team"
+import * as React from "react"
 
 function PlayerChip(props: {
   username: string
