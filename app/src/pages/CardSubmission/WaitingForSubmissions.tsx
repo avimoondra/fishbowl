@@ -10,6 +10,7 @@ import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { teamsWithSequence } from "pages/TeamAssignment/team"
 import { Title } from "pages/CardSubmission"
+import Fishbowl from "components/FishbowlAnimation"
 
 function WaitingForSubmissions() {
   const currentGame = React.useContext(CurrentGameContext)
@@ -90,6 +91,11 @@ function WaitingForSubmissions() {
             <Typography variant="h5">
               {submittedSoFar}/{`${total} cards so far`}
             </Typography>
+          </Grid>
+          <Grid item>
+            <div style={{ marginTop: 20 }}>
+              <Fishbowl></Fishbowl>
+            </div>
           </Grid>
         </>
       )}

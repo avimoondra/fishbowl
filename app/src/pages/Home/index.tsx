@@ -87,7 +87,9 @@ function Home() {
           )}
         </Grid>
       </Grid>
-      <Fishbowl></Fishbowl>
+      <div style={{ marginTop: 50 }}>
+        <Fishbowl></Fishbowl>
+      </div>
     </>
   )
 }
