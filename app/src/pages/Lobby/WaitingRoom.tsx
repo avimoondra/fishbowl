@@ -63,7 +63,7 @@ function WaitingRoom() {
       <Grid item>
         <PlayerArena players={players}></PlayerArena>
       </Grid>
-      <Grid item>
+      <Grid item style={{ textAlign: "center" }}>
         {canSeeStartGameButton && (
           <Button
             onClick={() => {

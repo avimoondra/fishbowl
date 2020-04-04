@@ -7,7 +7,7 @@ import {
   createStyles,
   Theme
 } from "@material-ui/core"
-import { CurrentPlayerContext } from "contexts/CurrentPlayer"
+import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
 import {
   UsernameInput,
@@ -17,6 +17,7 @@ import {
 } from "pages/Lobby/Inputs"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { useTitleStyle } from "index"
+import Fishbowl from "components/FishbowlAnimation"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,6 +35,37 @@ function Lobby() {
 
   return (
     <div>
+      {currentPlayer.role === PlayerRole.Host && (
+        <>
+          <div className={classes.section}>
+            <Grid item>
+              <Grid container spacing={2} direction="column">
+                <Grid item>
+                  <Typography variant="h4" className={titleClasses.title}>
+                    Settings
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <LetterInput
+                    value={currentGame.starting_letter || ""}
+                  ></LetterInput>
+                </Grid>
+                <Grid item>
+                  <SecondsPerTurnInput
+                    value={String(currentGame.seconds_per_turn || "")}
+                  ></SecondsPerTurnInput>
+                </Grid>
+                <Grid item>
+                  <EntriesPerPlayerInput
+                    value={String(currentGame.num_entries_per_player || "")}
+                  ></EntriesPerPlayerInput>
+                </Grid>
+              </Grid>
+            </Grid>
+          </div>
+          <Divider variant="middle"></Divider>
+        </>
+      )}
       <div className={classes.section}>
         <Grid item>
           <Grid container spacing={2} direction="column">
@@ -52,35 +84,11 @@ function Lobby() {
           </Grid>
         </Grid>
       </div>
-
-      <Divider variant="middle"></Divider>
-
-      <div className={classes.section}>
-        <Grid item>
-          <Grid container spacing={2} direction="column">
-            <Grid item>
-              <Typography variant="h4" className={titleClasses.title}>
-                Settings
-              </Typography>
-            </Grid>
-            <Grid item>
-              <LetterInput
-                value={currentGame.starting_letter || ""}
-              ></LetterInput>
-            </Grid>
-            <Grid item>
-              <SecondsPerTurnInput
-                value={String(currentGame.seconds_per_turn || "")}
-              ></SecondsPerTurnInput>
-            </Grid>
-            <Grid item>
-              <EntriesPerPlayerInput
-                value={String(currentGame.num_entries_per_player || "")}
-              ></EntriesPerPlayerInput>
-            </Grid>
-          </Grid>
-        </Grid>
-      </div>
+      {currentPlayer.role === PlayerRole.Participant && (
+        <div style={{ marginTop: 50 }}>
+          <Fishbowl></Fishbowl>
+        </div>
+      )}
     </div>
   )
 }
