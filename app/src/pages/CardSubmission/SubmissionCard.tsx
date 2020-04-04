@@ -1,11 +1,11 @@
 import * as React from "react"
-import { Card, TextField } from "@material-ui/core"
+import { Card, TextField, styled, Box } from "@material-ui/core"
 
 function SubmissionCard(props: {
   onChange: (value: string) => void
   onError: (value: boolean) => void
 }) {
-  const starting_letter = "A"
+  const starting_letter = "A" // TODO update this.
   const [word, setWord] = React.useState("")
 
   const hasError = (word: string) => {
@@ -16,23 +16,29 @@ function SubmissionCard(props: {
   }
 
   return (
-    <Card>
-      <TextField
-        value={word}
-        error={hasError(word)}
-        helperText={
-          hasError(word) &&
-          `Word must start with letter ${starting_letter.toLocaleUpperCase()}!`
-        }
-        variant="outlined"
-        onChange={({ target: { value } }) => {
-          setWord(value)
-          props.onChange(value)
-          props.onError(hasError(word))
-        }}
-      />
-    </Card>
+    <StyledCard>
+      <Box display="flex" justifyContent="center" p={4} alignContent="center">
+        <TextField
+          size="medium"
+          value={word}
+          error={hasError(word)}
+          helperText={
+            hasError(word) &&
+            `Word must start with letter ${starting_letter.toLocaleUpperCase()}!`
+          }
+          onChange={({ target: { value } }) => {
+            setWord(value)
+            props.onChange(value)
+            props.onError(hasError(word))
+          }}
+        />
+      </Box>
+    </StyledCard>
   )
 }
+
+const StyledCard = styled(Card)({
+  height: 150
+})
 
 export default SubmissionCard

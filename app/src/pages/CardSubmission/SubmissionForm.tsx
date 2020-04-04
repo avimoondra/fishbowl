@@ -1,10 +1,18 @@
 import * as React from "react"
-import { Button } from "@material-ui/core"
+import {
+  Button,
+  Grid,
+  makeStyles,
+  Theme,
+  createStyles,
+  Typography
+} from "@material-ui/core"
 import { useSubmitCardsMutation } from "generated/graphql"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { cloneDeep } from "lodash"
 import SubmissionCard from "pages/CardSubmission/SubmissionCard"
 import { CurrentGameContext } from "contexts/CurrentGame"
+import { Title } from "pages/CardSubmission"
 
 function SubmissionForm() {
   const DEFAULT_NUM_ENTRIES = 3
@@ -29,40 +37,60 @@ function SubmissionForm() {
 
   return (
     <>
+      <Grid item>
+        <Title
+          text={`Submit ${currentGame.num_entries_per_player ||
+            DEFAULT_NUM_ENTRIES}
+          cards`}
+        ></Title>
+      </Grid>
+
+      <Grid item>
+        These cards will be put into the "fishbowl," and drawn randomly in
+        rounds of Taboo, Charades, and Password. They can be words, familiar
+        phrases, or inside jokes!
+      </Grid>
+
       {words.map((_, index) => {
         return (
-          <SubmissionCard
-            onChange={(value: string) => {
-              const newWords = cloneDeep(words)
-              newWords[index] = value
-              setWords(newWords)
-            }}
-            onError={(hasError: boolean) => {
-              const newErrors = cloneDeep(errors)
-              newErrors[index] = hasError
-              setErrors(newErrors)
-            }}
-          ></SubmissionCard>
+          <Grid item style={{ maxWidth: 300, width: "100%" }}>
+            <SubmissionCard
+              onChange={(value: string) => {
+                const newWords = cloneDeep(words)
+                newWords[index] = value
+                setWords(newWords)
+              }}
+              onError={(hasError: boolean) => {
+                const newErrors = cloneDeep(errors)
+                newErrors[index] = hasError
+                setErrors(newErrors)
+              }}
+            ></SubmissionCard>
+          </Grid>
         )
       })}
-      <Button
-        disabled={called || hasErrors || emptyWords}
-        onClick={() => {
-          submitCards({
-            variables: {
-              cards: words.map(word => {
-                return {
-                  player_id: currentPlayer.id,
-                  game_id: currentGame.id,
-                  word: word
-                }
-              })
-            }
-          })
-        }}
-      >
-        Submit
-      </Button>
+      <Grid item>
+        <Button
+          variant="outlined"
+          size="large"
+          disabled={called || hasErrors || emptyWords}
+          onClick={() => {
+            submitCards({
+              variables: {
+                cards: words.map(word => {
+                  return {
+                    player_id: currentPlayer.id,
+                    game_id: currentGame.id,
+                    word: word
+                  }
+                })
+              }
+            })
+          }}
+        >
+          Submit
+        </Button>
+      </Grid>
     </>
   )
 }

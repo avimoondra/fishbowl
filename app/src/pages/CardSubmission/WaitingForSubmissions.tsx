@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Button } from "@material-ui/core"
+import { Button, Grid, Typography } from "@material-ui/core"
 import {
   useSubmittedCardsSubscription,
   GameStateEnum,
@@ -9,6 +9,7 @@ import {
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { teamsWithSequence } from "pages/TeamAssignment/team"
+import { Title } from "pages/CardSubmission"
 
 function WaitingForSubmissions() {
   const currentGame = React.useContext(CurrentGameContext)
@@ -30,46 +31,67 @@ function WaitingForSubmissions() {
 
   const total = numEntriesPerPlayer * numPlayers
   const submittedSoFar = data?.cards_aggregate.aggregate?.count
-  const allPlayersSubmitted = total !== 0 && (submittedSoFar || 0) === total
+
+  if (!submittedSoFar) {
+    return null
+  }
+
+  const allPlayersSubmitted = total !== 0 && submittedSoFar === total
 
   return (
     <>
+      <Grid item>
+        <Title text="Well done!"></Title>
+      </Grid>
+
       {allPlayersSubmitted ? (
-        <div>
-          All players submitted, waiting on the host ot start the game!
-          {currentPlayer.role === PlayerRole.Host ? (
-            <Button
-              onClick={async () => {
-                const players = teamsWithSequence(currentGame.players)
-                await updateAllPlayers({
-                  variables: {
-                    gameId: currentGame.id,
-                    players: players.map(({ id, team, team_sequence }) => ({
-                      id,
-                      team,
-                      team_sequence
-                    }))
-                  }
-                })
-                updateGameState({
-                  variables: {
-                    id: currentGame.id,
-                    state: GameStateEnum.TeamAssignment
-                  }
-                })
-              }}
-            >
-              Assign Teams
-            </Button>
-          ) : null}
-        </div>
+        <>
+          <Grid item>
+            {currentPlayer.role === PlayerRole.Host
+              ? "All players submitted! As the host, you can now assign teams."
+              : `All players submitted, ${submittedSoFar} cards in total. Now we are waiting on the host ot start the game!`}
+          </Grid>
+          {allPlayersSubmitted && (
+            <Grid item>
+              {currentPlayer.role === PlayerRole.Host ? (
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={async () => {
+                    const players = teamsWithSequence(currentGame.players)
+                    await updateAllPlayers({
+                      variables: {
+                        gameId: currentGame.id,
+                        players: players.map(({ id, team, team_sequence }) => ({
+                          id,
+                          team,
+                          team_sequence
+                        }))
+                      }
+                    })
+                    updateGameState({
+                      variables: {
+                        id: currentGame.id,
+                        state: GameStateEnum.TeamAssignment
+                      }
+                    })
+                  }}
+                >
+                  Assign Teams
+                </Button>
+              ) : null}
+            </Grid>
+          )}
+        </>
       ) : (
-        <div>
-          <div>Waiting for other players</div>
-          <div>
-            {submittedSoFar}/{total}
-          </div>
-        </div>
+        <>
+          <Grid item>Just waiting for everyone else...</Grid>
+          <Grid item>
+            <Typography variant="h5">
+              {submittedSoFar}/{`${total} cards so far`}
+            </Typography>
+          </Grid>
+        </>
       )}
     </>
   )
