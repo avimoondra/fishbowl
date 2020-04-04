@@ -8,4 +8,6 @@ ENV HASURA_GRAPHQL_ENABLE_CONSOLE=true
 CMD graphql-engine \
     --database-url $DATABASE_URL \
     serve \
-    --server-port $PORT
+    --server-port $PORT \
+    --enabled-log-types "startup,http-log,webhook-log,websocket-log,query-log" \
+    --admin-secret $HASURA_GRAPHQL_ADMIN_SECRET
