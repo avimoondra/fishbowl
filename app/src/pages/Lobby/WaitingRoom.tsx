@@ -17,6 +17,8 @@ import {
 import { PlayerRole, CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { every } from "lodash"
+import PlayerChip from "components/PlayerChip"
+import PlayerArena from "components/PlayerArena"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,23 +61,7 @@ function WaitingRoom() {
   return (
     <>
       <Grid item>
-        <Paper elevation={2} className={classes.playerList}>
-          {!loading && players.length < MIN_NUMBER_OF_PLAYERS && (
-            <div>You need at least 4 players!</div>
-          )}
-          {players?.map(player => {
-            return (
-              player.username && (
-                <Chip
-                  key={player.username}
-                  color="secondary"
-                  variant="outlined"
-                  label={player.username}
-                ></Chip>
-              )
-            )
-          })}
-        </Paper>
+        <PlayerArena players={players}></PlayerArena>
       </Grid>
       <Grid item>
         {canSeeStartGameButton && (

@@ -6,6 +6,11 @@ export enum Team {
   Blue = "blue"
 }
 
+export const TeamColor = {
+  [Team.Red]: "#f50057",
+  [Team.Blue]: "#3f51b5"
+}
+
 // only if arr1 is longer than arr2.
 function interleave(arr1: Array<any>, arr2: Array<any>) {
   let newArr = []
