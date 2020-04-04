@@ -16,8 +16,10 @@ import {
   drawableCards,
   drawableCardsWithoutCompletedCardsInActiveTurn
 } from "pages/Play/turn"
-import { Button, Card } from "@material-ui/core"
+import { Button, Card, Typography } from "@material-ui/core"
 import { timestamptzNow } from "pages/Play/time"
+import BowlCard from "components/BowlCard"
+import PlayerChip from "components/PlayerChip"
 
 type ContentProps = {
   activePlayer: CurrentGameSubscription["games"][0]["players"][0]
@@ -50,7 +52,11 @@ function ActivePlayerContent(
   return (
     <>
       <div>It's your turn!! Look alive.</div>
-      {activeCard && <Card>{activeCard.word}</Card>}
+      {activeCard && (
+        <BowlCard>
+          <Typography variant="h5">{activeCard.word}</Typography>
+        </BowlCard>
+      )}
       {!turnStarted && (
         <Button
           onClick={async () => {
@@ -151,9 +157,12 @@ function StandbyTeamContent(props: ContentProps) {
   return (
     <div>
       {`${props.activePlayer.username} is playing right now. hold your horses.`}{" "}
-      {`${
-        nextPlayer(props.activePlayer, currentGame.players).username
-      } is next!!`}
+      <PlayerChip
+        username={
+          nextPlayer(props.activePlayer, currentGame.players).username || ""
+        }
+      ></PlayerChip>
+      {` is next!!`}
     </div>
   )
 }

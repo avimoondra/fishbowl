@@ -93,7 +93,7 @@ function WaitingForSubmissions() {
             </Typography>
           </Grid>
           <Grid item>
-            <div style={{ marginTop: 20 }}>
+            <div style={{ marginTop: 50 }}>
               <Fishbowl></Fishbowl>
             </div>
           </Grid>

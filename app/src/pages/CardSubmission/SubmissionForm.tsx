@@ -53,7 +53,7 @@ function SubmissionForm() {
 
       {words.map((_, index) => {
         return (
-          <Grid item style={{ maxWidth: 300, width: "100%" }}>
+          <Grid item style={{ width: "100%" }}>
             <SubmissionCard
               onChange={(value: string) => {
                 const newWords = cloneDeep(words)

@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Card, TextField, styled, Box } from "@material-ui/core"
+import BowlCard from "components/BowlCard"
 
 function SubmissionCard(props: {
   onChange: (value: string) => void
@@ -16,29 +17,23 @@ function SubmissionCard(props: {
   }
 
   return (
-    <StyledCard>
-      <Box display="flex" justifyContent="center" p={4} alignContent="center">
-        <TextField
-          size="medium"
-          value={word}
-          error={hasError(word)}
-          helperText={
-            hasError(word) &&
-            `Word must start with letter ${starting_letter.toLocaleUpperCase()}!`
-          }
-          onChange={({ target: { value } }) => {
-            setWord(value)
-            props.onChange(value)
-            props.onError(hasError(word))
-          }}
-        />
-      </Box>
-    </StyledCard>
+    <BowlCard>
+      <TextField
+        size="medium"
+        value={word}
+        error={hasError(word)}
+        helperText={
+          hasError(word) &&
+          `Word must start with letter ${starting_letter.toLocaleUpperCase()}!`
+        }
+        onChange={({ target: { value } }) => {
+          setWord(value)
+          props.onChange(value)
+          props.onError(hasError(word))
+        }}
+      />
+    </BowlCard>
   )
 }
-
-const StyledCard = styled(Card)({
-  height: 150
-})
 
 export default SubmissionCard
