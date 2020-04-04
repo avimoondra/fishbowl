@@ -1,8 +1,9 @@
 - args:
     cascade: false
     read_only: false
-    sql: CREATE TABLE "public"."game_state"("value" text NOT NULL, PRIMARY KEY ("value")
-      );
+    sql: |-
+      CREATE TABLE "public"."game_state"("value" text NOT NULL, PRIMARY KEY ("value"));
+      INSERT INTO "public"."game_state"(value) VALUES ('lobby'), ('card_submission'), ('team_assignment'), ('active_play'), ('ended');
   type: run_sql
 - args:
     name: game_state
