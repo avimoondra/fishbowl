@@ -1,10 +1,4 @@
-import {
-  Button,
-  createStyles,
-  Grid,
-  makeStyles,
-  Theme
-} from "@material-ui/core"
+import { Button, Grid } from "@material-ui/core"
 import PlayerArena from "components/PlayerArena"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
@@ -16,25 +10,7 @@ import {
 import { every } from "lodash"
 import * as React from "react"
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    subsection: {
-      margin: theme.spacing(2)
-    },
-    playerList: {
-      minHeight: "120px",
-      maxHeight: "180px",
-      padding: "10px",
-      overflow: "auto",
-      "& > *": {
-        margin: theme.spacing(0.5)
-      }
-    }
-  })
-)
-
 function WaitingRoom() {
-  const classes = useStyles()
   const MIN_NUMBER_OF_PLAYERS = 2 // TODO: Update to 4.
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
