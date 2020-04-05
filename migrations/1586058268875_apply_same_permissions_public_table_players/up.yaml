@@ -1,0 +1,65 @@
+- args:
+    permission:
+      allow_upsert: true
+      check: {}
+      columns:
+      - id
+      - uuid
+      - game_id
+      - username
+      - created_at
+      - team
+      - team_sequence
+      filter: {}
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: anonymous
+    table:
+      name: players
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      allow_upsert: true
+      check: {}
+      columns:
+      - id
+      - uuid
+      - game_id
+      - username
+      - created_at
+      - team
+      - team_sequence
+      filter: {}
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: anonymous
+    table:
+      name: players
+      schema: public
+  type: create_update_permission
+- args:
+    permission:
+      allow_upsert: true
+      check: {}
+      columns:
+      - id
+      - uuid
+      - game_id
+      - username
+      - created_at
+      - team
+      - team_sequence
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: anonymous
+    table:
+      name: players
+      schema: public
+  type: create_insert_permission

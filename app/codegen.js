@@ -1,8 +1,12 @@
 module.exports = {
   schema: [
     {
-      "http://localhost:8080/v1/graphql": {}
-    }
+      "http://localhost:8080/v1/graphql": {
+        headers: {
+          "X-Hasura-Admin-Secret": "myadminsecretkey",
+        },
+      },
+    },
   ],
   documents: ["./src/**/*.graphql"],
   overwrite: true,
@@ -11,7 +15,7 @@ module.exports = {
       plugins: [
         "typescript",
         "typescript-operations",
-        "typescript-react-apollo"
+        "typescript-react-apollo",
       ],
       config: {
         noNamespaces: true,
@@ -22,12 +26,12 @@ module.exports = {
         transformUnderscore: true,
         namingConvention: {
           typeNames: "change-case#pascalCase",
-          transformUnderscore: true
-        }
-      }
+          transformUnderscore: true,
+        },
+      },
     },
     "./src/generated/graphql.schema.json": {
-      plugins: ["introspection"]
-    }
-  }
+      plugins: ["introspection"],
+    },
+  },
 }

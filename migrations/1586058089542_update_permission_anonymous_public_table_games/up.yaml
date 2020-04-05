@@ -1,0 +1,21 @@
+- args:
+    permission:
+      columns:
+      - host_id
+      - id
+      - num_entries_per_player
+      - seconds_per_turn
+      - join_code
+      - starting_letter
+      - state
+      - created_at
+      filter: {}
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: anonymous
+    table:
+      name: games
+      schema: public
+  type: create_update_permission

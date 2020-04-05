@@ -9,16 +9,16 @@ import * as React from "react"
 
 const createApolloClient = () => {
   const httpLink = new HttpLink({
-    uri: process.env.FISHBOWL_GRAPHQL_ENDPOINT,
-    credentials: "include"
+    uri: process.env.REACT_APP_FISHBOWL_GRAPHQL_ENDPOINT,
+    credentials: "include",
   })
 
   const wsLink = new WebSocketLink({
-    uri: process.env.FISHBOWL_WS_GRAPHQL_ENDPOINT || "",
+    uri: process.env.REACT_APP_FISHBOWL_WS_GRAPHQL_ENDPOINT || "",
     options: {
       lazy: true,
-      reconnect: true
-    }
+      reconnect: true,
+    },
   })
 
   const link = split(
@@ -35,7 +35,7 @@ const createApolloClient = () => {
 
   return new ApolloClient({
     link: link,
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
   })
 }
 
