@@ -10,5 +10,5 @@ CMD graphql-engine \
     serve \
     --server-port $PORT \
     --enabled-log-types "startup,http-log,webhook-log,websocket-log,query-log" \
-    --admin-secret $HASURA_GRAPHQL_ADMIN_SECRET
+    --admin-secret $HASURA_GRAPHQL_ADMIN_SECRET \
     --unauthorized-role "anonymous"
