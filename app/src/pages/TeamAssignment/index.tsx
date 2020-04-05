@@ -1,4 +1,5 @@
 import { Button, Grid, Typography } from "@material-ui/core"
+import grey from "@material-ui/core/colors/grey"
 import PlayerArena from "components/PlayerArena"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
@@ -41,12 +42,21 @@ function TeamAssignment() {
         item
         style={{
           textAlign: "left",
-          color: TeamColor[myTeamColor],
         }}
+        container
+        direction="column"
       >
-        <Typography variant="h6">
-          {`Team ${myTeamColor}`.toLocaleUpperCase()}
-        </Typography>
+        <Grid item container direction="row" alignItems="center" spacing={1}>
+          <Grid item>
+            <Typography variant="h6" style={{ color: TeamColor[myTeamColor] }}>
+              {`Team ${myTeamColor}`.toLocaleUpperCase()}
+            </Typography>
+          </Grid>
+          <Grid item style={{ color: grey[500], fontStyle: "italic" }}>
+            (your team)
+          </Grid>
+        </Grid>
+
         <PlayerArena players={myTeamPlayers}></PlayerArena>
       </Grid>
 
