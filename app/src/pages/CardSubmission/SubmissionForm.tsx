@@ -25,15 +25,16 @@ function SubmissionForm() {
       () => ""
     )
   )
-  const hasErrors = errors.some(hasError => hasError)
-  const emptyWords = words.some(word => word.length < 1)
+  const hasErrors = errors.some((hasError) => hasError)
+  const emptyWords = words.some((word) => word.length < 1)
 
   return (
     <>
       <Grid item>
         <Title
-          text={`Submit ${currentGame.num_entries_per_player ||
-            DEFAULT_NUM_ENTRIES}
+          text={`Submit ${
+            currentGame.num_entries_per_player || DEFAULT_NUM_ENTRIES
+          }
           cards`}
         ></Title>
       </Grid>
@@ -44,9 +45,18 @@ function SubmissionForm() {
         phrases, or inside jokes!
       </Grid>
 
+      {currentGame.starting_letter && (
+        <Grid item>
+          <>
+            They must start with the letter{" "}
+            <b>{currentGame.starting_letter.toLocaleUpperCase()}</b>.
+          </>
+        </Grid>
+      )}
+
       {words.map((_, index) => {
         return (
-          <Grid item style={{ width: "100%" }}>
+          <Grid item style={{ width: "100%" }} key={index}>
             <SubmissionCard
               onChange={(value: string) => {
                 const newWords = cloneDeep(words)
@@ -70,14 +80,14 @@ function SubmissionForm() {
           onClick={() => {
             submitCards({
               variables: {
-                cards: words.map(word => {
+                cards: words.map((word) => {
                   return {
                     player_id: currentPlayer.id,
                     game_id: currentGame.id,
-                    word: word
+                    word: word,
                   }
-                })
-              }
+                }),
+              },
             })
           }}
         >

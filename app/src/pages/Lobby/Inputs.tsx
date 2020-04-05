@@ -51,6 +51,16 @@ export function LetterInput(props: { value: string }) {
     setTextFieldValue(props.value)
   }, [props.value])
 
+  const onChange = (value: string) => {
+    setTextFieldValue(value)
+    updateGameSettings({
+      variables: {
+        id: currentGame.id,
+        input: { starting_letter: value },
+      },
+    })
+  }
+
   return (
     <TextField
       label="Letter"
@@ -66,9 +76,9 @@ export function LetterInput(props: { value: string }) {
             href=""
             onClick={(e: React.MouseEvent<HTMLElement>) => {
               e.preventDefault()
-              setTextFieldValue(
+              const randomLetter =
                 sample(Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ")) || "A"
-              )
+              onChange(randomLetter)
             }}
           >
             Generate random letter
@@ -80,13 +90,7 @@ export function LetterInput(props: { value: string }) {
       inputProps={{ maxLength: 1, style: { textTransform: "uppercase" } }}
       disabled={!canConfigureSettings}
       onChange={({ target: { value } }) => {
-        setTextFieldValue(value)
-        updateGameSettings({
-          variables: {
-            id: currentGame.id,
-            input: { starting_letter: value },
-          },
-        })
+        onChange(value)
       }}
     />
   )

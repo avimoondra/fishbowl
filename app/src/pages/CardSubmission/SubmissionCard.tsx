@@ -1,18 +1,21 @@
 import { TextField } from "@material-ui/core"
 import BowlCard from "components/BowlCard"
+import { CurrentGameContext } from "contexts/CurrentGame"
 import * as React from "react"
 
 function SubmissionCard(props: {
   onChange: (value: string) => void
   onError: (value: boolean) => void
 }) {
-  const starting_letter = "A" // TODO update this.
+  const currentGame = React.useContext(CurrentGameContext)
   const [word, setWord] = React.useState("")
 
   const hasError = (word: string) => {
     return (
+      !!currentGame.starting_letter &&
       word.length > 0 &&
-      word[0].toLocaleUpperCase() !== starting_letter.toLocaleUpperCase()
+      word[0].toLocaleUpperCase() !==
+        currentGame.starting_letter.toLocaleUpperCase()
     )
   }
 
@@ -23,13 +26,14 @@ function SubmissionCard(props: {
         value={word}
         error={hasError(word)}
         helperText={
+          currentGame.starting_letter &&
           hasError(word) &&
-          `Word must start with letter ${starting_letter.toLocaleUpperCase()}!`
+          `Must start with letter ${currentGame.starting_letter.toLocaleUpperCase()}`
         }
         onChange={({ target: { value } }) => {
           setWord(value)
           props.onChange(value)
-          props.onError(hasError(word))
+          currentGame.starting_letter && props.onError(hasError(word))
         }}
       />
     </BowlCard>
