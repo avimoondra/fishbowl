@@ -1,11 +1,8 @@
-import * as React from "react"
-import { useYourCardsSubscription } from "generated/graphql"
-import { CurrentPlayerContext } from "contexts/CurrentPlayer"
-import WaitingForSubmissions from "pages/CardSubmission/WaitingForSubmissions"
-import SubmissionForm from "pages/CardSubmission/SubmissionForm"
-import { CurrentGameContext } from "contexts/CurrentGame"
-import { Typography, Grid } from "@material-ui/core"
+import { Grid, Typography } from "@material-ui/core"
 import { useTitleStyle } from "index"
+import SubmissionForm from "pages/CardSubmission/SubmissionForm"
+import WaitingForSubmissions from "pages/CardSubmission/WaitingForSubmissions"
+import * as React from "react"
 
 export function Title(props: { text: string }) {
   const titleClasses = useTitleStyle()
@@ -16,33 +13,33 @@ export function Title(props: { text: string }) {
   )
 }
 
+enum CardSubmissionState {
+  Submitting = 1,
+  Waiting,
+}
+
 function CardSubmission() {
-  const currentPlayer = React.useContext(CurrentPlayerContext)
-  const currentGame = React.useContext(CurrentGameContext)
+  const [cardSubmissionState, setCardSubmissionState] = React.useState<
+    CardSubmissionState
+  >(CardSubmissionState.Submitting)
 
-  const { data, loading } = useYourCardsSubscription({
-    variables: {
-      gameId: currentGame.id,
-      playerId: currentPlayer.id
-    }
-  })
-
-  if (!loading && data?.cards_aggregate?.aggregate) {
-    const haveWrittenCards = (data.cards_aggregate.aggregate?.count || 0) > 0
-    return (
-      <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems="center"
-        spacing={2}
-      >
-        {haveWrittenCards ? <WaitingForSubmissions /> : <SubmissionForm />}
-      </Grid>
-    )
-  }
-
-  return null
+  return (
+    <Grid
+      container
+      direction="column"
+      justify="center"
+      alignItems="center"
+      spacing={2}
+    >
+      {cardSubmissionState === CardSubmissionState.Submitting ? (
+        <SubmissionForm
+          onSubmit={() => setCardSubmissionState(CardSubmissionState.Waiting)}
+        />
+      ) : (
+        <WaitingForSubmissions />
+      )}
+    </Grid>
+  )
 }
 
 export default CardSubmission

@@ -4,7 +4,6 @@ import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
   GameStateEnum,
-  useSubmittedCardsSubscription,
   useUpdateAllPlayersMutation,
   useUpdateGameStateMutation,
 } from "generated/graphql"
@@ -17,11 +16,6 @@ function WaitingForSubmissions() {
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const [updateGameState] = useUpdateGameStateMutation()
   const [updateAllPlayers] = useUpdateAllPlayersMutation()
-  const { data } = useSubmittedCardsSubscription({
-    variables: {
-      gameId: currentGame.id,
-    },
-  })
 
   const numEntriesPerPlayer = currentGame.num_entries_per_player
   const numPlayers = currentGame.players.length
@@ -31,7 +25,7 @@ function WaitingForSubmissions() {
   }
 
   const total = numEntriesPerPlayer * numPlayers
-  const submittedSoFar = data?.cards_aggregate.aggregate?.count
+  const submittedSoFar = currentGame.cards.length
 
   if (!submittedSoFar) {
     return null

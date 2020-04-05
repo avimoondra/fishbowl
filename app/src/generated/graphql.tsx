@@ -279,44 +279,12 @@ export type GameState = {
   value: Scalars['String'];
 };
 
-export type GameStateAggregate = {
-  aggregate?: Maybe<GameStateAggregateFields>;
-  nodes: Array<GameState>;
-};
-
-export type GameStateAggregateFields = {
-  count?: Maybe<Scalars['Int']>;
-  max?: Maybe<GameStateMaxFields>;
-  min?: Maybe<GameStateMinFields>;
-};
-
-
-export type GameStateAggregateFieldsCountArgs = {
-  columns?: Maybe<Array<GameStateSelectColumn>>;
-  distinct?: Maybe<Scalars['Boolean']>;
-};
-
-export type GameStateAggregateOrderBy = {
-  count?: Maybe<OrderBy>;
-  max?: Maybe<GameStateMaxOrderBy>;
-  min?: Maybe<GameStateMinOrderBy>;
-};
-
-export type GameStateArrRelInsertInput = {
-  data: Array<GameStateInsertInput>;
-  on_conflict?: Maybe<GameStateOnConflict>;
-};
-
 export type GameStateBoolExp = {
   _and?: Maybe<Array<Maybe<GameStateBoolExp>>>;
   _not?: Maybe<GameStateBoolExp>;
   _or?: Maybe<Array<Maybe<GameStateBoolExp>>>;
   value?: Maybe<StringComparisonExp>;
 };
-
-export enum GameStateConstraint {
-  GameStatePkey = 'game_state_pkey'
-}
 
 export enum GameStateEnum {
   ActivePlay = 'active_play',
@@ -334,42 +302,6 @@ export type GameStateEnumComparisonExp = {
   _nin?: Maybe<Array<GameStateEnum>>;
 };
 
-export type GameStateInsertInput = {
-  value?: Maybe<Scalars['String']>;
-};
-
-export type GameStateMaxFields = {
-  value?: Maybe<Scalars['String']>;
-};
-
-export type GameStateMaxOrderBy = {
-  value?: Maybe<OrderBy>;
-};
-
-export type GameStateMinFields = {
-  value?: Maybe<Scalars['String']>;
-};
-
-export type GameStateMinOrderBy = {
-  value?: Maybe<OrderBy>;
-};
-
-export type GameStateMutationResponse = {
-  affected_rows: Scalars['Int'];
-  returning: Array<GameState>;
-};
-
-export type GameStateObjRelInsertInput = {
-  data: GameStateInsertInput;
-  on_conflict?: Maybe<GameStateOnConflict>;
-};
-
-export type GameStateOnConflict = {
-  constraint: GameStateConstraint;
-  update_columns: Array<GameStateUpdateColumn>;
-  where?: Maybe<GameStateBoolExp>;
-};
-
 export type GameStateOrderBy = {
   value?: Maybe<OrderBy>;
 };
@@ -379,14 +311,6 @@ export type GameStatePkColumnsInput = {
 };
 
 export enum GameStateSelectColumn {
-  Value = 'value'
-}
-
-export type GameStateSetInput = {
-  value?: Maybe<Scalars['String']>;
-};
-
-export enum GameStateUpdateColumn {
   Value = 'value'
 }
 
@@ -802,20 +726,8 @@ export type JsonbComparisonExp = {
 };
 
 export type MutationRoot = {
-  delete_cards?: Maybe<CardsMutationResponse>;
-  delete_cards_by_pk?: Maybe<Cards>;
-  delete_game_state?: Maybe<GameStateMutationResponse>;
-  delete_game_state_by_pk?: Maybe<GameState>;
-  delete_games?: Maybe<GamesMutationResponse>;
-  delete_games_by_pk?: Maybe<Games>;
-  delete_players?: Maybe<PlayersMutationResponse>;
-  delete_players_by_pk?: Maybe<Players>;
-  delete_turns?: Maybe<TurnsMutationResponse>;
-  delete_turns_by_pk?: Maybe<Turns>;
   insert_cards?: Maybe<CardsMutationResponse>;
   insert_cards_one?: Maybe<Cards>;
-  insert_game_state?: Maybe<GameStateMutationResponse>;
-  insert_game_state_one?: Maybe<GameState>;
   insert_games?: Maybe<GamesMutationResponse>;
   insert_games_one?: Maybe<Games>;
   insert_players?: Maybe<PlayersMutationResponse>;
@@ -824,64 +736,12 @@ export type MutationRoot = {
   insert_turns_one?: Maybe<Turns>;
   update_cards?: Maybe<CardsMutationResponse>;
   update_cards_by_pk?: Maybe<Cards>;
-  update_game_state?: Maybe<GameStateMutationResponse>;
-  update_game_state_by_pk?: Maybe<GameState>;
   update_games?: Maybe<GamesMutationResponse>;
   update_games_by_pk?: Maybe<Games>;
   update_players?: Maybe<PlayersMutationResponse>;
   update_players_by_pk?: Maybe<Players>;
   update_turns?: Maybe<TurnsMutationResponse>;
   update_turns_by_pk?: Maybe<Turns>;
-};
-
-
-export type MutationRootDeleteCardsArgs = {
-  where: CardsBoolExp;
-};
-
-
-export type MutationRootDeleteCardsByPkArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type MutationRootDeleteGameStateArgs = {
-  where: GameStateBoolExp;
-};
-
-
-export type MutationRootDeleteGameStateByPkArgs = {
-  value: Scalars['String'];
-};
-
-
-export type MutationRootDeleteGamesArgs = {
-  where: GamesBoolExp;
-};
-
-
-export type MutationRootDeleteGamesByPkArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type MutationRootDeletePlayersArgs = {
-  where: PlayersBoolExp;
-};
-
-
-export type MutationRootDeletePlayersByPkArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type MutationRootDeleteTurnsArgs = {
-  where: TurnsBoolExp;
-};
-
-
-export type MutationRootDeleteTurnsByPkArgs = {
-  id: Scalars['Int'];
 };
 
 
@@ -894,18 +754,6 @@ export type MutationRootInsertCardsArgs = {
 export type MutationRootInsertCardsOneArgs = {
   object: CardsInsertInput;
   on_conflict?: Maybe<CardsOnConflict>;
-};
-
-
-export type MutationRootInsertGameStateArgs = {
-  objects: Array<GameStateInsertInput>;
-  on_conflict?: Maybe<GameStateOnConflict>;
-};
-
-
-export type MutationRootInsertGameStateOneArgs = {
-  object: GameStateInsertInput;
-  on_conflict?: Maybe<GameStateOnConflict>;
 };
 
 
@@ -956,18 +804,6 @@ export type MutationRootUpdateCardsByPkArgs = {
   _inc?: Maybe<CardsIncInput>;
   _set?: Maybe<CardsSetInput>;
   pk_columns: CardsPkColumnsInput;
-};
-
-
-export type MutationRootUpdateGameStateArgs = {
-  _set?: Maybe<GameStateSetInput>;
-  where: GameStateBoolExp;
-};
-
-
-export type MutationRootUpdateGameStateByPkArgs = {
-  _set?: Maybe<GameStateSetInput>;
-  pk_columns: GameStatePkColumnsInput;
 };
 
 
@@ -1324,7 +1160,6 @@ export type QueryRoot = {
   cards_aggregate: CardsAggregate;
   cards_by_pk?: Maybe<Cards>;
   game_state: Array<GameState>;
-  game_state_aggregate: GameStateAggregate;
   game_state_by_pk?: Maybe<GameState>;
   games: Array<Games>;
   games_aggregate: GamesAggregate;
@@ -1362,15 +1197,6 @@ export type QueryRootCardsByPkArgs = {
 
 
 export type QueryRootGameStateArgs = {
-  distinct_on?: Maybe<Array<GameStateSelectColumn>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<GameStateOrderBy>>;
-  where?: Maybe<GameStateBoolExp>;
-};
-
-
-export type QueryRootGameStateAggregateArgs = {
   distinct_on?: Maybe<Array<GameStateSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -1475,7 +1301,6 @@ export type SubscriptionRoot = {
   cards_aggregate: CardsAggregate;
   cards_by_pk?: Maybe<Cards>;
   game_state: Array<GameState>;
-  game_state_aggregate: GameStateAggregate;
   game_state_by_pk?: Maybe<GameState>;
   games: Array<Games>;
   games_aggregate: GamesAggregate;
@@ -1513,15 +1338,6 @@ export type SubscriptionRootCardsByPkArgs = {
 
 
 export type SubscriptionRootGameStateArgs = {
-  distinct_on?: Maybe<Array<GameStateSelectColumn>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<GameStateOrderBy>>;
-  where?: Maybe<GameStateBoolExp>;
-};
-
-
-export type SubscriptionRootGameStateAggregateArgs = {
   distinct_on?: Maybe<Array<GameStateSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -2031,27 +1847,12 @@ export type UpdateGameStateMutationVariables = {
 
 export type UpdateGameStateMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'state'>> };
 
-export type YourCardsSubscriptionVariables = {
-  playerId: Scalars['Int'];
-  gameId: Scalars['Int'];
-};
-
-
-export type YourCardsSubscription = { cards_aggregate: { aggregate?: Maybe<Pick<CardsAggregateFields, 'count'>> } };
-
 export type SubmitCardsMutationVariables = {
   cards: Array<CardsInsertInput>;
 };
 
 
 export type SubmitCardsMutation = { insert_cards?: Maybe<{ returning: Array<Pick<Cards, 'id'>> }> };
-
-export type SubmittedCardsSubscriptionVariables = {
-  gameId: Scalars['Int'];
-};
-
-
-export type SubmittedCardsSubscription = { cards_aggregate: { aggregate?: Maybe<Pick<CardsAggregateFields, 'count'>> } };
 
 export type StartGameMutationVariables = {
   playerUuid: Scalars['uuid'];
@@ -2094,16 +1895,6 @@ export type UpdatePlayerMutationVariables = {
 
 
 export type UpdatePlayerMutation = { update_players_by_pk?: Maybe<Pick<Players, 'id' | 'username' | 'team' | 'team_sequence'>> };
-
-export type WaitingRoomSubscriptionVariables = {
-  gameId: Scalars['Int'];
-};
-
-
-export type WaitingRoomSubscription = { games_by_pk?: Maybe<(
-    Pick<Games, 'id' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player'>
-    & { players: Array<Pick<Players, 'id' | 'username'>> }
-  )> };
 
 export type CreateTurnMutationVariables = {
   gameId: Scalars['Int'];
@@ -2390,38 +2181,6 @@ export function useUpdateGameStateMutation(baseOptions?: ApolloReactHooks.Mutati
 export type UpdateGameStateMutationHookResult = ReturnType<typeof useUpdateGameStateMutation>;
 export type UpdateGameStateMutationResult = ApolloReactCommon.MutationResult<UpdateGameStateMutation>;
 export type UpdateGameStateMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateGameStateMutation, UpdateGameStateMutationVariables>;
-export const YourCardsDocument = gql`
-    subscription YourCards($playerId: Int!, $gameId: Int!) {
-  cards_aggregate(where: {game_id: {_eq: $gameId}, player_id: {_eq: $playerId}}) {
-    aggregate {
-      count
-    }
-  }
-}
-    `;
-
-/**
- * __useYourCardsSubscription__
- *
- * To run a query within a React component, call `useYourCardsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useYourCardsSubscription` returns an object from Apollo Client that contains loading, error, and data properties 
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useYourCardsSubscription({
- *   variables: {
- *      playerId: // value for 'playerId'
- *      gameId: // value for 'gameId'
- *   },
- * });
- */
-export function useYourCardsSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<YourCardsSubscription, YourCardsSubscriptionVariables>) {
-        return ApolloReactHooks.useSubscription<YourCardsSubscription, YourCardsSubscriptionVariables>(YourCardsDocument, baseOptions);
-      }
-export type YourCardsSubscriptionHookResult = ReturnType<typeof useYourCardsSubscription>;
-export type YourCardsSubscriptionResult = ApolloReactCommon.SubscriptionResult<YourCardsSubscription>;
 export const SubmitCardsDocument = gql`
     mutation SubmitCards($cards: [cards_insert_input!]!) {
   insert_cards(objects: $cards) {
@@ -2456,37 +2215,6 @@ export function useSubmitCardsMutation(baseOptions?: ApolloReactHooks.MutationHo
 export type SubmitCardsMutationHookResult = ReturnType<typeof useSubmitCardsMutation>;
 export type SubmitCardsMutationResult = ApolloReactCommon.MutationResult<SubmitCardsMutation>;
 export type SubmitCardsMutationOptions = ApolloReactCommon.BaseMutationOptions<SubmitCardsMutation, SubmitCardsMutationVariables>;
-export const SubmittedCardsDocument = gql`
-    subscription SubmittedCards($gameId: Int!) {
-  cards_aggregate(where: {game_id: {_eq: $gameId}}) {
-    aggregate {
-      count
-    }
-  }
-}
-    `;
-
-/**
- * __useSubmittedCardsSubscription__
- *
- * To run a query within a React component, call `useSubmittedCardsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSubmittedCardsSubscription` returns an object from Apollo Client that contains loading, error, and data properties 
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSubmittedCardsSubscription({
- *   variables: {
- *      gameId: // value for 'gameId'
- *   },
- * });
- */
-export function useSubmittedCardsSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<SubmittedCardsSubscription, SubmittedCardsSubscriptionVariables>) {
-        return ApolloReactHooks.useSubscription<SubmittedCardsSubscription, SubmittedCardsSubscriptionVariables>(SubmittedCardsDocument, baseOptions);
-      }
-export type SubmittedCardsSubscriptionHookResult = ReturnType<typeof useSubmittedCardsSubscription>;
-export type SubmittedCardsSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubmittedCardsSubscription>;
 export const StartGameDocument = gql`
     mutation StartGame($playerUuid: uuid!) {
   insert_games_one(object: {players: {data: [{uuid: $playerUuid}]}}) {
@@ -2669,42 +2397,6 @@ export function useUpdatePlayerMutation(baseOptions?: ApolloReactHooks.MutationH
 export type UpdatePlayerMutationHookResult = ReturnType<typeof useUpdatePlayerMutation>;
 export type UpdatePlayerMutationResult = ApolloReactCommon.MutationResult<UpdatePlayerMutation>;
 export type UpdatePlayerMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdatePlayerMutation, UpdatePlayerMutationVariables>;
-export const WaitingRoomDocument = gql`
-    subscription WaitingRoom($gameId: Int!) {
-  games_by_pk(id: $gameId) {
-    id
-    starting_letter
-    seconds_per_turn
-    num_entries_per_player
-    players(where: {username: {_neq: null}}) {
-      id
-      username
-    }
-  }
-}
-    `;
-
-/**
- * __useWaitingRoomSubscription__
- *
- * To run a query within a React component, call `useWaitingRoomSubscription` and pass it any options that fit your needs.
- * When your component renders, `useWaitingRoomSubscription` returns an object from Apollo Client that contains loading, error, and data properties 
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useWaitingRoomSubscription({
- *   variables: {
- *      gameId: // value for 'gameId'
- *   },
- * });
- */
-export function useWaitingRoomSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<WaitingRoomSubscription, WaitingRoomSubscriptionVariables>) {
-        return ApolloReactHooks.useSubscription<WaitingRoomSubscription, WaitingRoomSubscriptionVariables>(WaitingRoomDocument, baseOptions);
-      }
-export type WaitingRoomSubscriptionHookResult = ReturnType<typeof useWaitingRoomSubscription>;
-export type WaitingRoomSubscriptionResult = ApolloReactCommon.SubscriptionResult<WaitingRoomSubscription>;
 export const CreateTurnDocument = gql`
     mutation CreateTurn($gameId: Int!, $playerId: Int!) {
   insert_turns_one(object: {game_id: $gameId, player_id: $playerId}) {

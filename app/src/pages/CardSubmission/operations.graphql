@@ -1,25 +1,7 @@
-subscription YourCards($playerId: Int!, $gameId: Int!) {
-  cards_aggregate(
-    where: { game_id: { _eq: $gameId }, player_id: { _eq: $playerId } }
-  ) {
-    aggregate {
-      count
-    }
-  }
-}
-
 mutation SubmitCards($cards: [cards_insert_input!]!) {
   insert_cards(objects: $cards) {
     returning {
       id
-    }
-  }
-}
-
-subscription SubmittedCards($gameId: Int!) {
-  cards_aggregate(where: { game_id: { _eq: $gameId } }) {
-    aggregate {
-      count
     }
   }
 }

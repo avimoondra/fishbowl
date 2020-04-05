@@ -16,16 +16,3 @@ mutation UpdatePlayer($id: Int!, $input: players_set_input!) {
     team_sequence
   }
 }
-
-subscription WaitingRoom($gameId: Int!) {
-  games_by_pk(id: $gameId) {
-    id
-    starting_letter
-    seconds_per_turn
-    num_entries_per_player
-    players(where: { username: { _neq: null } }) {
-      id
-      username
-    }
-  }
-}

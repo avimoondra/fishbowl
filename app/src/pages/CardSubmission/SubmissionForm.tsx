@@ -7,7 +7,7 @@ import { Title } from "pages/CardSubmission"
 import SubmissionCard from "pages/CardSubmission/SubmissionCard"
 import * as React from "react"
 
-function SubmissionForm() {
+function SubmissionForm(props: { onSubmit: () => void }) {
   const DEFAULT_NUM_ENTRIES = 3
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
@@ -77,8 +77,8 @@ function SubmissionForm() {
           variant="outlined"
           size="large"
           disabled={called || hasErrors || emptyWords}
-          onClick={() => {
-            submitCards({
+          onClick={async () => {
+            await submitCards({
               variables: {
                 cards: words.map((word) => {
                   return {
@@ -89,6 +89,7 @@ function SubmissionForm() {
                 }),
               },
             })
+            props.onSubmit()
           }}
         >
           Submit
