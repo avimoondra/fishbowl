@@ -4,17 +4,17 @@ import {
   Grid,
   makeStyles,
   Theme,
-  Typography
+  Typography,
 } from "@material-ui/core"
 import Fishbowl from "components/FishbowlAnimation"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useTitleStyle } from "index"
 import {
-  EntriesPerPlayerInput,
+  SubmissionsPerPlayerInput,
   LetterInput,
   SecondsPerTurnInput,
-  UsernameInput
+  UsernameInput,
 } from "pages/Lobby/Inputs"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
 import * as React from "react"
@@ -22,8 +22,8 @@ import * as React from "react"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     section: {
-      margin: theme.spacing(2)
-    }
+      margin: theme.spacing(2),
+    },
   })
 )
 
@@ -46,19 +46,19 @@ function Lobby() {
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <LetterInput
-                    value={currentGame.starting_letter || ""}
-                  ></LetterInput>
-                </Grid>
-                <Grid item>
                   <SecondsPerTurnInput
                     value={String(currentGame.seconds_per_turn || "")}
                   ></SecondsPerTurnInput>
                 </Grid>
                 <Grid item>
-                  <EntriesPerPlayerInput
+                  <SubmissionsPerPlayerInput
                     value={String(currentGame.num_entries_per_player || "")}
-                  ></EntriesPerPlayerInput>
+                  ></SubmissionsPerPlayerInput>
+                </Grid>
+                <Grid item>
+                  <LetterInput
+                    value={currentGame.starting_letter || ""}
+                  ></LetterInput>
                 </Grid>
               </Grid>
             </Grid>
