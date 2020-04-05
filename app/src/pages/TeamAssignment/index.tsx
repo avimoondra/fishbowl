@@ -5,7 +5,7 @@ import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
   GameStateEnum,
   useCreateTurnMutation,
-  useUpdateGameStateMutation
+  useUpdateGameStateMutation,
 } from "generated/graphql"
 import { filter } from "lodash"
 import { Title } from "pages/CardSubmission"
@@ -23,12 +23,12 @@ function TeamAssignment() {
   const myTeamColor = currentPlayer.team === Team.Blue ? Team.Blue : Team.Red
   const myTeamPlayers = filter(
     currentGame.players,
-    player => player.team === myTeamColor
+    (player) => player.team === myTeamColor
   )
   const otherTeamColor = currentPlayer.team === Team.Blue ? Team.Red : Team.Blue
   const otherTeamPlayers = filter(
     currentGame.players,
-    player => player.team === otherTeamColor
+    (player) => player.team === otherTeamColor
   )
 
   return (
@@ -41,7 +41,7 @@ function TeamAssignment() {
         item
         style={{
           textAlign: "left",
-          color: TeamColor[myTeamColor]
+          color: TeamColor[myTeamColor],
         }}
       >
         <Typography variant="h6">
@@ -67,20 +67,21 @@ function TeamAssignment() {
       {canStartGame && (
         <Grid item style={{ textAlign: "center" }}>
           <Button
-            variant="outlined"
+            variant="contained"
+            color="primary"
             size="large"
             onClick={async () => {
               await createFirstTurn({
                 variables: {
                   gameId: currentGame.id,
-                  playerId: nextPlayer(null, currentGame.players).id
-                }
+                  playerId: nextPlayer(null, currentGame.players).id,
+                },
               })
               updateGameState({
                 variables: {
                   id: currentGame.id,
-                  state: GameStateEnum.ActivePlay
-                }
+                  state: GameStateEnum.ActivePlay,
+                },
               })
             }}
           >

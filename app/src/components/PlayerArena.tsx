@@ -5,14 +5,14 @@ import * as React from "react"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     playerList: {
-      minHeight: "120px",
-      maxHeight: "180px",
+      minHeight: "200px",
+      maxHeight: "300px",
       padding: "10px",
       overflow: "auto",
       "& > *": {
-        margin: theme.spacing(0.5)
-      }
-    }
+        margin: theme.spacing(0.5),
+      },
+    },
   })
 )
 
@@ -26,7 +26,7 @@ function PlayerArena(props: {
   const classes = useStyles()
   return (
     <Paper elevation={2} className={classes.playerList}>
-      {props.players.map(player => {
+      {props.players.map((player) => {
         return (
           player.username && (
             <PlayerChip

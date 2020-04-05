@@ -6,7 +6,7 @@ import {
   GameStateEnum,
   useSubmittedCardsSubscription,
   useUpdateAllPlayersMutation,
-  useUpdateGameStateMutation
+  useUpdateGameStateMutation,
 } from "generated/graphql"
 import { Title } from "pages/CardSubmission"
 import { teamsWithSequence } from "pages/TeamAssignment/team"
@@ -19,8 +19,8 @@ function WaitingForSubmissions() {
   const [updateAllPlayers] = useUpdateAllPlayersMutation()
   const { data } = useSubmittedCardsSubscription({
     variables: {
-      gameId: currentGame.id
-    }
+      gameId: currentGame.id,
+    },
   })
 
   const numEntriesPerPlayer = currentGame.num_entries_per_player
@@ -56,8 +56,9 @@ function WaitingForSubmissions() {
             <Grid item>
               {currentPlayer.role === PlayerRole.Host ? (
                 <Button
-                  variant="outlined"
                   size="large"
+                  variant="contained"
+                  color="primary"
                   onClick={async () => {
                     const players = teamsWithSequence(currentGame.players)
                     await updateAllPlayers({
@@ -66,15 +67,15 @@ function WaitingForSubmissions() {
                         players: players.map(({ id, team, team_sequence }) => ({
                           id,
                           team,
-                          team_sequence
-                        }))
-                      }
+                          team_sequence,
+                        })),
+                      },
                     })
                     updateGameState({
                       variables: {
                         id: currentGame.id,
-                        state: GameStateEnum.TeamAssignment
-                      }
+                        state: GameStateEnum.TeamAssignment,
+                      },
                     })
                   }}
                 >
