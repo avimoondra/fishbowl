@@ -8,6 +8,7 @@ import GameRoundInstructionCard, {
   GameRound,
 } from "pages/Play/GameRoundInstructionCard"
 import { OtherTeamConent, YourTeamTurnContent } from "pages/Play/TeamContent"
+import { drawableCards } from "pages/Play/turn"
 import YourTurnContent from "pages/Play/YourTurnContent"
 import { Team, TeamColor } from "pages/TeamAssignment/team"
 import * as React from "react"
@@ -82,10 +83,13 @@ function Play() {
     titleText = "You're Chillin'"
   }
 
+  console.log(drawableCards(currentGame.turns, currentGame.cards))
+
   let content = null
   if (yourTurn) {
     content = (
       <YourTurnContent
+        cardsInBowl={drawableCards(currentGame.turns, currentGame.cards)}
         activePlayer={activePlayer}
         activeTurn={activeTurn}
       ></YourTurnContent>

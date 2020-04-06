@@ -2,7 +2,6 @@ import { Grid, Typography } from "@material-ui/core"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
-import { useUpdateGameStateMutation } from "generated/graphql"
 import { useTitleStyle } from "index"
 import { filter, flatMap, isEmpty, reject } from "lodash"
 import * as React from "react"
@@ -11,7 +10,6 @@ function EndGame() {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const titleClasses = useTitleStyle()
-  const [updateGameState] = useUpdateGameStateMutation()
 
   const turnsByPlayer = new Map()
   currentGame.turns.forEach((turn) => {

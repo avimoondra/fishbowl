@@ -18,7 +18,6 @@ import { cloneDeep, filter, sample } from "lodash"
 import CountdownTimer from "pages/Play/CountdownTimer"
 import { timestamptzNow } from "pages/Play/time"
 import {
-  drawableCards,
   drawableCardsWithoutCompletedCardsInActiveTurn,
   nextPlayer,
 } from "pages/Play/turn"
@@ -40,16 +39,25 @@ const GreenCheckbox = withStyles({
   checked: {},
 })((props: CheckboxProps) => <Checkbox color="default" {...props} />)
 
+const calculateSecondsLeft = (startDate: Date, seconds: number) => {
+  const endInSeconds = startDate.getTime() / 1000 + seconds
+  const nowInSeconds = new Date().getTime() / 1000
+  return endInSeconds - nowInSeconds
+}
+
 function YourTurnContent(props: {
   activePlayer: CurrentGameSubscription["games"][0]["players"][0]
   activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
+  cardsInBowl: CurrentGameSubscription["games"][0]["cards"]
 }) {
   const currentGame = React.useContext(CurrentGameContext)
   const [startTurn] = useStartTurnMutation()
   const [endTurn] = useEndCurrentTurnAndStartNextTurnMutation()
+
   const [activeCard, setActiveCard] = React.useState<
     CurrentGameSubscription["games"][0]["cards"][0] | null
   >(null)
+
   const [
     completedCardIdsInActiveTurn,
     setCompletedCardIdsInActiveTurn,
@@ -61,36 +69,25 @@ function YourTurnContent(props: {
     completedCardIdsInActiveTurnChecked,
     setCompletedCardIdsInActiveTurnChecked,
   ] = React.useState<Array<boolean>>([])
+
   const [turnStartedAt, setTurnStartedAt] = React.useState<Date | null>(null)
+  const [secondsLeft, setSecondsLeft] = React.useState<number | null>(null)
 
-  const calculateSecondsLeft = (startDate: Date, seconds: number) => {
-    const endInSeconds = startDate.getSeconds() + seconds
-    const nowInSeconds = new Date().getSeconds()
-    return endInSeconds - nowInSeconds
-  }
-
-  const [secondsLeft, setSecondsLeft] = React.useState<number | null>(
-    props.activeTurn.seconds_per_turn_override ||
-      currentGame.seconds_per_turn ||
-      null
-  )
+  const startingSeconds =
+    props.activeTurn.seconds_per_turn_override || currentGame.seconds_per_turn
 
   React.useEffect(() => {
     if (
-      (props.activeTurn.seconds_per_turn_override ||
-        currentGame.seconds_per_turn) &&
+      startingSeconds &&
       turnStartedAt &&
       activeTurnPlayState === ActiveTurnPlayState.Playing
     ) {
       setTimeout(() => {
         const secLeft = calculateSecondsLeft(
           turnStartedAt,
-          Number(
-            props.activeTurn.seconds_per_turn_override ||
-              currentGame.seconds_per_turn
-          )
+          Number(startingSeconds)
         )
-        if (secLeft <= 0) {
+        if (secLeft <= 0.0) {
           setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
         }
         setSecondsLeft(secLeft)
@@ -98,14 +95,16 @@ function YourTurnContent(props: {
     }
   })
 
-  const cardsInBowl = drawableCards(currentGame.turns, currentGame.cards)
-  const cardsInBowlWithoutCompleted = drawableCardsWithoutCompletedCardsInActiveTurn(
-    cardsInBowl,
-    completedCardIdsInActiveTurn
-  )
-
   return (
     <Grid container direction="column" spacing={4} alignItems="center">
+      {activeTurnPlayState === ActiveTurnPlayState.Reviewing &&
+      secondsLeft &&
+      secondsLeft >= 0 ? (
+        <Grid item>{`You'll have ${Math.round(
+          secondsLeft
+        )} seconds to finish out your turn, and start the next round.`}</Grid>
+      ) : null}
+
       {/* Cards */}
       {[ActiveTurnPlayState.Waiting, ActiveTurnPlayState.Playing].includes(
         activeTurnPlayState
@@ -151,7 +150,7 @@ function YourTurnContent(props: {
                 </Grid>
                 <Grid item>
                   <BowlCard>
-                    {cardsInBowl.find((card) => card.id === cardId)?.word}
+                    {props.cardsInBowl.find((card) => card.id === cardId)?.word}
                   </BowlCard>
                 </Grid>
               </Grid>
@@ -166,7 +165,9 @@ function YourTurnContent(props: {
           <>
             {secondsLeft && (
               <Grid item style={{ minWidth: 100 }}>
-                <CountdownTimer seconds={secondsLeft}></CountdownTimer>
+                <CountdownTimer
+                  seconds={Math.round(secondsLeft)}
+                ></CountdownTimer>
               </Grid>
             )}
             <Grid item>
@@ -184,7 +185,7 @@ function YourTurnContent(props: {
                     setCompletedCardIdsInActiveTurn(completed)
                     setCompletedCardIdsInActiveTurnChecked(completedChecked)
                     const nextSet = drawableCardsWithoutCompletedCardsInActiveTurn(
-                      cardsInBowl,
+                      props.cardsInBowl,
                       completed
                     )
                     const outOfCards = nextSet.length === 0
@@ -227,8 +228,11 @@ function YourTurnContent(props: {
                 )
                 const continueTurnIntoNewRound =
                   verifiedCompletedCardIds.length ===
-                    completedCardIdsInActiveTurnChecked.length &&
-                  cardsInBowlWithoutCompleted.length === 0 &&
+                    completedCardIdsInActiveTurn.length &&
+                  drawableCardsWithoutCompletedCardsInActiveTurn(
+                    props.cardsInBowl,
+                    completedCardIdsInActiveTurn
+                  ).length === 0 &&
                   secondsLeft !== 0
                 await endTurn({
                   variables: {
@@ -240,7 +244,7 @@ function YourTurnContent(props: {
                       ? props.activePlayer.id
                       : nextPlayer(props.activePlayer, currentGame.players).id,
                     nextTurnSecondsPerTurnOverride: continueTurnIntoNewRound
-                      ? secondsLeft
+                      ? Math.round(Number(secondsLeft))
                       : null,
                   },
                 })
@@ -270,8 +274,16 @@ function YourTurnContent(props: {
                   },
                 })
                 setTurnStartedAt(new Date())
+                setSecondsLeft(Number(startingSeconds))
                 setActiveTurnPlayState(ActiveTurnPlayState.Playing)
-                setActiveCard(sample(cardsInBowlWithoutCompleted) || null)
+                setActiveCard(
+                  sample(
+                    drawableCardsWithoutCompletedCardsInActiveTurn(
+                      props.cardsInBowl,
+                      completedCardIdsInActiveTurn
+                    )
+                  ) || null
+                )
               }}
             >
               Start Turn
