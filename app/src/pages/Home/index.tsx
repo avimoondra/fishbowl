@@ -10,7 +10,7 @@ import * as React from "react"
 enum PlayerState {
   Joining = 1,
   Hosting,
-  Choosing
+  Choosing,
 }
 
 function Home() {
@@ -30,7 +30,7 @@ function Home() {
             Fishbowl
           </Typography>
         </Grid>
-        <Grid item xs={12} direction="row">
+        <Grid item xs={12}>
           {[PlayerState.Choosing, PlayerState.Hosting].includes(
             playerState
           ) && (
@@ -44,8 +44,8 @@ function Home() {
                   setPlayerState(PlayerState.Hosting)
                   const { data } = await startGame({
                     variables: {
-                      playerUuid: playerUuid()
-                    }
+                      playerUuid: playerUuid(),
+                    },
                   })
                   const gameId = data?.insert_games_one?.id
                   const playerId = data?.insert_games_one?.players[0].id
@@ -53,8 +53,8 @@ function Home() {
                     await becomeHost({
                       variables: {
                         gameId,
-                        playerId
-                      }
+                        playerId,
+                      },
                     })
                     setGameId(gameId)
                   }

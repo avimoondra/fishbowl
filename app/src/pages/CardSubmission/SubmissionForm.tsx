@@ -54,24 +54,27 @@ function SubmissionForm(props: { onSubmit: () => void }) {
         </Grid>
       )}
 
-      {words.map((_, index) => {
-        return (
-          <Grid item style={{ width: "100%" }} key={index}>
-            <SubmissionCard
-              onChange={(value: string) => {
-                const newWords = cloneDeep(words)
-                newWords[index] = value
-                setWords(newWords)
-              }}
-              onError={(hasError: boolean) => {
-                const newErrors = cloneDeep(errors)
-                newErrors[index] = hasError
-                setErrors(newErrors)
-              }}
-            ></SubmissionCard>
-          </Grid>
-        )
-      })}
+      <Grid item container direction="column" spacing={2} alignItems="center">
+        {words.map((_, index) => {
+          return (
+            <Grid item key={index}>
+              <SubmissionCard
+                onChange={(value: string) => {
+                  const newWords = cloneDeep(words)
+                  newWords[index] = value
+                  setWords(newWords)
+                }}
+                onError={(hasError: boolean) => {
+                  const newErrors = cloneDeep(errors)
+                  newErrors[index] = hasError
+                  setErrors(newErrors)
+                }}
+              ></SubmissionCard>
+            </Grid>
+          )
+        })}
+      </Grid>
+
       <Grid item>
         <Button
           variant="outlined"

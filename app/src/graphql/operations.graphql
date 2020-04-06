@@ -64,6 +64,7 @@ subscription CurrentGame($joinCode: String!) {
       player_id
       started_at
       completed_card_ids
+      seconds_per_turn_override
     }
   }
 }
