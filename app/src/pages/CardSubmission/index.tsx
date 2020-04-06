@@ -1,5 +1,8 @@
 import { Grid, Typography } from "@material-ui/core"
+import { CurrentGameContext } from "contexts/CurrentGame"
+import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { useTitleStyle } from "index"
+import { filter } from "lodash"
 import SubmissionForm from "pages/CardSubmission/SubmissionForm"
 import WaitingForSubmissions from "pages/CardSubmission/WaitingForSubmissions"
 import * as React from "react"
@@ -19,9 +22,21 @@ enum CardSubmissionState {
 }
 
 function CardSubmission() {
+  const currentGame = React.useContext(CurrentGameContext)
+  const currentPlayer = React.useContext(CurrentPlayerContext)
+
+  const numSubmitted = filter(
+    currentGame.cards,
+    (card) => card.player_id === currentPlayer.id
+  ).length
+
   const [cardSubmissionState, setCardSubmissionState] = React.useState<
     CardSubmissionState
-  >(CardSubmissionState.Submitting)
+  >(
+    numSubmitted === currentGame.num_entries_per_player
+      ? CardSubmissionState.Waiting
+      : CardSubmissionState.Submitting
+  )
 
   return (
     <Grid

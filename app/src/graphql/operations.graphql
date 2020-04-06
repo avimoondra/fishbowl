@@ -52,6 +52,7 @@ subscription CurrentGame($joinCode: String!) {
     cards {
       id
       word
+      player_id
     }
     players {
       id
