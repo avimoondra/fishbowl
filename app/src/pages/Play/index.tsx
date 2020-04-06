@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@material-ui/core"
+import { Button, Divider, Grid, Typography } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { GameStateEnum, useUpdateGameStateMutation } from "generated/graphql"
@@ -9,6 +9,7 @@ import GameRoundInstructionCard, {
 } from "pages/Play/GameRoundInstructionCard"
 import { OtherTeamConent, YourTeamTurnContent } from "pages/Play/TeamContent"
 import YourTurnContent from "pages/Play/YourTurnContent"
+import { Team, TeamColor } from "pages/TeamAssignment/team"
 import * as React from "react"
 
 function GameOver() {
@@ -103,6 +104,19 @@ function Play() {
         <Typography variant="h4" className={titleClasses.title}>
           {titleText}
         </Typography>
+      </Grid>
+      <Grid item>
+        <Divider
+          variant="middle"
+          style={{
+            width: 150,
+            height: 2,
+            backgroundColor:
+              currentPlayer.team === Team.Blue
+                ? TeamColor[Team.Blue]
+                : TeamColor[Team.Red],
+          }}
+        ></Divider>
       </Grid>
       <Grid item container direction="column" spacing={2}>
         {round && (
