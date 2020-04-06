@@ -15,25 +15,36 @@ import * as React from "react"
 function GameOver() {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
+  const titleClasses = useTitleStyle()
   const [updateGameState] = useUpdateGameStateMutation()
+
   return (
-    <div>
-      Game is over - host will end the game!
-      {currentPlayer.role === PlayerRole.Host ? (
-        <Button
-          onClick={() => {
-            updateGameState({
-              variables: {
-                id: currentGame.id,
-                state: GameStateEnum.Ended,
-              },
-            })
-          }}
-        >
-          End Game
-        </Button>
-      ) : null}
-    </div>
+    <Grid container direction="column" alignItems="center" spacing={2}>
+      <Grid item>
+        <Typography variant="h4" className={titleClasses.title}>
+          Game Over
+        </Typography>
+      </Grid>
+      <Grid item>Your host will end the game to show some stats!</Grid>
+      {currentPlayer.role === PlayerRole.Host && (
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              updateGameState({
+                variables: {
+                  id: currentGame.id,
+                  state: GameStateEnum.Ended,
+                },
+              })
+            }}
+          >
+            End Game
+          </Button>
+        </Grid>
+      )}
+    </Grid>
   )
 }
 
