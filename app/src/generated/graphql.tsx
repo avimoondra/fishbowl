@@ -2477,7 +2477,7 @@ export type BecomeHostMutationResult = ApolloReactCommon.MutationResult<BecomeHo
 export type BecomeHostMutationOptions = ApolloReactCommon.BaseMutationOptions<BecomeHostMutation, BecomeHostMutationVariables>;
 export const JoinGameDocument = gql`
     mutation JoinGame($gameId: Int!, $playerUuid: uuid!) {
-  insert_players_one(object: {game_id: $gameId, uuid: $playerUuid}, on_conflict: {constraint: players_uuid_game_id_key, update_columns: []}) {
+  insert_players_one(object: {game_id: $gameId, uuid: $playerUuid}, on_conflict: {constraint: players_uuid_game_id_key, update_columns: [uuid]}) {
     id
     uuid
     game_id

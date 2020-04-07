@@ -13,7 +13,11 @@ type ContentProps = {
 export function YourTeamTurnContent(props: ContentProps) {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
-  const nextActivePlayer = nextPlayer(props.activePlayer, currentGame.players)
+  const nextActivePlayer = nextPlayer(
+    props.activePlayer,
+    currentGame.turns,
+    currentGame.players
+  )
 
   return (
     <Box>
@@ -31,7 +35,7 @@ export function YourTeamTurnContent(props: ContentProps) {
         ></PlayerChip>
         {nextActivePlayer.id === currentPlayer.id
           ? " is next! (that's you!)"
-          : " from your team is next!"}
+          : " from the other team is next!"}
       </Box>
     </Box>
   )
@@ -40,7 +44,11 @@ export function YourTeamTurnContent(props: ContentProps) {
 export function OtherTeamConent(props: ContentProps) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
-  const nextActivePlayer = nextPlayer(props.activePlayer, currentGame.players)
+  const nextActivePlayer = nextPlayer(
+    props.activePlayer,
+    currentGame.turns,
+    currentGame.players
+  )
   return (
     <Box>
       <Box p={2}>

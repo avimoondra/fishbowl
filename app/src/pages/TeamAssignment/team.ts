@@ -1,5 +1,5 @@
 import { CurrentGameSubscription } from "generated/graphql"
-import { cloneDeep, compact, shuffle } from "lodash"
+import { cloneDeep, shuffle } from "lodash"
 
 export enum Team {
   Red = "red",
@@ -9,15 +9,6 @@ export enum Team {
 export const TeamColor = {
   [Team.Red]: "#f50057",
   [Team.Blue]: "#3f51b5"
-}
-
-// only if arr1 is longer than arr2.
-function interleave(arr1: Array<any>, arr2: Array<any>) {
-  let newArr = []
-  for (let i = 0; i < arr1.length; i++) {
-    newArr.push(arr1[i], arr2[i])
-  }
-  return compact(newArr)
 }
 
 // [1,2,3,4,5,6].splice(0,Math.ceil(6/ 2))
@@ -35,19 +26,13 @@ export function teamsWithSequence(players: Players) {
   const halfLength = Math.ceil(shuffledPlayers.length / 2)
   const redTeam = cloneDeep(shuffledPlayers)
     .splice(0, halfLength)
-    .map((player: Player) => {
-      return { ...player, team: Team.Red }
+    .map((player: Player, index) => {
+      return { ...player, team: Team.Red, team_sequence: index }
     })
   const blueTeam = cloneDeep(shuffledPlayers)
     .splice(halfLength, shuffledPlayers.length)
-    .map((player: Player) => {
-      return { ...player, team: Team.Blue }
+    .map((player: Player, index) => {
+      return { ...player, team: Team.Blue, team_sequence: index }
     })
-  const orderedPlayers = interleave(redTeam, blueTeam)
-  const orderedPlayersWithSequence = orderedPlayers.map(
-    (player: Player, index) => {
-      return { ...player, team_sequence: index + 1 }
-    }
-  )
-  return orderedPlayersWithSequence
+  return redTeam.concat(blueTeam)
 }

@@ -5,7 +5,7 @@ import { GameStateEnum, useUpdateGameStateMutation } from "generated/graphql"
 import { useTitleStyle } from "index"
 import { last } from "lodash"
 import GameRoundInstructionCard, {
-  GameRound,
+  GameRound
 } from "pages/Play/GameRoundInstructionCard"
 import { OtherTeamConent, YourTeamTurnContent } from "pages/Play/TeamContent"
 import { drawableCards } from "pages/Play/turn"
@@ -36,8 +36,8 @@ function GameOver() {
               updateGameState({
                 variables: {
                   id: currentGame.id,
-                  state: GameStateEnum.Ended,
-                },
+                  state: GameStateEnum.Ended
+                }
               })
             }}
           >
@@ -55,7 +55,7 @@ function Play() {
   const currentPlayer = React.useContext(CurrentPlayerContext)
 
   const completedCardIds = currentGame.turns.flatMap(
-    (turn) => turn.completed_card_ids
+    turn => turn.completed_card_ids
   )
 
   if (completedCardIds.length === 3 * currentGame.cards.length) {
@@ -64,7 +64,7 @@ function Play() {
 
   const activeTurn = last(currentGame.turns)
   const activePlayer = currentGame.players.find(
-    (player) => player.id === activeTurn?.player_id
+    player => player.id === activeTurn?.player_id
   )
 
   if (!activeTurn || !activePlayer) {
@@ -82,8 +82,6 @@ function Play() {
   } else {
     titleText = "You're Chillin'"
   }
-
-  console.log(drawableCards(currentGame.turns, currentGame.cards))
 
   let content = null
   if (yourTurn) {
@@ -129,7 +127,7 @@ function Play() {
             backgroundColor:
               currentPlayer.team === Team.Blue
                 ? TeamColor[Team.Blue]
-                : TeamColor[Team.Red],
+                : TeamColor[Team.Red]
           }}
         ></Divider>
       </Grid>

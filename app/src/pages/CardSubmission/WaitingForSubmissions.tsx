@@ -5,7 +5,7 @@ import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
   GameStateEnum,
   useUpdateAllPlayersMutation,
-  useUpdateGameStateMutation,
+  useUpdateGameStateMutation
 } from "generated/graphql"
 import { Title } from "pages/CardSubmission"
 import { teamsWithSequence } from "pages/TeamAssignment/team"
@@ -44,7 +44,7 @@ function WaitingForSubmissions() {
           <Grid item>
             {currentPlayer.role === PlayerRole.Host
               ? "All players submitted! As the host, you can now assign teams."
-              : `All players submitted, ${submittedSoFar} cards in total. Now we are waiting on the host ot start the game!`}
+              : `All players submitted, ${submittedSoFar} cards in total. Now we are waiting on the host to start the game!`}
           </Grid>
           {allPlayersSubmitted && (
             <Grid item>
@@ -61,15 +61,15 @@ function WaitingForSubmissions() {
                         players: players.map(({ id, team, team_sequence }) => ({
                           id,
                           team,
-                          team_sequence,
-                        })),
-                      },
+                          team_sequence
+                        }))
+                      }
                     })
                     updateGameState({
                       variables: {
                         id: currentGame.id,
-                        state: GameStateEnum.TeamAssignment,
-                      },
+                        state: GameStateEnum.TeamAssignment
+                      }
                     })
                   }}
                 >
