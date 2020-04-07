@@ -12,14 +12,14 @@ function EndGame() {
   const titleClasses = useTitleStyle()
 
   const turnsByPlayer = new Map()
-  currentGame.turns.forEach((turn) => {
+  currentGame.turns.forEach(turn => {
     turnsByPlayer.set(
       turn.player_id,
       reject(
         (turnsByPlayer.get(turn.player_id) || []).concat([
-          turn.completed_card_ids,
+          turn.completed_card_ids
         ]),
-        (arr) => isEmpty(arr)
+        arr => isEmpty(arr)
       )
     )
   })
@@ -31,14 +31,14 @@ function EndGame() {
 
   let highScore = -1
   scoresByPlayer.forEach((value, key) => {
-    if (key > highScore) {
+    if (value > highScore) {
       highScore = value
     }
   })
 
   const highScorePlayers = filter(
     currentGame.players,
-    (player) => scoresByPlayer.get(player.id) === highScore
+    player => scoresByPlayer.get(player.id) === highScore
   )
 
   return (
@@ -50,7 +50,7 @@ function EndGame() {
       </Grid>
       {!isEmpty(highScorePlayers) && (
         <Grid item>
-          {highScorePlayers.map((player) => (
+          {highScorePlayers.map(player => (
             <PlayerChip
               username={player?.username || ""}
               team={player?.team}
