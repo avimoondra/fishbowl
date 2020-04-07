@@ -97,7 +97,7 @@ img.fish {
 
 @keyframes animateFish {
   0% {
-    transform: translate(0, 0) rotateY(180deg) rotateZ(-35deg);
+    transform: translate(50px, 0) rotateY(180deg) rotateZ(-35deg);
   }
   50% {
     transform: translate(150px, 0) rotateY(180deg) rotateZ(-35deg);
@@ -106,6 +106,6 @@ img.fish {
     transform: translate(150px, 0) rotateY(0deg) rotateZ(-35deg);
   }
   100% {
-    transform: translate(0, 0) rotateY(0deg) rotateZ(-35deg);
+    transform: translate(50px, 0) rotateY(0deg) rotateZ(-35deg);
   }
 }
