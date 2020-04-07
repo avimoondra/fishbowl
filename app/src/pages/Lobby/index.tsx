@@ -4,17 +4,17 @@ import {
   Grid,
   makeStyles,
   Theme,
-  Typography,
+  Typography
 } from "@material-ui/core"
 import Fishbowl from "components/FishbowlAnimation"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useTitleStyle } from "index"
 import {
-  SubmissionsPerPlayerInput,
   LetterInput,
   SecondsPerTurnInput,
-  UsernameInput,
+  SubmissionsPerPlayerInput,
+  UsernameInput
 } from "pages/Lobby/Inputs"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
 import * as React from "react"
@@ -22,8 +22,8 @@ import * as React from "react"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     section: {
-      margin: theme.spacing(2),
-    },
+      margin: theme.spacing(2)
+    }
   })
 )
 
@@ -35,6 +35,23 @@ function Lobby() {
 
   return (
     <div>
+      <div className={classes.section}>
+        <Grid item>
+          <Grid container spacing={2} direction="column">
+            <Grid item>
+              <Typography variant="h4" className={titleClasses.title}>
+                Share
+              </Typography>
+            </Grid>
+            <Grid item>
+              {`Share the code with everyone playing`}
+              <Typography variant="h6">{currentGame.join_code}</Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </div>
+      <Divider variant="middle"></Divider>
+
       {currentPlayer.role === PlayerRole.Host && (
         <>
           <div className={classes.section}>
