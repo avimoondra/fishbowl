@@ -88,6 +88,14 @@ function YourTurnContent(props: {
           Number(startingSeconds)
         )
         if (secLeft <= 0.0) {
+          if (activeCard) {
+            const completed = completedCardIdsInActiveTurn.concat(activeCard.id)
+            const completedChecked = completedCardIdsInActiveTurnChecked.concat(
+              false
+            )
+            setCompletedCardIdsInActiveTurn(completed)
+            setCompletedCardIdsInActiveTurnChecked(completedChecked)
+          }
           setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
         }
         setSecondsLeft(secLeft)
@@ -189,8 +197,7 @@ function YourTurnContent(props: {
                       completed
                     )
                     const outOfCards = nextSet.length === 0
-                    const outOfTime = secondsLeft === 0
-                    if (outOfCards || outOfTime) {
+                    if (outOfCards) {
                       setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
                     } else {
                       setActiveCard(sample(nextSet) || null)
