@@ -52,6 +52,7 @@ function EndGame() {
         <Grid item>
           {highScorePlayers.map(player => (
             <PlayerChip
+              key={player.id}
               username={player?.username || ""}
               team={player?.team}
             ></PlayerChip>

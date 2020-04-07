@@ -2233,7 +2233,7 @@ export const CurrentGameDocument = gql`
       team
       team_sequence
     }
-    turns {
+    turns(order_by: {id: asc}) {
       id
       player_id
       started_at
