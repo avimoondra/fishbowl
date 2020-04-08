@@ -3,10 +3,7 @@ import BowlCard from "components/BowlCard"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import * as React from "react"
 
-function SubmissionCard(props: {
-  onChange: (value: string) => void
-  onError: (value: boolean) => void
-}) {
+function SubmissionCard(props: { onChange: (value: string) => void }) {
   const currentGame = React.useContext(CurrentGameContext)
   const [word, setWord] = React.useState("")
 
@@ -33,7 +30,6 @@ function SubmissionCard(props: {
         onChange={({ target: { value } }) => {
           setWord(value)
           props.onChange(value)
-          currentGame.starting_letter && props.onError(hasError(word))
         }}
       />
     </BowlCard>

@@ -19,7 +19,7 @@ function CountdownTimer(props: {
 
   React.useEffect(() => {
     let interval: NodeJS.Timeout | null = null
-    if (props.isActive) {
+    if (props.isActive && secondsLeft >= 0) {
       interval = setInterval(() => {
         const newSecondsLeft = calculateSecondsLeft(
           props.startDate,
@@ -34,7 +34,9 @@ function CountdownTimer(props: {
     return () => (interval ? clearInterval(interval) : undefined)
   }, [props.isActive])
 
-  return <Typography variant="h3">{Math.round(secondsLeft)}</Typography>
+  return (
+    <Typography variant="h3">{Math.round(Math.max(secondsLeft, 0))}</Typography>
+  )
 }
 
 export default CountdownTimer

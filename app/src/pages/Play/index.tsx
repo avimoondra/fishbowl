@@ -94,10 +94,10 @@ function Play() {
     )
   } else if (yourTeamTurn) {
     content = (
-      <YourTeamTurnContent activePlayer={activePlayer}></YourTeamTurnContent>
+      <YourTeamTurnContent activePlayer={activePlayer} activeTurn={activeTurn}></YourTeamTurnContent>
     )
   } else {
-    content = <OtherTeamConent activePlayer={activePlayer}></OtherTeamConent>
+    content = <OtherTeamConent activePlayer={activePlayer} activeTurn={activeTurn}></OtherTeamConent>
   }
 
   const numCompletedCards = completedCardIds.length

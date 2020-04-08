@@ -11,13 +11,6 @@ function SubmissionForm(props: { onSubmit: () => void }) {
   const DEFAULT_NUM_ENTRIES = 3
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
-
-  const [errors, setErrors] = React.useState<Array<boolean>>(
-    Array.from(
-      { length: currentGame.num_entries_per_player || DEFAULT_NUM_ENTRIES },
-      () => false
-    )
-  )
   const [submitCards, { called }] = useSubmitCardsMutation()
   const [words, setWords] = React.useState<Array<string>>(
     Array.from(
@@ -25,16 +18,15 @@ function SubmissionForm(props: { onSubmit: () => void }) {
       () => ""
     )
   )
-  const hasErrors = errors.some((hasError) => hasError)
-  const emptyWords = words.some((word) => word.length < 1)
+
+  const emptyWords = words.some(word => word.length < 1)
 
   return (
     <>
       <Grid item>
         <Title
-          text={`Submit ${
-            currentGame.num_entries_per_player || DEFAULT_NUM_ENTRIES
-          }
+          text={`Submit ${currentGame.num_entries_per_player ||
+            DEFAULT_NUM_ENTRIES}
           cards`}
         ></Title>
       </Grid>
@@ -64,11 +56,6 @@ function SubmissionForm(props: { onSubmit: () => void }) {
                   newWords[index] = value
                   setWords(newWords)
                 }}
-                onError={(hasError: boolean) => {
-                  const newErrors = cloneDeep(errors)
-                  newErrors[index] = hasError
-                  setErrors(newErrors)
-                }}
               ></SubmissionCard>
             </Grid>
           )
@@ -79,18 +66,18 @@ function SubmissionForm(props: { onSubmit: () => void }) {
         <Button
           variant="outlined"
           size="large"
-          disabled={called || hasErrors || emptyWords}
+          disabled={called || emptyWords}
           onClick={async () => {
             await submitCards({
               variables: {
-                cards: words.map((word) => {
+                cards: words.map(word => {
                   return {
                     player_id: currentPlayer.id,
                     game_id: currentGame.id,
-                    word: word,
+                    word: word
                   }
-                }),
-              },
+                })
+              }
             })
             props.onSubmit()
           }}
