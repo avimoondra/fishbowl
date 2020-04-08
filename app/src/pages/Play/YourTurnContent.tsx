@@ -45,12 +45,6 @@ const GreenCheckbox = withStyles({
   checked: {}
 })((props: CheckboxProps) => <Checkbox color="default" {...props} />)
 
-const calculateSecondsLeft = (startDate: Date, seconds: number) => {
-  const endInSeconds = startDate.getTime() / 1000 + seconds
-  const nowInSeconds = new Date().getTime() / 1000
-  return endInSeconds - nowInSeconds
-}
-
 function YourTurnContent(props: {
   activePlayer: CurrentGameSubscription["games"][0]["players"][0]
   activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
@@ -75,37 +69,9 @@ function YourTurnContent(props: {
   const [secondsLeft, setSecondsLeft] = React.useState<number | null>(null)
 
   const startingSeconds =
-    props.activeTurn.seconds_per_turn_override || currentGame.seconds_per_turn
-
-  React.useEffect(() => {
-    if (
-      startingSeconds &&
-      turnStartedAt &&
-      activeTurnPlayState === ActiveTurnPlayState.Playing
-    ) {
-      setTimeout(() => {
-        const secLeft = calculateSecondsLeft(
-          turnStartedAt,
-          Number(startingSeconds)
-        )
-        setSecondsLeft(secLeft)
-        if (secLeft <= 0.0) {
-          if (activeCard) {
-            setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
-            setShownCardsInActiveTurn(
-              new Map(
-                shownCardsInActiveTurn.set(
-                  activeCard.id,
-                  ShownCardStatus.Incomplete
-                )
-              )
-            )
-          }
-          setActiveCard(null)
-        }
-      }, 1000)
-    }
-  })
+    props.activeTurn.seconds_per_turn_override ||
+    currentGame.seconds_per_turn ||
+    0
 
   return (
     <Grid container direction="column" spacing={4} alignItems="center">
@@ -181,10 +147,18 @@ function YourTurnContent(props: {
       <Grid item container justify="space-around">
         {activeTurnPlayState === ActiveTurnPlayState.Playing && (
           <>
-            {secondsLeft && (
+            {turnStartedAt && (
               <Grid item style={{ minWidth: 100 }}>
                 <CountdownTimer
-                  seconds={Math.round(secondsLeft)}
+                  seconds={startingSeconds}
+                  startDate={turnStartedAt}
+                  isActive
+                  onCountdown={secondsLeft => {
+                    setSecondsLeft(secondsLeft)
+                    if (secondsLeft <= 0) {
+                      setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
+                    }
+                  }}
                 ></CountdownTimer>
               </Grid>
             )}
@@ -193,7 +167,6 @@ function YourTurnContent(props: {
                 variant="contained"
                 color="primary"
                 onClick={async () => {
-                  debugger
                   if (activeCard?.id) {
                     const nextMap = new Map(
                       shownCardsInActiveTurn.set(
@@ -209,9 +182,18 @@ function YourTurnContent(props: {
                     const outOfCards = nextSet.length === 0
                     if (outOfCards) {
                       setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
-                      setActiveCard(null)
                     } else {
-                      setActiveCard(sample(nextSet) || null)
+                      const nextActiveCard = sample(nextSet) || null
+                      setActiveCard(nextActiveCard)
+                      if (nextActiveCard) {
+                        const nextMap = new Map(
+                          shownCardsInActiveTurn.set(
+                            nextActiveCard.id,
+                            ShownCardStatus.Incomplete
+                          )
+                        )
+                        setShownCardsInActiveTurn(nextMap)
+                      }
                     }
                   }
                 }}
@@ -298,14 +280,23 @@ function YourTurnContent(props: {
                 setTurnStartedAt(new Date())
                 setSecondsLeft(Number(startingSeconds))
                 setActiveTurnPlayState(ActiveTurnPlayState.Playing)
-                setActiveCard(
+                const nextActiveCard =
                   sample(
                     drawableCardsWithoutCompletedCardsInActiveTurn(
                       props.cardsInBowl,
                       [...shownCardsInActiveTurn.keys()]
                     )
                   ) || null
-                )
+                if (nextActiveCard) {
+                  const nextMap = new Map(
+                    shownCardsInActiveTurn.set(
+                      nextActiveCard.id,
+                      ShownCardStatus.Incomplete
+                    )
+                  )
+                  setShownCardsInActiveTurn(nextMap)
+                  setActiveCard(nextActiveCard)
+                }
               }}
             >
               Start Turn
