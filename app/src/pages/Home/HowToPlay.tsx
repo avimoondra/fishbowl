@@ -25,7 +25,7 @@ function HowToPlay() {
       <Box pt={2}>
         Players from each team will alternate turns, giving clues to their team
         to guess as many cards as possible against the clock. There'll be 3
-        rounds! And cards will get recycled after each round.
+        rounds, and cards will get recycled after each round!
       </Box>
       <Box pt={2} pl={2}>
         <b>
