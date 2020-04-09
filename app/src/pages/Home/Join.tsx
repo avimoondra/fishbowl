@@ -13,17 +13,21 @@ function Join(props: { onBack: () => void }) {
   const [loadGame] = useLazyQuery(GameByJoinCodeDocument, {
     variables: { joinCode: joinCode?.toLocaleUpperCase() },
     onCompleted: async data => {
-      await joinGame({
-        variables: {
-          gameId: data.games[0].id,
-          playerUuid: playerUuid()
-        }
-      })
-      setRedirectRoute(
-        generatePath(routes.game.lobby, {
-          joinCode: data.games[0].join_code
+      if (data && data.games[0]) {
+        await joinGame({
+          variables: {
+            gameId: data.games[0].id,
+            playerUuid: playerUuid()
+          }
         })
-      )
+        setRedirectRoute(
+          generatePath(routes.game.lobby, {
+            joinCode: data.games[0].join_code
+          })
+        )
+      } else {
+        setRedirectRoute(routes.game.root)
+      }
     },
     onError: _ => {
       setRedirectRoute(routes.game.root)
