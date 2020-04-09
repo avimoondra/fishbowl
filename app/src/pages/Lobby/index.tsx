@@ -10,6 +10,7 @@ import { grey } from "@material-ui/core/colors"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useTitleStyle } from "index"
+import HowToPlay from "pages/Home/HowToPlay"
 import {
   LetterInput,
   SecondsPerTurnInput,
@@ -135,6 +136,10 @@ function Lobby() {
           <Divider variant="middle"></Divider>
           <div className={classes.section}>
             <SettingsSection></SettingsSection>
+          </div>
+          <Divider variant="middle"></Divider>
+          <div className={classes.section}>
+            <HowToPlay></HowToPlay>
           </div>
         </>
       )}

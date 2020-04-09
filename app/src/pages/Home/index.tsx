@@ -4,12 +4,8 @@ import { playerUuid } from "contexts/CurrentPlayer"
 import { useBecomeHostMutation, useStartGameMutation } from "generated/graphql"
 import { useTitleStyle } from "index"
 import HostRedirect from "pages/Home/Host"
+import HowToPlay from "pages/Home/HowToPlay"
 import Join from "pages/Home/Join"
-import {
-  GameRound,
-  GameRoundDescription,
-  GameRoundNumber
-} from "pages/Play/GameRoundInstructionCard"
 import * as React from "react"
 
 enum PlayerState {
@@ -105,47 +101,7 @@ function Home() {
         </Grid>
         <Grid item>
           <Box pl={1} pr={1}>
-            <Typography variant="h4" className={titleClasses.title}>
-              How do I play?
-            </Typography>
-            <Box pt={2}>
-              It's easy! One person will "host" the game, and after everyone has
-              joined in with a link or 4-character code, the game can start!
-            </Box>
-            <Box pt={2}>
-              First, everyone writes down a few words or phrases on "cards" that
-              will be guessed later. The group will then randomly be split into
-              two teams!
-            </Box>
-            <Box pt={2}>
-              Players from each team will alternate turns, giving clues to their
-              team to guess as many cards as possible against the clock.
-              There'll be 3 rounds! And cards will get recycled after each
-              round.
-            </Box>
-            <Box pt={2} pl={2}>
-              <b>
-                Round {GameRoundNumber[GameRound.Taboo]}: {GameRound.Taboo}.
-              </b>{" "}
-              {GameRoundDescription[GameRound.Taboo]}
-            </Box>
-            <Box pt={2} pl={2}>
-              <b>
-                Round {GameRoundNumber[GameRound.Charades]}:{" "}
-                {GameRound.Charades}.
-              </b>{" "}
-              {GameRoundDescription[GameRound.Charades]}
-            </Box>
-            <Box pt={2} pl={2}>
-              <b>
-                Round {GameRoundNumber[GameRound.Password]}:{" "}
-                {GameRound.Password}.
-              </b>{" "}
-              {GameRoundDescription[GameRound.Password]}
-            </Box>
-            <Box pt={2}>
-              The team that guesses the most cards across all rounds wins!
-            </Box>
+            <HowToPlay></HowToPlay>
           </Box>
         </Grid>
       </Grid>
