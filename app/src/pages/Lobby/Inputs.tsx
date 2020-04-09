@@ -3,7 +3,7 @@ import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
   useUpdateGameSettingsMutation,
-  useUpdatePlayerMutation,
+  useUpdatePlayerMutation
 } from "generated/graphql"
 import { debounce, sample } from "lodash"
 import * as React from "react"
@@ -20,8 +20,8 @@ export function UsernameInput(props: { userId: number; username: string }) {
         updatePlayer({
           variables: {
             id: props.userId,
-            input: { username: value },
-          },
+            input: { username: value }
+          }
         }),
       500
     )
@@ -56,8 +56,8 @@ export function LetterInput(props: { value: string }) {
     updateGameSettings({
       variables: {
         id: currentGame.id,
-        input: { starting_letter: value },
-      },
+        input: { starting_letter: value }
+      }
     })
   }
 
@@ -68,21 +68,30 @@ export function LetterInput(props: { value: string }) {
       size="medium"
       helperText={
         <HelperText>
-          <div>
-            One style of play is that all words or phrases must start with the
-            same letter - Ask your group!
-          </div>
-          <Link
-            href=""
-            onClick={(e: React.MouseEvent<HTMLElement>) => {
-              e.preventDefault()
-              const randomLetter =
-                sample(Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ")) || "A"
-              onChange(randomLetter)
-            }}
-          >
-            Generate random letter
-          </Link>
+          {currentPlayer.role === PlayerRole.Host ? (
+            <>
+              <div>
+                One style of play is that all words or phrases must start with
+                the same letter - Ask your group!
+              </div>
+              <Link
+                href=""
+                onClick={(e: React.MouseEvent<HTMLElement>) => {
+                  e.preventDefault()
+                  const randomLetter =
+                    sample(Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ")) || "A"
+                  onChange(randomLetter)
+                }}
+              >
+                Generate random letter
+              </Link>
+            </>
+          ) : (
+            <div>
+              One style of play is that all words or phrases must start with the
+              same letter. If none is chosen, any word or phrase is fair game!
+            </div>
+          )}
         </HelperText>
       }
       defaultValue={props.value}
@@ -123,8 +132,8 @@ export function SecondsPerTurnInput(props: { value: string }) {
         updateGameSettings({
           variables: {
             id: currentGame.id,
-            input: { seconds_per_turn: Number(value) },
-          },
+            input: { seconds_per_turn: Number(value) }
+          }
         })
       }}
     />
@@ -149,7 +158,7 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
       size="medium"
       required
       helperText={
-        <HelperText>Depends on group size, but usually 2-5</HelperText>
+        <HelperText>Depends on group size, but usually 4-6</HelperText>
       }
       defaultValue={props.value}
       value={textFieldValue}
@@ -160,8 +169,8 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
         updateGameSettings({
           variables: {
             id: currentGame.id,
-            input: { num_entries_per_player: Number(value) },
-          },
+            input: { num_entries_per_player: Number(value) }
+          }
         })
       }}
     />
