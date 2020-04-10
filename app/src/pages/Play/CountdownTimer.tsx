@@ -32,7 +32,7 @@ function CountdownTimer(props: {
       clearInterval(interval)
     }
     return () => (interval ? clearInterval(interval) : undefined)
-  }, [props.isActive])
+  }, [props.isActive, secondsLeft])
 
   return (
     <Typography variant="h3">{Math.round(Math.max(secondsLeft, 0))}</Typography>
