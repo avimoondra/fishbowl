@@ -17,6 +17,7 @@ function PlayerChip(props: {
           : "default"
       }
       variant="outlined"
+      size="small"
       label={props.username}
     ></Chip>
   )
