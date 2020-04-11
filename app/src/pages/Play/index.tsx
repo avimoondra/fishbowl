@@ -1,9 +1,9 @@
-import { Button, Divider, Grid, Typography } from "@material-ui/core"
+import { Box, Button, Divider, Grid, Typography } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { GameStateEnum, useUpdateGameStateMutation } from "generated/graphql"
 import { useTitleStyle } from "index"
-import { last } from "lodash"
+import { filter, last } from "lodash"
 import GameRoundInstructionCard, {
   GameRound
 } from "pages/Play/GameRoundInstructionCard"
@@ -87,6 +87,10 @@ function Play() {
   if (yourTurn) {
     content = (
       <YourTurnContent
+        yourTeamPlayers={filter(
+          currentGame.players,
+          player => activePlayer.team === player.team
+        )}
         cardsInBowl={drawableCards(currentGame.turns, currentGame.cards)}
         activePlayer={activePlayer}
         activeTurn={activeTurn}
@@ -141,7 +145,9 @@ function Play() {
       </Grid>
       {round && (
         <Grid item>
-          <GameRoundInstructionCard round={round}></GameRoundInstructionCard>
+          <Box mb={1}>
+            <GameRoundInstructionCard round={round}></GameRoundInstructionCard>
+          </Box>
         </Grid>
       )}
       <Grid item>{content}</Grid>

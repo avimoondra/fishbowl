@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core"
 import { green, grey } from "@material-ui/core/colors"
 import BowlCard from "components/BowlCard"
+import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import {
   CurrentGameSubscription,
@@ -46,6 +47,7 @@ const GreenCheckbox = withStyles({
 })((props: CheckboxProps) => <Checkbox color="default" {...props} />)
 
 function YourTurnContent(props: {
+  yourTeamPlayers: CurrentGameSubscription["games"][0]["players"]
   activePlayer: CurrentGameSubscription["games"][0]["players"][0]
   activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
   cardsInBowl: CurrentGameSubscription["games"][0]["cards"]
@@ -87,17 +89,34 @@ function YourTurnContent(props: {
       {[ActiveTurnPlayState.Waiting, ActiveTurnPlayState.Playing].includes(
         activeTurnPlayState
       ) && (
-        <Grid item>
-          <BowlCard>
-            {activeCard ? (
-              <Typography variant="h5">{activeCard.word}</Typography>
-            ) : (
-              <div style={{ textAlign: "center", color: grey[500] }}>
-                You'll see cards here!
-              </div>
-            )}
-          </BowlCard>
-        </Grid>
+        <>
+          <Grid item container>
+            {props.yourTeamPlayers.map(player => {
+              return (
+                <>
+                  <PlayerChip
+                    key={player.id}
+                    username={player.username || ""}
+                    team={player.team}
+                  ></PlayerChip>
+                  <div style={{ width: 4 }}></div>
+                </>
+              )
+            })}
+            <div> from your team are guessing!</div>
+          </Grid>
+          <Grid item>
+            <BowlCard>
+              {activeCard ? (
+                <Typography variant="h5">{activeCard.word}</Typography>
+              ) : (
+                <div style={{ textAlign: "center", color: grey[500] }}>
+                  You'll see cards here!
+                </div>
+              )}
+            </BowlCard>
+          </Grid>
+        </>
       )}
       {activeTurnPlayState === ActiveTurnPlayState.Reviewing && (
         <>
