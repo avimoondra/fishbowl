@@ -20,7 +20,8 @@ import CountdownTimer from "pages/Play/CountdownTimer"
 import { timestamptzNow } from "pages/Play/time"
 import {
   drawableCardsWithoutCompletedCardsInActiveTurn,
-  nextPlayer
+  nextPlayer,
+  nextPlayerForSameTeam
 } from "pages/Play/turn"
 import * as React from "react"
 
@@ -229,21 +230,34 @@ function YourTurnContent(props: {
           </>
         )}
 
-        {[ActiveTurnPlayState.Waiting, ActiveTurnPlayState.Reviewing].includes(
-          activeTurnPlayState
-        ) && (
+        {activeTurnPlayState === ActiveTurnPlayState.Waiting && (
           <Grid item>
             <Button
-              variant={
-                activeTurnPlayState === ActiveTurnPlayState.Waiting
-                  ? undefined
-                  : "contained"
-              }
-              color={
-                activeTurnPlayState === ActiveTurnPlayState.Waiting
-                  ? "default"
-                  : "primary"
-              }
+              onClick={async () => {
+                endTurn({
+                  variables: {
+                    currentTurnId: props.activeTurn.id,
+                    completedCardIds: [],
+                    endedAt: timestamptzNow(),
+                    gameId: currentGame.id,
+                    nextTurnplayerId: nextPlayerForSameTeam(
+                      props.activePlayer,
+                      currentGame.players
+                    ).id
+                  }
+                })
+              }}
+            >
+              Skip turn
+            </Button>
+          </Grid>
+        )}
+
+        {activeTurnPlayState === ActiveTurnPlayState.Reviewing && (
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
               onClick={async () => {
                 const shownCardIds = [...shownCardsInActiveTurn.keys()]
                 const completedCardIds = filter(shownCardIds, cardId => {
@@ -282,9 +296,7 @@ function YourTurnContent(props: {
                 }
               }}
             >
-              {activeTurnPlayState === ActiveTurnPlayState.Waiting
-                ? "Skip turn"
-                : "End turn"}
+              End turn
             </Button>
           </Grid>
         )}

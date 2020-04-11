@@ -12,6 +12,23 @@ import {
 } from "lodash"
 import { Team } from "pages/TeamAssignment/team"
 
+export function nextPlayerForSameTeam(
+  activePlayer: CurrentGameSubscription["games"][0]["players"][0],
+  players: CurrentGameSubscription["games"][0]["players"]
+) {
+  const sameTeamPlayers = filter(
+    players,
+    player => activePlayer.team === player.team
+  )
+  const sameTeamPlayersSortedBySequence = sortBy(sameTeamPlayers, [
+    "team_sequence"
+  ])
+  const nextPositionInSequence =
+    ((activePlayer.team_sequence || 0) + 1) %
+    sameTeamPlayersSortedBySequence.length
+  return sameTeamPlayersSortedBySequence[nextPositionInSequence]
+}
+
 export function nextPlayer(
   activePlayer: CurrentGameSubscription["games"][0]["players"][0] | null,
   turns: CurrentGameSubscription["games"][0]["turns"],
