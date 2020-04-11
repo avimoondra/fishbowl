@@ -94,10 +94,18 @@ function Play() {
     )
   } else if (yourTeamTurn) {
     content = (
-      <YourTeamTurnContent activePlayer={activePlayer} activeTurn={activeTurn}></YourTeamTurnContent>
+      <YourTeamTurnContent
+        activePlayer={activePlayer}
+        activeTurn={activeTurn}
+      ></YourTeamTurnContent>
     )
   } else {
-    content = <OtherTeamConent activePlayer={activePlayer} activeTurn={activeTurn}></OtherTeamConent>
+    content = (
+      <OtherTeamConent
+        activePlayer={activePlayer}
+        activeTurn={activeTurn}
+      ></OtherTeamConent>
+    )
   }
 
   const numCompletedCards = completedCardIds.length
@@ -131,14 +139,12 @@ function Play() {
           }}
         ></Divider>
       </Grid>
-      <Grid item container direction="column" spacing={2}>
-        {round && (
-          <Grid item>
-            <GameRoundInstructionCard round={round}></GameRoundInstructionCard>
-          </Grid>
-        )}
-        <Grid item>{content}</Grid>
-      </Grid>
+      {round && (
+        <Grid item>
+          <GameRoundInstructionCard round={round}></GameRoundInstructionCard>
+        </Grid>
+      )}
+      <Grid item>{content}</Grid>
     </Grid>
   )
 }

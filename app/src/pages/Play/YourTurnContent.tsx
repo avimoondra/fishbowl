@@ -100,47 +100,53 @@ function YourTurnContent(props: {
         </Grid>
       )}
       {activeTurnPlayState === ActiveTurnPlayState.Reviewing && (
-        <Grid item container direction="column" spacing={2}>
-          {[...shownCardsInActiveTurn.keys()].map(cardId => {
-            return (
-              <Grid
-                key={cardId}
-                item
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-                spacing={2}
-              >
-                <Grid>
-                  <GreenCheckbox
-                    checked={
-                      shownCardsInActiveTurn.get(cardId) ===
-                      ShownCardStatus.Completed
-                    }
-                    onChange={({ target: { checked } }) => {
-                      setShownCardsInActiveTurn(
-                        new Map(
-                          shownCardsInActiveTurn.set(
-                            cardId,
-                            checked
-                              ? ShownCardStatus.Completed
-                              : ShownCardStatus.Incomplete
+        <>
+          <Grid item>
+            Review the cards you went through this turn. If you skipped or
+            missed any, just uncheck them.
+          </Grid>
+          <Grid item container direction="column" spacing={2}>
+            {[...shownCardsInActiveTurn.keys()].map(cardId => {
+              return (
+                <Grid
+                  key={cardId}
+                  item
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+                  spacing={2}
+                >
+                  <Grid>
+                    <GreenCheckbox
+                      checked={
+                        shownCardsInActiveTurn.get(cardId) ===
+                        ShownCardStatus.Completed
+                      }
+                      onChange={({ target: { checked } }) => {
+                        setShownCardsInActiveTurn(
+                          new Map(
+                            shownCardsInActiveTurn.set(
+                              cardId,
+                              checked
+                                ? ShownCardStatus.Completed
+                                : ShownCardStatus.Incomplete
+                            )
                           )
                         )
-                      )
-                    }}
-                  ></GreenCheckbox>
+                      }}
+                    ></GreenCheckbox>
+                  </Grid>
+                  <Grid item>
+                    <BowlCard>
+                      {props.cardsInBowl.find(card => card.id === cardId)?.word}
+                    </BowlCard>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <BowlCard>
-                    {props.cardsInBowl.find(card => card.id === cardId)?.word}
-                  </BowlCard>
-                </Grid>
-              </Grid>
-            )
-          })}
-        </Grid>
+              )
+            })}
+          </Grid>
+        </>
       )}
 
       {/* Controls */}
