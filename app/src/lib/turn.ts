@@ -1,4 +1,5 @@
 import { CurrentGameSubscription } from "generated/graphql"
+import { Team } from "lib/team"
 import {
   countBy,
   difference,
@@ -10,7 +11,6 @@ import {
   sortBy,
   values
 } from "lodash"
-import { Team } from "pages/TeamAssignment/team"
 
 export function nextPlayerForSameTeam(
   activePlayer: CurrentGameSubscription["games"][0]["players"][0],

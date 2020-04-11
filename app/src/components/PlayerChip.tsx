@@ -1,5 +1,5 @@
 import { Chip } from "@material-ui/core"
-import { Team } from "pages/TeamAssignment/team"
+import { Team } from "lib/team"
 import * as React from "react"
 
 function PlayerChip(props: {

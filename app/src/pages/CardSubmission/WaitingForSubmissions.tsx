@@ -8,7 +8,7 @@ import {
   useUpdateGameStateMutation
 } from "generated/graphql"
 import { Title } from "pages/CardSubmission"
-import { teamsWithSequence } from "pages/TeamAssignment/team"
+import { teamsWithSequence } from "lib/team"
 import * as React from "react"
 
 function WaitingForSubmissions() {

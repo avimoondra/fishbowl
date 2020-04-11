@@ -17,12 +17,12 @@ import {
 } from "generated/graphql"
 import { filter, sample } from "lodash"
 import CountdownTimer from "pages/Play/CountdownTimer"
-import { timestamptzNow } from "pages/Play/time"
+import { timestamptzNow } from "lib/time"
 import {
   drawableCardsWithoutCompletedCardsInActiveTurn,
   nextPlayer,
   nextPlayerForSameTeam
-} from "pages/Play/turn"
+} from "lib/turn"
 import * as React from "react"
 
 enum ActiveTurnPlayState {

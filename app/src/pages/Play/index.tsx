@@ -8,9 +8,9 @@ import GameRoundInstructionCard, {
   GameRound
 } from "pages/Play/GameRoundInstructionCard"
 import { OtherTeamConent, YourTeamTurnContent } from "pages/Play/TeamContent"
-import { drawableCards } from "pages/Play/turn"
+import { drawableCards } from "lib/turn"
 import YourTurnContent from "pages/Play/YourTurnContent"
-import { Team, TeamColor } from "pages/TeamAssignment/team"
+import { Team, TeamColor } from "lib/team"
 import * as React from "react"
 
 function GameOver() {

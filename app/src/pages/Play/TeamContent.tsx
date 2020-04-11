@@ -4,8 +4,8 @@ import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { CurrentGameSubscription } from "generated/graphql"
 import CountdownTimer from "pages/Play/CountdownTimer"
-import { dateFromTimestamptzNow } from "pages/Play/time"
-import { nextPlayer } from "pages/Play/turn"
+import { dateFromTimestamptzNow } from "lib/time"
+import { nextPlayer } from "lib/turn"
 import * as React from "react"
 
 type Props = {

@@ -10,8 +10,8 @@ import {
 } from "generated/graphql"
 import { filter } from "lodash"
 import { Title } from "pages/CardSubmission"
-import { nextPlayer } from "pages/Play/turn"
-import { Team, TeamColor } from "pages/TeamAssignment/team"
+import { nextPlayer } from "lib/turn"
+import { Team, TeamColor } from "lib/team"
 import * as React from "react"
 
 function TeamAssignment() {
