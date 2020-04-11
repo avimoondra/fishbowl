@@ -1,16 +1,23 @@
 import { Box, Button, Divider, Grid, Typography } from "@material-ui/core"
+import { grey } from "@material-ui/core/colors"
+import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import { GameStateEnum, useUpdateGameStateMutation } from "generated/graphql"
+import {
+  GameStateEnum,
+  useEndCurrentTurnAndStartNextTurnMutation,
+  useUpdateGameStateMutation
+} from "generated/graphql"
 import { useTitleStyle } from "index"
+import { Team, TeamColor } from "lib/team"
+import { timestamptzNow } from "lib/time"
+import { drawableCards, nextPlayer, nextPlayerForSameTeam } from "lib/turn"
 import { filter, last } from "lodash"
 import GameRoundInstructionCard, {
   GameRound
 } from "pages/Play/GameRoundInstructionCard"
 import { OtherTeamConent, YourTeamTurnContent } from "pages/Play/TeamContent"
-import { drawableCards } from "lib/turn"
 import YourTurnContent from "pages/Play/YourTurnContent"
-import { Team, TeamColor } from "lib/team"
 import * as React from "react"
 
 function GameOver() {
@@ -57,6 +64,7 @@ function Play() {
     hasDismissedInstructionCard,
     setHasDismissedInstructionCard
   ] = React.useState(false)
+  const [endTurn] = useEndCurrentTurnAndStartNextTurnMutation()
 
   const completedCardIds = currentGame.turns.flatMap(
     turn => turn.completed_card_ids
@@ -127,6 +135,17 @@ function Play() {
     round = GameRound.Password
   }
 
+  const nextPlayerActiveTeam = nextPlayerForSameTeam(
+    activePlayer,
+    currentGame.players
+  )
+
+  const nextPlayerNextTeam = nextPlayer(
+    activePlayer,
+    currentGame.turns,
+    currentGame.players
+  )
+
   return (
     <Grid container direction="column" alignItems="center" spacing={2}>
       <Grid item>
@@ -160,6 +179,96 @@ function Play() {
         </Grid>
       )}
       <Grid item>{content}</Grid>
+
+      {currentPlayer.role === PlayerRole.Host && (
+        <>
+          <Grid item>
+            <Typography variant="h4" className={titleClasses.title}>
+              Host Controls
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Divider
+              variant="middle"
+              style={{
+                width: 150,
+                height: 1,
+                backgroundColor: grey[500]
+              }}
+            ></Divider>
+          </Grid>
+
+          <Grid item container direction="column" spacing={2}>
+            <Grid item>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="flex-start"
+              >
+                <Box display="flex" flex="130px 1 auto" alignItems="center">
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      endTurn({
+                        variables: {
+                          currentTurnId: activeTurn.id,
+                          completedCardIds: [],
+                          endedAt: timestamptzNow(),
+                          gameId: currentGame.id,
+                          nextTurnplayerId: nextPlayerActiveTeam.id
+                        }
+                      })
+                    }}
+                  >
+                    Skip player
+                  </Button>
+                </Box>
+
+                <Box ml={2}>
+                  <PlayerChip
+                    username={nextPlayerActiveTeam.username || ""}
+                    team={nextPlayerActiveTeam.team}
+                  ></PlayerChip>{" "}
+                  would be next
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="flex-start"
+              >
+                <Box display="flex" flex="130px 1 auto" alignItems="center">
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      endTurn({
+                        variables: {
+                          currentTurnId: activeTurn.id,
+                          completedCardIds: [],
+                          endedAt: timestamptzNow(),
+                          gameId: currentGame.id,
+                          nextTurnplayerId: nextPlayerNextTeam.id
+                        }
+                      })
+                    }}
+                  >
+                    Skip team
+                  </Button>
+                </Box>
+                <Box ml={2}>
+                  <PlayerChip
+                    username={nextPlayerNextTeam.username || ""}
+                    team={nextPlayerNextTeam.team}
+                  ></PlayerChip>{" "}
+                  would be next
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </>
+      )}
     </Grid>
   )
 }
