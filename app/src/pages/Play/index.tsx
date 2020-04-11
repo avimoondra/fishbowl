@@ -53,6 +53,10 @@ function Play() {
   const titleClasses = useTitleStyle()
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
+  const [
+    hasDismissedInstructionCard,
+    setHasDismissedInstructionCard
+  ] = React.useState(false)
 
   const completedCardIds = currentGame.turns.flatMap(
     turn => turn.completed_card_ids
@@ -143,10 +147,15 @@ function Play() {
           }}
         ></Divider>
       </Grid>
-      {round && (
+      {round && !hasDismissedInstructionCard && (
         <Grid item>
           <Box mb={1}>
-            <GameRoundInstructionCard round={round}></GameRoundInstructionCard>
+            <GameRoundInstructionCard
+              round={round}
+              onDismiss={() => {
+                setHasDismissedInstructionCard(true)
+              }}
+            ></GameRoundInstructionCard>
           </Box>
         </Grid>
       )}
