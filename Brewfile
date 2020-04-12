@@ -1,3 +1,4 @@
 tap "homebrew/cask"
 brew "yarn"
-brew "jq"
+brew "direnv"
+brew "nvm"
