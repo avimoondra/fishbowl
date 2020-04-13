@@ -10,7 +10,6 @@ import { green, grey } from "@material-ui/core/colors"
 import BowlCard from "components/BowlCard"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
-import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import {
   CurrentGameSubscription,
   useEndCurrentTurnAndStartNextTurnMutation,

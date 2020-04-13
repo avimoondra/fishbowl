@@ -14,7 +14,7 @@ function CountdownTimer(props: {
   onCountdown?: (secondsLeft: number) => void
 }) {
   const [secondsLeft, setSecondsLeft] = React.useState(
-    calculateSecondsLeft(props.startDate, props.seconds)
+    calculateSecondsLeft(props.startDate, props.seconds) || props.seconds
   )
 
   React.useEffect(() => {

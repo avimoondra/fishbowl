@@ -17,6 +17,7 @@ import GameRoundInstructionCard, {
   GameRound
 } from "pages/Play/GameRoundInstructionCard"
 import { OtherTeamConent, YourTeamTurnContent } from "pages/Play/TeamContent"
+import TurnContextPanel from "pages/Play/TurnContextPanel"
 import YourTurnContent from "pages/Play/YourTurnContent"
 import * as React from "react"
 
@@ -165,6 +166,9 @@ function Play() {
                 : TeamColor[Team.Red]
           }}
         ></Divider>
+      </Grid>
+      <Grid item>
+        <TurnContextPanel activeTurn={activeTurn}></TurnContextPanel>
       </Grid>
       {round && !hasDismissedInstructionCard && (
         <Grid item>
