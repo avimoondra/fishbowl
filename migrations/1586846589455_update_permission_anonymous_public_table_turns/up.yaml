@@ -1,0 +1,29 @@
+- args:
+    role: anonymous
+    table:
+      name: turns
+      schema: public
+  type: drop_update_permission
+- args:
+    permission:
+      check: {}
+      columns:
+      - completed_card_ids
+      - created_at
+      - ended_at
+      - game_id
+      - id
+      - player_id
+      - seconds_per_turn_override
+      - sequential_id
+      - started_at
+      filter: {}
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: anonymous
+    table:
+      name: turns
+      schema: public
+  type: create_update_permission

@@ -8,7 +8,7 @@ import routes from "routes"
 
 function Join(props: { onBack: () => void }) {
   const [redirectRoute, setRedirectRoute] = React.useState("")
-  const [joinCode, setJoinCode] = React.useState<string | null>(null)
+  const [joinCode, setJoinCode] = React.useState("")
   const [joinGame] = useJoinGameMutation()
   const [loadGame] = useLazyQuery(GameByJoinCodeDocument, {
     variables: { joinCode: joinCode?.toLocaleUpperCase() },
