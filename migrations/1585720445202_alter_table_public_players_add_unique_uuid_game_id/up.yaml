@@ -1,6 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: alter table "public"."players" add constraint "players_uuid_game_id_key"
-      unique ("uuid", "game_id");
-  type: run_sql

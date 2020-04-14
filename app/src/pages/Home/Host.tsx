@@ -1,9 +1,9 @@
-import { useGameByIdSubscription } from "generated/graphql"
+import { Games, useGameByIdSubscription } from "generated/graphql"
 import * as React from "react"
 import { generatePath, Redirect } from "react-router-dom"
 import routes from "routes"
 
-function HostRedirect(props: { gameId: number }) {
+function HostRedirect(props: { gameId: Games["id"] }) {
   const { data } = useGameByIdSubscription({
     variables: {
       id: props.gameId

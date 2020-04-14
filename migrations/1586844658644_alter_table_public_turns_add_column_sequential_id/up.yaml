@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."turns" ADD COLUMN "sequential_id" serial NOT NULL;
+  type: run_sql

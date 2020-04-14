@@ -1,5 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: ALTER TABLE "public"."players" ALTER COLUMN "created_at" TYPE timestamptz;
-  type: run_sql

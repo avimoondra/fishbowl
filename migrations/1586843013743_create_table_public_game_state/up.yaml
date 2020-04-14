@@ -1,0 +1,10 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE TABLE "public"."game_state"("value" text NOT NULL, PRIMARY KEY ("value")
+      , UNIQUE ("value"));
+  type: run_sql
+- args:
+    name: game_state
+    schema: public
+  type: add_existing_table_or_view

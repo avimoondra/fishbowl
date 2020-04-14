@@ -1,5 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: ALTER TABLE "public"."turns" ADD COLUMN "game_id" integer NOT NULL;
-  type: run_sql

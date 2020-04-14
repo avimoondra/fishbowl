@@ -1,15 +1,17 @@
-mutation StartGame($playerUuid: uuid!) {
-  insert_games_one(object: { players: { data: [{ uuid: $playerUuid }] } }) {
+mutation StartGame($clientUuid: uuid!) {
+  insert_games_one(
+    object: { players: { data: [{ client_uuid: $clientUuid }] } }
+  ) {
     id
     join_code
     players {
       id
-      uuid
+      client_uuid
     }
   }
 }
 
-mutation BecomeHost($gameId: Int!, $playerId: Int!) {
+mutation BecomeHost($gameId: uuid!, $playerId: uuid!) {
   update_games_by_pk(
     pk_columns: { id: $gameId }
     _set: { host_id: $playerId }
@@ -22,16 +24,16 @@ mutation BecomeHost($gameId: Int!, $playerId: Int!) {
   }
 }
 
-mutation JoinGame($gameId: Int!, $playerUuid: uuid!) {
+mutation JoinGame($gameId: uuid!, $clientUuid: uuid!) {
   insert_players_one(
-    object: { game_id: $gameId, uuid: $playerUuid }
+    object: { game_id: $gameId, client_uuid: $clientUuid }
     on_conflict: {
-      constraint: players_uuid_game_id_key
-      update_columns: [uuid]
+      constraint: players_client_uuid_game_id_key
+      update_columns: [client_uuid]
     }
   ) {
     id
-    uuid
+    client_uuid
     game_id
   }
 }

@@ -1,4 +1,4 @@
-mutation CreateTurn($gameId: Int!, $playerId: Int!) {
+mutation CreateTurn($gameId: uuid!, $playerId: uuid!) {
   insert_turns_one(object: { game_id: $gameId, player_id: $playerId }) {
     id
     game_id
@@ -6,7 +6,7 @@ mutation CreateTurn($gameId: Int!, $playerId: Int!) {
   }
 }
 
-mutation StartTurn($currentTurnId: Int!, $startedAt: timestamptz!) {
+mutation StartTurn($currentTurnId: uuid!, $startedAt: timestamptz!) {
   update_turns_by_pk(
     pk_columns: { id: $currentTurnId }
     _set: { started_at: $startedAt }
@@ -17,11 +17,11 @@ mutation StartTurn($currentTurnId: Int!, $startedAt: timestamptz!) {
 }
 
 mutation EndCurrentTurnAndStartNextTurn(
-  $currentTurnId: Int!
+  $currentTurnId: uuid!
   $completedCardIds: jsonb!
   $endedAt: timestamptz!
-  $gameId: Int!
-  $nextTurnplayerId: Int!
+  $gameId: uuid!
+  $nextTurnplayerId: uuid!
   $nextTurnSecondsPerTurnOverride: Int
 ) {
   update_turns_by_pk(

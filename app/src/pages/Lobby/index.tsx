@@ -98,7 +98,7 @@ function WaitingRoomSection() {
         <Grid item>
           <UsernameInput
             username={currentPlayer.username || ""}
-            userId={currentPlayer.id}
+            playerId={currentPlayer.id}
           ></UsernameInput>
         </Grid>
         <WaitingRoom></WaitingRoom>

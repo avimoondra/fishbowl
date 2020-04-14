@@ -3,7 +3,7 @@ import { CurrentGameContext } from "contexts/CurrentGame"
 import {
   CurrentPlayerContext,
   PlayerRole,
-  playerUuid
+  clientUuid
 } from "contexts/CurrentPlayer"
 import {
   useCurrentGameSubscription,
@@ -25,7 +25,7 @@ function CurrentPlayerProvider(props: {
   const { data, loading } = useCurrentPlayerQuery({
     variables: {
       joinCode: props.joinCode,
-      playerUuid: playerUuid()
+      clientUuid: clientUuid()
     }
   })
 

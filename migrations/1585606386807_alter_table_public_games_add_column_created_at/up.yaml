@@ -1,6 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: ALTER TABLE "public"."games" ADD COLUMN "created_at" timestamp NULL DEFAULT
-      now();
-  type: run_sql

@@ -1,6 +1,6 @@
 import { useLazyQuery } from "@apollo/react-hooks"
 import { Button, Grid, TextField } from "@material-ui/core"
-import { playerUuid } from "contexts/CurrentPlayer"
+import { clientUuid } from "contexts/CurrentPlayer"
 import { GameByJoinCodeDocument, useJoinGameMutation } from "generated/graphql"
 import * as React from "react"
 import { generatePath, Redirect } from "react-router-dom"
@@ -17,7 +17,7 @@ function Join(props: { onBack: () => void }) {
         await joinGame({
           variables: {
             gameId: data.games[0].id,
-            playerUuid: playerUuid()
+            clientUuid: clientUuid()
           }
         })
         setRedirectRoute(
