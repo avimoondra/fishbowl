@@ -3,9 +3,7 @@ import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { CurrentGameSubscription } from "generated/graphql"
-import CountdownTimer from "pages/Play/CountdownTimer"
-import { dateFromTimestamptzNow } from "lib/time"
-import { nextPlayer } from "lib/turn"
+import { nextPlayerForNextTeam } from "lib/turn"
 import * as React from "react"
 
 type Props = {
@@ -16,36 +14,23 @@ type Props = {
 export function YourTeamTurnContent(props: Props) {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
-  const nextActivePlayer = nextPlayer(
+  const nextActivePlayer = nextPlayerForNextTeam(
     props.activePlayer,
     currentGame.turns,
     currentGame.players
   )
-  const startingSeconds =
-    props.activeTurn.seconds_per_turn_override ||
-    currentGame.seconds_per_turn ||
-    0
 
   return (
     <Box p={2}>
       <Grid item container direction="column" spacing={2}>
         {props.activeTurn.started_at !== null ? (
-          <>
-            <Grid item>
-              <PlayerChip
-                username={props.activePlayer.username || ""}
-                team={props.activePlayer.team}
-              ></PlayerChip>
-              {" has started!"}
-            </Grid>
-            <Grid item>
-              <CountdownTimer
-                seconds={startingSeconds}
-                startDate={dateFromTimestamptzNow(props.activeTurn.started_at)}
-                isActive={true}
-              ></CountdownTimer>
-            </Grid>
-          </>
+          <Grid item>
+            <PlayerChip
+              username={props.activePlayer.username || ""}
+              team={props.activePlayer.team}
+            ></PlayerChip>
+            {" has started!"}
+          </Grid>
         ) : (
           <Grid item>
             <PlayerChip
@@ -73,36 +58,23 @@ export function YourTeamTurnContent(props: Props) {
 export function OtherTeamConent(props: Props) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
-  const nextActivePlayer = nextPlayer(
+  const nextActivePlayer = nextPlayerForNextTeam(
     props.activePlayer,
     currentGame.turns,
     currentGame.players
   )
-  const startingSeconds =
-    props.activeTurn.seconds_per_turn_override ||
-    currentGame.seconds_per_turn ||
-    0
 
   return (
     <Box p={2}>
       <Grid item container direction="column" spacing={2}>
         {props.activeTurn.started_at !== null ? (
-          <>
-            <Grid item>
-              <PlayerChip
-                username={props.activePlayer.username || ""}
-                team={props.activePlayer.team}
-              ></PlayerChip>
-              {` has started! Pay attention to the words or phrases the other team is guessing!`}
-            </Grid>
-            <Grid item>
-              <CountdownTimer
-                seconds={startingSeconds}
-                startDate={dateFromTimestamptzNow(props.activeTurn.started_at)}
-                isActive={true}
-              ></CountdownTimer>
-            </Grid>
-          </>
+          <Grid item>
+            <PlayerChip
+              username={props.activePlayer.username || ""}
+              team={props.activePlayer.team}
+            ></PlayerChip>
+            {` has started! Pay attention to the words or phrases the other team is guessing!`}
+          </Grid>
         ) : (
           <Grid item>
             <PlayerChip

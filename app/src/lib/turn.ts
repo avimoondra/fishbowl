@@ -12,6 +12,12 @@ import {
   values
 } from "lodash"
 
+export enum ActiveTurnPlayState {
+  Waiting = 1,
+  Playing,
+  Reviewing
+}
+
 export function nextPlayerForSameTeam(
   activePlayer: CurrentGameSubscription["games"][0]["players"][0],
   players: CurrentGameSubscription["games"][0]["players"]
@@ -29,7 +35,7 @@ export function nextPlayerForSameTeam(
   return sameTeamPlayersSortedBySequence[nextPositionInSequence]
 }
 
-export function nextPlayer(
+export function nextPlayerForNextTeam(
   activePlayer: CurrentGameSubscription["games"][0]["players"][0] | null,
   turns: CurrentGameSubscription["games"][0]["turns"],
   players: CurrentGameSubscription["games"][0]["players"]
@@ -61,6 +67,12 @@ export function nextPlayer(
     : nextTeamPlayersSortedBySequence[0]
 
   return nextPlayerFromNextTeamToPlay
+}
+
+export function completedCardIds(
+  turns: CurrentGameSubscription["games"][0]["turns"]
+) {
+  return turns.flatMap(turn => turn.completed_card_ids)
 }
 
 export function drawableCards(
