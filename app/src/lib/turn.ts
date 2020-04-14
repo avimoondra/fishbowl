@@ -6,7 +6,6 @@ import {
   filter,
   findLast,
   groupBy,
-  last,
   max,
   reject,
   sortBy,
@@ -17,19 +16,6 @@ export enum ActiveTurnPlayState {
   Waiting = 1,
   Playing,
   Reviewing
-}
-
-export function activeTurn(
-  turns: CurrentGameSubscription["games"][0]["turns"]
-) {
-  return last(turns)
-}
-
-export function activePlayer(
-  activeTurn: CurrentGameSubscription["games"][0]["turns"][0],
-  players: CurrentGameSubscription["games"][0]["players"]
-) {
-  return players.find(player => player.id === activeTurn?.player_id)
 }
 
 export function nextPlayerForSameTeam(
