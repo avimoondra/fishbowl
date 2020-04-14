@@ -1,5 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: ALTER TABLE "public"."turns" DROP COLUMN "game_id";
-  type: run_sql

@@ -1,4 +1,4 @@
-mutation UpdateAllPlayers($gameId: Int!, $players: [players_insert_input!]!) {
+mutation UpdateAllPlayers($gameId: uuid!, $players: [players_insert_input!]!) {
   insert_games_one(
     object: {
       id: $gameId

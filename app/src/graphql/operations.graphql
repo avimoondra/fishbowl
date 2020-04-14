@@ -1,12 +1,12 @@
-query CurrentPlayer($playerUuid: uuid!, $joinCode: String!) {
+query CurrentPlayer($clientUuid: uuid!, $joinCode: String!) {
   players(
     where: {
-      uuid: { _eq: $playerUuid }
+      client_uuid: { _eq: $clientUuid }
       game: { join_code: { _eq: $joinCode } }
     }
   ) {
     id
-    uuid
+    client_uuid
     username
     team
     team_sequence
@@ -21,10 +21,10 @@ query CurrentPlayer($playerUuid: uuid!, $joinCode: String!) {
   }
 }
 
-query CurrentPlayerById($id: Int!) {
+query CurrentPlayerById($id: uuid!) {
   players_by_pk(id: $id) {
     id
-    uuid
+    client_uuid
     username
     game {
       id
@@ -60,7 +60,7 @@ subscription CurrentGame($joinCode: String!) {
       team
       team_sequence
     }
-    turns(order_by: { id: asc }) {
+    turns(order_by: { sequential_id: asc }) {
       id
       player_id
       started_at
@@ -81,14 +81,14 @@ query GameByJoinCode($joinCode: String!) {
   }
 }
 
-subscription GameById($id: Int!) {
+subscription GameById($id: uuid!) {
   games_by_pk(id: $id) {
     id
     join_code
   }
 }
 
-mutation UpdateGameState($id: Int!, $state: game_state_enum!) {
+mutation UpdateGameState($id: uuid!, $state: game_state_enum!) {
   update_games_by_pk(pk_columns: { id: $id }, _set: { state: $state }) {
     id
     state

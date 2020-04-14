@@ -1,7 +1,11 @@
 import { Box, Button, Divider, Grid, Typography } from "@material-ui/core"
 import Fishbowl from "components/FishbowlAnimation"
-import { playerUuid } from "contexts/CurrentPlayer"
-import { useBecomeHostMutation, useStartGameMutation } from "generated/graphql"
+import { clientUuid } from "contexts/CurrentPlayer"
+import {
+  Games,
+  useBecomeHostMutation,
+  useStartGameMutation
+} from "generated/graphql"
 import { useTitleStyle } from "index"
 import HostRedirect from "pages/Home/Host"
 import HowToPlay from "pages/Home/HowToPlay"
@@ -16,7 +20,7 @@ enum PlayerState {
 
 function Home() {
   const titleClasses = useTitleStyle()
-  const [gameId, setGameId] = React.useState<number | null>(null)
+  const [gameId, setGameId] = React.useState<Games["id"] | null>(null)
   const [playerState, setPlayerState] = React.useState<PlayerState>(
     PlayerState.Choosing
   )
@@ -45,7 +49,7 @@ function Home() {
                   setPlayerState(PlayerState.Hosting)
                   const { data } = await startGame({
                     variables: {
-                      playerUuid: playerUuid()
+                      clientUuid: clientUuid()
                     }
                   })
                   const gameId = data?.insert_games_one?.id

@@ -1,4 +1,4 @@
-mutation UpdateGameSettings($id: Int!, $input: games_set_input!) {
+mutation UpdateGameSettings($id: uuid!, $input: games_set_input!) {
   update_games_by_pk(pk_columns: { id: $id }, _set: $input) {
     id
     join_code
@@ -8,7 +8,7 @@ mutation UpdateGameSettings($id: Int!, $input: games_set_input!) {
   }
 }
 
-mutation UpdatePlayer($id: Int!, $input: players_set_input!) {
+mutation UpdatePlayer($id: uuid!, $input: players_set_input!) {
   update_players_by_pk(pk_columns: { id: $id }, _set: $input) {
     id
     username

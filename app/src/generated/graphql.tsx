@@ -16,9 +16,9 @@ export type Scalars = {
 
 export type Cards = {
   created_at: Scalars['timestamptz'];
-  game_id: Scalars['Int'];
-  id: Scalars['Int'];
-  player_id: Scalars['Int'];
+  game_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+  player_id: Scalars['uuid'];
   word: Scalars['String'];
 };
 
@@ -28,17 +28,9 @@ export type CardsAggregate = {
 };
 
 export type CardsAggregateFields = {
-  avg?: Maybe<CardsAvgFields>;
   count?: Maybe<Scalars['Int']>;
   max?: Maybe<CardsMaxFields>;
   min?: Maybe<CardsMinFields>;
-  stddev?: Maybe<CardsStddevFields>;
-  stddev_pop?: Maybe<CardsStddevPopFields>;
-  stddev_samp?: Maybe<CardsStddevSampFields>;
-  sum?: Maybe<CardsSumFields>;
-  var_pop?: Maybe<CardsVarPopFields>;
-  var_samp?: Maybe<CardsVarSampFields>;
-  variance?: Maybe<CardsVarianceFields>;
 };
 
 
@@ -48,17 +40,9 @@ export type CardsAggregateFieldsCountArgs = {
 };
 
 export type CardsAggregateOrderBy = {
-  avg?: Maybe<CardsAvgOrderBy>;
   count?: Maybe<OrderBy>;
   max?: Maybe<CardsMaxOrderBy>;
   min?: Maybe<CardsMinOrderBy>;
-  stddev?: Maybe<CardsStddevOrderBy>;
-  stddev_pop?: Maybe<CardsStddevPopOrderBy>;
-  stddev_samp?: Maybe<CardsStddevSampOrderBy>;
-  sum?: Maybe<CardsSumOrderBy>;
-  var_pop?: Maybe<CardsVarPopOrderBy>;
-  var_samp?: Maybe<CardsVarSampOrderBy>;
-  variance?: Maybe<CardsVarianceOrderBy>;
 };
 
 export type CardsArrRelInsertInput = {
@@ -66,26 +50,14 @@ export type CardsArrRelInsertInput = {
   on_conflict?: Maybe<CardsOnConflict>;
 };
 
-export type CardsAvgFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
-};
-
-export type CardsAvgOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
-};
-
 export type CardsBoolExp = {
   _and?: Maybe<Array<Maybe<CardsBoolExp>>>;
   _not?: Maybe<CardsBoolExp>;
   _or?: Maybe<Array<Maybe<CardsBoolExp>>>;
   created_at?: Maybe<TimestamptzComparisonExp>;
-  game_id?: Maybe<IntComparisonExp>;
-  id?: Maybe<IntComparisonExp>;
-  player_id?: Maybe<IntComparisonExp>;
+  game_id?: Maybe<UuidComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
+  player_id?: Maybe<UuidComparisonExp>;
   word?: Maybe<StringComparisonExp>;
 };
 
@@ -93,25 +65,19 @@ export enum CardsConstraint {
   CardsPkey = 'cards_pkey'
 }
 
-export type CardsIncInput = {
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  player_id?: Maybe<Scalars['Int']>;
-};
-
 export type CardsInsertInput = {
   created_at?: Maybe<Scalars['timestamptz']>;
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  player_id?: Maybe<Scalars['Int']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  player_id?: Maybe<Scalars['uuid']>;
   word?: Maybe<Scalars['String']>;
 };
 
 export type CardsMaxFields = {
   created_at?: Maybe<Scalars['timestamptz']>;
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  player_id?: Maybe<Scalars['Int']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  player_id?: Maybe<Scalars['uuid']>;
   word?: Maybe<Scalars['String']>;
 };
 
@@ -125,9 +91,9 @@ export type CardsMaxOrderBy = {
 
 export type CardsMinFields = {
   created_at?: Maybe<Scalars['timestamptz']>;
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  player_id?: Maybe<Scalars['Int']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  player_id?: Maybe<Scalars['uuid']>;
   word?: Maybe<Scalars['String']>;
 };
 
@@ -164,7 +130,7 @@ export type CardsOrderBy = {
 };
 
 export type CardsPkColumnsInput = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 export enum CardsSelectColumn {
@@ -177,58 +143,10 @@ export enum CardsSelectColumn {
 
 export type CardsSetInput = {
   created_at?: Maybe<Scalars['timestamptz']>;
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  player_id?: Maybe<Scalars['Int']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  player_id?: Maybe<Scalars['uuid']>;
   word?: Maybe<Scalars['String']>;
-};
-
-export type CardsStddevFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
-};
-
-export type CardsStddevOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
-};
-
-export type CardsStddevPopFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
-};
-
-export type CardsStddevPopOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
-};
-
-export type CardsStddevSampFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
-};
-
-export type CardsStddevSampOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
-};
-
-export type CardsSumFields = {
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  player_id?: Maybe<Scalars['Int']>;
-};
-
-export type CardsSumOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
 };
 
 export enum CardsUpdateColumn {
@@ -238,42 +156,6 @@ export enum CardsUpdateColumn {
   PlayerId = 'player_id',
   Word = 'word'
 }
-
-export type CardsVarPopFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
-};
-
-export type CardsVarPopOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
-};
-
-export type CardsVarSampFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
-};
-
-export type CardsVarSampOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
-};
-
-export type CardsVarianceFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
-};
-
-export type CardsVarianceOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
-};
 
 export type GameState = {
   value: Scalars['String'];
@@ -395,8 +277,8 @@ export type Games = {
   cards_aggregate: CardsAggregate;
   created_at: Scalars['timestamptz'];
   host?: Maybe<Players>;
-  host_id?: Maybe<Scalars['Int']>;
-  id: Scalars['Int'];
+  host_id?: Maybe<Scalars['uuid']>;
+  id: Scalars['uuid'];
   join_code?: Maybe<Scalars['String']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
   players: Array<Players>;
@@ -507,15 +389,11 @@ export type GamesArrRelInsertInput = {
 };
 
 export type GamesAvgFields = {
-  host_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
   seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesAvgOrderBy = {
-  host_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
   seconds_per_turn?: Maybe<OrderBy>;
 };
@@ -527,8 +405,8 @@ export type GamesBoolExp = {
   cards?: Maybe<CardsBoolExp>;
   created_at?: Maybe<TimestamptzComparisonExp>;
   host?: Maybe<PlayersBoolExp>;
-  host_id?: Maybe<IntComparisonExp>;
-  id?: Maybe<IntComparisonExp>;
+  host_id?: Maybe<UuidComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
   join_code?: Maybe<StringComparisonExp>;
   num_entries_per_player?: Maybe<IntComparisonExp>;
   players?: Maybe<PlayersBoolExp>;
@@ -539,13 +417,12 @@ export type GamesBoolExp = {
 };
 
 export enum GamesConstraint {
+  GamesJoinCodeIdx = 'games_join_code_idx',
   GamesJoinCodeKey = 'games_join_code_key',
   GamesPkey = 'games_pkey'
 }
 
 export type GamesIncInput = {
-  host_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
   seconds_per_turn?: Maybe<Scalars['Int']>;
 };
@@ -554,8 +431,8 @@ export type GamesInsertInput = {
   cards?: Maybe<CardsArrRelInsertInput>;
   created_at?: Maybe<Scalars['timestamptz']>;
   host?: Maybe<PlayersObjRelInsertInput>;
-  host_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
+  host_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
   join_code?: Maybe<Scalars['String']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
   players?: Maybe<PlayersArrRelInsertInput>;
@@ -567,8 +444,8 @@ export type GamesInsertInput = {
 
 export type GamesMaxFields = {
   created_at?: Maybe<Scalars['timestamptz']>;
-  host_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
+  host_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
   join_code?: Maybe<Scalars['String']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
   seconds_per_turn?: Maybe<Scalars['Int']>;
@@ -587,8 +464,8 @@ export type GamesMaxOrderBy = {
 
 export type GamesMinFields = {
   created_at?: Maybe<Scalars['timestamptz']>;
-  host_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
+  host_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
   join_code?: Maybe<Scalars['String']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
   seconds_per_turn?: Maybe<Scalars['Int']>;
@@ -637,7 +514,7 @@ export type GamesOrderBy = {
 };
 
 export type GamesPkColumnsInput = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 export enum GamesSelectColumn {
@@ -653,8 +530,8 @@ export enum GamesSelectColumn {
 
 export type GamesSetInput = {
   created_at?: Maybe<Scalars['timestamptz']>;
-  host_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
+  host_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
   join_code?: Maybe<Scalars['String']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
   seconds_per_turn?: Maybe<Scalars['Int']>;
@@ -663,57 +540,41 @@ export type GamesSetInput = {
 };
 
 export type GamesStddevFields = {
-  host_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
   seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesStddevOrderBy = {
-  host_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
   seconds_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesStddevPopFields = {
-  host_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
   seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesStddevPopOrderBy = {
-  host_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
   seconds_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesStddevSampFields = {
-  host_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
   seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesStddevSampOrderBy = {
-  host_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
   seconds_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesSumFields = {
-  host_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
   seconds_per_turn?: Maybe<Scalars['Int']>;
 };
 
 export type GamesSumOrderBy = {
-  host_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
   seconds_per_turn?: Maybe<OrderBy>;
 };
@@ -730,43 +591,31 @@ export enum GamesUpdateColumn {
 }
 
 export type GamesVarPopFields = {
-  host_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
   seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesVarPopOrderBy = {
-  host_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
   seconds_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesVarSampFields = {
-  host_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
   seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesVarSampOrderBy = {
-  host_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
   seconds_per_turn?: Maybe<OrderBy>;
 };
 
 export type GamesVarianceFields = {
-  host_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   num_entries_per_player?: Maybe<Scalars['Float']>;
   seconds_per_turn?: Maybe<Scalars['Float']>;
 };
 
 export type GamesVarianceOrderBy = {
-  host_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
   seconds_per_turn?: Maybe<OrderBy>;
 };
@@ -841,7 +690,7 @@ export type MutationRootDeleteCardsArgs = {
 
 
 export type MutationRootDeleteCardsByPkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -861,7 +710,7 @@ export type MutationRootDeleteGamesArgs = {
 
 
 export type MutationRootDeleteGamesByPkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -871,7 +720,7 @@ export type MutationRootDeletePlayersArgs = {
 
 
 export type MutationRootDeletePlayersByPkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -881,7 +730,7 @@ export type MutationRootDeleteTurnsArgs = {
 
 
 export type MutationRootDeleteTurnsByPkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -946,14 +795,12 @@ export type MutationRootInsertTurnsOneArgs = {
 
 
 export type MutationRootUpdateCardsArgs = {
-  _inc?: Maybe<CardsIncInput>;
   _set?: Maybe<CardsSetInput>;
   where: CardsBoolExp;
 };
 
 
 export type MutationRootUpdateCardsByPkArgs = {
-  _inc?: Maybe<CardsIncInput>;
   _set?: Maybe<CardsSetInput>;
   pk_columns: CardsPkColumnsInput;
 };
@@ -1032,14 +879,14 @@ export enum OrderBy {
 }
 
 export type Players = {
+  client_uuid?: Maybe<Scalars['uuid']>;
   created_at: Scalars['timestamptz'];
-  game?: Maybe<Games>;
-  game_id?: Maybe<Scalars['Int']>;
-  id: Scalars['Int'];
+  game: Games;
+  game_id: Scalars['uuid'];
+  id: Scalars['uuid'];
   team?: Maybe<Scalars['String']>;
   team_sequence?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['String']>;
-  uuid?: Maybe<Scalars['uuid']>;
 };
 
 export type PlayersAggregate = {
@@ -1087,14 +934,10 @@ export type PlayersArrRelInsertInput = {
 };
 
 export type PlayersAvgFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersAvgOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   team_sequence?: Maybe<OrderBy>;
 };
 
@@ -1102,76 +945,74 @@ export type PlayersBoolExp = {
   _and?: Maybe<Array<Maybe<PlayersBoolExp>>>;
   _not?: Maybe<PlayersBoolExp>;
   _or?: Maybe<Array<Maybe<PlayersBoolExp>>>;
+  client_uuid?: Maybe<UuidComparisonExp>;
   created_at?: Maybe<TimestamptzComparisonExp>;
   game?: Maybe<GamesBoolExp>;
-  game_id?: Maybe<IntComparisonExp>;
-  id?: Maybe<IntComparisonExp>;
+  game_id?: Maybe<UuidComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
   team?: Maybe<StringComparisonExp>;
   team_sequence?: Maybe<IntComparisonExp>;
   username?: Maybe<StringComparisonExp>;
-  uuid?: Maybe<UuidComparisonExp>;
 };
 
 export enum PlayersConstraint {
-  PlayersPkey = 'players_pkey',
-  PlayersUuidGameIdKey = 'players_uuid_game_id_key'
+  PlayersClientUuidGameIdKey = 'players_client_uuid_game_id_key',
+  PlayersPkey = 'players_pkey'
 }
 
 export type PlayersIncInput = {
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
   team_sequence?: Maybe<Scalars['Int']>;
 };
 
 export type PlayersInsertInput = {
+  client_uuid?: Maybe<Scalars['uuid']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   game?: Maybe<GamesObjRelInsertInput>;
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
   team?: Maybe<Scalars['String']>;
   team_sequence?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['String']>;
-  uuid?: Maybe<Scalars['uuid']>;
 };
 
 export type PlayersMaxFields = {
+  client_uuid?: Maybe<Scalars['uuid']>;
   created_at?: Maybe<Scalars['timestamptz']>;
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
   team?: Maybe<Scalars['String']>;
   team_sequence?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['String']>;
-  uuid?: Maybe<Scalars['uuid']>;
 };
 
 export type PlayersMaxOrderBy = {
+  client_uuid?: Maybe<OrderBy>;
   created_at?: Maybe<OrderBy>;
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   team?: Maybe<OrderBy>;
   team_sequence?: Maybe<OrderBy>;
   username?: Maybe<OrderBy>;
-  uuid?: Maybe<OrderBy>;
 };
 
 export type PlayersMinFields = {
+  client_uuid?: Maybe<Scalars['uuid']>;
   created_at?: Maybe<Scalars['timestamptz']>;
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
   team?: Maybe<Scalars['String']>;
   team_sequence?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['String']>;
-  uuid?: Maybe<Scalars['uuid']>;
 };
 
 export type PlayersMinOrderBy = {
+  client_uuid?: Maybe<OrderBy>;
   created_at?: Maybe<OrderBy>;
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   team?: Maybe<OrderBy>;
   team_sequence?: Maybe<OrderBy>;
   username?: Maybe<OrderBy>;
-  uuid?: Maybe<OrderBy>;
 };
 
 export type PlayersMutationResponse = {
@@ -1191,6 +1032,7 @@ export type PlayersOnConflict = {
 };
 
 export type PlayersOrderBy = {
+  client_uuid?: Maybe<OrderBy>;
   created_at?: Maybe<OrderBy>;
   game?: Maybe<GamesOrderBy>;
   game_id?: Maybe<OrderBy>;
@@ -1198,124 +1040,95 @@ export type PlayersOrderBy = {
   team?: Maybe<OrderBy>;
   team_sequence?: Maybe<OrderBy>;
   username?: Maybe<OrderBy>;
-  uuid?: Maybe<OrderBy>;
 };
 
 export type PlayersPkColumnsInput = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 export enum PlayersSelectColumn {
+  ClientUuid = 'client_uuid',
   CreatedAt = 'created_at',
   GameId = 'game_id',
   Id = 'id',
   Team = 'team',
   TeamSequence = 'team_sequence',
-  Username = 'username',
-  Uuid = 'uuid'
+  Username = 'username'
 }
 
 export type PlayersSetInput = {
+  client_uuid?: Maybe<Scalars['uuid']>;
   created_at?: Maybe<Scalars['timestamptz']>;
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
   team?: Maybe<Scalars['String']>;
   team_sequence?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['String']>;
-  uuid?: Maybe<Scalars['uuid']>;
 };
 
 export type PlayersStddevFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersStddevOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   team_sequence?: Maybe<OrderBy>;
 };
 
 export type PlayersStddevPopFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersStddevPopOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   team_sequence?: Maybe<OrderBy>;
 };
 
 export type PlayersStddevSampFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersStddevSampOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   team_sequence?: Maybe<OrderBy>;
 };
 
 export type PlayersSumFields = {
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
   team_sequence?: Maybe<Scalars['Int']>;
 };
 
 export type PlayersSumOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   team_sequence?: Maybe<OrderBy>;
 };
 
 export enum PlayersUpdateColumn {
+  ClientUuid = 'client_uuid',
   CreatedAt = 'created_at',
   GameId = 'game_id',
   Id = 'id',
   Team = 'team',
   TeamSequence = 'team_sequence',
-  Username = 'username',
-  Uuid = 'uuid'
+  Username = 'username'
 }
 
 export type PlayersVarPopFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersVarPopOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   team_sequence?: Maybe<OrderBy>;
 };
 
 export type PlayersVarSampFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersVarSampOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   team_sequence?: Maybe<OrderBy>;
 };
 
 export type PlayersVarianceFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   team_sequence?: Maybe<Scalars['Float']>;
 };
 
 export type PlayersVarianceOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
   team_sequence?: Maybe<OrderBy>;
 };
 
@@ -1357,7 +1170,7 @@ export type QueryRootCardsAggregateArgs = {
 
 
 export type QueryRootCardsByPkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -1403,7 +1216,7 @@ export type QueryRootGamesAggregateArgs = {
 
 
 export type QueryRootGamesByPkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -1426,7 +1239,7 @@ export type QueryRootPlayersAggregateArgs = {
 
 
 export type QueryRootPlayersByPkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -1449,7 +1262,7 @@ export type QueryRootTurnsAggregateArgs = {
 
 
 export type QueryRootTurnsByPkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 export type StringComparisonExp = {
@@ -1508,7 +1321,7 @@ export type SubscriptionRootCardsAggregateArgs = {
 
 
 export type SubscriptionRootCardsByPkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -1554,7 +1367,7 @@ export type SubscriptionRootGamesAggregateArgs = {
 
 
 export type SubscriptionRootGamesByPkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -1577,7 +1390,7 @@ export type SubscriptionRootPlayersAggregateArgs = {
 
 
 export type SubscriptionRootPlayersByPkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -1600,7 +1413,7 @@ export type SubscriptionRootTurnsAggregateArgs = {
 
 
 export type SubscriptionRootTurnsByPkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -1621,11 +1434,12 @@ export type Turns = {
   created_at: Scalars['timestamptz'];
   ended_at?: Maybe<Scalars['timestamptz']>;
   game: Games;
-  game_id: Scalars['Int'];
-  id: Scalars['Int'];
+  game_id: Scalars['uuid'];
+  id: Scalars['uuid'];
   player: Players;
-  player_id: Scalars['Int'];
+  player_id: Scalars['uuid'];
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
+  sequential_id: Scalars['Int'];
   started_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -1683,17 +1497,13 @@ export type TurnsArrRelInsertInput = {
 };
 
 export type TurnsAvgFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
   seconds_per_turn_override?: Maybe<Scalars['Float']>;
+  sequential_id?: Maybe<Scalars['Float']>;
 };
 
 export type TurnsAvgOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
+  sequential_id?: Maybe<OrderBy>;
 };
 
 export type TurnsBoolExp = {
@@ -1704,11 +1514,12 @@ export type TurnsBoolExp = {
   created_at?: Maybe<TimestamptzComparisonExp>;
   ended_at?: Maybe<TimestamptzComparisonExp>;
   game?: Maybe<GamesBoolExp>;
-  game_id?: Maybe<IntComparisonExp>;
-  id?: Maybe<IntComparisonExp>;
+  game_id?: Maybe<UuidComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
   player?: Maybe<PlayersBoolExp>;
-  player_id?: Maybe<IntComparisonExp>;
+  player_id?: Maybe<UuidComparisonExp>;
   seconds_per_turn_override?: Maybe<IntComparisonExp>;
+  sequential_id?: Maybe<IntComparisonExp>;
   started_at?: Maybe<TimestamptzComparisonExp>;
 };
 
@@ -1729,10 +1540,8 @@ export type TurnsDeleteKeyInput = {
 };
 
 export type TurnsIncInput = {
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  player_id?: Maybe<Scalars['Int']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
+  sequential_id?: Maybe<Scalars['Int']>;
 };
 
 export type TurnsInsertInput = {
@@ -1740,21 +1549,23 @@ export type TurnsInsertInput = {
   created_at?: Maybe<Scalars['timestamptz']>;
   ended_at?: Maybe<Scalars['timestamptz']>;
   game?: Maybe<GamesObjRelInsertInput>;
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
   player?: Maybe<PlayersObjRelInsertInput>;
-  player_id?: Maybe<Scalars['Int']>;
+  player_id?: Maybe<Scalars['uuid']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
+  sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
 };
 
 export type TurnsMaxFields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   ended_at?: Maybe<Scalars['timestamptz']>;
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  player_id?: Maybe<Scalars['Int']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  player_id?: Maybe<Scalars['uuid']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
+  sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -1765,16 +1576,18 @@ export type TurnsMaxOrderBy = {
   id?: Maybe<OrderBy>;
   player_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
+  sequential_id?: Maybe<OrderBy>;
   started_at?: Maybe<OrderBy>;
 };
 
 export type TurnsMinFields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   ended_at?: Maybe<Scalars['timestamptz']>;
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  player_id?: Maybe<Scalars['Int']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  player_id?: Maybe<Scalars['uuid']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
+  sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -1785,6 +1598,7 @@ export type TurnsMinOrderBy = {
   id?: Maybe<OrderBy>;
   player_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
+  sequential_id?: Maybe<OrderBy>;
   started_at?: Maybe<OrderBy>;
 };
 
@@ -1814,11 +1628,12 @@ export type TurnsOrderBy = {
   player?: Maybe<PlayersOrderBy>;
   player_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
+  sequential_id?: Maybe<OrderBy>;
   started_at?: Maybe<OrderBy>;
 };
 
 export type TurnsPkColumnsInput = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 export type TurnsPrependInput = {
@@ -1833,6 +1648,7 @@ export enum TurnsSelectColumn {
   Id = 'id',
   PlayerId = 'player_id',
   SecondsPerTurnOverride = 'seconds_per_turn_override',
+  SequentialId = 'sequential_id',
   StartedAt = 'started_at'
 }
 
@@ -1840,67 +1656,52 @@ export type TurnsSetInput = {
   completed_card_ids?: Maybe<Scalars['jsonb']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   ended_at?: Maybe<Scalars['timestamptz']>;
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  player_id?: Maybe<Scalars['Int']>;
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  player_id?: Maybe<Scalars['uuid']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
+  sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
 };
 
 export type TurnsStddevFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
   seconds_per_turn_override?: Maybe<Scalars['Float']>;
+  sequential_id?: Maybe<Scalars['Float']>;
 };
 
 export type TurnsStddevOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
+  sequential_id?: Maybe<OrderBy>;
 };
 
 export type TurnsStddevPopFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
   seconds_per_turn_override?: Maybe<Scalars['Float']>;
+  sequential_id?: Maybe<Scalars['Float']>;
 };
 
 export type TurnsStddevPopOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
+  sequential_id?: Maybe<OrderBy>;
 };
 
 export type TurnsStddevSampFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
   seconds_per_turn_override?: Maybe<Scalars['Float']>;
+  sequential_id?: Maybe<Scalars['Float']>;
 };
 
 export type TurnsStddevSampOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
+  sequential_id?: Maybe<OrderBy>;
 };
 
 export type TurnsSumFields = {
-  game_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  player_id?: Maybe<Scalars['Int']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
+  sequential_id?: Maybe<Scalars['Int']>;
 };
 
 export type TurnsSumOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
+  sequential_id?: Maybe<OrderBy>;
 };
 
 export enum TurnsUpdateColumn {
@@ -1911,49 +1712,38 @@ export enum TurnsUpdateColumn {
   Id = 'id',
   PlayerId = 'player_id',
   SecondsPerTurnOverride = 'seconds_per_turn_override',
+  SequentialId = 'sequential_id',
   StartedAt = 'started_at'
 }
 
 export type TurnsVarPopFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
   seconds_per_turn_override?: Maybe<Scalars['Float']>;
+  sequential_id?: Maybe<Scalars['Float']>;
 };
 
 export type TurnsVarPopOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
+  sequential_id?: Maybe<OrderBy>;
 };
 
 export type TurnsVarSampFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
   seconds_per_turn_override?: Maybe<Scalars['Float']>;
+  sequential_id?: Maybe<Scalars['Float']>;
 };
 
 export type TurnsVarSampOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
+  sequential_id?: Maybe<OrderBy>;
 };
 
 export type TurnsVarianceFields = {
-  game_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  player_id?: Maybe<Scalars['Float']>;
   seconds_per_turn_override?: Maybe<Scalars['Float']>;
+  sequential_id?: Maybe<Scalars['Float']>;
 };
 
 export type TurnsVarianceOrderBy = {
-  game_id?: Maybe<OrderBy>;
-  id?: Maybe<OrderBy>;
-  player_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
+  sequential_id?: Maybe<OrderBy>;
 };
 
 
@@ -1970,30 +1760,30 @@ export type UuidComparisonExp = {
 };
 
 export type CurrentPlayerQueryVariables = {
-  playerUuid: Scalars['uuid'];
+  clientUuid: Scalars['uuid'];
   joinCode: Scalars['String'];
 };
 
 
 export type CurrentPlayerQuery = { players: Array<(
-    Pick<Players, 'id' | 'uuid' | 'username' | 'team' | 'team_sequence'>
-    & { game?: Maybe<(
+    Pick<Players, 'id' | 'client_uuid' | 'username' | 'team' | 'team_sequence'>
+    & { game: (
       Pick<Games, 'id' | 'join_code'>
       & { host?: Maybe<Pick<Players, 'id' | 'username'>> }
-    )> }
+    ) }
   )> };
 
 export type CurrentPlayerByIdQueryVariables = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
 export type CurrentPlayerByIdQuery = { players_by_pk?: Maybe<(
-    Pick<Players, 'id' | 'uuid' | 'username'>
-    & { game?: Maybe<(
+    Pick<Players, 'id' | 'client_uuid' | 'username'>
+    & { game: (
       Pick<Games, 'id' | 'join_code'>
       & { host?: Maybe<Pick<Players, 'id' | 'username'>> }
-    )> }
+    ) }
   )> };
 
 export type CurrentGameSubscriptionVariables = {
@@ -2017,14 +1807,14 @@ export type GameByJoinCodeQuery = { games: Array<(
   )> };
 
 export type GameByIdSubscriptionVariables = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
 export type GameByIdSubscription = { games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code'>> };
 
 export type UpdateGameStateMutationVariables = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
   state: GameStateEnum;
 };
 
@@ -2039,33 +1829,33 @@ export type SubmitCardsMutationVariables = {
 export type SubmitCardsMutation = { insert_cards?: Maybe<{ returning: Array<Pick<Cards, 'id'>> }> };
 
 export type StartGameMutationVariables = {
-  playerUuid: Scalars['uuid'];
+  clientUuid: Scalars['uuid'];
 };
 
 
 export type StartGameMutation = { insert_games_one?: Maybe<(
     Pick<Games, 'id' | 'join_code'>
-    & { players: Array<Pick<Players, 'id' | 'uuid'>> }
+    & { players: Array<Pick<Players, 'id' | 'client_uuid'>> }
   )> };
 
 export type BecomeHostMutationVariables = {
-  gameId: Scalars['Int'];
-  playerId: Scalars['Int'];
+  gameId: Scalars['uuid'];
+  playerId: Scalars['uuid'];
 };
 
 
 export type BecomeHostMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player'>> };
 
 export type JoinGameMutationVariables = {
-  gameId: Scalars['Int'];
-  playerUuid: Scalars['uuid'];
+  gameId: Scalars['uuid'];
+  clientUuid: Scalars['uuid'];
 };
 
 
-export type JoinGameMutation = { insert_players_one?: Maybe<Pick<Players, 'id' | 'uuid' | 'game_id'>> };
+export type JoinGameMutation = { insert_players_one?: Maybe<Pick<Players, 'id' | 'client_uuid' | 'game_id'>> };
 
 export type UpdateGameSettingsMutationVariables = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
   input: GamesSetInput;
 };
 
@@ -2073,7 +1863,7 @@ export type UpdateGameSettingsMutationVariables = {
 export type UpdateGameSettingsMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player'>> };
 
 export type UpdatePlayerMutationVariables = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
   input: PlayersSetInput;
 };
 
@@ -2081,15 +1871,15 @@ export type UpdatePlayerMutationVariables = {
 export type UpdatePlayerMutation = { update_players_by_pk?: Maybe<Pick<Players, 'id' | 'username' | 'team' | 'team_sequence'>> };
 
 export type CreateTurnMutationVariables = {
-  gameId: Scalars['Int'];
-  playerId: Scalars['Int'];
+  gameId: Scalars['uuid'];
+  playerId: Scalars['uuid'];
 };
 
 
 export type CreateTurnMutation = { insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id'>> };
 
 export type StartTurnMutationVariables = {
-  currentTurnId: Scalars['Int'];
+  currentTurnId: Scalars['uuid'];
   startedAt: Scalars['timestamptz'];
 };
 
@@ -2097,11 +1887,11 @@ export type StartTurnMutationVariables = {
 export type StartTurnMutation = { update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'started_at'>> };
 
 export type EndCurrentTurnAndStartNextTurnMutationVariables = {
-  currentTurnId: Scalars['Int'];
+  currentTurnId: Scalars['uuid'];
   completedCardIds: Scalars['jsonb'];
   endedAt: Scalars['timestamptz'];
-  gameId: Scalars['Int'];
-  nextTurnplayerId: Scalars['Int'];
+  gameId: Scalars['uuid'];
+  nextTurnplayerId: Scalars['uuid'];
   nextTurnSecondsPerTurnOverride?: Maybe<Scalars['Int']>;
 };
 
@@ -2109,7 +1899,7 @@ export type EndCurrentTurnAndStartNextTurnMutationVariables = {
 export type EndCurrentTurnAndStartNextTurnMutation = { update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'ended_at' | 'completed_card_ids'>>, insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id' | 'seconds_per_turn_override'>> };
 
 export type UpdateAllPlayersMutationVariables = {
-  gameId: Scalars['Int'];
+  gameId: Scalars['uuid'];
   players: Array<PlayersInsertInput>;
 };
 
@@ -2121,10 +1911,10 @@ export type UpdateAllPlayersMutation = { insert_games_one?: Maybe<(
 
 
 export const CurrentPlayerDocument = gql`
-    query CurrentPlayer($playerUuid: uuid!, $joinCode: String!) {
-  players(where: {uuid: {_eq: $playerUuid}, game: {join_code: {_eq: $joinCode}}}) {
+    query CurrentPlayer($clientUuid: uuid!, $joinCode: String!) {
+  players(where: {client_uuid: {_eq: $clientUuid}, game: {join_code: {_eq: $joinCode}}}) {
     id
-    uuid
+    client_uuid
     username
     team
     team_sequence
@@ -2152,7 +1942,7 @@ export const CurrentPlayerDocument = gql`
  * @example
  * const { data, loading, error } = useCurrentPlayerQuery({
  *   variables: {
- *      playerUuid: // value for 'playerUuid'
+ *      clientUuid: // value for 'clientUuid'
  *      joinCode: // value for 'joinCode'
  *   },
  * });
@@ -2167,10 +1957,10 @@ export type CurrentPlayerQueryHookResult = ReturnType<typeof useCurrentPlayerQue
 export type CurrentPlayerLazyQueryHookResult = ReturnType<typeof useCurrentPlayerLazyQuery>;
 export type CurrentPlayerQueryResult = ApolloReactCommon.QueryResult<CurrentPlayerQuery, CurrentPlayerQueryVariables>;
 export const CurrentPlayerByIdDocument = gql`
-    query CurrentPlayerById($id: Int!) {
+    query CurrentPlayerById($id: uuid!) {
   players_by_pk(id: $id) {
     id
-    uuid
+    client_uuid
     username
     game {
       id
@@ -2233,7 +2023,7 @@ export const CurrentGameDocument = gql`
       team
       team_sequence
     }
-    turns(order_by: {id: asc}) {
+    turns(order_by: {sequential_id: asc}) {
       id
       player_id
       started_at
@@ -2304,7 +2094,7 @@ export type GameByJoinCodeQueryHookResult = ReturnType<typeof useGameByJoinCodeQ
 export type GameByJoinCodeLazyQueryHookResult = ReturnType<typeof useGameByJoinCodeLazyQuery>;
 export type GameByJoinCodeQueryResult = ApolloReactCommon.QueryResult<GameByJoinCodeQuery, GameByJoinCodeQueryVariables>;
 export const GameByIdDocument = gql`
-    subscription GameById($id: Int!) {
+    subscription GameById($id: uuid!) {
   games_by_pk(id: $id) {
     id
     join_code
@@ -2334,7 +2124,7 @@ export function useGameByIdSubscription(baseOptions?: ApolloReactHooks.Subscript
 export type GameByIdSubscriptionHookResult = ReturnType<typeof useGameByIdSubscription>;
 export type GameByIdSubscriptionResult = ApolloReactCommon.SubscriptionResult<GameByIdSubscription>;
 export const UpdateGameStateDocument = gql`
-    mutation UpdateGameState($id: Int!, $state: game_state_enum!) {
+    mutation UpdateGameState($id: uuid!, $state: game_state_enum!) {
   update_games_by_pk(pk_columns: {id: $id}, _set: {state: $state}) {
     id
     state
@@ -2402,13 +2192,13 @@ export type SubmitCardsMutationHookResult = ReturnType<typeof useSubmitCardsMuta
 export type SubmitCardsMutationResult = ApolloReactCommon.MutationResult<SubmitCardsMutation>;
 export type SubmitCardsMutationOptions = ApolloReactCommon.BaseMutationOptions<SubmitCardsMutation, SubmitCardsMutationVariables>;
 export const StartGameDocument = gql`
-    mutation StartGame($playerUuid: uuid!) {
-  insert_games_one(object: {players: {data: [{uuid: $playerUuid}]}}) {
+    mutation StartGame($clientUuid: uuid!) {
+  insert_games_one(object: {players: {data: [{client_uuid: $clientUuid}]}}) {
     id
     join_code
     players {
       id
-      uuid
+      client_uuid
     }
   }
 }
@@ -2428,7 +2218,7 @@ export type StartGameMutationFn = ApolloReactCommon.MutationFunction<StartGameMu
  * @example
  * const [startGameMutation, { data, loading, error }] = useStartGameMutation({
  *   variables: {
- *      playerUuid: // value for 'playerUuid'
+ *      clientUuid: // value for 'clientUuid'
  *   },
  * });
  */
@@ -2439,7 +2229,7 @@ export type StartGameMutationHookResult = ReturnType<typeof useStartGameMutation
 export type StartGameMutationResult = ApolloReactCommon.MutationResult<StartGameMutation>;
 export type StartGameMutationOptions = ApolloReactCommon.BaseMutationOptions<StartGameMutation, StartGameMutationVariables>;
 export const BecomeHostDocument = gql`
-    mutation BecomeHost($gameId: Int!, $playerId: Int!) {
+    mutation BecomeHost($gameId: uuid!, $playerId: uuid!) {
   update_games_by_pk(pk_columns: {id: $gameId}, _set: {host_id: $playerId}) {
     id
     join_code
@@ -2476,10 +2266,10 @@ export type BecomeHostMutationHookResult = ReturnType<typeof useBecomeHostMutati
 export type BecomeHostMutationResult = ApolloReactCommon.MutationResult<BecomeHostMutation>;
 export type BecomeHostMutationOptions = ApolloReactCommon.BaseMutationOptions<BecomeHostMutation, BecomeHostMutationVariables>;
 export const JoinGameDocument = gql`
-    mutation JoinGame($gameId: Int!, $playerUuid: uuid!) {
-  insert_players_one(object: {game_id: $gameId, uuid: $playerUuid}, on_conflict: {constraint: players_uuid_game_id_key, update_columns: [uuid]}) {
+    mutation JoinGame($gameId: uuid!, $clientUuid: uuid!) {
+  insert_players_one(object: {game_id: $gameId, client_uuid: $clientUuid}, on_conflict: {constraint: players_client_uuid_game_id_key, update_columns: [client_uuid]}) {
     id
-    uuid
+    client_uuid
     game_id
   }
 }
@@ -2500,7 +2290,7 @@ export type JoinGameMutationFn = ApolloReactCommon.MutationFunction<JoinGameMuta
  * const [joinGameMutation, { data, loading, error }] = useJoinGameMutation({
  *   variables: {
  *      gameId: // value for 'gameId'
- *      playerUuid: // value for 'playerUuid'
+ *      clientUuid: // value for 'clientUuid'
  *   },
  * });
  */
@@ -2511,7 +2301,7 @@ export type JoinGameMutationHookResult = ReturnType<typeof useJoinGameMutation>;
 export type JoinGameMutationResult = ApolloReactCommon.MutationResult<JoinGameMutation>;
 export type JoinGameMutationOptions = ApolloReactCommon.BaseMutationOptions<JoinGameMutation, JoinGameMutationVariables>;
 export const UpdateGameSettingsDocument = gql`
-    mutation UpdateGameSettings($id: Int!, $input: games_set_input!) {
+    mutation UpdateGameSettings($id: uuid!, $input: games_set_input!) {
   update_games_by_pk(pk_columns: {id: $id}, _set: $input) {
     id
     join_code
@@ -2548,7 +2338,7 @@ export type UpdateGameSettingsMutationHookResult = ReturnType<typeof useUpdateGa
 export type UpdateGameSettingsMutationResult = ApolloReactCommon.MutationResult<UpdateGameSettingsMutation>;
 export type UpdateGameSettingsMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateGameSettingsMutation, UpdateGameSettingsMutationVariables>;
 export const UpdatePlayerDocument = gql`
-    mutation UpdatePlayer($id: Int!, $input: players_set_input!) {
+    mutation UpdatePlayer($id: uuid!, $input: players_set_input!) {
   update_players_by_pk(pk_columns: {id: $id}, _set: $input) {
     id
     username
@@ -2584,7 +2374,7 @@ export type UpdatePlayerMutationHookResult = ReturnType<typeof useUpdatePlayerMu
 export type UpdatePlayerMutationResult = ApolloReactCommon.MutationResult<UpdatePlayerMutation>;
 export type UpdatePlayerMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdatePlayerMutation, UpdatePlayerMutationVariables>;
 export const CreateTurnDocument = gql`
-    mutation CreateTurn($gameId: Int!, $playerId: Int!) {
+    mutation CreateTurn($gameId: uuid!, $playerId: uuid!) {
   insert_turns_one(object: {game_id: $gameId, player_id: $playerId}) {
     id
     game_id
@@ -2619,7 +2409,7 @@ export type CreateTurnMutationHookResult = ReturnType<typeof useCreateTurnMutati
 export type CreateTurnMutationResult = ApolloReactCommon.MutationResult<CreateTurnMutation>;
 export type CreateTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateTurnMutation, CreateTurnMutationVariables>;
 export const StartTurnDocument = gql`
-    mutation StartTurn($currentTurnId: Int!, $startedAt: timestamptz!) {
+    mutation StartTurn($currentTurnId: uuid!, $startedAt: timestamptz!) {
   update_turns_by_pk(pk_columns: {id: $currentTurnId}, _set: {started_at: $startedAt}) {
     id
     started_at
@@ -2653,7 +2443,7 @@ export type StartTurnMutationHookResult = ReturnType<typeof useStartTurnMutation
 export type StartTurnMutationResult = ApolloReactCommon.MutationResult<StartTurnMutation>;
 export type StartTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<StartTurnMutation, StartTurnMutationVariables>;
 export const EndCurrentTurnAndStartNextTurnDocument = gql`
-    mutation EndCurrentTurnAndStartNextTurn($currentTurnId: Int!, $completedCardIds: jsonb!, $endedAt: timestamptz!, $gameId: Int!, $nextTurnplayerId: Int!, $nextTurnSecondsPerTurnOverride: Int) {
+    mutation EndCurrentTurnAndStartNextTurn($currentTurnId: uuid!, $completedCardIds: jsonb!, $endedAt: timestamptz!, $gameId: uuid!, $nextTurnplayerId: uuid!, $nextTurnSecondsPerTurnOverride: Int) {
   update_turns_by_pk(pk_columns: {id: $currentTurnId}, _set: {ended_at: $endedAt, completed_card_ids: $completedCardIds}) {
     id
     ended_at
@@ -2698,7 +2488,7 @@ export type EndCurrentTurnAndStartNextTurnMutationHookResult = ReturnType<typeof
 export type EndCurrentTurnAndStartNextTurnMutationResult = ApolloReactCommon.MutationResult<EndCurrentTurnAndStartNextTurnMutation>;
 export type EndCurrentTurnAndStartNextTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<EndCurrentTurnAndStartNextTurnMutation, EndCurrentTurnAndStartNextTurnMutationVariables>;
 export const UpdateAllPlayersDocument = gql`
-    mutation UpdateAllPlayers($gameId: Int!, $players: [players_insert_input!]!) {
+    mutation UpdateAllPlayers($gameId: uuid!, $players: [players_insert_input!]!) {
   insert_games_one(object: {id: $gameId, players: {data: $players, on_conflict: {constraint: players_pkey, update_columns: [team, team_sequence]}}}, on_conflict: {constraint: games_pkey, update_columns: [id]}) {
     id
     players {

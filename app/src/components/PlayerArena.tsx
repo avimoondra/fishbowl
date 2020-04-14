@@ -1,5 +1,6 @@
 import { createStyles, makeStyles, Paper, Theme } from "@material-ui/core"
 import PlayerChip from "components/PlayerChip"
+import { Players } from "generated/graphql"
 import * as React from "react"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -10,15 +11,15 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "10px",
       overflow: "auto",
       "& > *": {
-        margin: theme.spacing(0.5),
-      },
-    },
+        margin: theme.spacing(0.5)
+      }
+    }
   })
 )
 
 function PlayerArena(props: {
   players: Array<{
-    id: number
+    id: Players["id"]
     username?: string | null | undefined
     team?: string | null | undefined
   }>
@@ -26,7 +27,7 @@ function PlayerArena(props: {
   const classes = useStyles()
   return (
     <Paper elevation={2} className={classes.playerList}>
-      {props.players.map((player) => {
+      {props.players.map(player => {
         return (
           player.username && (
             <PlayerChip

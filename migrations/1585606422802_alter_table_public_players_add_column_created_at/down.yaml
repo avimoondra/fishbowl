@@ -1,5 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: ALTER TABLE "public"."players" DROP COLUMN "created_at";
-  type: run_sql

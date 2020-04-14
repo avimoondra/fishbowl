@@ -2,8 +2,8 @@ import { CurrentPlayerQuery } from "generated/graphql"
 import { createContext } from "react"
 import { v4 as uuidv4 } from "uuid"
 
-export const playerUuid = () => {
-  const localStorageKey = "user.uuid"
+export const clientUuid = () => {
+  const localStorageKey = "player.client_uuid"
   if (localStorage.getItem(localStorageKey)) {
     return localStorage.getItem(localStorageKey)
   } else {
@@ -23,6 +23,9 @@ export type CurrentPlayerContextType = CurrentPlayerQuery["players"][0] & {
 }
 
 export const CurrentPlayerContext = createContext<CurrentPlayerContextType>({
-  id: -1,
-  role: PlayerRole.Participant
+  id: "",
+  role: PlayerRole.Participant,
+  game: {
+    id: ""
+  }
 })

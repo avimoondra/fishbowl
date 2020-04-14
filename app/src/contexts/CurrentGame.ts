@@ -4,7 +4,7 @@ import { createContext } from "react"
 export type CurrentGameContextType = CurrentGameSubscription["games"][0]
 
 export const CurrentGameContext = createContext<CurrentGameContextType>({
-  id: -1,
+  id: "",
   state: GameStateEnum.Lobby,
   cards: [],
   players: [],

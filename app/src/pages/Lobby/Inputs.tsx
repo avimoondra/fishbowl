@@ -2,6 +2,7 @@ import { Link, TextField } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
+  Players,
   useUpdateGameSettingsMutation,
   useUpdatePlayerMutation
 } from "generated/graphql"
@@ -12,14 +13,17 @@ function HelperText(props: { children: React.ReactNode }) {
   return <div style={{ width: 220 }}>{props.children}</div>
 }
 
-export function UsernameInput(props: { userId: number; username: string }) {
+export function UsernameInput(props: {
+  playerId: Players["id"]
+  username: string
+}) {
   const [updatePlayer] = useUpdatePlayerMutation()
   const debouncedUpdatePlayer = React.useRef(
     debounce(
       (value: string) =>
         updatePlayer({
           variables: {
-            id: props.userId,
+            id: props.playerId,
             input: { username: value }
           }
         }),
