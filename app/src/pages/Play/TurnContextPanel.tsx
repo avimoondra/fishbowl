@@ -72,7 +72,7 @@ function TurnContextPanel(props: { secondsLeft: number }) {
   const classes = useStyles()
 
   return (
-    <div>
+    <Box mt={2}>
       <Grid
         container
         alignItems="center"
@@ -95,7 +95,7 @@ function TurnContextPanel(props: { secondsLeft: number }) {
           <ScoreCardItem></ScoreCardItem>
         </Grid>
       </Grid>
-    </div>
+    </Box>
   )
 }
 

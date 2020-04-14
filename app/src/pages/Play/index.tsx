@@ -195,19 +195,19 @@ function Play() {
         </Grid>
       )}
       <Grid item>
-        <Grid item>
-          <TurnContextPanel
-            secondsLeft={Math.round(Math.max(secondsLeft, 0))}
-          ></TurnContextPanel>
-        </Grid>
+        <TurnContextPanel
+          secondsLeft={Math.round(Math.max(secondsLeft, 0))}
+        ></TurnContextPanel>
       </Grid>
       <Grid item>{content}</Grid>
 
       {currentPlayer.role === PlayerRole.Host && (
-        <HostControls
-          activePlayer={activePlayer}
-          activeTurn={activeTurn}
-        ></HostControls>
+        <Grid item>
+          <HostControls
+            activePlayer={activePlayer}
+            activeTurn={activeTurn}
+          ></HostControls>
+        </Grid>
       )}
     </Grid>
   )

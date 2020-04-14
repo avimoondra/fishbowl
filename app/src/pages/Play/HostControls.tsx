@@ -31,7 +31,7 @@ function HostControls(props: {
   )
 
   return (
-    <>
+    <Grid container direction="column" alignItems="center" spacing={2}>
       <Grid item>
         <Typography variant="h4" className={titleClasses.title}>
           Host Controls
@@ -109,7 +109,7 @@ function HostControls(props: {
           </Box>
         </Grid>
       </Grid>
-    </>
+    </Grid>
   )
 }
 
