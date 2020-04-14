@@ -8,10 +8,10 @@ import {
   useCreateTurnMutation,
   useUpdateGameStateMutation
 } from "generated/graphql"
+import { Team, TeamColor } from "lib/team"
+import { nextPlayerForNextTeam } from "lib/turn"
 import { filter } from "lodash"
 import { Title } from "pages/CardSubmission"
-import { nextPlayer } from "lib/turn"
-import { Team, TeamColor } from "lib/team"
 import * as React from "react"
 
 function TeamAssignment() {
@@ -84,7 +84,7 @@ function TeamAssignment() {
               await createFirstTurn({
                 variables: {
                   gameId: currentGame.id,
-                  playerId: nextPlayer(
+                  playerId: nextPlayerForNextTeam(
                     null,
                     currentGame.turns,
                     currentGame.players

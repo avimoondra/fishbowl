@@ -1,11 +1,7 @@
 import { Typography } from "@material-ui/core"
+import { calculateSecondsLeft } from "lib/time"
+import useInterval from "lib/useInterval"
 import * as React from "react"
-
-const calculateSecondsLeft = (startDate: Date, seconds: number) => {
-  const endInSeconds = startDate.getTime() / 1000 + seconds
-  const nowInSeconds = new Date().getTime() / 1000
-  return endInSeconds - nowInSeconds
-}
 
 function CountdownTimer(props: {
   seconds: number
@@ -17,22 +13,16 @@ function CountdownTimer(props: {
     calculateSecondsLeft(props.startDate, props.seconds) || props.seconds
   )
 
-  React.useEffect(() => {
-    let interval: NodeJS.Timeout | null = null
+  useInterval(() => {
     if (props.isActive && secondsLeft >= 0) {
-      interval = setInterval(() => {
-        const newSecondsLeft = calculateSecondsLeft(
-          props.startDate,
-          props.seconds
-        )
-        setSecondsLeft(newSecondsLeft)
-        props.onCountdown && props.onCountdown(newSecondsLeft)
-      }, 1000)
-    } else if (!props.isActive && interval) {
-      clearInterval(interval)
+      const nextSecondsLeft = calculateSecondsLeft(
+        props.startDate,
+        props.seconds
+      )
+      setSecondsLeft(nextSecondsLeft)
+      props.onCountdown && props.onCountdown(nextSecondsLeft)
     }
-    return () => (interval ? clearInterval(interval) : undefined)
-  }, [props.isActive, secondsLeft])
+  }, 1000)
 
   return (
     <Typography variant="h3">{Math.round(Math.max(secondsLeft, 0))}</Typography>

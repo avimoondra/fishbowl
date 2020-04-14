@@ -7,9 +7,8 @@ import {
   Theme
 } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
-import { CurrentGameSubscription } from "generated/graphql"
 import { teamScore } from "lib/score"
-import { Team } from "lib/team"
+import { Team, TeamColor } from "lib/team"
 import { drawableCards } from "lib/turn"
 import * as React from "react"
 
@@ -31,19 +30,29 @@ function ScoreCardItem() {
   return (
     <Box pl={2} pr={2}>
       <Box style={{ fontSize: "24px", lineHeight: "0.9" }}>
-        {teamScore(Team.Red, currentGame.turns, currentGame.players)}
+        {
+          <span style={{ color: TeamColor[Team.Red] }}>
+            {teamScore(Team.Red, currentGame.turns, currentGame.players)}
+          </span>
+        }
         {" - "}
-        {teamScore(Team.Blue, currentGame.turns, currentGame.players)}
+        {
+          <span style={{ color: TeamColor[Team.Blue] }}>
+            {teamScore(Team.Blue, currentGame.turns, currentGame.players)}
+          </span>
+        }
       </Box>
       <Box>score</Box>
     </Box>
   )
 }
 
-function CountdownTimerItem() {
+function CountdownTimerItem(props: { secondsLeft: number }) {
   return (
     <Box pl={2} pr={2}>
-      <Box style={{ fontSize: "24px", lineHeight: "0.9" }}>10</Box>
+      <Box style={{ fontSize: "24px", lineHeight: "0.9" }}>
+        {props.secondsLeft}
+      </Box>
       <Box>seconds</Box>
     </Box>
   )
@@ -59,15 +68,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-function TurnContextPanel(props: {
-  activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
-}) {
+function TurnContextPanel(props: { secondsLeft: number }) {
   const classes = useStyles()
-  const currentGame = React.useContext(CurrentGameContext)
-  const startingSeconds =
-    props.activeTurn.seconds_per_turn_override ||
-    currentGame.seconds_per_turn ||
-    0
 
   return (
     <div>
@@ -84,12 +86,9 @@ function TurnContextPanel(props: {
         </Grid>
         <Divider orientation="vertical" flexItem />
         <Grid item>
-          <CountdownTimerItem></CountdownTimerItem>
-          {/* <CountdownTimer
-          seconds={startingSeconds}
-          isActive={props.activeTurn.started_at !== null}
-          startDate={dateFromTimestamptzNow(props.activeTurn.started_at)}
-        ></CountdownTimer> */}
+          <CountdownTimerItem
+            secondsLeft={props.secondsLeft}
+          ></CountdownTimerItem>
         </Grid>
         <Divider orientation="vertical" flexItem />
         <Grid item>

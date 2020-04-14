@@ -6,11 +6,31 @@ import {
   filter,
   findLast,
   groupBy,
+  last,
   max,
   reject,
   sortBy,
   values
 } from "lodash"
+
+export enum ActiveTurnPlayState {
+  Waiting = 1,
+  Playing,
+  Reviewing
+}
+
+export function activeTurn(
+  turns: CurrentGameSubscription["games"][0]["turns"]
+) {
+  return last(turns)
+}
+
+export function activePlayer(
+  activeTurn: CurrentGameSubscription["games"][0]["turns"][0],
+  players: CurrentGameSubscription["games"][0]["players"]
+) {
+  return players.find(player => player.id === activeTurn?.player_id)
+}
 
 export function nextPlayerForSameTeam(
   activePlayer: CurrentGameSubscription["games"][0]["players"][0],
@@ -29,7 +49,7 @@ export function nextPlayerForSameTeam(
   return sameTeamPlayersSortedBySequence[nextPositionInSequence]
 }
 
-export function nextPlayer(
+export function nextPlayerForNextTeam(
   activePlayer: CurrentGameSubscription["games"][0]["players"][0] | null,
   turns: CurrentGameSubscription["games"][0]["turns"],
   players: CurrentGameSubscription["games"][0]["players"]
@@ -61,6 +81,12 @@ export function nextPlayer(
     : nextTeamPlayersSortedBySequence[0]
 
   return nextPlayerFromNextTeamToPlay
+}
+
+export function completedCardIds(
+  turns: CurrentGameSubscription["games"][0]["turns"]
+) {
+  return turns.flatMap(turn => turn.completed_card_ids)
 }
 
 export function drawableCards(

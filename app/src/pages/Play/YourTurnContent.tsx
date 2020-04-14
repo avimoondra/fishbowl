@@ -17,19 +17,13 @@ import {
 } from "generated/graphql"
 import { timestamptzNow } from "lib/time"
 import {
+  ActiveTurnPlayState,
   drawableCardsWithoutCompletedCardsInActiveTurn,
-  nextPlayer,
+  nextPlayerForNextTeam,
   nextPlayerForSameTeam
 } from "lib/turn"
 import { filter, sample } from "lodash"
-import CountdownTimer from "pages/Play/CountdownTimer"
 import * as React from "react"
-
-enum ActiveTurnPlayState {
-  Waiting = 1,
-  Playing,
-  Reviewing
-}
 
 enum ShownCardStatus {
   Completed = 1,
@@ -49,17 +43,18 @@ const GreenCheckbox = withStyles({
 
 function YourTurnContent(props: {
   yourTeamPlayers: CurrentGameSubscription["games"][0]["players"]
+  cardsInBowl: CurrentGameSubscription["games"][0]["cards"]
   activePlayer: CurrentGameSubscription["games"][0]["players"][0]
   activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
-  cardsInBowl: CurrentGameSubscription["games"][0]["cards"]
+  activeTurnPlayState: ActiveTurnPlayState
+  secondsLeft: number
+  onStart: () => void
+  onOutOfCards: () => void
 }) {
   const currentGame = React.useContext(CurrentGameContext)
   const [startTurn] = useStartTurnMutation()
   const [endTurn] = useEndCurrentTurnAndStartNextTurnMutation()
 
-  const [activeTurnPlayState, setActiveTurnPlayState] = React.useState(
-    ActiveTurnPlayState.Waiting
-  )
   const [activeCard, setActiveCard] = React.useState<
     CurrentGameSubscription["games"][0]["cards"][0] | null
   >(null)
@@ -68,27 +63,18 @@ function YourTurnContent(props: {
     Map<number, ShownCardStatus>
   >(new Map())
 
-  const [turnStartedAt, setTurnStartedAt] = React.useState<Date | null>(null)
-  const [secondsLeft, setSecondsLeft] = React.useState<number | null>(null)
-
-  const startingSeconds =
-    props.activeTurn.seconds_per_turn_override ||
-    currentGame.seconds_per_turn ||
-    0
-
   return (
     <Grid container direction="column" spacing={4} alignItems="center">
-      {activeTurnPlayState === ActiveTurnPlayState.Reviewing &&
-      secondsLeft &&
-      secondsLeft >= 0 ? (
+      {props.activeTurnPlayState === ActiveTurnPlayState.Reviewing &&
+      props.secondsLeft >= 0 ? (
         <Grid item>{`You'll be starting the next round with ${Math.round(
-          secondsLeft
+          props.secondsLeft
         )} seconds leftover from this turn!`}</Grid>
       ) : null}
 
       {/* Cards */}
       {[ActiveTurnPlayState.Waiting, ActiveTurnPlayState.Playing].includes(
-        activeTurnPlayState
+        props.activeTurnPlayState
       ) && (
         <>
           <Grid item container>
@@ -119,7 +105,7 @@ function YourTurnContent(props: {
           </Grid>
         </>
       )}
-      {activeTurnPlayState === ActiveTurnPlayState.Reviewing && (
+      {props.activeTurnPlayState === ActiveTurnPlayState.Reviewing && (
         <>
           <Grid item>
             Review the cards you went through this turn. If you skipped or
@@ -171,66 +157,49 @@ function YourTurnContent(props: {
 
       {/* Controls */}
       <Grid item container justify="space-around">
-        {activeTurnPlayState === ActiveTurnPlayState.Playing && (
-          <>
-            {turnStartedAt && (
-              <Grid item style={{ minWidth: 100 }}>
-                <CountdownTimer
-                  seconds={startingSeconds}
-                  startDate={turnStartedAt}
-                  isActive
-                  onCountdown={secondsLeft => {
-                    setSecondsLeft(secondsLeft)
-                    if (secondsLeft <= 0) {
-                      setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
-                    }
-                  }}
-                ></CountdownTimer>
-              </Grid>
-            )}
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={async () => {
-                  if (activeCard?.id) {
-                    const nextMap = new Map(
-                      shownCardsInActiveTurn.set(
-                        activeCard.id,
-                        ShownCardStatus.Completed
-                      )
+        {props.activeTurnPlayState === ActiveTurnPlayState.Playing && (
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={async () => {
+                if (activeCard?.id) {
+                  const nextMap = new Map(
+                    shownCardsInActiveTurn.set(
+                      activeCard.id,
+                      ShownCardStatus.Completed
                     )
-                    setShownCardsInActiveTurn(nextMap)
-                    const nextSet = drawableCardsWithoutCompletedCardsInActiveTurn(
-                      props.cardsInBowl,
-                      [...shownCardsInActiveTurn.keys()]
-                    )
-                    const outOfCards = nextSet.length === 0
-                    if (outOfCards) {
-                      setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
-                    } else {
-                      const nextActiveCard = sample(nextSet) || null
-                      setActiveCard(nextActiveCard)
-                      if (nextActiveCard) {
-                        const nextMap = new Map(
-                          shownCardsInActiveTurn.set(
-                            nextActiveCard.id,
-                            ShownCardStatus.Incomplete
-                          )
+                  )
+                  setShownCardsInActiveTurn(nextMap)
+                  const nextSet = drawableCardsWithoutCompletedCardsInActiveTurn(
+                    props.cardsInBowl,
+                    [...shownCardsInActiveTurn.keys()]
+                  )
+                  const outOfCards = nextSet.length === 0
+                  if (outOfCards) {
+                    props.onOutOfCards()
+                  } else {
+                    const nextActiveCard = sample(nextSet) || null
+                    setActiveCard(nextActiveCard)
+                    if (nextActiveCard) {
+                      const nextMap = new Map(
+                        shownCardsInActiveTurn.set(
+                          nextActiveCard.id,
+                          ShownCardStatus.Incomplete
                         )
-                        setShownCardsInActiveTurn(nextMap)
-                      }
+                      )
+                      setShownCardsInActiveTurn(nextMap)
                     }
                   }
-                }}
-              >
-                Next Card
-              </Button>
-            </Grid>
-          </>
+                }
+              }}
+            >
+              Next Card
+            </Button>
+          </Grid>
         )}
 
-        {activeTurnPlayState === ActiveTurnPlayState.Waiting && (
+        {props.activeTurnPlayState === ActiveTurnPlayState.Waiting && (
           <Grid item>
             <Button
               onClick={async () => {
@@ -253,7 +222,7 @@ function YourTurnContent(props: {
           </Grid>
         )}
 
-        {activeTurnPlayState === ActiveTurnPlayState.Reviewing && (
+        {props.activeTurnPlayState === ActiveTurnPlayState.Reviewing && (
           <Grid item>
             <Button
               variant="contained"
@@ -272,7 +241,7 @@ function YourTurnContent(props: {
                     props.cardsInBowl,
                     [...shownCardsInActiveTurn.keys()]
                   ).length === 0 &&
-                  secondsLeft !== 0
+                  props.secondsLeft !== 0
                 await endTurn({
                   variables: {
                     currentTurnId: props.activeTurn.id,
@@ -281,13 +250,13 @@ function YourTurnContent(props: {
                     gameId: currentGame.id,
                     nextTurnplayerId: continueTurnIntoNewRound
                       ? props.activePlayer.id
-                      : nextPlayer(
+                      : nextPlayerForNextTeam(
                           props.activePlayer,
                           currentGame.turns,
                           currentGame.players
                         ).id,
                     nextTurnSecondsPerTurnOverride: continueTurnIntoNewRound
-                      ? Math.round(Number(secondsLeft))
+                      ? Math.round(Number(props.secondsLeft))
                       : null
                   }
                 })
@@ -301,7 +270,7 @@ function YourTurnContent(props: {
           </Grid>
         )}
 
-        {activeTurnPlayState === ActiveTurnPlayState.Waiting && (
+        {props.activeTurnPlayState === ActiveTurnPlayState.Waiting && (
           <Grid item>
             <Button
               variant="contained"
@@ -314,9 +283,7 @@ function YourTurnContent(props: {
                     startedAt: timestamptzNow()
                   }
                 })
-                setTurnStartedAt(new Date())
-                setSecondsLeft(Number(startingSeconds))
-                setActiveTurnPlayState(ActiveTurnPlayState.Playing)
+                props.onStart()
                 const nextActiveCard =
                   sample(
                     drawableCardsWithoutCompletedCardsInActiveTurn(
