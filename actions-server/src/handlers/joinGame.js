@@ -19,7 +19,7 @@ mutation JoinGame($gameId: uuid!, $clientUuid: uuid!) {
 
 // execute the parent operation in Hasura
 const execute = async (variables) => {
-  const fetchResponse = await fetch("http://127.0.0.1:8080/v1/graphql", {
+  const fetchResponse = await fetch(process.env.HASURA_ENDPOINT, {
     method: "POST",
     body: JSON.stringify({
       query: HASURA_OPERATION,
