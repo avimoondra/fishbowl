@@ -1,7 +1,7 @@
 import GameRoutes from "components/GameRoutes"
 import Home from "pages/Home"
 import * as React from "react"
-import { BrowserRouter, Route, Switch } from "react-router-dom"
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
 import routes from "./routes"
 
 function App() {
@@ -19,6 +19,9 @@ function App() {
             )
           }}
         />
+        <Route path="*">
+          <Redirect to={routes.root}></Redirect>
+        </Route>
       </Switch>
     </BrowserRouter>
   )
