@@ -1,0 +1,4 @@
+- args:
+    action: joinGame
+    role: anonymous
+  type: drop_action_permission

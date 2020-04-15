@@ -1,0 +1,21 @@
+- args:
+    name: joinGame
+  type: drop_action
+- args:
+    enums: []
+    input_objects: []
+    objects:
+    - description: null
+      fields:
+      - arguments: null
+        description: null
+        name: id
+        type: String!
+      - arguments: null
+        description: null
+        name: jwt_token
+        type: String!
+      name: joinGameOutput
+      relationships: null
+    scalars: []
+  type: set_custom_types
