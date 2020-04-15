@@ -1,13 +1,13 @@
-mutation StartGame($clientUuid: uuid!) {
-  insert_games_one(
-    object: { players: { data: [{ client_uuid: $clientUuid }] } }
-  ) {
+mutation StartGame {
+  insert_games_one(object: {}) {
     id
-    join_code
-    players {
-      id
-      client_uuid
-    }
+  }
+}
+
+mutation JoinGame($gameId: String!, $clientUuid: String!) {
+  joinGame(gameId: $gameId, clientUuid: $clientUuid) {
+    id
+    jwt_token
   }
 }
 
@@ -24,7 +24,21 @@ mutation BecomeHost($gameId: uuid!, $playerId: uuid!) {
   }
 }
 
-mutation JoinGame($gameId: uuid!, $clientUuid: uuid!) {
+query GameByJoinCode($joinCode: String!) {
+  games(where: { join_code: { _eq: $joinCode } }) {
+    id
+  }
+}
+
+subscription GameById($id: uuid!) {
+  games_by_pk(id: $id) {
+    id
+    join_code
+  }
+}
+
+# see: joinGame.js
+mutation UpsertPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
   insert_players_one(
     object: { game_id: $gameId, client_uuid: $clientUuid }
     on_conflict: {
@@ -35,5 +49,13 @@ mutation JoinGame($gameId: uuid!, $clientUuid: uuid!) {
     id
     client_uuid
     game_id
+  }
+}
+
+query LookupPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
+  players(
+    where: { game_id: { _eq: $gameId }, client_uuid: { _eq: $clientUuid } }
+  ) {
+    id
   }
 }

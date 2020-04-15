@@ -1,5 +1,6 @@
 import { useLazyQuery } from "@apollo/react-hooks"
 import { Button, Grid, TextField } from "@material-ui/core"
+import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { clientUuid } from "contexts/CurrentPlayer"
 import { GameByJoinCodeDocument, useJoinGameMutation } from "generated/graphql"
 import * as React from "react"
@@ -7,6 +8,7 @@ import { generatePath, Redirect } from "react-router-dom"
 import routes from "routes"
 
 function Join(props: { onBack: () => void }) {
+  const currentAuth = React.useContext(CurrentAuthContext)
   const [redirectRoute, setRedirectRoute] = React.useState("")
   const [joinCode, setJoinCode] = React.useState("")
   const [joinGame] = useJoinGameMutation()
@@ -14,15 +16,18 @@ function Join(props: { onBack: () => void }) {
     variables: { joinCode: joinCode?.toLocaleUpperCase() },
     onCompleted: async data => {
       if (data && data.games[0]) {
-        await joinGame({
+        const registration = await joinGame({
           variables: {
             gameId: data.games[0].id,
             clientUuid: clientUuid()
           }
         })
+        if (registration.data?.joinGame) {
+          await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
+        }
         setRedirectRoute(
           generatePath(routes.game.lobby, {
-            joinCode: data.games[0].join_code
+            joinCode: joinCode?.toLocaleUpperCase()
           })
         )
       } else {

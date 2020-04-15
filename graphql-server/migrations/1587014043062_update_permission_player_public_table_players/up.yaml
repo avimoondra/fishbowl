@@ -1,0 +1,21 @@
+- args:
+    permission:
+      allow_upsert: true
+      check:
+        _or:
+        - id:
+            _eq: X-Hasura-User-Id
+        - game:
+            players:
+              id:
+                _eq: X-Hasura-User-Id
+      columns: []
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: player
+    table:
+      name: players
+      schema: public
+  type: create_insert_permission

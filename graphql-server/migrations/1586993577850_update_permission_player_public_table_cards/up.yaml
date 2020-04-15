@@ -1,0 +1,26 @@
+- args:
+    role: player
+    table:
+      name: cards
+      schema: public
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - id
+      - game_id
+      - player_id
+      - word
+      - created_at
+      computed_fields: []
+      filter:
+        game:
+          players:
+            id:
+              _eq: X-Hasura-User-Id
+    role: player
+    table:
+      name: cards
+      schema: public
+  type: create_select_permission

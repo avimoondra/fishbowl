@@ -1,9 +1,11 @@
 import { Box, Button, Divider, Grid, Typography } from "@material-ui/core"
 import Fishbowl from "components/FishbowlAnimation"
+import { AuthStorageKey, CurrentAuthContext } from "contexts/CurrentAuth"
 import { clientUuid } from "contexts/CurrentPlayer"
 import {
   Games,
   useBecomeHostMutation,
+  useJoinGameMutation,
   useStartGameMutation
 } from "generated/graphql"
 import { useTitleStyle } from "index"
@@ -20,12 +22,18 @@ enum PlayerState {
 
 function Home() {
   const titleClasses = useTitleStyle()
+  const currentAuth = React.useContext(CurrentAuthContext)
   const [gameId, setGameId] = React.useState<Games["id"] | null>(null)
   const [playerState, setPlayerState] = React.useState<PlayerState>(
     PlayerState.Choosing
   )
   const [startGame] = useStartGameMutation()
+  const [joinGame] = useJoinGameMutation()
   const [becomeHost] = useBecomeHostMutation()
+
+  React.useEffect(() => {
+    localStorage.removeItem(AuthStorageKey)
+  }, [])
 
   return (
     <>
@@ -47,21 +55,27 @@ function Home() {
                 size="large"
                 onClick={async () => {
                   setPlayerState(PlayerState.Hosting)
-                  const { data } = await startGame({
-                    variables: {
-                      clientUuid: clientUuid()
-                    }
-                  })
+                  const { data } = await startGame()
                   const gameId = data?.insert_games_one?.id
-                  const playerId = data?.insert_games_one?.players[0].id
-                  if (gameId && playerId) {
-                    await becomeHost({
+                  if (gameId) {
+                    const registration = await joinGame({
                       variables: {
-                        gameId,
-                        playerId
+                        gameId: gameId,
+                        clientUuid: clientUuid()
                       }
                     })
-                    setGameId(gameId)
+                    if (registration.data?.joinGame) {
+                      await currentAuth.setJwtToken(
+                        registration.data.joinGame.jwt_token
+                      )
+                      await becomeHost({
+                        variables: {
+                          gameId: gameId,
+                          playerId: registration.data.joinGame.id
+                        }
+                      })
+                      setGameId(gameId)
+                    }
                   }
                 }}
                 disabled={playerState === PlayerState.Hosting}

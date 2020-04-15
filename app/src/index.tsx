@@ -1,17 +1,17 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import "index.css"
-import * as serviceWorker from "serviceWorker"
-
+import {
+  Container,
+  createMuiTheme,
+  CssBaseline,
+  makeStyles,
+  ThemeProvider
+} from "@material-ui/core"
 import ApolloWrapper from "ApolloWrapper"
 import App from "App"
-import {
-  CssBaseline,
-  ThemeProvider,
-  createMuiTheme,
-  Container,
-  makeStyles
-} from "@material-ui/core"
+import AuthWrapper from "AuthWrapper"
+import "index.css"
+import React from "react"
+import ReactDOM from "react-dom"
+import * as serviceWorker from "serviceWorker"
 
 export const useTitleStyle = makeStyles({
   title: {
@@ -23,15 +23,17 @@ const theme = createMuiTheme({})
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloWrapper>
-      <ThemeProvider theme={theme}>
-        <CssBaseline>
-          <Container maxWidth="sm" style={{ marginTop: "30px" }}>
-            <App></App>
-          </Container>
-        </CssBaseline>
-      </ThemeProvider>
-    </ApolloWrapper>
+    <AuthWrapper>
+      <ApolloWrapper>
+        <ThemeProvider theme={theme}>
+          <CssBaseline>
+            <Container maxWidth="sm" style={{ marginTop: "30px" }}>
+              <App></App>
+            </Container>
+          </CssBaseline>
+        </ThemeProvider>
+      </ApolloWrapper>
+    </AuthWrapper>
   </React.StrictMode>,
   document.getElementById("root")
 )

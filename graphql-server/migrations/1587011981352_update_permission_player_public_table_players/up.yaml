@@ -1,0 +1,23 @@
+- args:
+    permission:
+      columns:
+      - team
+      - team_sequence
+      - username
+      filter:
+        _or:
+        - id:
+            _eq: X-Hasura-User-Id
+        - game:
+            players:
+              id:
+                _eq: X-Hasura-User-Id
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: player
+    table:
+      name: players
+      schema: public
+  type: create_update_permission

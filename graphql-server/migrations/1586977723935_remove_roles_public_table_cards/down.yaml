@@ -1,0 +1,47 @@
+- args:
+    permission:
+      check: {}
+      columns:
+      - id
+      - game_id
+      - player_id
+      - word
+      - created_at
+      set: {}
+    role: anonymous
+    table:
+      name: cards
+      schema: public
+  type: create_insert_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - id
+      - game_id
+      - player_id
+      - word
+      - created_at
+      computed_fields: []
+      filter: {}
+    role: anonymous
+    table:
+      name: cards
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      check: {}
+      columns:
+      - id
+      - game_id
+      - player_id
+      - word
+      - created_at
+      filter: {}
+      set: {}
+    role: anonymous
+    table:
+      name: cards
+      schema: public
+  type: create_update_permission

@@ -1,0 +1,19 @@
+- args:
+    permission:
+      allow_upsert: true
+      check:
+        game:
+          state:
+            _eq: lobby
+      columns:
+      - client_uuid
+      - game_id
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: anonymous
+    table:
+      name: players
+      schema: public
+  type: create_insert_permission

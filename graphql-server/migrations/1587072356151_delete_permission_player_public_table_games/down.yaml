@@ -1,0 +1,13 @@
+- args:
+    permission:
+      check: {}
+      columns: []
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: player
+    table:
+      name: games
+      schema: public
+  type: create_insert_permission

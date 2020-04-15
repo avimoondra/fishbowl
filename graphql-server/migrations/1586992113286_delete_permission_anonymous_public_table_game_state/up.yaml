@@ -1,0 +1,6 @@
+- args:
+    role: anonymous
+    table:
+      name: game_state
+      schema: public
+  type: drop_select_permission
