@@ -54,25 +54,35 @@ See https://docs.hasura.io/1.0/graphql/manual/hasura-cli/install-hasura-cli.html
 
 7. Start your servers
 
-(1) Run Hasura in localhost:8080
-
-```
-docker-compose up
-hasura migrate apply --admin-secret=myadminsecretkey # for new databases
-```
-
-(2) Open Hasura console on localhost:9695 (to track migrations)
+(1) Run actions node express server
 
 ```bash
-hasura console --admin-secret=myadminsecretkey
+cd actions-server
+npm install
+PORT=3001 npm start
 ```
 
-(3) Run front end in localhost:3000
+(2) Run front end in localhost:3000
 
 ```bash
 cd app
 yarn install --frozen-lockfile
 yarn run start
+```
+
+(3) Run Hasura in localhost:8080
+
+```
+cd graphql-server
+docker-compose up
+hasura migrate apply --admin-secret=myadminsecretkey # for new databases
+```
+
+(4) Open Hasura console on localhost:9695 (to track migrations)
+
+```bash
+cd graphql-server
+hasura console --admin-secret=myadminsecretkey
 ```
 
 # Contribute

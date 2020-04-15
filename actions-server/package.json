@@ -1,0 +1,21 @@
+{
+  "name": "nodejs-express-actions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon -r esm src/server.js"
+  },
+  "dependencies": {
+    "body-parser": "1.19.0",
+    "express": "4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "node-fetch": "2.6.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "nodemon": "1.18.4"
+  },
+  "keywords": []
+}
