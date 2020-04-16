@@ -21,22 +21,6 @@ query CurrentPlayer($clientUuid: uuid!, $joinCode: String!) {
   }
 }
 
-query CurrentPlayerById($id: uuid!) {
-  players_by_pk(id: $id) {
-    id
-    client_uuid
-    username
-    game {
-      id
-      join_code
-      host {
-        id
-        username
-      }
-    }
-  }
-}
-
 subscription CurrentGame($joinCode: String!) {
   games(where: { join_code: { _eq: $joinCode } }) {
     id
@@ -67,24 +51,6 @@ subscription CurrentGame($joinCode: String!) {
       completed_card_ids
       seconds_per_turn_override
     }
-  }
-}
-
-query GameByJoinCode($joinCode: String!) {
-  games(where: { join_code: { _eq: $joinCode } }) {
-    id
-    join_code
-    host {
-      id
-      username
-    }
-  }
-}
-
-subscription GameById($id: uuid!) {
-  games_by_pk(id: $id) {
-    id
-    join_code
   }
 }
 

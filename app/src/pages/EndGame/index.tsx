@@ -1,5 +1,6 @@
 import { Box, Button, Grid, Typography } from "@material-ui/core"
 import PlayerChip from "components/PlayerChip"
+import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { useTitleStyle } from "index"
@@ -9,6 +10,7 @@ import { Redirect } from "react-router-dom"
 import routes from "routes"
 
 function EndGame() {
+  const currentAuth = React.useContext(CurrentAuthContext)
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const titleClasses = useTitleStyle()
@@ -73,7 +75,10 @@ function EndGame() {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => setRedirectHome(true)}
+              onClick={() => {
+                currentAuth.setJwtToken(null)
+                setRedirectHome(true)
+              }}
             >
               Play Again
             </Button>

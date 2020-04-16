@@ -1,0 +1,19 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - id
+      - client_uuid
+      - game_id
+      - username
+      - team
+      - team_sequence
+      - created_at
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: player
+    table:
+      name: players
+      schema: public
+  type: create_select_permission

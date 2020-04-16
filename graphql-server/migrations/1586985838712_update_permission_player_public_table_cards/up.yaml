@@ -1,0 +1,17 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - id
+      - game_id
+      - player_id
+      - word
+      - created_at
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: player
+    table:
+      name: cards
+      schema: public
+  type: create_select_permission

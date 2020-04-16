@@ -5,12 +5,23 @@ import { split } from "apollo-link"
 import { HttpLink } from "apollo-link-http"
 import { WebSocketLink } from "apollo-link-ws"
 import { getMainDefinition } from "apollo-utilities"
+import {
+  AuthRole,
+  CurrentAuthContext,
+  CurrentAuthContextType
+} from "contexts/CurrentAuth"
 import * as React from "react"
 
-const createApolloClient = () => {
+const createApolloClient = (jwtToken: CurrentAuthContextType["jwtToken"]) => {
   const httpLink = new HttpLink({
     uri: process.env.REACT_APP_FISHBOWL_GRAPHQL_ENDPOINT,
     credentials: "include",
+    headers: jwtToken
+      ? {
+          Authorization: `Bearer ${jwtToken}`,
+          "X-Hasura-Role": AuthRole.Player
+        }
+      : undefined
   })
 
   const wsLink = new WebSocketLink({
@@ -18,7 +29,15 @@ const createApolloClient = () => {
     options: {
       lazy: true,
       reconnect: true,
-    },
+      connectionParams: {
+        headers: jwtToken
+          ? {
+              Authorization: `Bearer ${jwtToken}`,
+              "X-Hasura-Role": AuthRole.Player
+            }
+          : undefined
+      }
+    }
   })
 
   const link = split(
@@ -35,12 +54,14 @@ const createApolloClient = () => {
 
   return new ApolloClient({
     link: link,
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache()
   })
 }
 
 function ApolloWrapper(props: { children: React.ReactNode }) {
-  const client = createApolloClient()
+  const currentAuth = React.useContext(CurrentAuthContext)
+  const client = createApolloClient(currentAuth.jwtToken)
+  console.log(currentAuth.jwtToken)
   return <ApolloProvider client={client}>{props.children}</ApolloProvider>
 }
 

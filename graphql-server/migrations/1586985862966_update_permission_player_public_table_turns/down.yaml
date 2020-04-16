@@ -1,0 +1,6 @@
+- args:
+    role: player
+    table:
+      name: turns
+      schema: public
+  type: drop_select_permission

@@ -1,0 +1,21 @@
+- args:
+    permission:
+      columns:
+      - word
+      filter:
+        _and:
+        - game:
+            players:
+              id:
+                _eq: X-Hasura-User-Id
+        - player_id:
+            _eq: X-Hasura-User-Id
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: player
+    table:
+      name: cards
+      schema: public
+  type: create_update_permission

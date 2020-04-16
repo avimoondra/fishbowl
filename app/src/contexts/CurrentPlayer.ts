@@ -2,10 +2,11 @@ import { CurrentPlayerQuery } from "generated/graphql"
 import { createContext } from "react"
 import { v4 as uuidv4 } from "uuid"
 
-export const clientUuid = () => {
+export const clientUuid = (): string => {
   const localStorageKey = "player.client_uuid"
-  if (localStorage.getItem(localStorageKey)) {
-    return localStorage.getItem(localStorageKey)
+  const value = localStorage.getItem(localStorageKey)
+  if (value !== null) {
+    return value
   } else {
     const uuid: string = uuidv4()
     localStorage.setItem(localStorageKey, uuid)

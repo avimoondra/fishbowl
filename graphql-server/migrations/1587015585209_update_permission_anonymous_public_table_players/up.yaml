@@ -1,0 +1,21 @@
+- args:
+    role: anonymous
+    table:
+      name: players
+      schema: public
+  type: drop_insert_permission
+- args:
+    permission:
+      check: {}
+      columns:
+      - client_uuid
+      - game_id
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: anonymous
+    table:
+      name: players
+      schema: public
+  type: create_insert_permission
