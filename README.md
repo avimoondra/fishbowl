@@ -29,11 +29,6 @@ nvm install
 nvm use
 ```
 
-To add nvm to your .bash_profile to use it every time, see documentation:
-
-- nvm - https://github.com/nvm-sh/nvm
-- Homebrew's nvm info - `brew info nvm`
-
 4. Install Docker
 
 Download and install [Docker](https://docs.docker.com/docker-for-mac/install/) via Docker for Mac. Further documentation can be found [here](https://docs.docker.com/engine/docker-overview/).
