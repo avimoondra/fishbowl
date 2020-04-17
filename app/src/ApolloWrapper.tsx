@@ -61,7 +61,6 @@ const createApolloClient = (jwtToken: CurrentAuthContextType["jwtToken"]) => {
 function ApolloWrapper(props: { children: React.ReactNode }) {
   const currentAuth = React.useContext(CurrentAuthContext)
   const client = createApolloClient(currentAuth.jwtToken)
-  console.log(currentAuth.jwtToken)
   return <ApolloProvider client={client}>{props.children}</ApolloProvider>
 }
 
