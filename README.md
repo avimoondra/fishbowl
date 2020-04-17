@@ -1,6 +1,6 @@
 # https://fishbowl-game.com
 
-Fishbowl is a guessing game for any group of all ages, adapted for online play! You'll need at least 4 to play, but it only gets more fun with more players. Hop on a video call, and play through rounds of Taboo, Charades, and Password.
+Fishbowl is a virtual version of a fun (and mostly hilarious) guessing game, designed for any group of all ages! You'll need at least 4 to play, but it only gets more fun with more players. Hop on a video call, and play through rounds of Taboo, Charades, and Password.
 
 # Technology
 
@@ -80,6 +80,10 @@ cd graphql-server
 hasura console --admin-secret=myadminsecretkey
 ```
 
-# Contribute
+# Contribute w/code
 
 Open a new pull request or issue!
+
+# Support w/$
+
+<a href="https://www.buymeacoffee.com/fishbowlgame" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 25.5px !important;width: 108.5px !important;" ></a>
