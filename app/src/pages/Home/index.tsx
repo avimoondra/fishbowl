@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Typography } from "@material-ui/core"
+import { Box, Button, Divider, Grid, Link, Typography } from "@material-ui/core"
 import Fishbowl from "components/FishbowlAnimation"
 import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { clientUuid } from "contexts/CurrentPlayer"
@@ -110,10 +110,11 @@ function Home() {
               What is it?
             </Typography>
             <Box pt={1}>
-              Fishbowl is a guessing game for any group of all ages! You'll need
-              at least 4 to play, but it only gets more fun with more players.
-              Hop on a video call, and play through rounds of Taboo, Charades,
-              and Password.
+              Fishbowl is a virtual version of a fun (and mostly hilarious)
+              guessing game, designed for any group of all ages! You'll need at
+              least 4 to play, but it only gets more fun with more players. Hop
+              on a video call, and play through rounds of Taboo, Charades, and
+              Password.
             </Box>
           </Box>
         </Grid>
@@ -123,8 +124,19 @@ function Home() {
           </Box>
         </Grid>
       </Grid>
-      <Box p={6}>
+      <Box p={4}>
         <Divider variant="middle"></Divider>
+      </Box>
+      <Box pb={4} pl={1} pr={1}>
+        Free,{" "}
+        <Link href="https://github.com/avimoondra/fishbowl" target="_blank">
+          open source
+        </Link>
+        , and made with <span style={{ color: "red" }}>♥</span> - if you had
+        fun, consider{" "}
+        <Link target="_blank" href="https://www.buymeacoffee.com/fishbowlgame">
+          buying me a coffee!
+        </Link>
       </Box>
     </>
   )
