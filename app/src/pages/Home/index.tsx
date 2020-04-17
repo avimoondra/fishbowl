@@ -127,7 +127,7 @@ function Home() {
       <Box p={4}>
         <Divider variant="middle"></Divider>
       </Box>
-      <Box pb={4} pl={1} pr={1}>
+      <Box pb={4} pl={1} pr={1} style={{ textAlign: "center" }}>
         Free,{" "}
         <Link href="https://github.com/avimoondra/fishbowl" target="_blank">
           open source
@@ -135,7 +135,11 @@ function Home() {
         , and made with <span style={{ color: "red" }}>♥</span> - if you had
         fun, consider{" "}
         <Link target="_blank" href="https://www.buymeacoffee.com/fishbowlgame">
-          buying me a coffee!
+          buying me a coffee
+        </Link>{" "}
+        or{" "}
+        <Link href="https://forms.gle/L9qWMsnAUghXqqxE9" target="_blank">
+          sharing any feedback!
         </Link>
       </Box>
     </>

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from "@material-ui/core"
+import { Box, Button, Grid, Link, Typography } from "@material-ui/core"
 import BuyMeACoffeeButton from "components/BuyMeACoffeeButton"
 import PlayerChip from "components/PlayerChip"
 import { CurrentAuthContext } from "contexts/CurrentAuth"
@@ -113,6 +113,12 @@ function EndGame() {
           <Box pt={3}>or, if you had fun...!</Box>
           <Box pt={3}>
             <BuyMeACoffeeButton></BuyMeACoffeeButton>
+          </Box>
+          <Box pt={3}>
+            or, just{" "}
+            <Link href="https://forms.gle/L9qWMsnAUghXqqxE9" target="_blank">
+              share any feedback!
+            </Link>
           </Box>
         </Grid>
       </Grid>
