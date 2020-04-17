@@ -38,17 +38,9 @@ subscription GameById($id: uuid!) {
 }
 
 # see: joinGame.js
-mutation UpsertPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
-  insert_players_one(
-    object: { game_id: $gameId, client_uuid: $clientUuid }
-    on_conflict: {
-      constraint: players_client_uuid_game_id_key
-      update_columns: [client_uuid]
-    }
-  ) {
+mutation InsertPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
+  insert_players_one(object: { game_id: $gameId, client_uuid: $clientUuid }) {
     id
-    client_uuid
-    game_id
   }
 }
 

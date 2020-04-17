@@ -1863,13 +1863,13 @@ export type GameByIdSubscriptionVariables = {
 
 export type GameByIdSubscription = { games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code'>> };
 
-export type UpsertPlayerForGameMutationVariables = {
+export type InsertPlayerForGameMutationVariables = {
   gameId: Scalars['uuid'];
   clientUuid: Scalars['uuid'];
 };
 
 
-export type UpsertPlayerForGameMutation = { insert_players_one?: Maybe<Pick<Players, 'id' | 'client_uuid' | 'game_id'>> };
+export type InsertPlayerForGameMutation = { insert_players_one?: Maybe<Pick<Players, 'id'>> };
 
 export type LookupPlayerForGameQueryVariables = {
   gameId: Scalars['uuid'];
@@ -2270,41 +2270,39 @@ export function useGameByIdSubscription(baseOptions?: ApolloReactHooks.Subscript
       }
 export type GameByIdSubscriptionHookResult = ReturnType<typeof useGameByIdSubscription>;
 export type GameByIdSubscriptionResult = ApolloReactCommon.SubscriptionResult<GameByIdSubscription>;
-export const UpsertPlayerForGameDocument = gql`
-    mutation UpsertPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
-  insert_players_one(object: {game_id: $gameId, client_uuid: $clientUuid}, on_conflict: {constraint: players_client_uuid_game_id_key, update_columns: [client_uuid]}) {
+export const InsertPlayerForGameDocument = gql`
+    mutation InsertPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
+  insert_players_one(object: {game_id: $gameId, client_uuid: $clientUuid}) {
     id
-    client_uuid
-    game_id
   }
 }
     `;
-export type UpsertPlayerForGameMutationFn = ApolloReactCommon.MutationFunction<UpsertPlayerForGameMutation, UpsertPlayerForGameMutationVariables>;
+export type InsertPlayerForGameMutationFn = ApolloReactCommon.MutationFunction<InsertPlayerForGameMutation, InsertPlayerForGameMutationVariables>;
 
 /**
- * __useUpsertPlayerForGameMutation__
+ * __useInsertPlayerForGameMutation__
  *
- * To run a mutation, you first call `useUpsertPlayerForGameMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpsertPlayerForGameMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useInsertPlayerForGameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertPlayerForGameMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [upsertPlayerForGameMutation, { data, loading, error }] = useUpsertPlayerForGameMutation({
+ * const [insertPlayerForGameMutation, { data, loading, error }] = useInsertPlayerForGameMutation({
  *   variables: {
  *      gameId: // value for 'gameId'
  *      clientUuid: // value for 'clientUuid'
  *   },
  * });
  */
-export function useUpsertPlayerForGameMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpsertPlayerForGameMutation, UpsertPlayerForGameMutationVariables>) {
-        return ApolloReactHooks.useMutation<UpsertPlayerForGameMutation, UpsertPlayerForGameMutationVariables>(UpsertPlayerForGameDocument, baseOptions);
+export function useInsertPlayerForGameMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<InsertPlayerForGameMutation, InsertPlayerForGameMutationVariables>) {
+        return ApolloReactHooks.useMutation<InsertPlayerForGameMutation, InsertPlayerForGameMutationVariables>(InsertPlayerForGameDocument, baseOptions);
       }
-export type UpsertPlayerForGameMutationHookResult = ReturnType<typeof useUpsertPlayerForGameMutation>;
-export type UpsertPlayerForGameMutationResult = ApolloReactCommon.MutationResult<UpsertPlayerForGameMutation>;
-export type UpsertPlayerForGameMutationOptions = ApolloReactCommon.BaseMutationOptions<UpsertPlayerForGameMutation, UpsertPlayerForGameMutationVariables>;
+export type InsertPlayerForGameMutationHookResult = ReturnType<typeof useInsertPlayerForGameMutation>;
+export type InsertPlayerForGameMutationResult = ApolloReactCommon.MutationResult<InsertPlayerForGameMutation>;
+export type InsertPlayerForGameMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertPlayerForGameMutation, InsertPlayerForGameMutationVariables>;
 export const LookupPlayerForGameDocument = gql`
     query LookupPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
   players(where: {game_id: {_eq: $gameId}, client_uuid: {_eq: $clientUuid}}) {

@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Grid, Typography } from "@material-ui/core"
 import Fishbowl from "components/FishbowlAnimation"
-import { AuthStorageKey, CurrentAuthContext } from "contexts/CurrentAuth"
+import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { clientUuid } from "contexts/CurrentPlayer"
 import {
   Games,
@@ -32,7 +32,7 @@ function Home() {
   const [becomeHost] = useBecomeHostMutation()
 
   React.useEffect(() => {
-    localStorage.removeItem(AuthStorageKey)
+    currentAuth.setJwtToken(null)
   }, [])
 
   return (
