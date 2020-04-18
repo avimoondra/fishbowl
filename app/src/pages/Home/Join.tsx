@@ -9,6 +9,7 @@ import routes from "routes"
 
 function Join(props: { onBack: () => void }) {
   const currentAuth = React.useContext(CurrentAuthContext)
+  const [joining, setJoining] = React.useState(false)
   const [redirectRoute, setRedirectRoute] = React.useState("")
   const [joinCode, setJoinCode] = React.useState("")
   const [joinGame] = useJoinGameMutation()
@@ -25,16 +26,19 @@ function Join(props: { onBack: () => void }) {
         if (registration.data?.joinGame) {
           await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
         }
+        setJoining(false)
         setRedirectRoute(
           generatePath(routes.game.lobby, {
             joinCode: joinCode?.toLocaleUpperCase()
           })
         )
       } else {
+        setJoining(false)
         setRedirectRoute(routes.game.root)
       }
     },
     onError: _ => {
+      setJoining(false)
       setRedirectRoute(routes.game.root)
     }
   })
@@ -61,8 +65,11 @@ function Join(props: { onBack: () => void }) {
           <Button
             variant="outlined"
             size="large"
-            onClick={() => loadGame()}
-            disabled={!joinCode || joinCode.length < 4}
+            onClick={() => {
+              setJoining(true)
+              loadGame()
+            }}
+            disabled={!joinCode || joinCode.length < 4 || joining}
           >
             Join Game
           </Button>
