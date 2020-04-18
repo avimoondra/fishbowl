@@ -23,7 +23,7 @@ import {
   nextPlayerForNextTeam,
   nextPlayerForSameTeam
 } from "lib/turn"
-import { filter, sample } from "lodash"
+import { filter, reject, sample } from "lodash"
 import * as React from "react"
 
 enum ShownCardStatus {
@@ -80,7 +80,10 @@ function YourTurnContent(props: {
         ) && (
           <>
             <Grid item container>
-              {props.yourTeamPlayers.map(player => {
+              {reject(
+                props.yourTeamPlayers,
+                player => player.id === props.activePlayer.id
+              ).map(player => {
                 return (
                   <>
                     <PlayerChip
