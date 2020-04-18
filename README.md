@@ -11,7 +11,7 @@ Fishbowl is built with [Typescript](https://www.typescriptlang.org/), [React](),
 1. Clone the repo:
 
 ```bash
-git clone git@github.com:avimoondra/fishbowl.git`
+git clone git@github.com:avimoondra/fishbowl.git
 ```
 
 2. Install [Brew](https://brew.sh/), and:
