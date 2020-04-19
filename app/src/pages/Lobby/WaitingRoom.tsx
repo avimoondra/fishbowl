@@ -1,4 +1,5 @@
 import { Box, Button, Grid } from "@material-ui/core"
+import { grey } from "@material-ui/core/colors"
 import PlayerArena from "components/PlayerArena"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
@@ -29,9 +30,9 @@ function WaitingRoom() {
           hostCanRemovePlayer={currentPlayer.role === PlayerRole.Host}
         ></PlayerArena>
         {currentPlayer.role === PlayerRole.Host && (
-          <Box mt={1}>
-            In case someone joined accidentally (or someone you don't recognize!), you can remove them as the
-            host.
+          <Box mt={2} color={grey[600]}>
+            In case someone is switching devices or browsers (or you see someone
+            you don't recognize!), you can remove them as the host.
           </Box>
         )}
       </Grid>
