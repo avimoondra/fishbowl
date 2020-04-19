@@ -49,7 +49,7 @@ export function nextPlayerForNextTeam(
     players,
     player => player.team === nextTeamToPlay
   )
-  const lastTurnFromNextTeamToPlay = findLast(sortBy(turns, ["id"]), turn =>
+  const lastTurnFromNextTeamToPlay = findLast(turns, turn =>
     nextTeamToPlayPlayers.map(player => player.id).includes(turn.player_id)
   )
   const lastPlayerFromNextTeamToPlay = lastTurnFromNextTeamToPlay
