@@ -1,15 +1,7 @@
 import GameStateRedirects from "components/GameStateRedirects"
-import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { CurrentGameContext } from "contexts/CurrentGame"
-import {
-  clientUuid,
-  CurrentPlayerContext,
-  PlayerRole
-} from "contexts/CurrentPlayer"
-import {
-  useCurrentGameSubscription,
-  useCurrentPlayerQuery
-} from "generated/graphql"
+import { clientUuid, CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
+import { useCurrentGameSubscription, useCurrentPlayerQuery } from "generated/graphql"
 import CardSubmission from "pages/CardSubmission"
 import EndGame from "pages/EndGame"
 import Lobby from "pages/Lobby"
@@ -23,7 +15,6 @@ function CurrentPlayerProvider(props: {
   joinCode: string
   children: React.ReactNode
 }) {
-  const currentAuth = React.useContext(CurrentAuthContext)
   const { data, loading } = useCurrentPlayerQuery({
     variables: {
       joinCode: props.joinCode,
@@ -32,7 +23,6 @@ function CurrentPlayerProvider(props: {
   })
 
   if (!loading && !data?.players[0]) {
-    currentAuth.setJwtToken(null)
     return <Redirect to={routes.root}></Redirect>
   }
 
@@ -55,7 +45,6 @@ function CurrentGameProvider(props: {
   joinCode: string
   children: React.ReactNode
 }) {
-  const currentAuth = React.useContext(CurrentAuthContext)
   const { data, loading } = useCurrentGameSubscription({
     variables: {
       joinCode: props.joinCode
@@ -63,7 +52,6 @@ function CurrentGameProvider(props: {
   })
 
   if (!loading && !data?.games[0]) {
-    currentAuth.setJwtToken(null)
     return <Redirect to={routes.root}></Redirect>
   }
 
