@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@material-ui/core"
+import { Box, Button, Grid, Link, Typography } from "@material-ui/core"
 import grey from "@material-ui/core/colors/grey"
 import PlayerArena from "components/PlayerArena"
 import { CurrentGameContext } from "contexts/CurrentGame"
@@ -6,9 +6,10 @@ import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
   GameStateEnum,
   useCreateTurnMutation,
+  useUpdateAllPlayersMutation,
   useUpdateGameStateMutation
 } from "generated/graphql"
-import { Team, TeamColor } from "lib/team"
+import { Team, TeamColor, teamsWithSequence } from "lib/team"
 import { nextPlayerForNextTeam } from "lib/turn"
 import { filter } from "lodash"
 import { Title } from "pages/CardSubmission"
@@ -19,7 +20,7 @@ function TeamAssignment() {
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameState] = useUpdateGameStateMutation()
   const [createFirstTurn] = useCreateTurnMutation()
-  const canStartGame = currentPlayer.role === PlayerRole.Host
+  const [updateAllPlayers] = useUpdateAllPlayersMutation()
 
   const myTeamColor = currentPlayer.team === Team.Blue ? Team.Blue : Team.Red
   const myTeamPlayers = filter(
@@ -74,34 +75,72 @@ function TeamAssignment() {
         <PlayerArena players={otherTeamPlayers}></PlayerArena>
       </Grid>
 
-      {canStartGame && (
-        <Grid item style={{ textAlign: "center" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            onClick={async () => {
-              await createFirstTurn({
-                variables: {
-                  gameId: currentGame.id,
-                  playerId: nextPlayerForNextTeam(
-                    null,
-                    currentGame.turns,
-                    currentGame.players
-                  ).id
-                }
-              })
-              updateGameState({
-                variables: {
-                  id: currentGame.id,
-                  state: GameStateEnum.ActivePlay
-                }
-              })
-            }}
-          >
-            Start Game
-          </Button>
+      {currentPlayer.role === PlayerRole.Participant && (
+        <Grid item>
+          <Box mt={1} mb={1}>
+            Don't like the teams? Your host can re-randomize them. Team
+            customization is coming soon!
+          </Box>
         </Grid>
+      )}
+
+      {currentPlayer.role === PlayerRole.Host && (
+        <>
+          <Grid item>
+            <Box mt={1} mb={1}>
+              Don't like the teams?{" "}
+              <span>
+                <Link
+                  href=""
+                  onClick={(e: React.MouseEvent<HTMLElement>) => {
+                    e.preventDefault()
+                    const players = teamsWithSequence(currentGame.players)
+                    updateAllPlayers({
+                      variables: {
+                        gameId: currentGame.id,
+                        players: players.map(({ id, team, team_sequence }) => ({
+                          id,
+                          team,
+                          team_sequence
+                        }))
+                      }
+                    })
+                  }}
+                >
+                  Re-randomize
+                </Link>
+              </span>{" "}
+              them. Team customization is coming soon!
+            </Box>
+          </Grid>
+          <Grid item style={{ textAlign: "center" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={async () => {
+                await createFirstTurn({
+                  variables: {
+                    gameId: currentGame.id,
+                    playerId: nextPlayerForNextTeam(
+                      null,
+                      currentGame.turns,
+                      currentGame.players
+                    ).id
+                  }
+                })
+                updateGameState({
+                  variables: {
+                    id: currentGame.id,
+                    state: GameStateEnum.ActivePlay
+                  }
+                })
+              }}
+            >
+              Start Game
+            </Button>
+          </Grid>
+        </>
       )}
     </Grid>
   )
