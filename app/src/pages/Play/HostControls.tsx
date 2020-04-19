@@ -48,66 +48,69 @@ function HostControls(props: {
         ></Divider>
       </Grid>
 
-      <Grid item container direction="column" spacing={2}>
-        <Grid item>
-          <Box display="flex" alignItems="center" justifyContent="flex-start">
-            <Box display="flex" flex="130px 1 auto" alignItems="center">
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  endTurn({
-                    variables: {
-                      currentTurnId: props.activeTurn.id,
-                      completedCardIds: [],
-                      endedAt: timestamptzNow(),
-                      gameId: currentGame.id,
-                      nextTurnplayerId: nextPlayerActiveTeam.id
-                    }
-                  })
-                }}
-              >
-                Skip player
-              </Button>
-            </Box>
+      <Grid item>
+        Someone drop out or lose connection? They can join back in with the same
+        browser! Join code: <b>{currentGame.join_code?.toLocaleUpperCase()}</b>
+      </Grid>
 
-            <Box ml={2}>
-              <PlayerChip
-                username={nextPlayerActiveTeam.username || ""}
-                team={nextPlayerActiveTeam.team}
-              ></PlayerChip>{" "}
-              would be next
-            </Box>
+      <Grid item>
+        <Box display="flex" alignItems="center" justifyContent="flex-start">
+          <Box display="flex" flex="130px 1 auto" alignItems="center">
+            <Button
+              variant="outlined"
+              onClick={() => {
+                endTurn({
+                  variables: {
+                    currentTurnId: props.activeTurn.id,
+                    completedCardIds: [],
+                    endedAt: timestamptzNow(),
+                    gameId: currentGame.id,
+                    nextTurnplayerId: nextPlayerActiveTeam.id
+                  }
+                })
+              }}
+            >
+              Skip player
+            </Button>
           </Box>
-        </Grid>
-        <Grid item>
-          <Box display="flex" alignItems="center" justifyContent="flex-start">
-            <Box display="flex" flex="130px 1 auto" alignItems="center">
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  endTurn({
-                    variables: {
-                      currentTurnId: props.activeTurn.id,
-                      completedCardIds: [],
-                      endedAt: timestamptzNow(),
-                      gameId: currentGame.id,
-                      nextTurnplayerId: nextPlayerNextTeam.id
-                    }
-                  })
-                }}
-              >
-                Skip team
-              </Button>
-            </Box>
-            <Box ml={2}>
-              <PlayerChip
-                username={nextPlayerNextTeam.username || ""}
-                team={nextPlayerNextTeam.team}
-              ></PlayerChip>{" "}
-              would be next
-            </Box>
+
+          <Box ml={2}>
+            <PlayerChip
+              username={nextPlayerActiveTeam.username || ""}
+              team={nextPlayerActiveTeam.team}
+            ></PlayerChip>{" "}
+            would be next
           </Box>
-        </Grid>
+        </Box>
+      </Grid>
+      <Grid item>
+        <Box display="flex" alignItems="center" justifyContent="flex-start">
+          <Box display="flex" flex="130px 1 auto" alignItems="center">
+            <Button
+              variant="outlined"
+              onClick={() => {
+                endTurn({
+                  variables: {
+                    currentTurnId: props.activeTurn.id,
+                    completedCardIds: [],
+                    endedAt: timestamptzNow(),
+                    gameId: currentGame.id,
+                    nextTurnplayerId: nextPlayerNextTeam.id
+                  }
+                })
+              }}
+            >
+              Skip team
+            </Button>
+          </Box>
+          <Box ml={2}>
+            <PlayerChip
+              username={nextPlayerNextTeam.username || ""}
+              team={nextPlayerNextTeam.team}
+            ></PlayerChip>{" "}
+            would be next
+          </Box>
+        </Box>
       </Grid>
     </Grid>
   )
