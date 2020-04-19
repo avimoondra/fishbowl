@@ -49,6 +49,7 @@ function Join(props: { onBack: () => void }) {
       <Grid container direction="column" spacing={3} alignItems="center">
         <Grid item>
           <TextField
+            autoFocus
             size="medium"
             label="4-letter code"
             variant="outlined"
