@@ -16,13 +16,17 @@
       src="https://www.googletagmanager.com/gtag/js?id=UA-77863520-2"
     ></script>
     <script>
-      window.dataLayer = window.dataLayer || []
-      function gtag() {
-        dataLayer.push(arguments)
-      }
-      gtag("js", new Date())
+      // fishbowl-game.com
+      // fishbowl-app.onrender.com
+      if (document.location.hostname.includes("fishbowl-")) {
+        window.dataLayer = window.dataLayer || []
+        function gtag() {
+          dataLayer.push(arguments)
+        }
+        gtag("js", new Date())
 
-      gtag("config", "UA-77863520-2")
+        gtag("config", "UA-77863520-2")
+      }
     </script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
