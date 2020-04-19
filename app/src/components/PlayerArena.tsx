@@ -1,6 +1,7 @@
 import { createStyles, makeStyles, Paper, Theme } from "@material-ui/core"
 import PlayerChip from "components/PlayerChip"
-import { Players } from "generated/graphql"
+import { CurrentPlayerContext } from "contexts/CurrentPlayer"
+import { Players, useRemovePlayerMutation } from "generated/graphql"
 import * as React from "react"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -23,8 +24,12 @@ function PlayerArena(props: {
     username?: string | null | undefined
     team?: string | null | undefined
   }>
+  hostCanRemovePlayer?: boolean
 }) {
+  const currentPlayer = React.useContext(CurrentPlayerContext)
   const classes = useStyles()
+  const [removePlayer] = useRemovePlayerMutation()
+
   return (
     <Paper elevation={2} className={classes.playerList}>
       {props.players.map(player => {
@@ -34,6 +39,19 @@ function PlayerArena(props: {
               key={player.id}
               username={player.username}
               team={player.team}
+              handleDelete={
+                props.hostCanRemovePlayer && player.id !== currentPlayer.id
+                  ? () => {
+                      if (window.confirm("Are you sure?")) {
+                        removePlayer({
+                          variables: {
+                            id: player.id
+                          }
+                        })
+                      }
+                    }
+                  : undefined
+              }
             ></PlayerChip>
           )
         )

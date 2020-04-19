@@ -1,0 +1,12 @@
+- args:
+    permission:
+      filter:
+        game:
+          host:
+            id:
+              _eq: X-Hasura-User-Id
+    role: player
+    table:
+      name: players
+      schema: public
+  type: create_delete_permission

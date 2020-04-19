@@ -5,6 +5,7 @@ import * as React from "react"
 function PlayerChip(props: {
   username: string
   team?: string | null | undefined
+  handleDelete?: () => void
 }) {
   return (
     <Chip
@@ -19,6 +20,7 @@ function PlayerChip(props: {
       variant="outlined"
       size="small"
       label={props.username}
+      onDelete={props.handleDelete}
     ></Chip>
   )
 }

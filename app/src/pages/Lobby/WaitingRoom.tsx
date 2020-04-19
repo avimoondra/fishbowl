@@ -1,4 +1,4 @@
-import { Button, Grid } from "@material-ui/core"
+import { Box, Button, Grid } from "@material-ui/core"
 import PlayerArena from "components/PlayerArena"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
@@ -13,7 +13,7 @@ function WaitingRoom() {
   const [updateGameState] = useUpdateGameStateMutation()
 
   const playersWithUsernames =
-    reject(currentGame.players, (player) => isEmpty(player.username)) || []
+    reject(currentGame.players, player => isEmpty(player.username)) || []
   const canSeeStartGameButton = currentPlayer.role === PlayerRole.Host
   const canStartGame =
     canSeeStartGameButton &&
@@ -24,7 +24,16 @@ function WaitingRoom() {
   return (
     <>
       <Grid item>
-        <PlayerArena players={playersWithUsernames}></PlayerArena>
+        <PlayerArena
+          players={playersWithUsernames}
+          hostCanRemovePlayer={currentPlayer.role === PlayerRole.Host}
+        ></PlayerArena>
+        {currentPlayer.role === PlayerRole.Host && (
+          <Box mt={1}>
+            In case someone joined accidentally (or someone you don't recognize!), you can remove them as the
+            host.
+          </Box>
+        )}
       </Grid>
       <Grid item style={{ textAlign: "center" }}>
         {canSeeStartGameButton && (
@@ -33,8 +42,8 @@ function WaitingRoom() {
               updateGameState({
                 variables: {
                   id: currentGame.id,
-                  state: GameStateEnum.CardSubmission,
-                },
+                  state: GameStateEnum.CardSubmission
+                }
               })
             }}
             disabled={!canStartGame}

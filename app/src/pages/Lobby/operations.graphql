@@ -16,3 +16,9 @@ mutation UpdatePlayer($id: uuid!, $input: players_set_input!) {
     team_sequence
   }
 }
+
+mutation RemovePlayer($id: uuid!) {
+  delete_players_by_pk(id: $id) {
+    id
+  }
+}

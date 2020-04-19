@@ -1895,6 +1895,13 @@ export type UpdatePlayerMutationVariables = {
 
 export type UpdatePlayerMutation = { update_players_by_pk?: Maybe<Pick<Players, 'id' | 'username' | 'team' | 'team_sequence'>> };
 
+export type RemovePlayerMutationVariables = {
+  id: Scalars['uuid'];
+};
+
+
+export type RemovePlayerMutation = { delete_players_by_pk?: Maybe<Pick<Players, 'id'>> };
+
 export type CreateTurnMutationVariables = {
   gameId: Scalars['uuid'];
   playerId: Scalars['uuid'];
@@ -2410,6 +2417,38 @@ export function useUpdatePlayerMutation(baseOptions?: ApolloReactHooks.MutationH
 export type UpdatePlayerMutationHookResult = ReturnType<typeof useUpdatePlayerMutation>;
 export type UpdatePlayerMutationResult = ApolloReactCommon.MutationResult<UpdatePlayerMutation>;
 export type UpdatePlayerMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdatePlayerMutation, UpdatePlayerMutationVariables>;
+export const RemovePlayerDocument = gql`
+    mutation RemovePlayer($id: uuid!) {
+  delete_players_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type RemovePlayerMutationFn = ApolloReactCommon.MutationFunction<RemovePlayerMutation, RemovePlayerMutationVariables>;
+
+/**
+ * __useRemovePlayerMutation__
+ *
+ * To run a mutation, you first call `useRemovePlayerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemovePlayerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removePlayerMutation, { data, loading, error }] = useRemovePlayerMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemovePlayerMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RemovePlayerMutation, RemovePlayerMutationVariables>) {
+        return ApolloReactHooks.useMutation<RemovePlayerMutation, RemovePlayerMutationVariables>(RemovePlayerDocument, baseOptions);
+      }
+export type RemovePlayerMutationHookResult = ReturnType<typeof useRemovePlayerMutation>;
+export type RemovePlayerMutationResult = ApolloReactCommon.MutationResult<RemovePlayerMutation>;
+export type RemovePlayerMutationOptions = ApolloReactCommon.BaseMutationOptions<RemovePlayerMutation, RemovePlayerMutationVariables>;
 export const CreateTurnDocument = gql`
     mutation CreateTurn($gameId: uuid!, $playerId: uuid!) {
   insert_turns_one(object: {game_id: $gameId, player_id: $playerId}) {
