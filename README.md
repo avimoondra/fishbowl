@@ -6,6 +6,10 @@ Fishbowl is a virtual version of a fun (and mostly hilarious) guessing game, des
 
 Fishbowl is built with [Typescript](https://www.typescriptlang.org/), [React](), [Apollo GraphQL](https://www.apollographql.com/), [Hasura](https://hasura.io/), and [Postgres](https://www.postgresql.org/). It's deployed on [Render](https://render.com/).
 
+# Roadmap
+
+[Public Trello](https://trello.com/b/xxUmKj7q/fishbowl-game)
+
 # Local Development
 
 1. Clone the repo:
