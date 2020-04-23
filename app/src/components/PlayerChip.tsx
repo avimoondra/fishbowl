@@ -15,7 +15,11 @@ function PlayerChip(props: {
       avatar={
         props.handleSwitch && (
           <LoopIcon
-            style={{ color: grey[500], backgroundColor: "transparent" }}
+            style={{
+              color: grey[500],
+              backgroundColor: "transparent",
+              cursor: "pointer"
+            }}
             onClick={props.handleSwitch}
           ></LoopIcon>
         )
