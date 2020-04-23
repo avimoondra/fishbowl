@@ -1,4 +1,5 @@
-import { Link, TextField } from "@material-ui/core"
+import { Box, Button, Link, TextField } from "@material-ui/core"
+import { grey } from "@material-ui/core/colors"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
@@ -6,7 +7,7 @@ import {
   useUpdateGameSettingsMutation,
   useUpdatePlayerMutation
 } from "generated/graphql"
-import { debounce, sample } from "lodash"
+import { sample } from "lodash"
 import * as React from "react"
 
 function HelperText(props: { children: React.ReactNode }) {
@@ -18,29 +19,43 @@ export function UsernameInput(props: {
   username: string
 }) {
   const [updatePlayer] = useUpdatePlayerMutation()
-  const debouncedUpdatePlayer = React.useRef(
-    debounce(
-      (value: string) =>
-        updatePlayer({
-          variables: {
-            id: props.playerId,
-            input: { username: value }
-          }
-        }),
-      500
-    )
-  )
-
+  const [value, setValue] = React.useState(props.username || "")
   return (
-    <TextField
-      label="Username"
-      variant="outlined"
-      size="medium"
-      defaultValue={props.username || ""}
-      onChange={({ target: { value } }) => {
-        debouncedUpdatePlayer.current(value)
-      }}
-    />
+    <>
+      <Box display="flex" alignItems="center" justifyContent="flex-start">
+        <Box>
+          <TextField
+            label="Username"
+            variant="outlined"
+            size="medium"
+            defaultValue={props.username || ""}
+            onChange={({ target: { value } }) => {
+              setValue(value)
+            }}
+          />
+        </Box>
+        <Box pl={2}>
+          <Button
+            disabled={value === "" || value.length > 15}
+            variant="outlined"
+            size="large"
+            onClick={() => {
+              updatePlayer({
+                variables: {
+                  id: props.playerId,
+                  input: { username: value }
+                }
+              })
+            }}
+          >
+            Submit
+          </Button>
+        </Box>
+      </Box>
+      <Box pt={1} color={grey[500]}>
+        15 character limit. Emojis encouraged! 🌍🚀✨
+      </Box>
+    </>
   )
 }
 
