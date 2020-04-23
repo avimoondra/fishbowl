@@ -3,8 +3,12 @@ import { grey } from "@material-ui/core/colors"
 import PlayerArena from "components/PlayerArena"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import { GameStateEnum, useUpdateGameStateMutation } from "generated/graphql"
-import { isEmpty, reject } from "lodash"
+import {
+  GameStateEnum,
+  useRemovePlayerMutation,
+  useUpdateGameStateMutation
+} from "generated/graphql"
+import { filter, isEmpty, reject } from "lodash"
 import * as React from "react"
 
 function WaitingRoom() {
@@ -12,9 +16,12 @@ function WaitingRoom() {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const [updateGameState] = useUpdateGameStateMutation()
+  const [removePlayer] = useRemovePlayerMutation()
 
   const playersWithUsernames =
     reject(currentGame.players, player => isEmpty(player.username)) || []
+  const playersWithoutUsernames =
+    filter(currentGame.players, player => isEmpty(player.username)) || []
   const canSeeStartGameButton = currentPlayer.role === PlayerRole.Host
   const canStartGame =
     canSeeStartGameButton &&
@@ -31,16 +38,25 @@ function WaitingRoom() {
         ></PlayerArena>
         {currentPlayer.role === PlayerRole.Host && (
           <Box mt={2} color={grey[600]}>
-            In case someone is switching devices or browsers (or you see someone
-            you don't recognize!), you can remove them as the host.
+            In case someone is switching devices or browsers, you can remove
+            them as the host.
           </Box>
         )}
       </Grid>
       <Grid item style={{ textAlign: "center" }}>
         {canSeeStartGameButton && (
           <Button
-            onClick={() => {
-              updateGameState({
+            onClick={async () => {
+              await Promise.all(
+                playersWithoutUsernames.map(player => {
+                  return removePlayer({
+                    variables: {
+                      id: player.id
+                    }
+                  })
+                })
+              )
+              await updateGameState({
                 variables: {
                   id: currentGame.id,
                   state: GameStateEnum.CardSubmission
