@@ -58,7 +58,10 @@ function TeamAssignment() {
           </Grid>
         </Grid>
 
-        <PlayerArena players={myTeamPlayers}></PlayerArena>
+        <PlayerArena
+          players={myTeamPlayers}
+          hostCanSwitchTeams={currentPlayer.role === PlayerRole.Host}
+        ></PlayerArena>
       </Grid>
 
       <Grid item style={{ textAlign: "center" }}>
@@ -72,14 +75,17 @@ function TeamAssignment() {
         <Typography variant="h6">
           {`Team ${otherTeamColor}`.toLocaleUpperCase()}
         </Typography>
-        <PlayerArena players={otherTeamPlayers}></PlayerArena>
+        <PlayerArena
+          players={otherTeamPlayers}
+          hostCanSwitchTeams={currentPlayer.role === PlayerRole.Host}
+        ></PlayerArena>
       </Grid>
 
       {currentPlayer.role === PlayerRole.Participant && (
         <Grid item>
           <Box mt={1} mb={1}>
-            Don't like the teams? Your host can re-randomize them. Team
-            customization is coming soon!
+            Don't like the teams? Your host can re-randomize them or switch
+            players from one team to another.
           </Box>
         </Grid>
       )}
@@ -110,7 +116,7 @@ function TeamAssignment() {
                   Re-randomize
                 </Link>
               </span>{" "}
-              them. Team customization is coming soon!
+              them. Or switch players from one team to another.
             </Box>
           </Grid>
           <Grid item style={{ textAlign: "center" }}>

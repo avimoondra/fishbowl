@@ -1,4 +1,6 @@
 import { Chip } from "@material-ui/core"
+import { grey } from "@material-ui/core/colors"
+import LoopIcon from "@material-ui/icons/Loop"
 import { Team } from "lib/team"
 import * as React from "react"
 
@@ -6,9 +8,18 @@ function PlayerChip(props: {
   username: string
   team?: string | null | undefined
   handleDelete?: () => void
+  handleSwitch?: () => void
 }) {
   return (
     <Chip
+      avatar={
+        props.handleSwitch && (
+          <LoopIcon
+            style={{ color: grey[500], backgroundColor: "transparent" }}
+            onClick={props.handleSwitch}
+          ></LoopIcon>
+        )
+      }
       key={props.username}
       color={
         props.team

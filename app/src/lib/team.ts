@@ -1,5 +1,5 @@
 import { CurrentGameSubscription } from "generated/graphql"
-import { cloneDeep, shuffle } from "lodash"
+import { cloneDeep, filter, remove, shuffle } from "lodash"
 
 export enum Team {
   Red = "red",
@@ -9,6 +9,12 @@ export enum Team {
 export const TeamColor = {
   [Team.Red]: "#f50057",
   [Team.Blue]: "#3f51b5"
+}
+
+function addTeamAndSequence(players: Players, team: Team) {
+  return players.map((player: Player, index) => {
+    return { ...player, team: team, team_sequence: index }
+  })
 }
 
 // [1,2,3,4,5,6].splice(0,Math.ceil(6/ 2))
@@ -24,15 +30,30 @@ type Players = Array<Player>
 export function teamsWithSequence(players: Players) {
   const shuffledPlayers = shuffle(players)
   const halfLength = Math.ceil(shuffledPlayers.length / 2)
-  const redTeam = cloneDeep(shuffledPlayers)
-    .splice(0, halfLength)
-    .map((player: Player, index) => {
-      return { ...player, team: Team.Red, team_sequence: index }
-    })
-  const blueTeam = cloneDeep(shuffledPlayers)
-    .splice(halfLength, shuffledPlayers.length)
-    .map((player: Player, index) => {
-      return { ...player, team: Team.Blue, team_sequence: index }
-    })
+  const redTeam = addTeamAndSequence(
+    cloneDeep(shuffledPlayers).splice(0, halfLength),
+    Team.Red
+  )
+  const blueTeam = addTeamAndSequence(
+    cloneDeep(shuffledPlayers).splice(halfLength, shuffledPlayers.length),
+    Team.Blue
+  )
+  return redTeam.concat(blueTeam)
+}
+
+export function teamsWithSequenceWithUpdate(
+  players: Players,
+  updatedPlayer: Player
+) {
+  remove(players, player => player.id === updatedPlayer.id)
+  players.push(updatedPlayer)
+  const redTeam = addTeamAndSequence(
+    filter(players, player => player.team === Team.Red),
+    Team.Red
+  )
+  const blueTeam = addTeamAndSequence(
+    filter(players, player => player.team === Team.Blue),
+    Team.Blue
+  )
   return redTeam.concat(blueTeam)
 }
