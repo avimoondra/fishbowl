@@ -64,7 +64,8 @@ function SubmissionForm(props: { onSubmit: () => void }) {
 
       <Grid item>
         <Button
-          variant="outlined"
+          variant="contained"
+          color="primary"
           size="large"
           disabled={called || emptyWords}
           onClick={async () => {

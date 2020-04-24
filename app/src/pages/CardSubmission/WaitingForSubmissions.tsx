@@ -1,5 +1,6 @@
 import { Button, Grid, Typography } from "@material-ui/core"
 import Fishbowl from "components/FishbowlAnimation"
+import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
@@ -7,8 +8,9 @@ import {
   useUpdateAllPlayersMutation,
   useUpdateGameStateMutation
 } from "generated/graphql"
-import { Title } from "pages/CardSubmission"
 import { teamsWithSequence } from "lib/team"
+import { reject, some } from "lodash"
+import { Title } from "pages/CardSubmission"
 import * as React from "react"
 
 function WaitingForSubmissions() {
@@ -26,6 +28,10 @@ function WaitingForSubmissions() {
 
   const total = numEntriesPerPlayer * numPlayers
   const submittedSoFar = currentGame.cards.length
+
+  const waitingForPlayers = reject(currentGame.players, player => {
+    return some(currentGame.cards, card => card.player_id === player.id)
+  })
 
   if (!submittedSoFar) {
     return null
@@ -81,7 +87,15 @@ function WaitingForSubmissions() {
         </>
       ) : (
         <>
-          <Grid item>Just waiting for everyone else...</Grid>
+          <Grid item container justify="center">
+            Just waiting for everyone else...<div style={{ width: 4 }}></div>
+            {waitingForPlayers.map(player => (
+              <>
+                <PlayerChip username={player.username || ""}></PlayerChip>
+                <div style={{ width: 4 }}></div>
+              </>
+            ))}
+          </Grid>
           <Grid item>
             <Typography variant="h5">
               {submittedSoFar}/{`${total} cards so far`}
