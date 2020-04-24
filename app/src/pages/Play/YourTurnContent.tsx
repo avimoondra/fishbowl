@@ -64,6 +64,33 @@ function YourTurnContent(props: {
     Map<number, ShownCardStatus>
   >(new Map())
 
+  const onNextCardClick = (status: ShownCardStatus) => {
+    if (activeCard?.id) {
+      const nextMap = new Map(shownCardsInActiveTurn.set(activeCard.id, status))
+      setShownCardsInActiveTurn(nextMap)
+      const nextSet = drawableCardsWithoutCompletedCardsInActiveTurn(
+        props.cardsInBowl,
+        [...shownCardsInActiveTurn.keys()]
+      )
+      const outOfCards = nextSet.length === 0
+      if (outOfCards) {
+        props.onOutOfCards()
+      } else {
+        const nextActiveCard = sample(nextSet) || null
+        setActiveCard(nextActiveCard)
+        if (nextActiveCard) {
+          const nextMap = new Map(
+            shownCardsInActiveTurn.set(
+              nextActiveCard.id,
+              ShownCardStatus.Incomplete
+            )
+          )
+          setShownCardsInActiveTurn(nextMap)
+        }
+      }
+    }
+  }
+
   return (
     <Box p={2}>
       <Grid container direction="column" spacing={4} alignItems="center">
@@ -128,25 +155,31 @@ function YourTurnContent(props: {
                     alignItems="center"
                     spacing={2}
                   >
-                    <Grid>
-                      <GreenCheckbox
-                        checked={
-                          shownCardsInActiveTurn.get(cardId) ===
-                          ShownCardStatus.Completed
-                        }
-                        onChange={({ target: { checked } }) => {
-                          setShownCardsInActiveTurn(
-                            new Map(
-                              shownCardsInActiveTurn.set(
-                                cardId,
-                                checked
-                                  ? ShownCardStatus.Completed
-                                  : ShownCardStatus.Incomplete
+                    <Grid item>
+                      <Box>
+                        <GreenCheckbox
+                          checked={
+                            shownCardsInActiveTurn.get(cardId) ===
+                            ShownCardStatus.Completed
+                          }
+                          onChange={({ target: { checked } }) => {
+                            setShownCardsInActiveTurn(
+                              new Map(
+                                shownCardsInActiveTurn.set(
+                                  cardId,
+                                  checked
+                                    ? ShownCardStatus.Completed
+                                    : ShownCardStatus.Incomplete
+                                )
                               )
                             )
-                          )
-                        }}
-                      ></GreenCheckbox>
+                          }}
+                        ></GreenCheckbox>
+                      </Box>
+                      {shownCardsInActiveTurn.get(cardId) ===
+                        ShownCardStatus.Skipped && (
+                        <Box color={grey[500]}>(skip)</Box>
+                      )}
                     </Grid>
                     <Grid item>
                       <BowlCard>
@@ -166,45 +199,29 @@ function YourTurnContent(props: {
         {/* Controls */}
         <Grid item container justify="space-around">
           {props.activeTurnPlayState === ActiveTurnPlayState.Playing && (
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={async () => {
-                  if (activeCard?.id) {
-                    const nextMap = new Map(
-                      shownCardsInActiveTurn.set(
-                        activeCard.id,
-                        ShownCardStatus.Completed
-                      )
-                    )
-                    setShownCardsInActiveTurn(nextMap)
-                    const nextSet = drawableCardsWithoutCompletedCardsInActiveTurn(
-                      props.cardsInBowl,
-                      [...shownCardsInActiveTurn.keys()]
-                    )
-                    const outOfCards = nextSet.length === 0
-                    if (outOfCards) {
-                      props.onOutOfCards()
-                    } else {
-                      const nextActiveCard = sample(nextSet) || null
-                      setActiveCard(nextActiveCard)
-                      if (nextActiveCard) {
-                        const nextMap = new Map(
-                          shownCardsInActiveTurn.set(
-                            nextActiveCard.id,
-                            ShownCardStatus.Incomplete
-                          )
-                        )
-                        setShownCardsInActiveTurn(nextMap)
-                      }
-                    }
-                  }
-                }}
-              >
-                Next Card
-              </Button>
-            </Grid>
+            <>
+              <Grid item>
+                <Button
+                  color="default"
+                  onClick={async () => {
+                    onNextCardClick(ShownCardStatus.Skipped)
+                  }}
+                >
+                  Skip
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={async () => {
+                    onNextCardClick(ShownCardStatus.Completed)
+                  }}
+                >
+                  Correct
+                </Button>
+              </Grid>
+            </>
           )}
 
           {props.activeTurnPlayState === ActiveTurnPlayState.Waiting && (
