@@ -1,6 +1,6 @@
 # https://fishbowl-game.com
 
-Fishbowl is a virtual version of a fun (and mostly hilarious) guessing game, designed for any group of all ages! You'll need at least 4 to play, but it only gets more fun with more players. Hop on a video call, and play through rounds of Taboo, Charades, and Password.
+Play the Fishbowl game online! Also known as Salad bowl, Monikers, or Celebrities. It's a free, virtual version of a fun (and mostly hilarious) guessing game, designed for any group of all ages! You'll need at least 4 to play, but it only gets more fun with more players. Hop on a video call, and play through rounds of Taboo, Charades, and Password.
 
 # Technology
 
