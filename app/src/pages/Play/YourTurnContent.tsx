@@ -25,6 +25,7 @@ import {
 } from "lib/turn"
 import { filter, includes, reject, sample } from "lodash"
 import * as React from "react"
+import { isMobile } from "react-device-detect"
 
 enum ShownCardStatus {
   Completed = 1,
@@ -351,11 +352,12 @@ function YourTurnContent(props: {
           )}
         </Grid>
 
-        {props.activeTurnPlayState === ActiveTurnPlayState.Playing && (
-          <div style={{ textAlign: "center", color: grey[500] }}>
-            [ Hint: Press the spacebar for "Correct", and S for "Skip" ]
-          </div>
-        )}
+        {!isMobile &&
+          props.activeTurnPlayState === ActiveTurnPlayState.Playing && (
+            <div style={{ textAlign: "center", color: grey[500] }}>
+              [ Hint: Press the spacebar for "Correct", and S for "Skip" ]
+            </div>
+          )}
       </Grid>
     </Box>
   )
