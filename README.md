@@ -53,7 +53,7 @@ See https://docs.hasura.io/1.0/graphql/manual/hasura-cli/install-hasura-cli.html
 
 7. Start your servers
 
-(1) Run actions node express server
+(1) Run actions node express server on `localhost:3001`
 
 ```bash
 cd actions-server
@@ -61,7 +61,7 @@ npm install
 PORT=3001 npm start
 ```
 
-(2) Run front end in localhost:3000
+(2) Run front end on `localhost:3000`
 
 ```bash
 cd app
@@ -69,7 +69,7 @@ yarn install --frozen-lockfile
 yarn run start
 ```
 
-(3) Run Hasura in localhost:8080
+(3) Run Hasura on `localhost:8080`
 
 ```
 cd graphql-server
@@ -77,7 +77,7 @@ docker-compose up
 hasura migrate apply --admin-secret=myadminsecretkey # for new databases
 ```
 
-(4) Open Hasura console on localhost:9695 (to track migrations)
+(4) Open Hasura console on `localhost:9695` (to track migrations)
 
 ```bash
 cd graphql-server
@@ -86,7 +86,21 @@ hasura console --admin-secret=myadminsecretkey
 
 # Contribute w/code
 
-Open a new pull request or issue!
+Open a new pull request or issue! Be sure to check out the [Public Trello](https://trello.com/b/xxUmKj7q/fishbowl-game) which defines a loose roadmap, and has many features, bugs, or chores already logged!
+
+## Suggest a change or report a bug
+If you don't know if a bug is actually an issue or just want to suggest a feature - just create an issue!
+
+## Make a change or fix a bug
+If you're already ready to contribute...
+ 
+1. Fork this repo
+2. Create a branch w/your changes
+3. Create a pull request by comparing branches across forks
+4. Start a discussion from there!
+
+## Contact
+If you're not sure about either, feel free to contact me at [avimoondra@gmail.com](mailto:avimoondra@gmail.com)
 
 # Support w/$
 
