@@ -23,8 +23,9 @@ import {
   nextPlayerForNextTeam,
   nextPlayerForSameTeam
 } from "lib/turn"
-import { filter, reject, sample } from "lodash"
+import { filter, includes, reject, sample } from "lodash"
 import * as React from "react"
+import { isMobile } from "react-device-detect"
 
 enum ShownCardStatus {
   Completed = 1,
@@ -63,6 +64,23 @@ function YourTurnContent(props: {
   const [shownCardsInActiveTurn, setShownCardsInActiveTurn] = React.useState<
     Map<number, ShownCardStatus>
   >(new Map())
+
+  // Attach keyboard shortcuts to the Correct and Skip actions
+  const SHORTCUTS_COMPLETE = [" ", "c"]
+  const SHORTCUTS_SKIP = ["s"]
+  const upHandler = (event: KeyboardEvent) => {
+    if (includes(SHORTCUTS_COMPLETE, event.key)) {
+      onNextCardClick(ShownCardStatus.Completed)
+    } else if (includes(SHORTCUTS_SKIP, event.key)) {
+      onNextCardClick(ShownCardStatus.Skipped)
+    }
+  }
+  React.useEffect(() => {
+    window.addEventListener("keyup", upHandler)
+    return () => {
+      window.removeEventListener("keyup", upHandler)
+    }
+  }, [activeCard])
 
   const onNextCardClick = (status: ShownCardStatus) => {
     if (activeCard?.id) {
@@ -333,6 +351,13 @@ function YourTurnContent(props: {
             </Grid>
           )}
         </Grid>
+
+        {!isMobile &&
+          props.activeTurnPlayState === ActiveTurnPlayState.Playing && (
+            <Grid item style={{ color: grey[500] }}>
+              Hint: Press the spacebar for "Correct", and S for "Skip"
+            </Grid>
+          )}
       </Grid>
     </Box>
   )
