@@ -288,6 +288,8 @@ export type Games = {
   num_entries_per_player?: Maybe<Scalars['Int']>;
   players: Array<Players>;
   players_aggregate: PlayersAggregate;
+  rounds: Array<Rounds>;
+  rounds_aggregate: RoundsAggregate;
   seconds_per_turn?: Maybe<Scalars['Int']>;
   starting_letter?: Maybe<Scalars['String']>;
   state: GameStateEnum;
@@ -329,6 +331,24 @@ export type GamesPlayersAggregateArgs = {
   offset?: Maybe<Scalars['Int']>;
   order_by?: Maybe<Array<PlayersOrderBy>>;
   where?: Maybe<PlayersBoolExp>;
+};
+
+
+export type GamesRoundsArgs = {
+  distinct_on?: Maybe<Array<RoundsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<RoundsOrderBy>>;
+  where?: Maybe<RoundsBoolExp>;
+};
+
+
+export type GamesRoundsAggregateArgs = {
+  distinct_on?: Maybe<Array<RoundsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<RoundsOrderBy>>;
+  where?: Maybe<RoundsBoolExp>;
 };
 
 
@@ -415,6 +435,7 @@ export type GamesBoolExp = {
   join_code?: Maybe<StringComparisonExp>;
   num_entries_per_player?: Maybe<IntComparisonExp>;
   players?: Maybe<PlayersBoolExp>;
+  rounds?: Maybe<RoundsBoolExp>;
   seconds_per_turn?: Maybe<IntComparisonExp>;
   starting_letter?: Maybe<StringComparisonExp>;
   state?: Maybe<GameStateEnumComparisonExp>;
@@ -441,6 +462,7 @@ export type GamesInsertInput = {
   join_code?: Maybe<Scalars['String']>;
   num_entries_per_player?: Maybe<Scalars['Int']>;
   players?: Maybe<PlayersArrRelInsertInput>;
+  rounds?: Maybe<RoundsArrRelInsertInput>;
   seconds_per_turn?: Maybe<Scalars['Int']>;
   starting_letter?: Maybe<Scalars['String']>;
   state?: Maybe<GameStateEnum>;
@@ -512,6 +534,7 @@ export type GamesOrderBy = {
   join_code?: Maybe<OrderBy>;
   num_entries_per_player?: Maybe<OrderBy>;
   players_aggregate?: Maybe<PlayersAggregateOrderBy>;
+  rounds_aggregate?: Maybe<RoundsAggregateOrderBy>;
   seconds_per_turn?: Maybe<OrderBy>;
   starting_letter?: Maybe<OrderBy>;
   state?: Maybe<OrderBy>;
@@ -682,6 +705,8 @@ export type MutationRoot = {
   delete_games_by_pk?: Maybe<Games>;
   delete_players?: Maybe<PlayersMutationResponse>;
   delete_players_by_pk?: Maybe<Players>;
+  delete_rounds?: Maybe<RoundsMutationResponse>;
+  delete_rounds_by_pk?: Maybe<Rounds>;
   delete_turns?: Maybe<TurnsMutationResponse>;
   delete_turns_by_pk?: Maybe<Turns>;
   insert_cards?: Maybe<CardsMutationResponse>;
@@ -692,6 +717,8 @@ export type MutationRoot = {
   insert_games_one?: Maybe<Games>;
   insert_players?: Maybe<PlayersMutationResponse>;
   insert_players_one?: Maybe<Players>;
+  insert_rounds?: Maybe<RoundsMutationResponse>;
+  insert_rounds_one?: Maybe<Rounds>;
   insert_turns?: Maybe<TurnsMutationResponse>;
   insert_turns_one?: Maybe<Turns>;
   joinGame?: Maybe<JoinGameOutput>;
@@ -703,6 +730,8 @@ export type MutationRoot = {
   update_games_by_pk?: Maybe<Games>;
   update_players?: Maybe<PlayersMutationResponse>;
   update_players_by_pk?: Maybe<Players>;
+  update_rounds?: Maybe<RoundsMutationResponse>;
+  update_rounds_by_pk?: Maybe<Rounds>;
   update_turns?: Maybe<TurnsMutationResponse>;
   update_turns_by_pk?: Maybe<Turns>;
 };
@@ -744,6 +773,16 @@ export type MutationRootDeletePlayersArgs = {
 
 
 export type MutationRootDeletePlayersByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type MutationRootDeleteRoundsArgs = {
+  where: RoundsBoolExp;
+};
+
+
+export type MutationRootDeleteRoundsByPkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -803,6 +842,18 @@ export type MutationRootInsertPlayersArgs = {
 export type MutationRootInsertPlayersOneArgs = {
   object: PlayersInsertInput;
   on_conflict?: Maybe<PlayersOnConflict>;
+};
+
+
+export type MutationRootInsertRoundsArgs = {
+  objects: Array<RoundsInsertInput>;
+  on_conflict?: Maybe<RoundsOnConflict>;
+};
+
+
+export type MutationRootInsertRoundsOneArgs = {
+  object: RoundsInsertInput;
+  on_conflict?: Maybe<RoundsOnConflict>;
 };
 
 
@@ -873,6 +924,20 @@ export type MutationRootUpdatePlayersByPkArgs = {
   _inc?: Maybe<PlayersIncInput>;
   _set?: Maybe<PlayersSetInput>;
   pk_columns: PlayersPkColumnsInput;
+};
+
+
+export type MutationRootUpdateRoundsArgs = {
+  _inc?: Maybe<RoundsIncInput>;
+  _set?: Maybe<RoundsSetInput>;
+  where: RoundsBoolExp;
+};
+
+
+export type MutationRootUpdateRoundsByPkArgs = {
+  _inc?: Maybe<RoundsIncInput>;
+  _set?: Maybe<RoundsSetInput>;
+  pk_columns: RoundsPkColumnsInput;
 };
 
 
@@ -1175,6 +1240,9 @@ export type QueryRoot = {
   players: Array<Players>;
   players_aggregate: PlayersAggregate;
   players_by_pk?: Maybe<Players>;
+  rounds: Array<Rounds>;
+  rounds_aggregate: RoundsAggregate;
+  rounds_by_pk?: Maybe<Rounds>;
   turns: Array<Turns>;
   turns_aggregate: TurnsAggregate;
   turns_by_pk?: Maybe<Turns>;
@@ -1273,6 +1341,29 @@ export type QueryRootPlayersByPkArgs = {
 };
 
 
+export type QueryRootRoundsArgs = {
+  distinct_on?: Maybe<Array<RoundsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<RoundsOrderBy>>;
+  where?: Maybe<RoundsBoolExp>;
+};
+
+
+export type QueryRootRoundsAggregateArgs = {
+  distinct_on?: Maybe<Array<RoundsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<RoundsOrderBy>>;
+  where?: Maybe<RoundsBoolExp>;
+};
+
+
+export type QueryRootRoundsByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type QueryRootTurnsArgs = {
   distinct_on?: Maybe<Array<TurnsSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
@@ -1293,6 +1384,222 @@ export type QueryRootTurnsAggregateArgs = {
 
 export type QueryRootTurnsByPkArgs = {
   id: Scalars['uuid'];
+};
+
+export type Rounds = {
+  game_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+  order_sequence: Scalars['Int'];
+  value: Scalars['String'];
+};
+
+export type RoundsAggregate = {
+  aggregate?: Maybe<RoundsAggregateFields>;
+  nodes: Array<Rounds>;
+};
+
+export type RoundsAggregateFields = {
+  avg?: Maybe<RoundsAvgFields>;
+  count?: Maybe<Scalars['Int']>;
+  max?: Maybe<RoundsMaxFields>;
+  min?: Maybe<RoundsMinFields>;
+  stddev?: Maybe<RoundsStddevFields>;
+  stddev_pop?: Maybe<RoundsStddevPopFields>;
+  stddev_samp?: Maybe<RoundsStddevSampFields>;
+  sum?: Maybe<RoundsSumFields>;
+  var_pop?: Maybe<RoundsVarPopFields>;
+  var_samp?: Maybe<RoundsVarSampFields>;
+  variance?: Maybe<RoundsVarianceFields>;
+};
+
+
+export type RoundsAggregateFieldsCountArgs = {
+  columns?: Maybe<Array<RoundsSelectColumn>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+export type RoundsAggregateOrderBy = {
+  avg?: Maybe<RoundsAvgOrderBy>;
+  count?: Maybe<OrderBy>;
+  max?: Maybe<RoundsMaxOrderBy>;
+  min?: Maybe<RoundsMinOrderBy>;
+  stddev?: Maybe<RoundsStddevOrderBy>;
+  stddev_pop?: Maybe<RoundsStddevPopOrderBy>;
+  stddev_samp?: Maybe<RoundsStddevSampOrderBy>;
+  sum?: Maybe<RoundsSumOrderBy>;
+  var_pop?: Maybe<RoundsVarPopOrderBy>;
+  var_samp?: Maybe<RoundsVarSampOrderBy>;
+  variance?: Maybe<RoundsVarianceOrderBy>;
+};
+
+export type RoundsArrRelInsertInput = {
+  data: Array<RoundsInsertInput>;
+  on_conflict?: Maybe<RoundsOnConflict>;
+};
+
+export type RoundsAvgFields = {
+  order_sequence?: Maybe<Scalars['Float']>;
+};
+
+export type RoundsAvgOrderBy = {
+  order_sequence?: Maybe<OrderBy>;
+};
+
+export type RoundsBoolExp = {
+  _and?: Maybe<Array<Maybe<RoundsBoolExp>>>;
+  _not?: Maybe<RoundsBoolExp>;
+  _or?: Maybe<Array<Maybe<RoundsBoolExp>>>;
+  game_id?: Maybe<UuidComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
+  order_sequence?: Maybe<IntComparisonExp>;
+  value?: Maybe<StringComparisonExp>;
+};
+
+export enum RoundsConstraint {
+  RoundsPkey = 'rounds_pkey'
+}
+
+export type RoundsIncInput = {
+  order_sequence?: Maybe<Scalars['Int']>;
+};
+
+export type RoundsInsertInput = {
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  order_sequence?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+export type RoundsMaxFields = {
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  order_sequence?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+export type RoundsMaxOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  order_sequence?: Maybe<OrderBy>;
+  value?: Maybe<OrderBy>;
+};
+
+export type RoundsMinFields = {
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  order_sequence?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+export type RoundsMinOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  order_sequence?: Maybe<OrderBy>;
+  value?: Maybe<OrderBy>;
+};
+
+export type RoundsMutationResponse = {
+  affected_rows: Scalars['Int'];
+  returning: Array<Rounds>;
+};
+
+export type RoundsObjRelInsertInput = {
+  data: RoundsInsertInput;
+  on_conflict?: Maybe<RoundsOnConflict>;
+};
+
+export type RoundsOnConflict = {
+  constraint: RoundsConstraint;
+  update_columns: Array<RoundsUpdateColumn>;
+  where?: Maybe<RoundsBoolExp>;
+};
+
+export type RoundsOrderBy = {
+  game_id?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  order_sequence?: Maybe<OrderBy>;
+  value?: Maybe<OrderBy>;
+};
+
+export type RoundsPkColumnsInput = {
+  id: Scalars['uuid'];
+};
+
+export enum RoundsSelectColumn {
+  GameId = 'game_id',
+  Id = 'id',
+  OrderSequence = 'order_sequence',
+  Value = 'value'
+}
+
+export type RoundsSetInput = {
+  game_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  order_sequence?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+export type RoundsStddevFields = {
+  order_sequence?: Maybe<Scalars['Float']>;
+};
+
+export type RoundsStddevOrderBy = {
+  order_sequence?: Maybe<OrderBy>;
+};
+
+export type RoundsStddevPopFields = {
+  order_sequence?: Maybe<Scalars['Float']>;
+};
+
+export type RoundsStddevPopOrderBy = {
+  order_sequence?: Maybe<OrderBy>;
+};
+
+export type RoundsStddevSampFields = {
+  order_sequence?: Maybe<Scalars['Float']>;
+};
+
+export type RoundsStddevSampOrderBy = {
+  order_sequence?: Maybe<OrderBy>;
+};
+
+export type RoundsSumFields = {
+  order_sequence?: Maybe<Scalars['Int']>;
+};
+
+export type RoundsSumOrderBy = {
+  order_sequence?: Maybe<OrderBy>;
+};
+
+export enum RoundsUpdateColumn {
+  GameId = 'game_id',
+  Id = 'id',
+  OrderSequence = 'order_sequence',
+  Value = 'value'
+}
+
+export type RoundsVarPopFields = {
+  order_sequence?: Maybe<Scalars['Float']>;
+};
+
+export type RoundsVarPopOrderBy = {
+  order_sequence?: Maybe<OrderBy>;
+};
+
+export type RoundsVarSampFields = {
+  order_sequence?: Maybe<Scalars['Float']>;
+};
+
+export type RoundsVarSampOrderBy = {
+  order_sequence?: Maybe<OrderBy>;
+};
+
+export type RoundsVarianceFields = {
+  order_sequence?: Maybe<Scalars['Float']>;
+};
+
+export type RoundsVarianceOrderBy = {
+  order_sequence?: Maybe<OrderBy>;
 };
 
 export type StringComparisonExp = {
@@ -1326,6 +1633,9 @@ export type SubscriptionRoot = {
   players: Array<Players>;
   players_aggregate: PlayersAggregate;
   players_by_pk?: Maybe<Players>;
+  rounds: Array<Rounds>;
+  rounds_aggregate: RoundsAggregate;
+  rounds_by_pk?: Maybe<Rounds>;
   turns: Array<Turns>;
   turns_aggregate: TurnsAggregate;
   turns_by_pk?: Maybe<Turns>;
@@ -1420,6 +1730,29 @@ export type SubscriptionRootPlayersAggregateArgs = {
 
 
 export type SubscriptionRootPlayersByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type SubscriptionRootRoundsArgs = {
+  distinct_on?: Maybe<Array<RoundsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<RoundsOrderBy>>;
+  where?: Maybe<RoundsBoolExp>;
+};
+
+
+export type SubscriptionRootRoundsAggregateArgs = {
+  distinct_on?: Maybe<Array<RoundsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<RoundsOrderBy>>;
+  where?: Maybe<RoundsBoolExp>;
+};
+
+
+export type SubscriptionRootRoundsByPkArgs = {
   id: Scalars['uuid'];
 };
 
