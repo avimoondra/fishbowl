@@ -1,0 +1,19 @@
+- args:
+    permission:
+      allow_aggregations: false
+      backend_only: false
+      columns:
+      - id
+      - value
+      computed_fields: []
+      filter:
+        game:
+          players:
+            id:
+              _eq: X-Hasura-User-Id
+      limit: null
+    role: player
+    table:
+      name: rounds
+      schema: public
+  type: create_select_permission
