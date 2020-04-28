@@ -1387,6 +1387,7 @@ export type QueryRootTurnsByPkArgs = {
 };
 
 export type Rounds = {
+  game: Games;
   game_id: Scalars['uuid'];
   id: Scalars['uuid'];
   order_sequence: Scalars['Int'];
@@ -1449,6 +1450,7 @@ export type RoundsBoolExp = {
   _and?: Maybe<Array<Maybe<RoundsBoolExp>>>;
   _not?: Maybe<RoundsBoolExp>;
   _or?: Maybe<Array<Maybe<RoundsBoolExp>>>;
+  game?: Maybe<GamesBoolExp>;
   game_id?: Maybe<UuidComparisonExp>;
   id?: Maybe<UuidComparisonExp>;
   order_sequence?: Maybe<IntComparisonExp>;
@@ -1464,6 +1466,7 @@ export type RoundsIncInput = {
 };
 
 export type RoundsInsertInput = {
+  game?: Maybe<GamesObjRelInsertInput>;
   game_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   order_sequence?: Maybe<Scalars['Int']>;
@@ -1515,6 +1518,7 @@ export type RoundsOnConflict = {
 };
 
 export type RoundsOrderBy = {
+  game?: Maybe<GamesOrderBy>;
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   order_sequence?: Maybe<OrderBy>;
@@ -2143,7 +2147,7 @@ export type CurrentGameSubscriptionVariables = {
 
 export type CurrentGameSubscription = { games: Array<(
     Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player' | 'state'>
-    & { host?: Maybe<Pick<Players, 'id' | 'username'>>, cards: Array<Pick<Cards, 'id' | 'word' | 'player_id'>>, players: Array<Pick<Players, 'id' | 'username' | 'team' | 'team_sequence'>>, turns: Array<Pick<Turns, 'id' | 'player_id' | 'started_at' | 'completed_card_ids' | 'seconds_per_turn_override'>> }
+    & { host?: Maybe<Pick<Players, 'id' | 'username'>>, rounds: Array<Pick<Rounds, 'id' | 'value'>>, cards: Array<Pick<Cards, 'id' | 'word' | 'player_id'>>, players: Array<Pick<Players, 'id' | 'username' | 'team' | 'team_sequence'>>, turns: Array<Pick<Turns, 'id' | 'player_id' | 'started_at' | 'completed_card_ids' | 'seconds_per_turn_override'>> }
   )> };
 
 export type UpdateGameStateMutationVariables = {
@@ -2333,6 +2337,10 @@ export const CurrentGameDocument = gql`
     host {
       id
       username
+    }
+    rounds(order_by: {order_sequence: asc}) {
+      id
+      value
     }
     cards {
       id

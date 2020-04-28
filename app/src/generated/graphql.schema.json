@@ -4214,6 +4214,16 @@
             "defaultValue": null
           },
           {
+            "name": "game",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "games_bool_exp",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "game_id",
             "description": "",
             "type": {
@@ -6748,6 +6758,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "game",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "games_order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "game_id",
             "description": "",
             "type": {
@@ -6797,6 +6817,22 @@
         "name": "rounds",
         "description": "",
         "fields": [
+          {
+            "name": "game",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "games",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "game_id",
             "description": "",
@@ -12068,6 +12104,16 @@
         "description": "",
         "fields": null,
         "inputFields": [
+          {
+            "name": "game",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "games_obj_rel_insert_input",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
           {
             "name": "game_id",
             "description": "",
