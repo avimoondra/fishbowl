@@ -2,10 +2,15 @@ import { Box, Typography } from "@material-ui/core"
 import { useTitleStyle } from "index"
 import {
   GameRound,
-  GameRoundDescription,
-  GameRoundNumber
+  GameRoundDescription
 } from "pages/Play/GameRoundInstructionCard"
 import * as React from "react"
+
+const GameRoundNumber = {
+  [GameRound.Taboo]: 1,
+  [GameRound.Charades]: 2,
+  [GameRound.Password]: 3
+}
 
 function HowToPlay() {
   const titleClasses = useTitleStyle()

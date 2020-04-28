@@ -33,6 +33,10 @@ subscription CurrentGame($joinCode: String!) {
       id
       username
     }
+    rounds(order_by: { order_sequence: asc }) {
+      id
+      value
+    }
     cards {
       id
       word

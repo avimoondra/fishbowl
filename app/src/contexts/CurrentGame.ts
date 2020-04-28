@@ -6,6 +6,7 @@ export type CurrentGameContextType = CurrentGameSubscription["games"][0]
 export const CurrentGameContext = createContext<CurrentGameContextType>({
   id: "",
   state: GameStateEnum.Lobby,
+  rounds: [],
   cards: [],
   players: [],
   turns: []

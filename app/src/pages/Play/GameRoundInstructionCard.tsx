@@ -8,12 +8,6 @@ export enum GameRound {
   Password = "Password"
 }
 
-export const GameRoundNumber = {
-  [GameRound.Taboo]: 1,
-  [GameRound.Charades]: 2,
-  [GameRound.Password]: 3
-}
-
 export const GameRoundDescription = {
   [GameRound.Taboo]: (
     <>
@@ -37,15 +31,15 @@ export const GameRoundDescription = {
 
 function GameRoundInstructionCard(props: {
   round: GameRound
+  roundNumber: number
   onDismiss: () => void
 }) {
   const titleClasses = useTitleStyle()
-
   return (
     <StyledPaper elevation={2}>
       <Box p={1}>
         <Typography className={titleClasses.title} variant="h5">
-          {`Round ${GameRoundNumber[props.round]}: `}
+          {`Round ${props.roundNumber}: `}
           {props.round}
         </Typography>
       </Box>

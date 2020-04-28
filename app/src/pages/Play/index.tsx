@@ -6,7 +6,7 @@ import { Team, TeamColor } from "lib/team"
 import { calculateSecondsLeft, dateFromTimestamptzNow } from "lib/time"
 import { ActiveTurnPlayState, drawableCards } from "lib/turn"
 import useInterval from "lib/useInterval"
-import { filter, last } from "lodash"
+import { capitalize, filter, last } from "lodash"
 import GameRoundInstructionCard, {
   GameRound
 } from "pages/Play/GameRoundInstructionCard"
@@ -148,17 +148,18 @@ function Play() {
 
   const numCompletedCards = completedCardIds.length
   const totalNumCards = currentGame.cards.length
-  let round
-  if (numCompletedCards === 0) {
-    round = GameRound.Taboo
-  } else if (numCompletedCards / totalNumCards === 1.0) {
-    round = GameRound.Charades
-  } else if (numCompletedCards / totalNumCards === 2.0) {
-    round = GameRound.Password
+  const numRounds = currentGame.rounds.length
+
+  if (numCompletedCards === numRounds * totalNumCards) {
+    return <NoMoreRounds></NoMoreRounds>
   }
 
-  if (completedCardIds.length === 3 * currentGame.cards.length) {
-    return <NoMoreRounds></NoMoreRounds>
+  const roundMarkers = [...Array(numRounds).keys()]
+  let roundMarker = numCompletedCards / totalNumCards
+  let round
+  if (roundMarkers.includes(roundMarker)) {
+    const value = capitalize(currentGame.rounds[roundMarker].value)
+    round = GameRound[value as GameRound]
   }
 
   return (
@@ -187,6 +188,7 @@ function Play() {
           <Box mb={1}>
             <GameRoundInstructionCard
               round={round}
+              roundNumber={Number(roundMarker + 1)}
               onDismiss={() => {
                 setHasDismissedInstructionCard(true)
               }}
