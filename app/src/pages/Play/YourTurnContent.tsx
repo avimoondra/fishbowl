@@ -354,9 +354,9 @@ function YourTurnContent(props: {
 
         {!isMobile &&
           props.activeTurnPlayState === ActiveTurnPlayState.Playing && (
-            <div style={{ textAlign: "center", color: grey[500] }}>
-              [ Hint: Press the spacebar for "Correct", and S for "Skip" ]
-            </div>
+            <Grid item style={{ color: grey[500] }}>
+              Hint: Press the spacebar for "Correct", and S for "Skip"
+            </Grid>
           )}
       </Grid>
     </Box>
