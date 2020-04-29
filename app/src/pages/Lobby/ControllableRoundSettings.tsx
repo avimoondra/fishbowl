@@ -2,7 +2,6 @@ import {
   Box,
   IconButton,
   InputAdornment,
-  List,
   ListItem,
   ListItemIcon,
   ListItemSecondaryAction,
@@ -14,6 +13,7 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp"
 import CloseIcon from "@material-ui/icons/Close"
 import arrayMove from "array-move"
+import RoundSettingsList from "components/RoundSettingsList"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import {
   useAddRoundMutation,
@@ -32,14 +32,7 @@ function ControllableRoundSettings() {
   const [addRoundValue, setAddRoundValue] = React.useState("")
 
   return (
-    <List
-      style={{
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: "rgba(0, 0, 0, 0.23)",
-        borderRadius: 4
-      }}
-    >
+    <RoundSettingsList>
       <>
         {currentGame.rounds.map((round, index) => {
           return (
@@ -174,7 +167,7 @@ function ControllableRoundSettings() {
           </ListItemSecondaryAction>
         </ListItem>
       </>
-    </List>
+    </RoundSettingsList>
   )
 }
 
