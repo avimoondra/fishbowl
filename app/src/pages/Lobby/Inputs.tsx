@@ -52,7 +52,7 @@ export function UsernameInput(props: {
           </Button>
         </Box>
       </Box>
-      <Box pt={1} color={grey[500]}>
+      <Box pt={1} color={grey[600]}>
         Emojis encouraged! 🌍🚀✨
       </Box>
     </>

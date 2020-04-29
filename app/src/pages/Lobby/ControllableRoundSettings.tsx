@@ -36,7 +36,7 @@ function ControllableRoundSettings() {
       <>
         {currentGame.rounds.map((round, index) => {
           return (
-            <ListItem>
+            <ListItem key={round.id}>
               <ListItemIcon>
                 <>
                   <IconButton

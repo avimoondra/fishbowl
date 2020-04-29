@@ -16,7 +16,7 @@ function PlayerChip(props: {
         props.handleSwitch && (
           <LoopIcon
             style={{
-              color: grey[500],
+              color: grey[600],
               backgroundColor: "transparent",
               cursor: "pointer"
             }}

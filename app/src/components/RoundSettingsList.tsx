@@ -10,7 +10,7 @@ function RoundSettingsList(props: { children: React.ReactNode }) {
         borderStyle: "solid",
         borderColor: "rgba(0, 0, 0, 0.23)",
         borderRadius: 4,
-        color: grey[500]
+        color: grey[600]
       }}
     >
       {props.children}

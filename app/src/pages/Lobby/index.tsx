@@ -1,4 +1,5 @@
 import {
+  Box,
   createStyles,
   Divider,
   Grid,
@@ -51,7 +52,7 @@ function SettingsSection() {
             Settings
           </Typography>
           {currentPlayer.role === PlayerRole.Participant && (
-            <div style={{ color: grey[500] }}>
+            <div style={{ color: grey[600] }}>
               (Only your host can set these)
             </div>
           )}
@@ -78,6 +79,10 @@ function SettingsSection() {
           <Typography variant="h6" className={titleClasses.title}>
             Rounds
           </Typography>
+          <Box pl={2} pt={1} fontSize="0.75rem" color={grey[600]}>
+            {currentPlayer.role === PlayerRole.Host &&
+              "You can add, remove, or reorder rounds. By default, cards submitted will be re-used across rounds of Taboo, Charades, and Password."}
+          </Box>
         </Grid>
         <Grid item>
           {currentPlayer.role === PlayerRole.Host ? (
@@ -86,6 +91,7 @@ function SettingsSection() {
             <RoundSettings></RoundSettings>
           )}
         </Grid>
+        <Grid item></Grid>
       </Grid>
     </Grid>
   )

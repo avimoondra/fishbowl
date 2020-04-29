@@ -35,7 +35,7 @@ enum ShownCardStatus {
 
 const GreenCheckbox = withStyles({
   root: {
-    color: grey[500],
+    color: grey[600],
     "&$checked": {
       color: green[600]
     }
@@ -147,7 +147,7 @@ function YourTurnContent(props: {
                 {activeCard ? (
                   <Typography variant="h5">{activeCard.word}</Typography>
                 ) : (
-                  <div style={{ textAlign: "center", color: grey[500] }}>
+                  <div style={{ textAlign: "center", color: grey[600] }}>
                     You'll see cards here!
                   </div>
                 )}
@@ -196,7 +196,7 @@ function YourTurnContent(props: {
                       </Box>
                       {shownCardsInActiveTurn.get(cardId) ===
                         ShownCardStatus.Skipped && (
-                        <Box color={grey[500]}>(skip)</Box>
+                        <Box color={grey[600]}>(skip)</Box>
                       )}
                     </Grid>
                     <Grid item>
@@ -354,7 +354,7 @@ function YourTurnContent(props: {
 
         {!isMobile &&
           props.activeTurnPlayState === ActiveTurnPlayState.Playing && (
-            <Grid item style={{ color: grey[500] }}>
+            <Grid item style={{ color: grey[600] }}>
               Hint: Press the spacebar for "Correct", and S for "Skip"
             </Grid>
           )}

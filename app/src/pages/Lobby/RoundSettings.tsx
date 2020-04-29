@@ -11,7 +11,7 @@ function RoundSettings() {
     <RoundSettingsList>
       {currentGame.rounds.map((round, index) => {
         return (
-          <ListItem>
+          <ListItem key={round.id}>
             <ListItemText>
               <Box pl={2}>
                 {index + 1}. {capitalize(round.value)}
