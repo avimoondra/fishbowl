@@ -22,3 +22,62 @@ mutation RemovePlayer($id: uuid!) {
     id
   }
 }
+
+mutation DeleteRound(
+  $id: uuid!
+  $gameId: uuid!
+  $rounds: [rounds_insert_input!]!
+) {
+  delete_rounds_by_pk(id: $id) {
+    id
+  }
+  insert_games_one(
+    object: {
+      id: $gameId
+      rounds: {
+        data: $rounds
+        on_conflict: {
+          constraint: rounds_pkey
+          update_columns: [order_sequence]
+        }
+      }
+    }
+    on_conflict: { constraint: games_pkey, update_columns: [id] }
+  ) {
+    id
+    rounds {
+      id
+      order_sequence
+    }
+  }
+}
+
+mutation UpdateAllRounds($gameId: uuid!, $rounds: [rounds_insert_input!]!) {
+  insert_games_one(
+    object: {
+      id: $gameId
+      rounds: {
+        data: $rounds
+        on_conflict: {
+          constraint: rounds_pkey
+          update_columns: [order_sequence]
+        }
+      }
+    }
+    on_conflict: { constraint: games_pkey, update_columns: [id] }
+  ) {
+    id
+    rounds {
+      id
+      order_sequence
+    }
+  }
+}
+
+mutation AddRound($object: rounds_insert_input!) {
+  insert_rounds_one(object: $object) {
+    id
+    value
+    order_sequence
+  }
+}

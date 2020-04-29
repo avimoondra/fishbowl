@@ -43,7 +43,7 @@ function HostControls(props: {
           style={{
             width: 150,
             height: 1,
-            backgroundColor: grey[500]
+            backgroundColor: grey[600]
           }}
         ></Divider>
       </Grid>

@@ -1,4 +1,5 @@
 import {
+  Box,
   createStyles,
   Divider,
   Grid,
@@ -10,13 +11,14 @@ import { grey } from "@material-ui/core/colors"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useTitleStyle } from "index"
-import HowToPlay from "pages/Home/HowToPlay"
+import ControllableRoundSettings from "pages/Lobby/ControllableRoundSettings"
 import {
   LetterInput,
   SecondsPerTurnInput,
   SubmissionsPerPlayerInput,
   UsernameInput
 } from "pages/Lobby/Inputs"
+import RoundSettings from "pages/Lobby/RoundSettings"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
 import * as React from "react"
 
@@ -30,20 +32,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function ShareSection() {
   const currentGame = React.useContext(CurrentGameContext)
-  const titleClasses = useTitleStyle()
   return (
     <Grid item>
-      <Grid container spacing={2} direction="column">
-        <Grid item>
-          <Typography variant="h4" className={titleClasses.title}>
-            Share
-          </Typography>
-        </Grid>
-        <Grid item>
-          {`Share the code with everyone playing`}
-          <Typography variant="h6">{currentGame.join_code}</Typography>
-        </Grid>
-      </Grid>
+      {`Share the code with everyone playing`}
+      <Typography variant="h6">{currentGame.join_code}</Typography>
     </Grid>
   )
 }
@@ -60,7 +52,7 @@ function SettingsSection() {
             Settings
           </Typography>
           {currentPlayer.role === PlayerRole.Participant && (
-            <div style={{ color: grey[500] }}>
+            <div style={{ color: grey[600] }}>
               (Only your host can set these)
             </div>
           )}
@@ -71,6 +63,11 @@ function SettingsSection() {
           ></SecondsPerTurnInput>
         </Grid>
         <Grid item>
+          <Typography variant="h6" className={titleClasses.title}>
+            Cards
+          </Typography>
+        </Grid>
+        <Grid item>
           <SubmissionsPerPlayerInput
             value={String(currentGame.num_entries_per_player || "")}
           ></SubmissionsPerPlayerInput>
@@ -78,6 +75,23 @@ function SettingsSection() {
         <Grid item>
           <LetterInput value={currentGame.starting_letter || ""}></LetterInput>
         </Grid>
+        <Grid item>
+          <Typography variant="h6" className={titleClasses.title}>
+            Rounds
+          </Typography>
+          <Box pl={2} pt={1} fontSize="0.75rem" color={grey[600]}>
+            {currentPlayer.role === PlayerRole.Host &&
+              "You can add, remove, or reorder rounds. By default, cards submitted will be re-used across rounds of Taboo, Charades, and Password."}
+          </Box>
+        </Grid>
+        <Grid item>
+          {currentPlayer.role === PlayerRole.Host ? (
+            <ControllableRoundSettings></ControllableRoundSettings>
+          ) : (
+            <RoundSettings></RoundSettings>
+          )}
+        </Grid>
+        <Grid item></Grid>
       </Grid>
     </Grid>
   )
@@ -136,10 +150,6 @@ function Lobby() {
           <Divider variant="middle"></Divider>
           <div className={classes.section}>
             <SettingsSection></SettingsSection>
-          </div>
-          <Divider variant="middle"></Divider>
-          <div className={classes.section}>
-            <HowToPlay></HowToPlay>
           </div>
         </>
       )}

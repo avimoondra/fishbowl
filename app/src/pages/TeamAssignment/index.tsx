@@ -53,7 +53,7 @@ function TeamAssignment() {
               {`Team ${myTeamColor}`.toLocaleUpperCase()}
             </Typography>
           </Grid>
-          <Grid item style={{ color: grey[500], fontStyle: "italic" }}>
+          <Grid item style={{ color: grey[600], fontStyle: "italic" }}>
             (your team)
           </Grid>
         </Grid>

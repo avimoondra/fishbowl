@@ -159,7 +159,7 @@ function Play() {
   let round
   if (roundMarkers.includes(roundMarker)) {
     const value = capitalize(currentGame.rounds[roundMarker].value)
-    round = GameRound[value as GameRound]
+    round = GameRound[value as GameRound] || value
   }
 
   return (
