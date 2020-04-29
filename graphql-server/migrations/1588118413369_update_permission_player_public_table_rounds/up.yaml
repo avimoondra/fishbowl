@@ -1,0 +1,23 @@
+- args:
+    permission:
+      backend_only: false
+      columns:
+      - order_sequence
+      filter:
+        _and:
+        - game:
+            host_id:
+              _eq: X-Hasura-User-Id
+        - game:
+            state:
+              _eq: lobby
+        - game:
+            players:
+              id:
+                _eq: X-Hasura-User-Id
+      set: {}
+    role: player
+    table:
+      name: rounds
+      schema: public
+  type: create_update_permission
