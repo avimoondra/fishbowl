@@ -106,17 +106,13 @@ function ControllableRoundSettings() {
                 <IconButton
                   size="small"
                   onClick={async () => {
-                    await deleteRound({
-                      variables: {
-                        id: round.id
-                      }
-                    })
                     const updatedRounds = reject(
                       currentGame.rounds,
                       _r => _r.id === round.id
                     )
-                    updateAllRounds({
+                    await deleteRound({
                       variables: {
+                        id: round.id,
                         gameId: currentGame.id,
                         rounds: updatedRounds.map(
                           (updatedRound, updatedIndex) => {

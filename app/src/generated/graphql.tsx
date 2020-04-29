@@ -2241,10 +2241,15 @@ export type RemovePlayerMutation = { delete_players_by_pk?: Maybe<Pick<Players, 
 
 export type DeleteRoundMutationVariables = {
   id: Scalars['uuid'];
+  gameId: Scalars['uuid'];
+  rounds: Array<RoundsInsertInput>;
 };
 
 
-export type DeleteRoundMutation = { delete_rounds_by_pk?: Maybe<Pick<Rounds, 'id'>> };
+export type DeleteRoundMutation = { delete_rounds_by_pk?: Maybe<Pick<Rounds, 'id'>>, insert_games_one?: Maybe<(
+    Pick<Games, 'id'>
+    & { rounds: Array<Pick<Rounds, 'id' | 'order_sequence'>> }
+  )> };
 
 export type UpdateAllRoundsMutationVariables = {
   gameId: Scalars['uuid'];
@@ -2816,9 +2821,16 @@ export type RemovePlayerMutationHookResult = ReturnType<typeof useRemovePlayerMu
 export type RemovePlayerMutationResult = ApolloReactCommon.MutationResult<RemovePlayerMutation>;
 export type RemovePlayerMutationOptions = ApolloReactCommon.BaseMutationOptions<RemovePlayerMutation, RemovePlayerMutationVariables>;
 export const DeleteRoundDocument = gql`
-    mutation DeleteRound($id: uuid!) {
+    mutation DeleteRound($id: uuid!, $gameId: uuid!, $rounds: [rounds_insert_input!]!) {
   delete_rounds_by_pk(id: $id) {
     id
+  }
+  insert_games_one(object: {id: $gameId, rounds: {data: $rounds, on_conflict: {constraint: rounds_pkey, update_columns: [order_sequence]}}}, on_conflict: {constraint: games_pkey, update_columns: [id]}) {
+    id
+    rounds {
+      id
+      order_sequence
+    }
   }
 }
     `;
@@ -2838,6 +2850,8 @@ export type DeleteRoundMutationFn = ApolloReactCommon.MutationFunction<DeleteRou
  * const [deleteRoundMutation, { data, loading, error }] = useDeleteRoundMutation({
  *   variables: {
  *      id: // value for 'id'
+ *      gameId: // value for 'gameId'
+ *      rounds: // value for 'rounds'
  *   },
  * });
  */
