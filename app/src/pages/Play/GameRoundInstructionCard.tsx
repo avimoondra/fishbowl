@@ -8,6 +8,12 @@ export enum GameRound {
   Password = "Password"
 }
 
+export const GameRounds = [
+  GameRound.Taboo,
+  GameRound.Charades,
+  GameRound.Password
+]
+
 export const GameRoundDescription = {
   [GameRound.Taboo]: (
     <>
@@ -30,7 +36,7 @@ export const GameRoundDescription = {
 }
 
 function GameRoundInstructionCard(props: {
-  round: GameRound
+  round: GameRound | string
   roundNumber: number
   onDismiss: () => void
 }) {
@@ -43,7 +49,10 @@ function GameRoundInstructionCard(props: {
           {props.round}
         </Typography>
       </Box>
-      <Box p={1}>{GameRoundDescription[props.round]}</Box>
+      <Box p={1}>
+        {GameRoundDescription[props.round as GameRound] ||
+          "Your host will give you the rules for this one!"}
+      </Box>
       <Box p={1} display="flex" flexDirection="row-reverse">
         <Button
           color="primary"

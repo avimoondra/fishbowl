@@ -36,7 +36,7 @@ export function UsernameInput(props: {
         </Box>
         <Box pl={2}>
           <Button
-            disabled={value === "" || value.length > 15}
+            disabled={value === ""}
             variant="outlined"
             size="large"
             onClick={() => {
@@ -53,7 +53,7 @@ export function UsernameInput(props: {
         </Box>
       </Box>
       <Box pt={1} color={grey[500]}>
-        15 character limit. Emojis encouraged! 🌍🚀✨
+        Emojis encouraged! 🌍🚀✨
       </Box>
     </>
   )

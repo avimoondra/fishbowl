@@ -1,0 +1,181 @@
+import {
+  Box,
+  IconButton,
+  InputAdornment,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemSecondaryAction,
+  ListItemText,
+  TextField
+} from "@material-ui/core"
+import AddCircleIcon from "@material-ui/icons/AddCircle"
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
+import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp"
+import CloseIcon from "@material-ui/icons/Close"
+import arrayMove from "array-move"
+import { CurrentGameContext } from "contexts/CurrentGame"
+import {
+  useAddRoundMutation,
+  useDeleteRoundMutation,
+  useUpdateAllRoundsMutation
+} from "generated/graphql"
+import { capitalize, lowerFirst } from "lodash"
+import * as React from "react"
+
+function ControllableRoundSettings() {
+  const currentGame = React.useContext(CurrentGameContext)
+  const [updateAllRounds] = useUpdateAllRoundsMutation()
+  const [deleteRound] = useDeleteRoundMutation()
+  const [addRound] = useAddRoundMutation()
+  const [showAddRoundForm, setShowAddRoundForm] = React.useState(false)
+  const [addRoundValue, setAddRoundValue] = React.useState("")
+
+  return (
+    <List
+      style={{
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: "rgba(0, 0, 0, 0.23)",
+        borderRadius: 4
+      }}
+    >
+      <>
+        {currentGame.rounds.map((round, index) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                <>
+                  <IconButton
+                    color="primary"
+                    size="small"
+                    disabled={index === 0}
+                    onClick={() => {
+                      const updatedRounds = arrayMove(
+                        currentGame.rounds,
+                        index,
+                        index - 1
+                      )
+                      updateAllRounds({
+                        variables: {
+                          gameId: currentGame.id,
+                          rounds: updatedRounds.map(
+                            (updatedRound, updatedIndex) => {
+                              return {
+                                id: updatedRound.id,
+                                value: updatedRound.value,
+                                order_sequence: updatedIndex
+                              }
+                            }
+                          )
+                        }
+                      })
+                    }}
+                  >
+                    <ArrowDropUpIcon></ArrowDropUpIcon>
+                  </IconButton>
+                  <IconButton
+                    color="primary"
+                    size="small"
+                    disabled={index === currentGame.rounds.length - 1}
+                    onClick={() => {
+                      const updatedRounds = arrayMove(
+                        currentGame.rounds,
+                        index,
+                        index + 1
+                      )
+                      updateAllRounds({
+                        variables: {
+                          gameId: currentGame.id,
+                          rounds: updatedRounds.map(
+                            (updatedRound, updatedIndex) => {
+                              return {
+                                id: updatedRound.id,
+                                value: updatedRound.value,
+                                order_sequence: updatedIndex
+                              }
+                            }
+                          )
+                        }
+                      })
+                    }}
+                  >
+                    <ArrowDropDownIcon></ArrowDropDownIcon>
+                  </IconButton>
+                </>
+              </ListItemIcon>
+              <ListItemText>
+                <Box pl={2}>
+                  {index + 1}. {capitalize(round.value)}
+                </Box>
+              </ListItemText>
+              <ListItemSecondaryAction>
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    deleteRound({
+                      variables: {
+                        id: round.id
+                      }
+                    })
+                  }}
+                >
+                  <CloseIcon></CloseIcon>
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          )
+        })}
+        <ListItem>
+          <ListItemText style={{ paddingLeft: "76px" }}>
+            {showAddRoundForm ? (
+              <TextField
+                value={addRoundValue}
+                onChange={({ target: { value } }) => setAddRoundValue(value)}
+                size="small"
+                autoFocus
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      {currentGame.rounds.length + 1}.
+                    </InputAdornment>
+                  )
+                }}
+              ></TextField>
+            ) : (
+              <Box color="#fafafa">.</Box>
+            )}
+          </ListItemText>
+          <ListItemSecondaryAction>
+            <IconButton
+              size="small"
+              disabled={showAddRoundForm && addRoundValue.length === 0}
+              color={addRoundValue.length > 0 ? "primary" : "default"}
+              onClick={() => {
+                if (showAddRoundForm && addRoundValue.length > 0) {
+                  addRound({
+                    variables: {
+                      object: {
+                        game_id: currentGame.id,
+                        value: lowerFirst(addRoundValue),
+                        order_sequence: currentGame.rounds.length
+                      }
+                    }
+                  })
+                  setShowAddRoundForm(false)
+                  setAddRoundValue("")
+                } else {
+                  setShowAddRoundForm(true)
+                }
+              }}
+            >
+              <AddCircleIcon></AddCircleIcon>
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
+      </>
+    </List>
+  )
+}
+
+export default ControllableRoundSettings

@@ -10,13 +10,14 @@ import { grey } from "@material-ui/core/colors"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useTitleStyle } from "index"
-import HowToPlay from "pages/Home/HowToPlay"
+import ControllableRoundSettings from "pages/Lobby/ControllableRoundSettings"
 import {
   LetterInput,
   SecondsPerTurnInput,
   SubmissionsPerPlayerInput,
   UsernameInput
 } from "pages/Lobby/Inputs"
+import RoundSettings from "pages/Lobby/RoundSettings"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
 import * as React from "react"
 
@@ -30,20 +31,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function ShareSection() {
   const currentGame = React.useContext(CurrentGameContext)
-  const titleClasses = useTitleStyle()
   return (
     <Grid item>
-      <Grid container spacing={2} direction="column">
-        <Grid item>
-          <Typography variant="h4" className={titleClasses.title}>
-            Share
-          </Typography>
-        </Grid>
-        <Grid item>
-          {`Share the code with everyone playing`}
-          <Typography variant="h6">{currentGame.join_code}</Typography>
-        </Grid>
-      </Grid>
+      {`Share the code with everyone playing`}
+      <Typography variant="h6">{currentGame.join_code}</Typography>
     </Grid>
   )
 }
@@ -71,12 +62,29 @@ function SettingsSection() {
           ></SecondsPerTurnInput>
         </Grid>
         <Grid item>
+          <Typography variant="h6" className={titleClasses.title}>
+            Cards
+          </Typography>
+        </Grid>
+        <Grid item>
           <SubmissionsPerPlayerInput
             value={String(currentGame.num_entries_per_player || "")}
           ></SubmissionsPerPlayerInput>
         </Grid>
         <Grid item>
           <LetterInput value={currentGame.starting_letter || ""}></LetterInput>
+        </Grid>
+        <Grid item>
+          <Typography variant="h6" className={titleClasses.title}>
+            Rounds
+          </Typography>
+        </Grid>
+        <Grid item>
+          {currentPlayer.role === PlayerRole.Host ? (
+            <ControllableRoundSettings></ControllableRoundSettings>
+          ) : (
+            <RoundSettings></RoundSettings>
+          )}
         </Grid>
       </Grid>
     </Grid>
@@ -136,10 +144,6 @@ function Lobby() {
           <Divider variant="middle"></Divider>
           <div className={classes.section}>
             <SettingsSection></SettingsSection>
-          </div>
-          <Divider variant="middle"></Divider>
-          <div className={classes.section}>
-            <HowToPlay></HowToPlay>
           </div>
         </>
       )}

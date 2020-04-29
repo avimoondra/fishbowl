@@ -12225,6 +12225,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "rounds_game_id_order_sequence_key",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "rounds_pkey",
             "description": "",
             "isDeprecated": false,

@@ -2239,6 +2239,31 @@ export type RemovePlayerMutationVariables = {
 
 export type RemovePlayerMutation = { delete_players_by_pk?: Maybe<Pick<Players, 'id'>> };
 
+export type DeleteRoundMutationVariables = {
+  id: Scalars['uuid'];
+};
+
+
+export type DeleteRoundMutation = { delete_rounds_by_pk?: Maybe<Pick<Rounds, 'id'>> };
+
+export type UpdateAllRoundsMutationVariables = {
+  gameId: Scalars['uuid'];
+  rounds: Array<RoundsInsertInput>;
+};
+
+
+export type UpdateAllRoundsMutation = { insert_games_one?: Maybe<(
+    Pick<Games, 'id'>
+    & { rounds: Array<Pick<Rounds, 'id' | 'order_sequence'>> }
+  )> };
+
+export type AddRoundMutationVariables = {
+  object: RoundsInsertInput;
+};
+
+
+export type AddRoundMutation = { insert_rounds_one?: Maybe<Pick<Rounds, 'id' | 'value' | 'order_sequence'>> };
+
 export type CreateTurnMutationVariables = {
   gameId: Scalars['uuid'];
   playerId: Scalars['uuid'];
@@ -2790,6 +2815,109 @@ export function useRemovePlayerMutation(baseOptions?: ApolloReactHooks.MutationH
 export type RemovePlayerMutationHookResult = ReturnType<typeof useRemovePlayerMutation>;
 export type RemovePlayerMutationResult = ApolloReactCommon.MutationResult<RemovePlayerMutation>;
 export type RemovePlayerMutationOptions = ApolloReactCommon.BaseMutationOptions<RemovePlayerMutation, RemovePlayerMutationVariables>;
+export const DeleteRoundDocument = gql`
+    mutation DeleteRound($id: uuid!) {
+  delete_rounds_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteRoundMutationFn = ApolloReactCommon.MutationFunction<DeleteRoundMutation, DeleteRoundMutationVariables>;
+
+/**
+ * __useDeleteRoundMutation__
+ *
+ * To run a mutation, you first call `useDeleteRoundMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRoundMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRoundMutation, { data, loading, error }] = useDeleteRoundMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRoundMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteRoundMutation, DeleteRoundMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteRoundMutation, DeleteRoundMutationVariables>(DeleteRoundDocument, baseOptions);
+      }
+export type DeleteRoundMutationHookResult = ReturnType<typeof useDeleteRoundMutation>;
+export type DeleteRoundMutationResult = ApolloReactCommon.MutationResult<DeleteRoundMutation>;
+export type DeleteRoundMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteRoundMutation, DeleteRoundMutationVariables>;
+export const UpdateAllRoundsDocument = gql`
+    mutation UpdateAllRounds($gameId: uuid!, $rounds: [rounds_insert_input!]!) {
+  insert_games_one(object: {id: $gameId, rounds: {data: $rounds, on_conflict: {constraint: rounds_pkey, update_columns: [order_sequence]}}}, on_conflict: {constraint: games_pkey, update_columns: [id]}) {
+    id
+    rounds {
+      id
+      order_sequence
+    }
+  }
+}
+    `;
+export type UpdateAllRoundsMutationFn = ApolloReactCommon.MutationFunction<UpdateAllRoundsMutation, UpdateAllRoundsMutationVariables>;
+
+/**
+ * __useUpdateAllRoundsMutation__
+ *
+ * To run a mutation, you first call `useUpdateAllRoundsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAllRoundsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAllRoundsMutation, { data, loading, error }] = useUpdateAllRoundsMutation({
+ *   variables: {
+ *      gameId: // value for 'gameId'
+ *      rounds: // value for 'rounds'
+ *   },
+ * });
+ */
+export function useUpdateAllRoundsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateAllRoundsMutation, UpdateAllRoundsMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateAllRoundsMutation, UpdateAllRoundsMutationVariables>(UpdateAllRoundsDocument, baseOptions);
+      }
+export type UpdateAllRoundsMutationHookResult = ReturnType<typeof useUpdateAllRoundsMutation>;
+export type UpdateAllRoundsMutationResult = ApolloReactCommon.MutationResult<UpdateAllRoundsMutation>;
+export type UpdateAllRoundsMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateAllRoundsMutation, UpdateAllRoundsMutationVariables>;
+export const AddRoundDocument = gql`
+    mutation AddRound($object: rounds_insert_input!) {
+  insert_rounds_one(object: $object) {
+    id
+    value
+    order_sequence
+  }
+}
+    `;
+export type AddRoundMutationFn = ApolloReactCommon.MutationFunction<AddRoundMutation, AddRoundMutationVariables>;
+
+/**
+ * __useAddRoundMutation__
+ *
+ * To run a mutation, you first call `useAddRoundMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddRoundMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addRoundMutation, { data, loading, error }] = useAddRoundMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useAddRoundMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddRoundMutation, AddRoundMutationVariables>) {
+        return ApolloReactHooks.useMutation<AddRoundMutation, AddRoundMutationVariables>(AddRoundDocument, baseOptions);
+      }
+export type AddRoundMutationHookResult = ReturnType<typeof useAddRoundMutation>;
+export type AddRoundMutationResult = ApolloReactCommon.MutationResult<AddRoundMutation>;
+export type AddRoundMutationOptions = ApolloReactCommon.BaseMutationOptions<AddRoundMutation, AddRoundMutationVariables>;
 export const CreateTurnDocument = gql`
     mutation CreateTurn($gameId: uuid!, $playerId: uuid!) {
   insert_turns_one(object: {game_id: $gameId, player_id: $playerId}) {
