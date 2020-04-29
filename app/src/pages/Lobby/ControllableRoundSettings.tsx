@@ -20,7 +20,7 @@ import {
   useDeleteRoundMutation,
   useUpdateAllRoundsMutation
 } from "generated/graphql"
-import { capitalize, lowerFirst } from "lodash"
+import { capitalize, lowerFirst, reject } from "lodash"
 import * as React from "react"
 
 function ControllableRoundSettings() {
@@ -105,10 +105,28 @@ function ControllableRoundSettings() {
               <ListItemSecondaryAction>
                 <IconButton
                   size="small"
-                  onClick={() => {
-                    deleteRound({
+                  onClick={async () => {
+                    await deleteRound({
                       variables: {
                         id: round.id
+                      }
+                    })
+                    const updatedRounds = reject(
+                      currentGame.rounds,
+                      _r => _r.id === round.id
+                    )
+                    updateAllRounds({
+                      variables: {
+                        gameId: currentGame.id,
+                        rounds: updatedRounds.map(
+                          (updatedRound, updatedIndex) => {
+                            return {
+                              id: updatedRound.id,
+                              value: updatedRound.value,
+                              order_sequence: updatedIndex
+                            }
+                          }
+                        )
                       }
                     })
                   }}
