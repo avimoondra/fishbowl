@@ -5,10 +5,6 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
 import routes from "./routes"
 
 function App() {
-  React.useEffect(() => {
-    window.document.title = "Fishbowl"
-  }, [])
-
   return (
     <BrowserRouter>
       <Switch>
