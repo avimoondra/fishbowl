@@ -198,7 +198,7 @@ function Play() {
       )}
       <Grid item>
         <TurnContextPanel
-          secondsLeft={Math.round(Math.max(secondsLeft, 0))}
+          secondsLeft={Math.round(Math.max(secondsLeft, 0)) || 0}
         ></TurnContextPanel>
       </Grid>
       <Grid item>{content}</Grid>
