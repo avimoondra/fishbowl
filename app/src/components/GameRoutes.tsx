@@ -1,7 +1,17 @@
 import GameStateRedirects from "components/GameStateRedirects"
 import { CurrentGameContext } from "contexts/CurrentGame"
-import { clientUuid, CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import { useCurrentGameSubscription, useCurrentPlayerQuery } from "generated/graphql"
+import {
+  clientUuid,
+  CurrentPlayerContext,
+  PlayerRole
+} from "contexts/CurrentPlayer"
+import {
+  useCurrentGameSubscription,
+  useCurrentPlayerLazyQuery,
+  useCurrentPlayerQuery,
+  useGameByJoinCodeQuery,
+  useJoinGameMutation
+} from "generated/graphql"
 import CardSubmission from "pages/CardSubmission"
 import EndGame from "pages/EndGame"
 import Lobby from "pages/Lobby"
@@ -15,14 +25,54 @@ function CurrentPlayerProvider(props: {
   joinCode: string
   children: React.ReactNode
 }) {
-  const { data, loading } = useCurrentPlayerQuery({
+  const [joinGame] = useJoinGameMutation()
+  const [getPlayersResponse] = useCurrentPlayerLazyQuery({
+    variables: {
+      joinCode: props.joinCode,
+      clientUuid: clientUuid()
+    },
+    onCompleted: async data => {
+      console.log("got players response data:", data)
+    }
+  })
+
+  const playersResponse = useCurrentPlayerQuery({
     variables: {
       joinCode: props.joinCode,
       clientUuid: clientUuid()
     }
   })
 
-  if (!loading && !data?.players[0]) {
+  const gamesResponse = useGameByJoinCodeQuery({
+    variables: {
+      joinCode: props.joinCode?.toLocaleUpperCase()
+    }
+  })
+
+  if (playersResponse.loading || gamesResponse.loading) {
+    return <div>loading</div>
+  }
+
+  const { data, loading } = playersResponse
+  if (!loading && !gamesResponse.loading && !data) {
+    console.log("no game found")
+    const gameId = gamesResponse.data?.games[0]?.id
+    if (gameId) {
+      console.log("but i could join one")
+      joinGame({
+        variables: {
+          gameId,
+          clientUuid: clientUuid()
+        }
+      }).then(response => {
+        console.log("response from joining game: ", response)
+
+        getPlayersResponse()
+      })
+    }
+  }
+
+  if (!playersResponse.loading && !data?.players[0]) {
     return <Redirect to={routes.root}></Redirect>
   }
 
@@ -50,6 +100,8 @@ function CurrentGameProvider(props: {
       joinCode: props.joinCode
     }
   })
+
+  console.log("In CurrentGameProvider")
 
   if (!loading && !data?.games[0]) {
     return <Redirect to={routes.root}></Redirect>

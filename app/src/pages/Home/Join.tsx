@@ -43,6 +43,11 @@ function Join(props: { onBack: () => void }) {
     }
   })
 
+  console.log("HERE")
+
+  console.log("redirectRoute", redirectRoute)
+  console.log("joinCode", joinCode)
+
   return (
     <>
       {redirectRoute && joinCode && <Redirect push to={redirectRoute} />}
