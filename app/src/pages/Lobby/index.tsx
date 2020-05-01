@@ -65,7 +65,7 @@ function SettingsSection() {
           Settings
         </Typography>
       </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      <ExpansionPanelDetails style={{ padding: 0 }}>
         <Grid item>
           <Grid container spacing={2} direction="column">
             <Grid item>
