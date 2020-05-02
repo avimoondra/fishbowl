@@ -1,7 +1,18 @@
+import { useLazyQuery } from "@apollo/react-hooks"
 import GameStateRedirects from "components/GameStateRedirects"
+import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { CurrentGameContext } from "contexts/CurrentGame"
-import { clientUuid, CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import { useCurrentGameSubscription, useCurrentPlayerQuery } from "generated/graphql"
+import {
+  clientUuid,
+  CurrentPlayerContext,
+  PlayerRole
+} from "contexts/CurrentPlayer"
+import {
+  GameByJoinCodeDocument,
+  useCurrentGameSubscription,
+  useCurrentPlayerQuery,
+  useJoinGameMutation
+} from "generated/graphql"
 import CardSubmission from "pages/CardSubmission"
 import EndGame from "pages/EndGame"
 import Lobby from "pages/Lobby"
@@ -15,6 +26,43 @@ function CurrentPlayerProvider(props: {
   joinCode: string
   children: React.ReactNode
 }) {
+  const currentAuth = React.useContext(CurrentAuthContext)
+  const [redirectRoute, setRedirectRoute] = React.useState("")
+  const [, updateState] = React.useState()
+  const forceUpdate = React.useCallback(() => updateState({}), [])
+
+  // https://github.com/apollographql/react-apollo/issues/3505#issuecomment-568112061
+  const [skipCallback, setSkipCallback] = React.useState(false)
+
+  const [joinGame] = useJoinGameMutation()
+  const [loadGame] = useLazyQuery(GameByJoinCodeDocument, {
+    variables: { joinCode: props.joinCode.toLocaleUpperCase() },
+    onCompleted: async data => {
+      if (skipCallback) {
+        return
+      }
+      if (data && data.games[0]) {
+        const registration = await joinGame({
+          variables: {
+            gameId: data.games[0].id,
+            clientUuid: clientUuid()
+          }
+        })
+        if (registration.data?.joinGame) {
+          await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
+        }
+        setSkipCallback(true)
+        forceUpdate()
+      } else {
+        setRedirectRoute(routes.game.root)
+      }
+    },
+    onError: _ => {
+      setRedirectRoute(routes.game.root)
+    }
+  })
+
+  // sign in
   const { data, loading } = useCurrentPlayerQuery({
     variables: {
       joinCode: props.joinCode,
@@ -22,7 +70,14 @@ function CurrentPlayerProvider(props: {
     }
   })
 
-  if (!loading && !data?.players[0]) {
+  // sign up
+  React.useEffect(() => {
+    if (!loading && !data?.players[0]) {
+      loadGame()
+    }
+  }, [loading, data?.players[0]])
+
+  if (redirectRoute) {
     return <Redirect to={routes.root}></Redirect>
   }
 
