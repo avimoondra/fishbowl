@@ -1,0 +1,382 @@
+version: 2
+tables:
+- table:
+    schema: public
+    name: cards
+  object_relationships:
+  - name: game
+    using:
+      foreign_key_constraint_on: game_id
+  insert_permissions:
+  - role: player
+    permission:
+      check:
+        _and:
+        - game:
+            players:
+              id:
+                _eq: X-Hasura-User-Id
+        - player_id:
+            _eq: X-Hasura-User-Id
+      columns:
+      - game_id
+      - player_id
+      - word
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - id
+      - game_id
+      - player_id
+      - word
+      - created_at
+      filter:
+        game:
+          players:
+            id:
+              _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - word
+      filter:
+        _and:
+        - game:
+            players:
+              id:
+                _eq: X-Hasura-User-Id
+        - player_id:
+            _eq: X-Hasura-User-Id
+      check: null
+- table:
+    schema: public
+    name: game_state
+  is_enum: true
+- table:
+    schema: public
+    name: games
+  object_relationships:
+  - name: game_state
+    using:
+      foreign_key_constraint_on: state
+  - name: host
+    using:
+      foreign_key_constraint_on: host_id
+  array_relationships:
+  - name: cards
+    using:
+      foreign_key_constraint_on:
+        column: game_id
+        table:
+          schema: public
+          name: cards
+  - name: players
+    using:
+      foreign_key_constraint_on:
+        column: game_id
+        table:
+          schema: public
+          name: players
+  - name: rounds
+    using:
+      foreign_key_constraint_on:
+        column: game_id
+        table:
+          schema: public
+          name: rounds
+  - name: turns
+    using:
+      foreign_key_constraint_on:
+        column: game_id
+        table:
+          schema: public
+          name: turns
+  insert_permissions:
+  - role: anonymous
+    permission:
+      check: {}
+      columns: []
+  - role: player
+    permission:
+      check:
+        players:
+          id:
+            _eq: X-Hasura-User-Id
+      columns:
+      - id
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - id
+      - join_code
+      filter: {}
+  - role: player
+    permission:
+      columns:
+      - id
+      - join_code
+      - state
+      - host_id
+      - starting_letter
+      - seconds_per_turn
+      - num_entries_per_player
+      - created_at
+      filter:
+        players:
+          id:
+            _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - created_at
+      - host_id
+      - id
+      - join_code
+      - num_entries_per_player
+      - seconds_per_turn
+      - starting_letter
+      - state
+      filter:
+        players:
+          id:
+            _eq: X-Hasura-User-Id
+      check: null
+- table:
+    schema: public
+    name: players
+  object_relationships:
+  - name: game
+    using:
+      foreign_key_constraint_on: game_id
+  insert_permissions:
+  - role: anonymous
+    permission:
+      check:
+        game:
+          state:
+            _eq: lobby
+      columns:
+      - client_uuid
+      - game_id
+  - role: player
+    permission:
+      check:
+        game:
+          players:
+            id:
+              _eq: X-Hasura-User-Id
+      columns:
+      - client_uuid
+      - game_id
+      - id
+      - team
+      - team_sequence
+      - username
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - client_uuid
+      - game_id
+      - id
+      - team
+      - team_sequence
+      - username
+      filter: {}
+  - role: player
+    permission:
+      columns:
+      - id
+      - client_uuid
+      - game_id
+      - username
+      - team
+      - team_sequence
+      - created_at
+      filter:
+        game:
+          players:
+            id:
+              _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - team
+      - team_sequence
+      - username
+      filter:
+        game:
+          players:
+            id:
+              _eq: X-Hasura-User-Id
+      check: null
+  delete_permissions:
+  - role: player
+    permission:
+      filter:
+        _and:
+        - game:
+            host:
+              id:
+                _eq: X-Hasura-User-Id
+        - game:
+            state:
+              _eq: lobby
+- table:
+    schema: public
+    name: rounds
+  object_relationships:
+  - name: game
+    using:
+      foreign_key_constraint_on: game_id
+  insert_permissions:
+  - role: player
+    permission:
+      check:
+        _and:
+        - game:
+            host_id:
+              _eq: X-Hasura-User-Id
+        - game:
+            state:
+              _eq: lobby
+        - game:
+            players:
+              id:
+                _eq: X-Hasura-User-Id
+      columns:
+      - game_id
+      - id
+      - order_sequence
+      - value
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - id
+      - order_sequence
+      - value
+      filter:
+        game:
+          players:
+            id:
+              _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - order_sequence
+      filter:
+        _and:
+        - game:
+            host_id:
+              _eq: X-Hasura-User-Id
+        - game:
+            state:
+              _eq: lobby
+        - game:
+            players:
+              id:
+                _eq: X-Hasura-User-Id
+      check: null
+  delete_permissions:
+  - role: player
+    permission:
+      filter:
+        _and:
+        - game:
+            host_id:
+              _eq: X-Hasura-User-Id
+        - game:
+            state:
+              _eq: lobby
+        - game:
+            players:
+              id:
+                _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: turns
+  object_relationships:
+  - name: game
+    using:
+      foreign_key_constraint_on: game_id
+  - name: player
+    using:
+      foreign_key_constraint_on: player_id
+  insert_permissions:
+  - role: player
+    permission:
+      check:
+        game:
+          players:
+            id:
+              _eq: X-Hasura-User-Id
+      columns:
+      - completed_card_ids
+      - ended_at
+      - game_id
+      - player_id
+      - seconds_per_turn_override
+      - started_at
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - seconds_per_turn_override
+      - sequential_id
+      - completed_card_ids
+      - created_at
+      - ended_at
+      - started_at
+      - game_id
+      - id
+      - player_id
+      filter:
+        game:
+          players:
+            id:
+              _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - completed_card_ids
+      - ended_at
+      - game_id
+      - player_id
+      - seconds_per_turn_override
+      - started_at
+      filter:
+        game:
+          players:
+            id:
+              _eq: X-Hasura-User-Id
+      check: null
+actions:
+- name: joinGame
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/joinGame'
+    arguments:
+    - name: gameId
+      type: String!
+    - name: clientUuid
+      type: String!
+    output_type: joinGameOutput
+  permissions:
+  - role: anonymous
+  - role: player
+custom_types:
+  objects:
+  - name: joinGameOutput
+    fields:
+    - name: id
+      type: String!
+    - name: jwt_token
+      type: String!

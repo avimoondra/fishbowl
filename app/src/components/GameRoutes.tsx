@@ -1,4 +1,6 @@
+import { useLazyQuery } from "@apollo/react-hooks"
 import GameStateRedirects from "components/GameStateRedirects"
+import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import {
   clientUuid,
@@ -6,10 +8,10 @@ import {
   PlayerRole
 } from "contexts/CurrentPlayer"
 import {
+  GameByJoinCodeDocument,
+  GameByJoinCodeQuery,
   useCurrentGameSubscription,
   useCurrentPlayerLazyQuery,
-  useCurrentPlayerQuery,
-  useGameByJoinCodeQuery,
   useJoinGameMutation
 } from "generated/graphql"
 import CardSubmission from "pages/CardSubmission"
@@ -25,63 +27,88 @@ function CurrentPlayerProvider(props: {
   joinCode: string
   children: React.ReactNode
 }) {
+  const currentAuth = React.useContext(CurrentAuthContext)
+  const [player, setPlayer] = React.useState<any>([])
+  const [attemptedGameLoad, setAttemptedGameLoad] = React.useState(false)
+  const [isLoading, setLoading] = React.useState(true)
   const [joinGame] = useJoinGameMutation()
-  const [getPlayersResponse] = useCurrentPlayerLazyQuery({
+
+  const [getPlayers] = useCurrentPlayerLazyQuery({
     variables: {
       joinCode: props.joinCode,
       clientUuid: clientUuid()
     },
-    onCompleted: async data => {
-      console.log("got players response data:", data)
+    onCompleted: data => {
+      setPlayer(data?.players[0])
+      setLoading(false)
     }
   })
 
-  const playersResponse = useCurrentPlayerQuery({
-    variables: {
-      joinCode: props.joinCode,
-      clientUuid: clientUuid()
+  // This "skip logic" is sort of hacky but handles a bug in useQuery
+  // https://github.com/apollographql/react-apollo/issues/3505#issuecomment-568112061
+  const [skipCallback, setSkipCallback] = React.useState(false)
+  const [loadGame] = useLazyQuery(GameByJoinCodeDocument, {
+    variables: { joinCode: props.joinCode?.toLocaleUpperCase() },
+    onCompleted: async (data: GameByJoinCodeQuery) => {
+      if (skipCallback) {
+        return
+      }
+
+      if (data && data.games[0]) {
+        // If we found a game from the game code, now try to join it
+        const registration = await joinGame({
+          variables: {
+            gameId: data.games[0].id,
+            clientUuid: clientUuid()
+          }
+        })
+        if (registration.data?.joinGame) {
+          await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
+        }
+
+        // If we successfully joined a game and set the JWT token, re-fetch the
+        //  current player (which should now be set)
+        getPlayers()
+      } else {
+        setLoading(false)
+      }
+
+      setSkipCallback(true)
+      setAttemptedGameLoad(true)
     }
   })
 
-  const gamesResponse = useGameByJoinCodeQuery({
-    variables: {
-      joinCode: props.joinCode?.toLocaleUpperCase()
-    }
-  })
+  // To start, fetch the current player and the games they are a part of
+  React.useEffect(() => {
+    getPlayers()
+  }, [])
 
-  if (playersResponse.loading || gamesResponse.loading) {
+  // If we've finished trying to load the current player, and there isn't one,
+  // attempt to join a game (which will create a player) from the code in the
+  // URL (if a code is present)
+  React.useEffect(() => {
+    if (!isLoading && !player) {
+      setLoading(true)
+      loadGame()
+    }
+  }, [isLoading, player])
+
+  // If we're still loading, OR if we don't have a player but have not yet
+  //  attempted to load a game from the URL (could happen between renders)
+  if (isLoading || (!player && !attemptedGameLoad)) {
     return <div>loading</div>
   }
 
-  const { data, loading } = playersResponse
-  if (!loading && !gamesResponse.loading && !data) {
-    console.log("no game found")
-    const gameId = gamesResponse.data?.games[0]?.id
-    if (gameId) {
-      console.log("but i could join one")
-      joinGame({
-        variables: {
-          gameId,
-          clientUuid: clientUuid()
-        }
-      }).then(response => {
-        console.log("response from joining game: ", response)
-
-        getPlayersResponse()
-      })
-    }
-  }
-
-  if (!playersResponse.loading && !data?.players[0]) {
+  if (!player) {
     return <Redirect to={routes.root}></Redirect>
   }
 
-  return data?.players[0]?.game?.host?.id ? (
+  return player?.game?.host?.id ? (
     <CurrentPlayerContext.Provider
       value={{
-        ...data.players[0],
+        ...player,
         role:
-          data.players[0].id === data.players[0].game.host.id
+          player.id === player.game.host.id
             ? PlayerRole.Host
             : PlayerRole.Participant
       }}
@@ -100,8 +127,6 @@ function CurrentGameProvider(props: {
       joinCode: props.joinCode
     }
   })
-
-  console.log("In CurrentGameProvider")
 
   if (!loading && !data?.games[0]) {
     return <Redirect to={routes.root}></Redirect>

@@ -1,0 +1,21 @@
+- args:
+    role: anonymous
+    table:
+      name: players
+      schema: public
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - client_uuid
+      - game_id
+      - id
+      - username
+      computed_fields: []
+      filter: {}
+    role: anonymous
+    table:
+      name: players
+      schema: public
+  type: create_select_permission
