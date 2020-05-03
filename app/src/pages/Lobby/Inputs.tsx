@@ -11,7 +11,7 @@ import { sample } from "lodash"
 import * as React from "react"
 
 function HelperText(props: { children: React.ReactNode }) {
-  return <div style={{ width: 220 }}>{props.children}</div>
+  return <span style={{ width: 220 }}>{props.children}</span>
 }
 
 export function UsernameInput(props: {
@@ -63,12 +63,8 @@ export function LetterInput(props: { value: string }) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
-  const [textFieldValue, setTextFieldValue] = React.useState("")
+  const [textFieldValue, setTextFieldValue] = React.useState(props.value)
   const canConfigureSettings = currentPlayer.role === PlayerRole.Host
-
-  React.useEffect(() => {
-    setTextFieldValue(props.value)
-  }, [props.value])
 
   const onChange = (value: string) => {
     setTextFieldValue(value)
@@ -89,10 +85,11 @@ export function LetterInput(props: { value: string }) {
         <HelperText>
           {currentPlayer.role === PlayerRole.Host ? (
             <>
-              <div>
+              <span>
                 One style of play is that all words or phrases must start with
                 the same letter - Ask your group!
-              </div>
+              </span>
+              <br />
               <Link
                 href=""
                 onClick={(e: React.MouseEvent<HTMLElement>) => {
@@ -106,14 +103,13 @@ export function LetterInput(props: { value: string }) {
               </Link>
             </>
           ) : (
-            <div>
+            <span>
               One style of play is that all words or phrases must start with the
               same letter. If none is chosen, any word or phrase is fair game!
-            </div>
+            </span>
           )}
         </HelperText>
       }
-      defaultValue={props.value}
       value={textFieldValue}
       inputProps={{ maxLength: 1, style: { textTransform: "uppercase" } }}
       disabled={!canConfigureSettings}
@@ -128,12 +124,8 @@ export function SecondsPerTurnInput(props: { value: string }) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
-  const [textFieldValue, setTextFieldValue] = React.useState("")
+  const [textFieldValue, setTextFieldValue] = React.useState(props.value)
   const canConfigureSettings = currentPlayer.role === PlayerRole.Host
-
-  React.useEffect(() => {
-    setTextFieldValue(props.value)
-  }, [props.value])
 
   return (
     <TextField
@@ -142,7 +134,6 @@ export function SecondsPerTurnInput(props: { value: string }) {
       size="medium"
       required
       helperText={<HelperText>Usually 30 or 60</HelperText>}
-      defaultValue={props.value}
       value={textFieldValue}
       inputProps={{ style: { textTransform: "uppercase" } }}
       disabled={!canConfigureSettings}
@@ -163,12 +154,8 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
-  const [textFieldValue, setTextFieldValue] = React.useState("")
+  const [textFieldValue, setTextFieldValue] = React.useState(props.value)
   const canConfigureSettings = currentPlayer.role === PlayerRole.Host
-
-  React.useEffect(() => {
-    setTextFieldValue(props.value)
-  }, [props.value])
 
   return (
     <TextField
@@ -179,7 +166,6 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
       helperText={
         <HelperText>Depends on group size, but usually 4-6</HelperText>
       }
-      defaultValue={props.value}
       value={textFieldValue}
       inputProps={{ style: { textTransform: "uppercase" } }}
       disabled={!canConfigureSettings}
