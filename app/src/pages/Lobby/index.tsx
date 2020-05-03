@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   createStyles,
   Divider,
   ExpansionPanel,
@@ -7,10 +8,12 @@ import {
   ExpansionPanelSummary,
   Grid,
   makeStyles,
+  TextField,
   Theme,
-  Typography
+  Typography,
 } from "@material-ui/core"
 import { grey } from "@material-ui/core/colors"
+import { Link } from "@material-ui/icons"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
@@ -20,25 +23,52 @@ import {
   LetterInput,
   SecondsPerTurnInput,
   SubmissionsPerPlayerInput,
-  UsernameInput
+  UsernameInput,
 } from "pages/Lobby/Inputs"
 import RoundSettings from "pages/Lobby/RoundSettings"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
 import * as React from "react"
-
+import Clipboard from "react-clipboard.js"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     section: {
-      margin: theme.spacing(2)
-    }
+      margin: theme.spacing(2),
+    },
   })
 )
 
 function ShareSection() {
   const currentGame = React.useContext(CurrentGameContext)
+
   return (
     <Grid item>
-      {`Share the code with everyone playing`}
+      {`Share this link with everyone playing:`}
+      <Grid container spacing={2} style={{ paddingTop: 8, paddingBottom: 8 }}>
+        <Grid item xs={8}>
+          <TextField
+            id="standard-read-only-input"
+            defaultValue={document.URL.replace("http://", "").replace(
+              "https://",
+              ""
+            )}
+            fullWidth
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <Clipboard
+            data-clipboard-text={document.URL}
+            style={{ border: "none", background: "none" }}
+          >
+            <Button variant="contained" color="default" startIcon={<Link />}>
+              Copy
+            </Button>
+          </Clipboard>
+        </Grid>
+      </Grid>
+      {`Or the code:`}
       <Typography variant="h6">{currentGame.join_code}</Typography>
     </Grid>
   )
@@ -52,7 +82,7 @@ function SettingsSection() {
     <ExpansionPanel
       style={{
         boxShadow: "none",
-        background: "none"
+        background: "none",
       }}
     >
       <ExpansionPanelSummary
@@ -145,7 +175,7 @@ function Lobby() {
   return (
     <div>
       <div className={classes.section}>
-        <ShareSection></ShareSection>
+        <ShareSection />
       </div>
       <Divider variant="middle"></Divider>
 
