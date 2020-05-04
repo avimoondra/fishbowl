@@ -1,7 +1,19 @@
+import { useLazyQuery } from "@apollo/react-hooks"
 import GameStateRedirects from "components/GameStateRedirects"
+import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { CurrentGameContext } from "contexts/CurrentGame"
-import { clientUuid, CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import { useCurrentGameSubscription, useCurrentPlayerQuery } from "generated/graphql"
+import {
+  clientUuid,
+  CurrentPlayerContext,
+  PlayerRole
+} from "contexts/CurrentPlayer"
+import {
+  CurrentPlayerDocument,
+  CurrentPlayerQuery,
+  GameByJoinCodeDocument,
+  useCurrentGameSubscription,
+  useJoinGameMutation
+} from "generated/graphql"
 import CardSubmission from "pages/CardSubmission"
 import EndGame from "pages/EndGame"
 import Lobby from "pages/Lobby"
@@ -15,23 +27,88 @@ function CurrentPlayerProvider(props: {
   joinCode: string
   children: React.ReactNode
 }) {
-  const { data, loading } = useCurrentPlayerQuery({
-    variables: {
-      joinCode: props.joinCode,
-      clientUuid: clientUuid()
+  const currentAuth = React.useContext(CurrentAuthContext)
+
+  const [currentPlayer, setCurrentPlayer] = React.useState<
+    CurrentPlayerQuery["players"][0] | null
+  >(null)
+  const [redirectRoute, setRedirectRoute] = React.useState("")
+
+  // https://github.com/apollographql/react-apollo/issues/3505#issuecomment-568112061
+  const [skipCallback, setSkipCallback] = React.useState(false)
+
+  const [joinGame] = useJoinGameMutation()
+  const [signUp] = useLazyQuery(GameByJoinCodeDocument, {
+    variables: { joinCode: props.joinCode.toLocaleUpperCase() },
+    onCompleted: async data => {
+      if (skipCallback) {
+        return
+      }
+
+      if (data?.games[0]) {
+        const registration = await joinGame({
+          variables: {
+            gameId: data.games[0].id,
+            clientUuid: clientUuid()
+          }
+        })
+        if (registration.data?.joinGame) {
+          await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
+        }
+        setSkipCallback(true)
+      } else {
+        setRedirectRoute(routes.game.root)
+      }
+    },
+    onError: _ => {
+      setRedirectRoute(routes.game.root)
     }
   })
 
-  if (!loading && !data?.players[0]) {
+  const [
+    signIn,
+    { loading: loadingSignIn, called: calledSignIn }
+  ] = useLazyQuery(CurrentPlayerDocument, {
+    variables: {
+      joinCode: props.joinCode.toLocaleUpperCase(),
+      clientUuid: clientUuid()
+    },
+    onCompleted: async data => {
+      if (data?.players[0]) {
+        setCurrentPlayer(data?.players[0])
+      } else {
+        await currentAuth.setJwtToken(null)
+      }
+    },
+    onError: _ => {
+      setRedirectRoute(routes.game.root)
+    }
+  })
+
+  // sign in
+  React.useEffect(() => {
+    if (currentAuth.jwtToken) {
+      signIn()
+    }
+  }, [currentAuth.jwtToken])
+
+  // sign up
+  React.useEffect(() => {
+    if (!loadingSignIn && !currentPlayer) {
+      signUp()
+    }
+  }, [loadingSignIn, currentPlayer])
+
+  if (redirectRoute) {
     return <Redirect to={routes.root}></Redirect>
   }
 
-  return data?.players[0]?.game?.host?.id ? (
+  return currentPlayer?.game?.host?.id ? (
     <CurrentPlayerContext.Provider
       value={{
-        ...data.players[0],
+        ...currentPlayer,
         role:
-          data.players[0].id === data.players[0].game.host.id
+          currentPlayer.id === currentPlayer.game.host.id
             ? PlayerRole.Host
             : PlayerRole.Participant
       }}
