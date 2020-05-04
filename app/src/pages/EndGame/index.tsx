@@ -61,6 +61,9 @@ function EndGame() {
   const tie = redScore === blueScore
   const winningTeam = redScore > blueScore ? Team.Red : Team.Blue
 
+  const shareContent =
+    "Just had a great time playing fishbowl-game.com online, you should check it out!"
+
   return (
     <>
       {redirectHome && <Redirect to={routes.root}></Redirect>}
@@ -122,8 +125,7 @@ function EndGame() {
             <Grid item>
               <TwitterShareButton
                 url={"fishbowl-game.com"}
-                title={"Fishbowl Game"}
-                className="twitter"
+                title={shareContent}
               >
                 <TwitterIcon size={32} round />
               </TwitterShareButton>
@@ -131,8 +133,7 @@ function EndGame() {
             <Grid item>
               <FacebookShareButton
                 url={"fishbowl-game.com"}
-                title={"Fishbowl Game"}
-                className="twitter"
+                title={shareContent}
               >
                 <FacebookIcon size={32} round />
               </FacebookShareButton>
