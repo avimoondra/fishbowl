@@ -1,9 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: |-
-      CREATE ROLE read_access_only;
-      GRANT USAGE ON SCHEMA public TO read_access_only;
-      GRANT SELECT ON ALL TABLES IN SCHEMA public TO read_access_only;
-      ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO read_access_only;
-  type: run_sql
