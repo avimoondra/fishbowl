@@ -66,6 +66,10 @@ export function LetterInput(props: { value: string }) {
   const [textFieldValue, setTextFieldValue] = React.useState(props.value)
   const canConfigureSettings = currentPlayer.role === PlayerRole.Host
 
+  React.useEffect(() => {
+    setTextFieldValue(props.value)
+  }, [props.value])
+
   const onChange = (value: string) => {
     setTextFieldValue(value)
     updateGameSettings({
@@ -127,6 +131,10 @@ export function SecondsPerTurnInput(props: { value: string }) {
   const [textFieldValue, setTextFieldValue] = React.useState(props.value)
   const canConfigureSettings = currentPlayer.role === PlayerRole.Host
 
+  React.useEffect(() => {
+    setTextFieldValue(props.value)
+  }, [props.value])
+
   return (
     <TextField
       label="Seconds Per Turn"
@@ -156,6 +164,10 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
   const [updateGameSettings] = useUpdateGameSettingsMutation()
   const [textFieldValue, setTextFieldValue] = React.useState(props.value)
   const canConfigureSettings = currentPlayer.role === PlayerRole.Host
+
+  React.useEffect(() => {
+    setTextFieldValue(props.value)
+  }, [props.value])
 
   return (
     <TextField
