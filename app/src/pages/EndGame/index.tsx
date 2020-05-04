@@ -10,6 +10,12 @@ import { Team, TeamColor } from "lib/team"
 import { filter, flatMap, isEmpty, reject } from "lodash"
 import * as React from "react"
 import { Redirect } from "react-router-dom"
+import {
+  FacebookIcon,
+  FacebookShareButton,
+  TwitterIcon,
+  TwitterShareButton
+} from "react-share"
 import routes from "routes"
 
 function EndGame() {
@@ -110,7 +116,29 @@ function EndGame() {
               Play Again
             </Button>
           </Box>
-          <Box pt={3}>or, if you had fun...!</Box>
+          <Box py={3}>or, if you had fun, share with your friends!</Box>
+
+          <Grid container justify="center" spacing={2}>
+            <Grid item>
+              <TwitterShareButton
+                url={"fishbowl-game.com"}
+                title={"Fishbowl Game"}
+                className="twitter"
+              >
+                <TwitterIcon size={32} round />
+              </TwitterShareButton>
+            </Grid>
+            <Grid item>
+              <FacebookShareButton
+                url={"fishbowl-game.com"}
+                title={"Fishbowl Game"}
+                className="twitter"
+              >
+                <FacebookIcon size={32} round />
+              </FacebookShareButton>
+            </Grid>
+          </Grid>
+
           <Box pt={3}>
             <BuyMeACoffeeButton></BuyMeACoffeeButton>
           </Box>
