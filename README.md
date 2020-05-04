@@ -4,7 +4,7 @@ Play the Fishbowl game online! Also known as Salad bowl, Monikers, or Celebritie
 
 # Technology
 
-Fishbowl is built with [Typescript](https://www.typescriptlang.org/), [React](), [Apollo GraphQL](https://www.apollographql.com/), [Hasura](https://hasura.io/), and [Postgres](https://www.postgresql.org/). It's deployed on [Render](https://render.com/).
+Fishbowl is built with [Material UI](https://material-ui.com/), [Typescript](https://www.typescriptlang.org/), [React](https://reactjs.org/), [Apollo GraphQL](https://www.apollographql.com/), [Hasura](https://hasura.io/), and [Postgres](https://www.postgresql.org/). It's deployed on [Render](https://render.com/).
 
 # Roadmap
 
