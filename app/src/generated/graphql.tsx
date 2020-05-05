@@ -2133,9 +2133,9 @@ export type CurrentPlayerQueryVariables = {
 
 
 export type CurrentPlayerQuery = { players: Array<(
-    Pick<Players, 'id' | 'client_uuid' | 'username' | 'team' | 'team_sequence'>
+    Pick<Players, 'id' | 'client_uuid' | 'username'>
     & { game: (
-      Pick<Games, 'id' | 'join_code'>
+      Pick<Games, 'id'>
       & { host?: Maybe<Pick<Players, 'id' | 'username'>> }
     ) }
   )> };
@@ -2315,11 +2315,8 @@ export const CurrentPlayerDocument = gql`
     id
     client_uuid
     username
-    team
-    team_sequence
     game {
       id
-      join_code
       host {
         id
         username

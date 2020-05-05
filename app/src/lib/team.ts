@@ -1,5 +1,5 @@
 import { CurrentGameSubscription } from "generated/graphql"
-import { cloneDeep, filter, remove, shuffle } from "lodash"
+import { cloneDeep, filter, find, remove, shuffle } from "lodash"
 
 export enum Team {
   Red = "red",
@@ -56,4 +56,11 @@ export function teamsWithSequenceWithUpdate(
     Team.Blue
   )
   return redTeam.concat(blueTeam)
+}
+
+export function currentPlayerTeam(
+  currentPlayerId: Player["id"],
+  players: Players
+): Team {
+  return find(players, player => player.id === currentPlayerId)?.team as Team
 }

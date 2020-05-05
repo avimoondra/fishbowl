@@ -1,8 +1,9 @@
 import { Box, Divider, Grid, Typography } from "@material-ui/core"
+import { grey } from "@material-ui/core/colors"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useTitleStyle } from "index"
-import { Team, TeamColor } from "lib/team"
+import { currentPlayerTeam, Team, TeamColor } from "lib/team"
 import { calculateSecondsLeft, dateFromTimestamptzNow } from "lib/time"
 import { ActiveTurnPlayState, drawableCards } from "lib/turn"
 import useInterval from "lib/useInterval"
@@ -103,7 +104,9 @@ function Play() {
   }
 
   const yourTurn = activePlayer.id === currentPlayer.id
-  const yourTeamTurn = activePlayer.team === currentPlayer.team
+  const yourTeamTurn =
+    activePlayer.team ===
+    currentPlayerTeam(currentPlayer.id, currentGame.players)
 
   let titleText = null
   let content = null
@@ -176,9 +179,9 @@ function Play() {
             width: 150,
             height: 2,
             backgroundColor:
-              currentPlayer.team === Team.Blue
-                ? TeamColor[Team.Blue]
-                : TeamColor[Team.Red]
+              TeamColor[
+                currentPlayerTeam(currentPlayer.id, currentGame.players) as Team
+              ] || grey[600]
           }}
         ></Divider>
       </Grid>
