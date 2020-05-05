@@ -42,10 +42,10 @@ Download and install [Docker](https://docs.docker.com/docker-for-mac/install/) v
 [Hasura](https://hasura.io/) is a GraphQL server that gives you instant, realtime GraphQL APIs over Postgres, with webhook triggers on database events, and remote schemas for business logic.
 
 ```bash
-curl -L https://github.com/hasura/graphql-engine/raw/master/cli/get.sh | bash
+curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
 ```
 
-Documentation: https://docs.hasura.io/1.0/graphql/manual/index.html
+See more detailed instructions [here](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/install-hasura-cli.html)
 
 6. Install Hasura CLI
 
@@ -89,19 +89,22 @@ hasura console --admin-secret=myadminsecretkey
 Open a new pull request or issue! Be sure to check out the [Public Trello](https://trello.com/b/xxUmKj7q/fishbowl-game) which defines a loose roadmap, and has many features, bugs, or chores already logged!
 
 ## Suggest a change or report a bug
+
 If you don't know if a bug is actually an issue or just want to suggest a feature - just create an issue!
 
 ## Make a change or fix a bug
+
 If you're already ready to contribute...
- 
+
 1. Fork this repo
 2. Create a branch w/your changes
 3. Create a pull request by comparing branches across forks
 4. Start a discussion from there!
 
 ## Contact
+
 If you're not sure about either or want to hack on Fishbowl on a recurring basis, feel free to contact me at [avimoondra@gmail.com](mailto:avimoondra@gmail.com) or [join our Slack group](https://join.slack.com/t/fishbowl-game/shared_invite/zt-dzi7puk6-Dpcg748SKqoBeRqZOfV7~g).
 
-# Support w/$
+# Support w/\$
 
 <a href="https://www.buymeacoffee.com/fishbowlgame" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 25.5px !important;width: 108.5px !important;" ></a>
