@@ -8,11 +8,8 @@ query CurrentPlayer($clientUuid: uuid!, $joinCode: String!) {
     id
     client_uuid
     username
-    team
-    team_sequence
     game {
       id
-      join_code
       host {
         id
         username

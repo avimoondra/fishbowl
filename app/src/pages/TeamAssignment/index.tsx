@@ -9,7 +9,7 @@ import {
   useUpdateAllPlayersMutation,
   useUpdateGameStateMutation
 } from "generated/graphql"
-import { Team, TeamColor, teamsWithSequence } from "lib/team"
+import { currentPlayerTeam, Team, TeamColor, teamsWithSequence } from "lib/team"
 import { nextPlayerForNextTeam } from "lib/turn"
 import { filter } from "lodash"
 import { Title } from "pages/CardSubmission"
@@ -22,12 +22,18 @@ function TeamAssignment() {
   const [createFirstTurn] = useCreateTurnMutation()
   const [updateAllPlayers] = useUpdateAllPlayersMutation()
 
-  const myTeamColor = currentPlayer.team === Team.Blue ? Team.Blue : Team.Red
+  const myTeamColor =
+    currentPlayerTeam(currentPlayer.id, currentGame.players) === Team.Blue
+      ? Team.Blue
+      : Team.Red
   const myTeamPlayers = filter(
     currentGame.players,
     player => player.team === myTeamColor
   )
-  const otherTeamColor = currentPlayer.team === Team.Blue ? Team.Red : Team.Blue
+  const otherTeamColor =
+    currentPlayerTeam(currentPlayer.id, currentGame.players) === Team.Blue
+      ? Team.Red
+      : Team.Blue
   const otherTeamPlayers = filter(
     currentGame.players,
     player => player.team === otherTeamColor
