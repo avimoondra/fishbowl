@@ -11,7 +11,11 @@ import { sample } from "lodash"
 import * as React from "react"
 
 function HelperText(props: { children: React.ReactNode }) {
-  return <span style={{ width: 220 }}>{props.children}</span>
+  return (
+    <span style={{ width: 220, display: "inline-block" }}>
+      {props.children}
+    </span>
+  )
 }
 
 export function UsernameInput(props: {
