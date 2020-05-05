@@ -22,10 +22,7 @@ function TeamAssignment() {
   const [createFirstTurn] = useCreateTurnMutation()
   const [updateAllPlayers] = useUpdateAllPlayersMutation()
 
-  const myTeamColor =
-    currentPlayerTeam(currentPlayer.id, currentGame.players) === Team.Blue
-      ? Team.Blue
-      : Team.Red
+  const myTeamColor = currentPlayerTeam(currentPlayer.id, currentGame.players)
   const myTeamPlayers = filter(
     currentGame.players,
     player => player.team === myTeamColor
