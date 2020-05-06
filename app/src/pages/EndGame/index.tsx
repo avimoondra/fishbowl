@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Link, Typography } from "@material-ui/core"
+import { Box, Divider, Grid, Link, Typography } from "@material-ui/core"
 import BuyMeACoffeeButton from "components/BuyMeACoffeeButton"
 import PlayerChip from "components/PlayerChip"
 import { CurrentAuthContext } from "contexts/CurrentAuth"
@@ -81,6 +81,9 @@ function EndGame() {
           </Box>
         </Grid>
         <Grid item>
+          <Divider variant="fullWidth"></Divider>
+        </Grid>
+        <Grid item>
           {tie
             ? "It's a tie! Play again to break it."
             : `${winningTeam.toLocaleUpperCase()} wins! Bask in the glory.`}
@@ -99,7 +102,9 @@ function EndGame() {
         )}
         <Grid item>{`You scored ${scoresByPlayer.get(currentPlayer.id) ||
           0} across all rounds.`}</Grid>
-        <Grid item> Thanks for playing! </Grid>
+        <Grid item>
+          <Divider variant="fullWidth"></Divider>
+        </Grid>
         <Grid
           item
           container
@@ -107,19 +112,9 @@ function EndGame() {
           justify="center"
           alignItems="center"
         >
-          <Box pt={3}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                currentAuth.setJwtToken(null)
-                setRedirectHome(true)
-              }}
-            >
-              Play Again
-            </Button>
+          <Box pb={2}>
+            Thanks for playing -- if you had fun, share it with your friends!
           </Box>
-          <Box py={3}>or, if you had fun, share with your friends!</Box>
 
           <Grid container justify="center" spacing={2}>
             <Grid item>
@@ -127,7 +122,7 @@ function EndGame() {
                 url={"fishbowl-game.com"}
                 title={shareContent}
               >
-                <TwitterIcon size={32} round />
+                <TwitterIcon size={50} round />
               </TwitterShareButton>
             </Grid>
             <Grid item>
@@ -135,19 +130,21 @@ function EndGame() {
                 url={"fishbowl-game.com"}
                 title={shareContent}
               >
-                <FacebookIcon size={32} round />
+                <FacebookIcon size={50} round />
               </FacebookShareButton>
             </Grid>
           </Grid>
-
-          <Box pt={3}>
+          <Box pb={1} pt={2}>
+            Or support the project by
+          </Box>
+          <Box py={2}>
             <BuyMeACoffeeButton></BuyMeACoffeeButton>
           </Box>
-          <Box pt={3}>
-            or, just{" "}
+          <Box py={1}>
             <Link href="https://forms.gle/L9qWMsnAUghXqqxE9" target="_blank">
-              share any feedback!
+              sharing your feedback
             </Link>
+            , and playing again soon!
           </Box>
         </Grid>
       </Grid>
