@@ -13,7 +13,6 @@ type Props = {
 
 export function YourTeamTurnContent(props: Props) {
   const currentGame = React.useContext(CurrentGameContext)
-  const currentPlayer = React.useContext(CurrentPlayerContext)
   const nextActivePlayer = nextPlayerForNextTeam(
     props.activePlayer,
     currentGame.turns,
@@ -46,9 +45,7 @@ export function YourTeamTurnContent(props: Props) {
             username={nextActivePlayer.username || ""}
             team={nextActivePlayer.team}
           ></PlayerChip>
-          {nextActivePlayer.id === currentPlayer.id
-            ? " is next! (that's you!)"
-            : " from the other team is next!"}
+          {" from the other team is next!"}
         </Grid>
       </Grid>
     </Box>
