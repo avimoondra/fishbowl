@@ -1805,6 +1805,7 @@ export type Turns = {
   id: Scalars['uuid'];
   player: Players;
   player_id: Scalars['uuid'];
+  review_started_at?: Maybe<Scalars['timestamptz']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id: Scalars['Int'];
   started_at?: Maybe<Scalars['timestamptz']>;
@@ -1885,6 +1886,7 @@ export type TurnsBoolExp = {
   id?: Maybe<UuidComparisonExp>;
   player?: Maybe<PlayersBoolExp>;
   player_id?: Maybe<UuidComparisonExp>;
+  review_started_at?: Maybe<TimestamptzComparisonExp>;
   seconds_per_turn_override?: Maybe<IntComparisonExp>;
   sequential_id?: Maybe<IntComparisonExp>;
   started_at?: Maybe<TimestamptzComparisonExp>;
@@ -1920,6 +1922,7 @@ export type TurnsInsertInput = {
   id?: Maybe<Scalars['uuid']>;
   player?: Maybe<PlayersObjRelInsertInput>;
   player_id?: Maybe<Scalars['uuid']>;
+  review_started_at?: Maybe<Scalars['timestamptz']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
@@ -1931,6 +1934,7 @@ export type TurnsMaxFields = {
   game_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   player_id?: Maybe<Scalars['uuid']>;
+  review_started_at?: Maybe<Scalars['timestamptz']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
@@ -1942,6 +1946,7 @@ export type TurnsMaxOrderBy = {
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   player_id?: Maybe<OrderBy>;
+  review_started_at?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
   sequential_id?: Maybe<OrderBy>;
   started_at?: Maybe<OrderBy>;
@@ -1953,6 +1958,7 @@ export type TurnsMinFields = {
   game_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   player_id?: Maybe<Scalars['uuid']>;
+  review_started_at?: Maybe<Scalars['timestamptz']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
@@ -1964,6 +1970,7 @@ export type TurnsMinOrderBy = {
   game_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   player_id?: Maybe<OrderBy>;
+  review_started_at?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
   sequential_id?: Maybe<OrderBy>;
   started_at?: Maybe<OrderBy>;
@@ -1994,6 +2001,7 @@ export type TurnsOrderBy = {
   id?: Maybe<OrderBy>;
   player?: Maybe<PlayersOrderBy>;
   player_id?: Maybe<OrderBy>;
+  review_started_at?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
   sequential_id?: Maybe<OrderBy>;
   started_at?: Maybe<OrderBy>;
@@ -2014,6 +2022,7 @@ export enum TurnsSelectColumn {
   GameId = 'game_id',
   Id = 'id',
   PlayerId = 'player_id',
+  ReviewStartedAt = 'review_started_at',
   SecondsPerTurnOverride = 'seconds_per_turn_override',
   SequentialId = 'sequential_id',
   StartedAt = 'started_at'
@@ -2026,6 +2035,7 @@ export type TurnsSetInput = {
   game_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   player_id?: Maybe<Scalars['uuid']>;
+  review_started_at?: Maybe<Scalars['timestamptz']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
@@ -2078,6 +2088,7 @@ export enum TurnsUpdateColumn {
   GameId = 'game_id',
   Id = 'id',
   PlayerId = 'player_id',
+  ReviewStartedAt = 'review_started_at',
   SecondsPerTurnOverride = 'seconds_per_turn_override',
   SequentialId = 'sequential_id',
   StartedAt = 'started_at'
@@ -2296,6 +2307,14 @@ export type EndCurrentTurnAndStartNextTurnMutationVariables = {
 
 
 export type EndCurrentTurnAndStartNextTurnMutation = { update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'ended_at' | 'completed_card_ids'>>, insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id' | 'seconds_per_turn_override'>> };
+
+export type StartReviewMutationVariables = {
+  currentTurnId: Scalars['uuid'];
+  reviewStartedAt: Scalars['timestamptz'];
+};
+
+
+export type StartReviewMutation = { update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'review_started_at'>> };
 
 export type UpdateAllPlayersMutationVariables = {
   gameId: Scalars['uuid'];
@@ -3043,6 +3062,40 @@ export function useEndCurrentTurnAndStartNextTurnMutation(baseOptions?: ApolloRe
 export type EndCurrentTurnAndStartNextTurnMutationHookResult = ReturnType<typeof useEndCurrentTurnAndStartNextTurnMutation>;
 export type EndCurrentTurnAndStartNextTurnMutationResult = ApolloReactCommon.MutationResult<EndCurrentTurnAndStartNextTurnMutation>;
 export type EndCurrentTurnAndStartNextTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<EndCurrentTurnAndStartNextTurnMutation, EndCurrentTurnAndStartNextTurnMutationVariables>;
+export const StartReviewDocument = gql`
+    mutation StartReview($currentTurnId: uuid!, $reviewStartedAt: timestamptz!) {
+  update_turns_by_pk(pk_columns: {id: $currentTurnId}, _set: {review_started_at: $reviewStartedAt}) {
+    id
+    review_started_at
+  }
+}
+    `;
+export type StartReviewMutationFn = ApolloReactCommon.MutationFunction<StartReviewMutation, StartReviewMutationVariables>;
+
+/**
+ * __useStartReviewMutation__
+ *
+ * To run a mutation, you first call `useStartReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStartReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [startReviewMutation, { data, loading, error }] = useStartReviewMutation({
+ *   variables: {
+ *      currentTurnId: // value for 'currentTurnId'
+ *      reviewStartedAt: // value for 'reviewStartedAt'
+ *   },
+ * });
+ */
+export function useStartReviewMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<StartReviewMutation, StartReviewMutationVariables>) {
+        return ApolloReactHooks.useMutation<StartReviewMutation, StartReviewMutationVariables>(StartReviewDocument, baseOptions);
+      }
+export type StartReviewMutationHookResult = ReturnType<typeof useStartReviewMutation>;
+export type StartReviewMutationResult = ApolloReactCommon.MutationResult<StartReviewMutation>;
+export type StartReviewMutationOptions = ApolloReactCommon.BaseMutationOptions<StartReviewMutation, StartReviewMutationVariables>;
 export const UpdateAllPlayersDocument = gql`
     mutation UpdateAllPlayers($gameId: uuid!, $players: [players_insert_input!]!) {
   insert_games_one(object: {id: $gameId, players: {data: $players, on_conflict: {constraint: players_pkey, update_columns: [team, team_sequence]}}}, on_conflict: {constraint: games_pkey, update_columns: [id]}) {

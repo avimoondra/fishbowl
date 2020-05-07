@@ -45,3 +45,13 @@ mutation EndCurrentTurnAndStartNextTurn(
     seconds_per_turn_override
   }
 }
+
+mutation StartReview($currentTurnId: uuid!, $reviewStartedAt: timestamptz!) {
+  update_turns_by_pk(
+    pk_columns: { id: $currentTurnId }
+    _set: { review_started_at: $reviewStartedAt }
+  ) {
+    id
+    review_started_at
+  }
+}
