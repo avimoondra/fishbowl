@@ -1,0 +1,23 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE EXTENSION IF NOT EXISTS pgcrypto;
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE TABLE "public"."turn_scorings"("id" uuid NOT NULL DEFAULT gen_random_uuid(),
+      "turn_id" uuid NOT NULL, "card_id" uuid NOT NULL, "round_id" uuid NOT NULL,
+      "player_id" uuid NOT NULL, "score" integer NOT NULL, "skipped" boolean NOT NULL,
+      "started_at" timestamptz NOT NULL, "ended_at" timestamptz NOT NULL, "game_id"
+      uuid NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("turn_id") REFERENCES "public"."turns"("id")
+      ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("card_id") REFERENCES "public"."cards"("id")
+      ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("game_id") REFERENCES "public"."games"("id")
+      ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("round_id") REFERENCES "public"."rounds"("id")
+      ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("player_id") REFERENCES
+      "public"."players"("id") ON UPDATE restrict ON DELETE restrict);
+  type: run_sql
+- args:
+    name: turn_scorings
+    schema: public
+  type: add_existing_table_or_view

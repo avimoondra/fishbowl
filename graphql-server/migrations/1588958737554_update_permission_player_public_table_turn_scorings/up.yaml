@@ -1,0 +1,22 @@
+- args:
+    permission:
+      allow_upsert: true
+      backend_only: false
+      check:
+        turn:
+          player_id:
+            _eq: X-Hasura-User-Id
+      columns:
+      - card_id
+      - ended_at
+      - id
+      - score
+      - skipped
+      - started_at
+      - turn_id
+      set: {}
+    role: player
+    table:
+      name: turn_scorings
+      schema: public
+  type: create_insert_permission

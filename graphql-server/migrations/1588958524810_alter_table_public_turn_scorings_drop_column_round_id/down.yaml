@@ -1,0 +1,17 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."turn_scorings" ADD COLUMN "round_id" uuid;
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."turn_scorings" ALTER COLUMN "round_id" DROP NOT NULL;
+  type: run_sql
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."turn_scorings" ADD CONSTRAINT turn_scorings_round_id_fkey
+      FOREIGN KEY (round_id) REFERENCES "public"."rounds" (id) ON DELETE restrict
+      ON UPDATE restrict;
+  type: run_sql
