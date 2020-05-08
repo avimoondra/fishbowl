@@ -707,6 +707,8 @@ export type MutationRoot = {
   delete_players_by_pk?: Maybe<Players>;
   delete_rounds?: Maybe<RoundsMutationResponse>;
   delete_rounds_by_pk?: Maybe<Rounds>;
+  delete_turn_scorings?: Maybe<TurnScoringsMutationResponse>;
+  delete_turn_scorings_by_pk?: Maybe<TurnScorings>;
   delete_turns?: Maybe<TurnsMutationResponse>;
   delete_turns_by_pk?: Maybe<Turns>;
   insert_cards?: Maybe<CardsMutationResponse>;
@@ -719,6 +721,8 @@ export type MutationRoot = {
   insert_players_one?: Maybe<Players>;
   insert_rounds?: Maybe<RoundsMutationResponse>;
   insert_rounds_one?: Maybe<Rounds>;
+  insert_turn_scorings?: Maybe<TurnScoringsMutationResponse>;
+  insert_turn_scorings_one?: Maybe<TurnScorings>;
   insert_turns?: Maybe<TurnsMutationResponse>;
   insert_turns_one?: Maybe<Turns>;
   joinGame?: Maybe<JoinGameOutput>;
@@ -732,6 +736,8 @@ export type MutationRoot = {
   update_players_by_pk?: Maybe<Players>;
   update_rounds?: Maybe<RoundsMutationResponse>;
   update_rounds_by_pk?: Maybe<Rounds>;
+  update_turn_scorings?: Maybe<TurnScoringsMutationResponse>;
+  update_turn_scorings_by_pk?: Maybe<TurnScorings>;
   update_turns?: Maybe<TurnsMutationResponse>;
   update_turns_by_pk?: Maybe<Turns>;
 };
@@ -783,6 +789,16 @@ export type MutationRootDeleteRoundsArgs = {
 
 
 export type MutationRootDeleteRoundsByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type MutationRootDeleteTurnScoringsArgs = {
+  where: TurnScoringsBoolExp;
+};
+
+
+export type MutationRootDeleteTurnScoringsByPkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -854,6 +870,18 @@ export type MutationRootInsertRoundsArgs = {
 export type MutationRootInsertRoundsOneArgs = {
   object: RoundsInsertInput;
   on_conflict?: Maybe<RoundsOnConflict>;
+};
+
+
+export type MutationRootInsertTurnScoringsArgs = {
+  objects: Array<TurnScoringsInsertInput>;
+  on_conflict?: Maybe<TurnScoringsOnConflict>;
+};
+
+
+export type MutationRootInsertTurnScoringsOneArgs = {
+  object: TurnScoringsInsertInput;
+  on_conflict?: Maybe<TurnScoringsOnConflict>;
 };
 
 
@@ -938,6 +966,20 @@ export type MutationRootUpdateRoundsByPkArgs = {
   _inc?: Maybe<RoundsIncInput>;
   _set?: Maybe<RoundsSetInput>;
   pk_columns: RoundsPkColumnsInput;
+};
+
+
+export type MutationRootUpdateTurnScoringsArgs = {
+  _inc?: Maybe<TurnScoringsIncInput>;
+  _set?: Maybe<TurnScoringsSetInput>;
+  where: TurnScoringsBoolExp;
+};
+
+
+export type MutationRootUpdateTurnScoringsByPkArgs = {
+  _inc?: Maybe<TurnScoringsIncInput>;
+  _set?: Maybe<TurnScoringsSetInput>;
+  pk_columns: TurnScoringsPkColumnsInput;
 };
 
 
@@ -1243,6 +1285,9 @@ export type QueryRoot = {
   rounds: Array<Rounds>;
   rounds_aggregate: RoundsAggregate;
   rounds_by_pk?: Maybe<Rounds>;
+  turn_scorings: Array<TurnScorings>;
+  turn_scorings_aggregate: TurnScoringsAggregate;
+  turn_scorings_by_pk?: Maybe<TurnScorings>;
   turns: Array<Turns>;
   turns_aggregate: TurnsAggregate;
   turns_by_pk?: Maybe<Turns>;
@@ -1360,6 +1405,29 @@ export type QueryRootRoundsAggregateArgs = {
 
 
 export type QueryRootRoundsByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type QueryRootTurnScoringsArgs = {
+  distinct_on?: Maybe<Array<TurnScoringsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<TurnScoringsOrderBy>>;
+  where?: Maybe<TurnScoringsBoolExp>;
+};
+
+
+export type QueryRootTurnScoringsAggregateArgs = {
+  distinct_on?: Maybe<Array<TurnScoringsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<TurnScoringsOrderBy>>;
+  where?: Maybe<TurnScoringsBoolExp>;
+};
+
+
+export type QueryRootTurnScoringsByPkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -1640,6 +1708,9 @@ export type SubscriptionRoot = {
   rounds: Array<Rounds>;
   rounds_aggregate: RoundsAggregate;
   rounds_by_pk?: Maybe<Rounds>;
+  turn_scorings: Array<TurnScorings>;
+  turn_scorings_aggregate: TurnScoringsAggregate;
+  turn_scorings_by_pk?: Maybe<TurnScorings>;
   turns: Array<Turns>;
   turns_aggregate: TurnsAggregate;
   turns_by_pk?: Maybe<Turns>;
@@ -1761,6 +1832,29 @@ export type SubscriptionRootRoundsByPkArgs = {
 };
 
 
+export type SubscriptionRootTurnScoringsArgs = {
+  distinct_on?: Maybe<Array<TurnScoringsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<TurnScoringsOrderBy>>;
+  where?: Maybe<TurnScoringsBoolExp>;
+};
+
+
+export type SubscriptionRootTurnScoringsAggregateArgs = {
+  distinct_on?: Maybe<Array<TurnScoringsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<TurnScoringsOrderBy>>;
+  where?: Maybe<TurnScoringsBoolExp>;
+};
+
+
+export type SubscriptionRootTurnScoringsByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type SubscriptionRootTurnsArgs = {
   distinct_on?: Maybe<Array<TurnsSelectColumn>>;
   limit?: Maybe<Scalars['Int']>;
@@ -1796,6 +1890,259 @@ export type TimestamptzComparisonExp = {
   _nin?: Maybe<Array<Scalars['timestamptz']>>;
 };
 
+export type TurnScorings = {
+  card_id: Scalars['uuid'];
+  ended_at: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  score: Scalars['Int'];
+  started_at: Scalars['timestamptz'];
+  status: Scalars['String'];
+  turn: Turns;
+  turn_id: Scalars['uuid'];
+};
+
+export type TurnScoringsAggregate = {
+  aggregate?: Maybe<TurnScoringsAggregateFields>;
+  nodes: Array<TurnScorings>;
+};
+
+export type TurnScoringsAggregateFields = {
+  avg?: Maybe<TurnScoringsAvgFields>;
+  count?: Maybe<Scalars['Int']>;
+  max?: Maybe<TurnScoringsMaxFields>;
+  min?: Maybe<TurnScoringsMinFields>;
+  stddev?: Maybe<TurnScoringsStddevFields>;
+  stddev_pop?: Maybe<TurnScoringsStddevPopFields>;
+  stddev_samp?: Maybe<TurnScoringsStddevSampFields>;
+  sum?: Maybe<TurnScoringsSumFields>;
+  var_pop?: Maybe<TurnScoringsVarPopFields>;
+  var_samp?: Maybe<TurnScoringsVarSampFields>;
+  variance?: Maybe<TurnScoringsVarianceFields>;
+};
+
+
+export type TurnScoringsAggregateFieldsCountArgs = {
+  columns?: Maybe<Array<TurnScoringsSelectColumn>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+export type TurnScoringsAggregateOrderBy = {
+  avg?: Maybe<TurnScoringsAvgOrderBy>;
+  count?: Maybe<OrderBy>;
+  max?: Maybe<TurnScoringsMaxOrderBy>;
+  min?: Maybe<TurnScoringsMinOrderBy>;
+  stddev?: Maybe<TurnScoringsStddevOrderBy>;
+  stddev_pop?: Maybe<TurnScoringsStddevPopOrderBy>;
+  stddev_samp?: Maybe<TurnScoringsStddevSampOrderBy>;
+  sum?: Maybe<TurnScoringsSumOrderBy>;
+  var_pop?: Maybe<TurnScoringsVarPopOrderBy>;
+  var_samp?: Maybe<TurnScoringsVarSampOrderBy>;
+  variance?: Maybe<TurnScoringsVarianceOrderBy>;
+};
+
+export type TurnScoringsArrRelInsertInput = {
+  data: Array<TurnScoringsInsertInput>;
+  on_conflict?: Maybe<TurnScoringsOnConflict>;
+};
+
+export type TurnScoringsAvgFields = {
+  score?: Maybe<Scalars['Float']>;
+};
+
+export type TurnScoringsAvgOrderBy = {
+  score?: Maybe<OrderBy>;
+};
+
+export type TurnScoringsBoolExp = {
+  _and?: Maybe<Array<Maybe<TurnScoringsBoolExp>>>;
+  _not?: Maybe<TurnScoringsBoolExp>;
+  _or?: Maybe<Array<Maybe<TurnScoringsBoolExp>>>;
+  card_id?: Maybe<UuidComparisonExp>;
+  ended_at?: Maybe<TimestamptzComparisonExp>;
+  id?: Maybe<UuidComparisonExp>;
+  score?: Maybe<IntComparisonExp>;
+  started_at?: Maybe<TimestamptzComparisonExp>;
+  status?: Maybe<StringComparisonExp>;
+  turn?: Maybe<TurnsBoolExp>;
+  turn_id?: Maybe<UuidComparisonExp>;
+};
+
+export enum TurnScoringsConstraint {
+  TurnScoringsPkey = 'turn_scorings_pkey'
+}
+
+export type TurnScoringsIncInput = {
+  score?: Maybe<Scalars['Int']>;
+};
+
+export type TurnScoringsInsertInput = {
+  card_id?: Maybe<Scalars['uuid']>;
+  ended_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  score?: Maybe<Scalars['Int']>;
+  started_at?: Maybe<Scalars['timestamptz']>;
+  status?: Maybe<Scalars['String']>;
+  turn?: Maybe<TurnsObjRelInsertInput>;
+  turn_id?: Maybe<Scalars['uuid']>;
+};
+
+export type TurnScoringsMaxFields = {
+  card_id?: Maybe<Scalars['uuid']>;
+  ended_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  score?: Maybe<Scalars['Int']>;
+  started_at?: Maybe<Scalars['timestamptz']>;
+  status?: Maybe<Scalars['String']>;
+  turn_id?: Maybe<Scalars['uuid']>;
+};
+
+export type TurnScoringsMaxOrderBy = {
+  card_id?: Maybe<OrderBy>;
+  ended_at?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  score?: Maybe<OrderBy>;
+  started_at?: Maybe<OrderBy>;
+  status?: Maybe<OrderBy>;
+  turn_id?: Maybe<OrderBy>;
+};
+
+export type TurnScoringsMinFields = {
+  card_id?: Maybe<Scalars['uuid']>;
+  ended_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  score?: Maybe<Scalars['Int']>;
+  started_at?: Maybe<Scalars['timestamptz']>;
+  status?: Maybe<Scalars['String']>;
+  turn_id?: Maybe<Scalars['uuid']>;
+};
+
+export type TurnScoringsMinOrderBy = {
+  card_id?: Maybe<OrderBy>;
+  ended_at?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  score?: Maybe<OrderBy>;
+  started_at?: Maybe<OrderBy>;
+  status?: Maybe<OrderBy>;
+  turn_id?: Maybe<OrderBy>;
+};
+
+export type TurnScoringsMutationResponse = {
+  affected_rows: Scalars['Int'];
+  returning: Array<TurnScorings>;
+};
+
+export type TurnScoringsObjRelInsertInput = {
+  data: TurnScoringsInsertInput;
+  on_conflict?: Maybe<TurnScoringsOnConflict>;
+};
+
+export type TurnScoringsOnConflict = {
+  constraint: TurnScoringsConstraint;
+  update_columns: Array<TurnScoringsUpdateColumn>;
+  where?: Maybe<TurnScoringsBoolExp>;
+};
+
+export type TurnScoringsOrderBy = {
+  card_id?: Maybe<OrderBy>;
+  ended_at?: Maybe<OrderBy>;
+  id?: Maybe<OrderBy>;
+  score?: Maybe<OrderBy>;
+  started_at?: Maybe<OrderBy>;
+  status?: Maybe<OrderBy>;
+  turn?: Maybe<TurnsOrderBy>;
+  turn_id?: Maybe<OrderBy>;
+};
+
+export type TurnScoringsPkColumnsInput = {
+  id: Scalars['uuid'];
+};
+
+export enum TurnScoringsSelectColumn {
+  CardId = 'card_id',
+  EndedAt = 'ended_at',
+  Id = 'id',
+  Score = 'score',
+  StartedAt = 'started_at',
+  Status = 'status',
+  TurnId = 'turn_id'
+}
+
+export type TurnScoringsSetInput = {
+  card_id?: Maybe<Scalars['uuid']>;
+  ended_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  score?: Maybe<Scalars['Int']>;
+  started_at?: Maybe<Scalars['timestamptz']>;
+  status?: Maybe<Scalars['String']>;
+  turn_id?: Maybe<Scalars['uuid']>;
+};
+
+export type TurnScoringsStddevFields = {
+  score?: Maybe<Scalars['Float']>;
+};
+
+export type TurnScoringsStddevOrderBy = {
+  score?: Maybe<OrderBy>;
+};
+
+export type TurnScoringsStddevPopFields = {
+  score?: Maybe<Scalars['Float']>;
+};
+
+export type TurnScoringsStddevPopOrderBy = {
+  score?: Maybe<OrderBy>;
+};
+
+export type TurnScoringsStddevSampFields = {
+  score?: Maybe<Scalars['Float']>;
+};
+
+export type TurnScoringsStddevSampOrderBy = {
+  score?: Maybe<OrderBy>;
+};
+
+export type TurnScoringsSumFields = {
+  score?: Maybe<Scalars['Int']>;
+};
+
+export type TurnScoringsSumOrderBy = {
+  score?: Maybe<OrderBy>;
+};
+
+export enum TurnScoringsUpdateColumn {
+  CardId = 'card_id',
+  EndedAt = 'ended_at',
+  Id = 'id',
+  Score = 'score',
+  StartedAt = 'started_at',
+  Status = 'status',
+  TurnId = 'turn_id'
+}
+
+export type TurnScoringsVarPopFields = {
+  score?: Maybe<Scalars['Float']>;
+};
+
+export type TurnScoringsVarPopOrderBy = {
+  score?: Maybe<OrderBy>;
+};
+
+export type TurnScoringsVarSampFields = {
+  score?: Maybe<Scalars['Float']>;
+};
+
+export type TurnScoringsVarSampOrderBy = {
+  score?: Maybe<OrderBy>;
+};
+
+export type TurnScoringsVarianceFields = {
+  score?: Maybe<Scalars['Float']>;
+};
+
+export type TurnScoringsVarianceOrderBy = {
+  score?: Maybe<OrderBy>;
+};
+
 export type Turns = {
   completed_card_ids: Scalars['jsonb'];
   created_at: Scalars['timestamptz'];
@@ -1806,6 +2153,8 @@ export type Turns = {
   player: Players;
   player_id: Scalars['uuid'];
   review_started_at?: Maybe<Scalars['timestamptz']>;
+  scorings: Array<TurnScorings>;
+  scorings_aggregate: TurnScoringsAggregate;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id: Scalars['Int'];
   started_at?: Maybe<Scalars['timestamptz']>;
@@ -1814,6 +2163,24 @@ export type Turns = {
 
 export type TurnsCompletedCardIdsArgs = {
   path?: Maybe<Scalars['String']>;
+};
+
+
+export type TurnsScoringsArgs = {
+  distinct_on?: Maybe<Array<TurnScoringsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<TurnScoringsOrderBy>>;
+  where?: Maybe<TurnScoringsBoolExp>;
+};
+
+
+export type TurnsScoringsAggregateArgs = {
+  distinct_on?: Maybe<Array<TurnScoringsSelectColumn>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<TurnScoringsOrderBy>>;
+  where?: Maybe<TurnScoringsBoolExp>;
 };
 
 export type TurnsAggregate = {
@@ -1887,6 +2254,7 @@ export type TurnsBoolExp = {
   player?: Maybe<PlayersBoolExp>;
   player_id?: Maybe<UuidComparisonExp>;
   review_started_at?: Maybe<TimestamptzComparisonExp>;
+  scorings?: Maybe<TurnScoringsBoolExp>;
   seconds_per_turn_override?: Maybe<IntComparisonExp>;
   sequential_id?: Maybe<IntComparisonExp>;
   started_at?: Maybe<TimestamptzComparisonExp>;
@@ -1923,6 +2291,7 @@ export type TurnsInsertInput = {
   player?: Maybe<PlayersObjRelInsertInput>;
   player_id?: Maybe<Scalars['uuid']>;
   review_started_at?: Maybe<Scalars['timestamptz']>;
+  scorings?: Maybe<TurnScoringsArrRelInsertInput>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
@@ -2002,6 +2371,7 @@ export type TurnsOrderBy = {
   player?: Maybe<PlayersOrderBy>;
   player_id?: Maybe<OrderBy>;
   review_started_at?: Maybe<OrderBy>;
+  scorings_aggregate?: Maybe<TurnScoringsAggregateOrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
   sequential_id?: Maybe<OrderBy>;
   started_at?: Maybe<OrderBy>;

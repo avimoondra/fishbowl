@@ -312,21 +312,21 @@ tables:
       - ended_at
       - id
       - score
-      - skipped
       - started_at
+      - status
       - turn_id
       backend_only: false
   select_permissions:
   - role: player
     permission:
       columns:
-      - id
-      - turn_id
       - card_id
-      - score
-      - skipped
-      - started_at
       - ended_at
+      - id
+      - score
+      - started_at
+      - status
+      - turn_id
       filter:
         turn:
           game:
