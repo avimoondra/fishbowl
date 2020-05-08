@@ -59,15 +59,21 @@ function HostControls(props: {
             <Button
               variant="outlined"
               onClick={() => {
-                endTurn({
-                  variables: {
-                    currentTurnId: props.activeTurn.id,
-                    completedCardIds: [],
-                    endedAt: timestamptzNow(),
-                    gameId: currentGame.id,
-                    nextTurnplayerId: nextPlayerActiveTeam.id
-                  }
-                })
+                if (
+                  window.confirm(
+                    `Are you sure you want to skip ${props.activePlayer.username} (team ${props.activePlayer.team})? ${nextPlayerActiveTeam.username} from the same team would go instead.`
+                  )
+                ) {
+                  endTurn({
+                    variables: {
+                      currentTurnId: props.activeTurn.id,
+                      completedCardIds: [],
+                      endedAt: timestamptzNow(),
+                      gameId: currentGame.id,
+                      nextTurnplayerId: nextPlayerActiveTeam.id
+                    }
+                  })
+                }
               }}
             >
               Skip player
@@ -89,15 +95,21 @@ function HostControls(props: {
             <Button
               variant="outlined"
               onClick={() => {
-                endTurn({
-                  variables: {
-                    currentTurnId: props.activeTurn.id,
-                    completedCardIds: [],
-                    endedAt: timestamptzNow(),
-                    gameId: currentGame.id,
-                    nextTurnplayerId: nextPlayerNextTeam.id
-                  }
-                })
+                if (
+                  window.confirm(
+                    `Are you sure you want to skip ${props.activePlayer.username} (team ${props.activePlayer.team})? ${nextPlayerNextTeam.username} from the other team would go next.`
+                  )
+                ) {
+                  endTurn({
+                    variables: {
+                      currentTurnId: props.activeTurn.id,
+                      completedCardIds: [],
+                      endedAt: timestamptzNow(),
+                      gameId: currentGame.id,
+                      nextTurnplayerId: nextPlayerNextTeam.id
+                    }
+                  })
+                }
               }}
             >
               Skip team
