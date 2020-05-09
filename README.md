@@ -12,77 +12,72 @@ Fishbowl is built with [Material UI](https://material-ui.com/), [Typescript](htt
 
 # Local Development
 
+## Installing
+
 1. Clone the repo:
 
-```bash
-git clone git@github.com:avimoondra/fishbowl.git
-```
+    ```bash
+    git clone git@github.com:avimoondra/fishbowl.git
+    ```
 
-2. Install [Brew](https://brew.sh/), and:
+2. Install [Homebrew](https://brew.sh/), and:
 
-```bash
-brew bundle
-```
+    ```bash
+    brew bundle
+    ```
 
-3. Install Node:
+3. Install Node.js via [Node Version Manager](https://github.com/nvm-sh/nvm):
 
-`nvm` is used to specify the node version it requires, based on `.nvmrc` file.
-
-```bash
-nvm install
-nvm use
-```
+    ```bash
+    nvm install
+    ```
 
 4. Install Docker
 
-Download and install [Docker](https://docs.docker.com/docker-for-mac/install/) via Docker for Mac. Further documentation can be found [here](https://docs.docker.com/engine/docker-overview/).
+    Download and install [Docker](https://docs.docker.com/docker-for-mac/install/) via Docker for Mac. Further documentation can be found [here](https://docs.docker.com/engine/docker-overview/).
 
-5. Install Hasura
+5. Install Hasura CLI
 
-[Hasura](https://hasura.io/) is a GraphQL server that gives you instant, realtime GraphQL APIs over Postgres, with webhook triggers on database events, and remote schemas for business logic.
+    [Hasura](https://hasura.io/) is a GraphQL server that gives you instant, realtime GraphQL APIs over Postgres, with webhook triggers on database events, and remote schemas for business logic.
 
-```bash
-curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
-```
+    ```bash
+    curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
+    ```
 
-See more detailed instructions [here](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/install-hasura-cli.html)
+    See more detailed instructions [here](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/install-hasura-cli.html)
 
-6. Install Hasura CLI
+## Running
 
-See https://docs.hasura.io/1.0/graphql/manual/hasura-cli/install-hasura-cli.html
+1. Run actions node express server on `localhost:3001`
 
-7. Start your servers
+    ```bash
+    cd actions-server
+    npm install
+    PORT=3001 npm start
+    ```
 
-(1) Run actions node express server on `localhost:3001`
+2. Run front end on `localhost:3000`
 
-```bash
-cd actions-server
-npm install
-PORT=3001 npm start
-```
+    ```bash
+    cd app
+    yarn install --frozen-lockfile
+    yarn run start
+    ```
 
-(2) Run front end on `localhost:3000`
+3. Run Hasura on `localhost:8080`
 
-```bash
-cd app
-yarn install --frozen-lockfile
-yarn run start
-```
+    ```
+    cd graphql-server
+    docker-compose up
+    hasura migrate apply --admin-secret=myadminsecretkey # for new databases
+    ```
 
-(3) Run Hasura on `localhost:8080`
+4. Open Hasura console on `localhost:9695` (to track migrations)
 
-```
-cd graphql-server
-docker-compose up
-hasura migrate apply --admin-secret=myadminsecretkey # for new databases
-```
-
-(4) Open Hasura console on `localhost:9695` (to track migrations)
-
-```bash
-cd graphql-server
-hasura console --admin-secret=myadminsecretkey
-```
+    ```bash
+    cd graphql-server
+    hasura console --admin-secret=myadminsecretkey
+    ```
 
 # Contribute w/code
 
