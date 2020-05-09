@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 
-export function useOnClickOutside(ref: any, handler: CallableFunction) {
+export function useOnClickOutside(ref: React.RefObject<any>, handler: CallableFunction) {
   useEffect(
     () => {
       const listener = (event: MouseEvent | TouchEvent) => {
