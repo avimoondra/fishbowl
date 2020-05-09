@@ -40,14 +40,6 @@ function ControllableRoundSettings() {
     }
   })
 
-  /*React.useEffect(() => {
-    document.addEventListener('mousedown', () => {
-      if (showAddRoundForm && addRoundValue.length === 0) {
-        setShowAddRoundForm(false);
-      }
-    })
-  })*/
-
   return (
     <div ref={ref}>
       <RoundSettingsList>
