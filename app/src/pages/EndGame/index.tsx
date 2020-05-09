@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Link, Typography } from "@material-ui/core"
+import { Box, Button, Divider, Grid, Link, Typography } from "@material-ui/core"
 import BuyMeACoffeeButton from "components/BuyMeACoffeeButton"
 import PlayerChip from "components/PlayerChip"
 import { CurrentAuthContext } from "contexts/CurrentAuth"
@@ -145,6 +145,16 @@ function EndGame() {
               sharing your feedback
             </Link>
             , and playing again soon!
+          </Box>
+        </Grid>
+        <Grid item>
+          <Divider variant="fullWidth"></Divider>
+        </Grid>
+        <Grid item container justify="center">
+          <Box py={1}>
+            <Button variant="outlined" onClick={() => setRedirectHome(true)}>
+              Play Again
+            </Button>
           </Box>
         </Grid>
       </Grid>
