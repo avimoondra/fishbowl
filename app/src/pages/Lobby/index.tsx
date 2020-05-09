@@ -28,6 +28,8 @@ import RoundSettings from "pages/Lobby/RoundSettings"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
 import * as React from "react"
 import Clipboard from "react-clipboard.js"
+import AllowCardSkipsCheckbox from "pages/Lobby/Inputs/AllowCardSkipsCheckbox"
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     section: {
@@ -125,19 +127,32 @@ function SettingsSection() {
               )}
             </Grid>
             <Grid item>
-              <SecondsPerTurnInput
-                value={String(currentGame.seconds_per_turn || "")}
-              ></SecondsPerTurnInput>
+              <Typography variant="h6" className={titleClasses.title}>
+                Cards
+              </Typography>
             </Grid>
             <Grid item>
               <SubmissionsPerPlayerInput
                 value={String(currentGame.num_entries_per_player || "")}
-              ></SubmissionsPerPlayerInput>
+              />
             </Grid>
             <Grid item>
-              <LetterInput
-                value={currentGame.starting_letter || ""}
-              ></LetterInput>
+              <LetterInput value={currentGame.starting_letter || ""} />
+            </Grid>
+            <Grid item>
+              <AllowCardSkipsCheckbox
+                value={Boolean(currentGame.allow_card_skips)}
+              />
+            </Grid>
+            <Grid item>
+              <Typography variant="h6" className={titleClasses.title}>
+                Turns
+              </Typography>
+            </Grid>
+            <Grid item>
+              <SecondsPerTurnInput
+                value={String(currentGame.seconds_per_turn || "")}
+              />
             </Grid>
             <Grid item>
               <Typography variant="h6" className={titleClasses.title}>
@@ -150,12 +165,12 @@ function SettingsSection() {
             </Grid>
             <Grid item>
               {currentPlayer.role === PlayerRole.Host ? (
-                <ControllableRoundSettings></ControllableRoundSettings>
+                <ControllableRoundSettings />
               ) : (
-                <RoundSettings></RoundSettings>
+                <RoundSettings />
               )}
             </Grid>
-            <Grid item></Grid>
+            <Grid item />
           </Grid>
         </Grid>
       </ExpansionPanelDetails>
@@ -179,7 +194,7 @@ function WaitingRoomSection() {
           <UsernameInput
             username={currentPlayer.username || ""}
             playerId={currentPlayer.id}
-          ></UsernameInput>
+          />
         </Grid>
         <WaitingRoom></WaitingRoom>
       </Grid>

@@ -1,5 +1,4 @@
 import { Box, Button, Link, TextField } from "@material-ui/core"
-import { grey } from "@material-ui/core/colors"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
@@ -25,41 +24,42 @@ export function UsernameInput(props: {
   const [updatePlayer] = useUpdatePlayerMutation()
   const [value, setValue] = React.useState(props.username || "")
   return (
-    <>
-      <Box display="flex" alignItems="center" justifyContent="flex-start">
+    <form
+      onSubmit={event => {
+        event.preventDefault()
+        updatePlayer({
+          variables: {
+            id: props.playerId,
+            input: { username: value }
+          }
+        })
+      }}
+    >
+      <Box display="flex" alignItems="flex-start" justifyContent="flex-start">
         <Box>
           <TextField
             label="Username"
             variant="outlined"
-            size="medium"
+            size="small"
             defaultValue={props.username || ""}
             onChange={({ target: { value } }) => {
               setValue(value)
             }}
+            helperText={<HelperText>Emojis encouraged! 🌍🚀✨</HelperText>}
           />
         </Box>
         <Box pl={2}>
           <Button
+            type="submit"
             disabled={value === ""}
             variant="outlined"
             size="large"
-            onClick={() => {
-              updatePlayer({
-                variables: {
-                  id: props.playerId,
-                  input: { username: value }
-                }
-              })
-            }}
           >
-            Submit
+            Join
           </Button>
         </Box>
       </Box>
-      <Box pt={1} color={grey[600]}>
-        Emojis encouraged! 🌍🚀✨
-      </Box>
-    </>
+    </form>
   )
 }
 
@@ -141,6 +141,7 @@ export function SecondsPerTurnInput(props: { value: string }) {
 
   return (
     <TextField
+      type="number"
       label="Seconds Per Turn"
       variant="outlined"
       size="medium"
@@ -175,13 +176,12 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
 
   return (
     <TextField
+      type="number"
       label="Submissions Per Player"
       variant="outlined"
       size="medium"
       required
-      helperText={
-        <HelperText>Depends on group size, but usually 4-6</HelperText>
-      }
+      helperText={<HelperText>Usually 4-6 depending on group size</HelperText>}
       value={textFieldValue}
       inputProps={{ style: { textTransform: "uppercase" } }}
       disabled={!canConfigureSettings}
