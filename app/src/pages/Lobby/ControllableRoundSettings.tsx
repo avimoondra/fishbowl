@@ -34,7 +34,7 @@ function ControllableRoundSettings() {
   const ref = React.useRef<HTMLDivElement>(null);
 
   useOnClickOutside(ref, () => {
-    if (showAddRoundForm && addRoundValue.length === 0) {
+    if (showAddRoundForm) {
       setShowAddRoundForm(false)
       setAddRoundValue("")
     }
