@@ -15,6 +15,18 @@ export type Scalars = {
   json: any;
 };
 
+export type BooleanComparisonExp = {
+  _eq?: Maybe<Scalars['Boolean']>;
+  _gt?: Maybe<Scalars['Boolean']>;
+  _gte?: Maybe<Scalars['Boolean']>;
+  _in?: Maybe<Array<Scalars['Boolean']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['Boolean']>;
+  _lte?: Maybe<Scalars['Boolean']>;
+  _neq?: Maybe<Scalars['Boolean']>;
+  _nin?: Maybe<Array<Scalars['Boolean']>>;
+};
+
 export type Cards = {
   created_at: Scalars['timestamptz'];
   game: Games;
@@ -278,6 +290,7 @@ export enum GameStateUpdateColumn {
 }
 
 export type Games = {
+  allow_card_skips: Scalars['Boolean'];
   cards: Array<Cards>;
   cards_aggregate: CardsAggregate;
   created_at: Scalars['timestamptz'];
@@ -427,6 +440,7 @@ export type GamesBoolExp = {
   _and?: Maybe<Array<Maybe<GamesBoolExp>>>;
   _not?: Maybe<GamesBoolExp>;
   _or?: Maybe<Array<Maybe<GamesBoolExp>>>;
+  allow_card_skips?: Maybe<BooleanComparisonExp>;
   cards?: Maybe<CardsBoolExp>;
   created_at?: Maybe<TimestamptzComparisonExp>;
   host?: Maybe<PlayersBoolExp>;
@@ -454,6 +468,7 @@ export type GamesIncInput = {
 };
 
 export type GamesInsertInput = {
+  allow_card_skips?: Maybe<Scalars['Boolean']>;
   cards?: Maybe<CardsArrRelInsertInput>;
   created_at?: Maybe<Scalars['timestamptz']>;
   host?: Maybe<PlayersObjRelInsertInput>;
@@ -526,6 +541,7 @@ export type GamesOnConflict = {
 };
 
 export type GamesOrderBy = {
+  allow_card_skips?: Maybe<OrderBy>;
   cards_aggregate?: Maybe<CardsAggregateOrderBy>;
   created_at?: Maybe<OrderBy>;
   host?: Maybe<PlayersOrderBy>;
@@ -546,6 +562,7 @@ export type GamesPkColumnsInput = {
 };
 
 export enum GamesSelectColumn {
+  AllowCardSkips = 'allow_card_skips',
   CreatedAt = 'created_at',
   HostId = 'host_id',
   Id = 'id',
@@ -557,6 +574,7 @@ export enum GamesSelectColumn {
 }
 
 export type GamesSetInput = {
+  allow_card_skips?: Maybe<Scalars['Boolean']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   host_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
@@ -608,6 +626,7 @@ export type GamesSumOrderBy = {
 };
 
 export enum GamesUpdateColumn {
+  AllowCardSkips = 'allow_card_skips',
   CreatedAt = 'created_at',
   HostId = 'host_id',
   Id = 'id',
@@ -2538,7 +2557,7 @@ export type CurrentGameSubscriptionVariables = {
 
 
 export type CurrentGameSubscription = { games: Array<(
-    Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player' | 'state'>
+    Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player' | 'allow_card_skips' | 'state'>
     & { host?: Maybe<Pick<Players, 'id' | 'username'>>, rounds: Array<Pick<Rounds, 'id' | 'value'>>, cards: Array<Pick<Cards, 'id' | 'word' | 'player_id'>>, players: Array<Pick<Players, 'id' | 'username' | 'team' | 'team_sequence'>>, turns: Array<Pick<Turns, 'id' | 'player_id' | 'started_at' | 'completed_card_ids' | 'seconds_per_turn_override'>> }
   )> };
 
@@ -2576,7 +2595,7 @@ export type BecomeHostMutationVariables = {
 };
 
 
-export type BecomeHostMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player'>> };
+export type BecomeHostMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn'>> };
 
 export type GameByJoinCodeQueryVariables = {
   joinCode: Scalars['String'];
@@ -2614,7 +2633,7 @@ export type UpdateGameSettingsMutationVariables = {
 };
 
 
-export type UpdateGameSettingsMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player'>> };
+export type UpdateGameSettingsMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player' | 'allow_card_skips'>> };
 
 export type UpdatePlayerMutationVariables = {
   id: Scalars['uuid'];
@@ -2763,6 +2782,7 @@ export const CurrentGameDocument = gql`
     starting_letter
     seconds_per_turn
     num_entries_per_player
+    allow_card_skips
     state
     host {
       id
@@ -2955,7 +2975,6 @@ export const BecomeHostDocument = gql`
     join_code
     starting_letter
     seconds_per_turn
-    num_entries_per_player
   }
 }
     `;
@@ -3123,6 +3142,7 @@ export const UpdateGameSettingsDocument = gql`
     starting_letter
     seconds_per_turn
     num_entries_per_player
+    allow_card_skips
   }
 }
     `;

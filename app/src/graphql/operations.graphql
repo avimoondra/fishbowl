@@ -25,6 +25,7 @@ subscription CurrentGame($joinCode: String!) {
     starting_letter
     seconds_per_turn
     num_entries_per_player
+    allow_card_skips
     state
     host {
       id
