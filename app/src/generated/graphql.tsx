@@ -281,6 +281,7 @@ export type Games = {
   cards: Array<Cards>;
   cards_aggregate: CardsAggregate;
   created_at: Scalars['timestamptz'];
+  game_state: GameState;
   host?: Maybe<Players>;
   host_id?: Maybe<Scalars['uuid']>;
   id: Scalars['uuid'];
@@ -429,6 +430,7 @@ export type GamesBoolExp = {
   _or?: Maybe<Array<Maybe<GamesBoolExp>>>;
   cards?: Maybe<CardsBoolExp>;
   created_at?: Maybe<TimestamptzComparisonExp>;
+  game_state?: Maybe<GameStateBoolExp>;
   host?: Maybe<PlayersBoolExp>;
   host_id?: Maybe<UuidComparisonExp>;
   id?: Maybe<UuidComparisonExp>;
@@ -456,6 +458,7 @@ export type GamesIncInput = {
 export type GamesInsertInput = {
   cards?: Maybe<CardsArrRelInsertInput>;
   created_at?: Maybe<Scalars['timestamptz']>;
+  game_state?: Maybe<GameStateObjRelInsertInput>;
   host?: Maybe<PlayersObjRelInsertInput>;
   host_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
@@ -528,6 +531,7 @@ export type GamesOnConflict = {
 export type GamesOrderBy = {
   cards_aggregate?: Maybe<CardsAggregateOrderBy>;
   created_at?: Maybe<OrderBy>;
+  game_state?: Maybe<GameStateOrderBy>;
   host?: Maybe<PlayersOrderBy>;
   host_id?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
@@ -2153,6 +2157,7 @@ export type Turns = {
   player: Players;
   player_id: Scalars['uuid'];
   review_started_at?: Maybe<Scalars['timestamptz']>;
+  round_id?: Maybe<Scalars['uuid']>;
   scorings: Array<TurnScorings>;
   scorings_aggregate: TurnScoringsAggregate;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
@@ -2254,6 +2259,7 @@ export type TurnsBoolExp = {
   player?: Maybe<PlayersBoolExp>;
   player_id?: Maybe<UuidComparisonExp>;
   review_started_at?: Maybe<TimestamptzComparisonExp>;
+  round_id?: Maybe<UuidComparisonExp>;
   scorings?: Maybe<TurnScoringsBoolExp>;
   seconds_per_turn_override?: Maybe<IntComparisonExp>;
   sequential_id?: Maybe<IntComparisonExp>;
@@ -2291,6 +2297,7 @@ export type TurnsInsertInput = {
   player?: Maybe<PlayersObjRelInsertInput>;
   player_id?: Maybe<Scalars['uuid']>;
   review_started_at?: Maybe<Scalars['timestamptz']>;
+  round_id?: Maybe<Scalars['uuid']>;
   scorings?: Maybe<TurnScoringsArrRelInsertInput>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id?: Maybe<Scalars['Int']>;
@@ -2304,6 +2311,7 @@ export type TurnsMaxFields = {
   id?: Maybe<Scalars['uuid']>;
   player_id?: Maybe<Scalars['uuid']>;
   review_started_at?: Maybe<Scalars['timestamptz']>;
+  round_id?: Maybe<Scalars['uuid']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
@@ -2316,6 +2324,7 @@ export type TurnsMaxOrderBy = {
   id?: Maybe<OrderBy>;
   player_id?: Maybe<OrderBy>;
   review_started_at?: Maybe<OrderBy>;
+  round_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
   sequential_id?: Maybe<OrderBy>;
   started_at?: Maybe<OrderBy>;
@@ -2328,6 +2337,7 @@ export type TurnsMinFields = {
   id?: Maybe<Scalars['uuid']>;
   player_id?: Maybe<Scalars['uuid']>;
   review_started_at?: Maybe<Scalars['timestamptz']>;
+  round_id?: Maybe<Scalars['uuid']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
@@ -2340,6 +2350,7 @@ export type TurnsMinOrderBy = {
   id?: Maybe<OrderBy>;
   player_id?: Maybe<OrderBy>;
   review_started_at?: Maybe<OrderBy>;
+  round_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
   sequential_id?: Maybe<OrderBy>;
   started_at?: Maybe<OrderBy>;
@@ -2371,6 +2382,7 @@ export type TurnsOrderBy = {
   player?: Maybe<PlayersOrderBy>;
   player_id?: Maybe<OrderBy>;
   review_started_at?: Maybe<OrderBy>;
+  round_id?: Maybe<OrderBy>;
   scorings_aggregate?: Maybe<TurnScoringsAggregateOrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
   sequential_id?: Maybe<OrderBy>;
@@ -2393,6 +2405,7 @@ export enum TurnsSelectColumn {
   Id = 'id',
   PlayerId = 'player_id',
   ReviewStartedAt = 'review_started_at',
+  RoundId = 'round_id',
   SecondsPerTurnOverride = 'seconds_per_turn_override',
   SequentialId = 'sequential_id',
   StartedAt = 'started_at'
@@ -2406,6 +2419,7 @@ export type TurnsSetInput = {
   id?: Maybe<Scalars['uuid']>;
   player_id?: Maybe<Scalars['uuid']>;
   review_started_at?: Maybe<Scalars['timestamptz']>;
+  round_id?: Maybe<Scalars['uuid']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
@@ -2459,6 +2473,7 @@ export enum TurnsUpdateColumn {
   Id = 'id',
   PlayerId = 'player_id',
   ReviewStartedAt = 'review_started_at',
+  RoundId = 'round_id',
   SecondsPerTurnOverride = 'seconds_per_turn_override',
   SequentialId = 'sequential_id',
   StartedAt = 'started_at'
@@ -2673,6 +2688,7 @@ export type EndCurrentTurnAndStartNextTurnMutationVariables = {
   gameId: Scalars['uuid'];
   nextTurnplayerId: Scalars['uuid'];
   nextTurnSecondsPerTurnOverride?: Maybe<Scalars['Int']>;
+  roundId: Scalars['uuid'];
 };
 
 
@@ -3388,8 +3404,8 @@ export type StartTurnMutationHookResult = ReturnType<typeof useStartTurnMutation
 export type StartTurnMutationResult = ApolloReactCommon.MutationResult<StartTurnMutation>;
 export type StartTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<StartTurnMutation, StartTurnMutationVariables>;
 export const EndCurrentTurnAndStartNextTurnDocument = gql`
-    mutation EndCurrentTurnAndStartNextTurn($currentTurnId: uuid!, $completedCardIds: jsonb!, $endedAt: timestamptz!, $gameId: uuid!, $nextTurnplayerId: uuid!, $nextTurnSecondsPerTurnOverride: Int) {
-  update_turns_by_pk(pk_columns: {id: $currentTurnId}, _set: {ended_at: $endedAt, completed_card_ids: $completedCardIds}) {
+    mutation EndCurrentTurnAndStartNextTurn($currentTurnId: uuid!, $completedCardIds: jsonb!, $endedAt: timestamptz!, $gameId: uuid!, $nextTurnplayerId: uuid!, $nextTurnSecondsPerTurnOverride: Int, $roundId: uuid!) {
+  update_turns_by_pk(pk_columns: {id: $currentTurnId}, _set: {ended_at: $endedAt, completed_card_ids: $completedCardIds, round_id: $roundId}) {
     id
     ended_at
     completed_card_ids
@@ -3423,6 +3439,7 @@ export type EndCurrentTurnAndStartNextTurnMutationFn = ApolloReactCommon.Mutatio
  *      gameId: // value for 'gameId'
  *      nextTurnplayerId: // value for 'nextTurnplayerId'
  *      nextTurnSecondsPerTurnOverride: // value for 'nextTurnSecondsPerTurnOverride'
+ *      roundId: // value for 'roundId'
  *   },
  * });
  */

@@ -23,10 +23,15 @@ mutation EndCurrentTurnAndStartNextTurn(
   $gameId: uuid!
   $nextTurnplayerId: uuid!
   $nextTurnSecondsPerTurnOverride: Int
+  $roundId: uuid!
 ) {
   update_turns_by_pk(
     pk_columns: { id: $currentTurnId }
-    _set: { ended_at: $endedAt, completed_card_ids: $completedCardIds }
+    _set: {
+      ended_at: $endedAt
+      completed_card_ids: $completedCardIds
+      round_id: $roundId
+    }
   ) {
     id
     ended_at
