@@ -14,7 +14,7 @@ import * as React from "react"
 function HostControls(props: {
   activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
   activePlayer: CurrentGameSubscription["games"][0]["players"][0]
-  roundId: number
+  currentRoundId: number
 }) {
   const currentGame = React.useContext(CurrentGameContext)
   const titleClasses = useTitleStyle()
@@ -73,7 +73,7 @@ function HostControls(props: {
                       gameId: currentGame.id,
                       currentTurnScorings: [],
                       nextTurnplayerId: nextPlayerActiveTeam.id,
-                      roundId: props.roundId
+                      roundId: props.currentRoundId
                     }
                   })
                 }
@@ -111,7 +111,7 @@ function HostControls(props: {
                       gameId: currentGame.id,
                       currentTurnScorings: [],
                       nextTurnplayerId: nextPlayerNextTeam.id,
-                      roundId: props.roundId
+                      roundId: props.currentRoundId
                     }
                   })
                 }

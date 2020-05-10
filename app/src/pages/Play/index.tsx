@@ -18,7 +18,7 @@ import GameRoundInstructionCard, {
 } from "pages/Play/GameRoundInstructionCard"
 import HostControls from "pages/Play/HostControls"
 import NoMoreRounds from "pages/Play/NoMoreRounds"
-import { OtherTeamConent, YourTeamTurnContent } from "pages/Play/TeamContent"
+import { OtherTeamContent, YourTeamTurnContent } from "pages/Play/TeamContent"
 import TurnContextPanel from "pages/Play/TurnContextPanel"
 import YourTurnContent from "pages/Play/YourTurnContent"
 import * as React from "react"
@@ -124,12 +124,18 @@ function Play() {
   const numRounds = currentGame.rounds.length
 
   if (numCompletedCards === numRounds * totalNumCards) {
-    return <NoMoreRounds></NoMoreRounds>
+    return <NoMoreRounds />
   }
 
   const roundMarkers = [...Array(numRounds).keys()]
-  let roundMarker = numCompletedCards / totalNumCards
-  const roundId = currentGame.rounds[roundMarker].id
+  let roundMarker = Math.floor(numCompletedCards / totalNumCards)
+
+  const currentRoundId = currentGame.rounds[roundMarker].id
+  let nextRoundId
+  if (currentGame.rounds.length > roundMarker + 1) {
+    nextRoundId = currentGame.rounds[roundMarker + 1].id
+  }
+
   let round
   if (roundMarkers.includes(roundMarker)) {
     const value = capitalize(currentGame.rounds[roundMarker].value)
@@ -168,7 +174,8 @@ function Play() {
             }
           })
         }}
-        roundId={roundId} // TODO: This should be the next round id
+        currentRoundId={currentRoundId}
+        nextRoundId={nextRoundId}
       />
     )
   } else if (yourTeamTurn) {
@@ -182,10 +189,10 @@ function Play() {
   } else {
     titleText = "You're Chillin'"
     content = (
-      <OtherTeamConent
+      <OtherTeamContent
         activePlayer={activePlayer}
         activeTurn={activeTurn}
-      ></OtherTeamConent>
+      ></OtherTeamContent>
     )
   }
 
@@ -235,7 +242,7 @@ function Play() {
           <HostControls
             activePlayer={activePlayer}
             activeTurn={activeTurn}
-            roundId={roundId}
+            currentRoundId={currentRoundId}
           ></HostControls>
         </Grid>
       )}

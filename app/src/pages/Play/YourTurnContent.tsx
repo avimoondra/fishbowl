@@ -51,7 +51,8 @@ function YourTurnContent(props: {
   activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
   activeTurnPlayState: ActiveTurnPlayState
   secondsLeft: number
-  roundId: number
+  currentRoundId: number
+  nextRoundId: number
   onStart: () => void
   onOutOfCards: () => void
 }) {
@@ -289,7 +290,7 @@ function YourTurnContent(props: {
                         props.activePlayer,
                         currentGame.players
                       ).id,
-                      roundId: props.roundId
+                      roundId: props.currentRoundId
                     }
                   })
                 }}
@@ -346,7 +347,9 @@ function YourTurnContent(props: {
                       endedAt: timestamptzNow(),
                       gameId: currentGame.id,
                       currentTurnScorings: scorings,
-                      roundId: props.roundId,
+                      roundId: continueTurnIntoNewRound
+                        ? props.nextRoundId
+                        : props.currentRoundId,
                       nextTurnplayerId: continueTurnIntoNewRound
                         ? props.activePlayer.id
                         : nextPlayerForNextTeam(
