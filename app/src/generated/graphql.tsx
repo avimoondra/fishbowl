@@ -15,6 +15,18 @@ export type Scalars = {
   json: any;
 };
 
+export type BooleanComparisonExp = {
+  _eq?: Maybe<Scalars['Boolean']>;
+  _gt?: Maybe<Scalars['Boolean']>;
+  _gte?: Maybe<Scalars['Boolean']>;
+  _in?: Maybe<Array<Scalars['Boolean']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['Boolean']>;
+  _lte?: Maybe<Scalars['Boolean']>;
+  _neq?: Maybe<Scalars['Boolean']>;
+  _nin?: Maybe<Array<Scalars['Boolean']>>;
+};
+
 export type Cards = {
   created_at: Scalars['timestamptz'];
   game: Games;
@@ -278,6 +290,7 @@ export enum GameStateUpdateColumn {
 }
 
 export type Games = {
+  allow_card_skips: Scalars['Boolean'];
   cards: Array<Cards>;
   cards_aggregate: CardsAggregate;
   created_at: Scalars['timestamptz'];
@@ -427,6 +440,7 @@ export type GamesBoolExp = {
   _and?: Maybe<Array<Maybe<GamesBoolExp>>>;
   _not?: Maybe<GamesBoolExp>;
   _or?: Maybe<Array<Maybe<GamesBoolExp>>>;
+  allow_card_skips?: Maybe<BooleanComparisonExp>;
   cards?: Maybe<CardsBoolExp>;
   created_at?: Maybe<TimestamptzComparisonExp>;
   host?: Maybe<PlayersBoolExp>;
@@ -454,6 +468,7 @@ export type GamesIncInput = {
 };
 
 export type GamesInsertInput = {
+  allow_card_skips?: Maybe<Scalars['Boolean']>;
   cards?: Maybe<CardsArrRelInsertInput>;
   created_at?: Maybe<Scalars['timestamptz']>;
   host?: Maybe<PlayersObjRelInsertInput>;
@@ -526,6 +541,7 @@ export type GamesOnConflict = {
 };
 
 export type GamesOrderBy = {
+  allow_card_skips?: Maybe<OrderBy>;
   cards_aggregate?: Maybe<CardsAggregateOrderBy>;
   created_at?: Maybe<OrderBy>;
   host?: Maybe<PlayersOrderBy>;
@@ -546,6 +562,7 @@ export type GamesPkColumnsInput = {
 };
 
 export enum GamesSelectColumn {
+  AllowCardSkips = 'allow_card_skips',
   CreatedAt = 'created_at',
   HostId = 'host_id',
   Id = 'id',
@@ -557,6 +574,7 @@ export enum GamesSelectColumn {
 }
 
 export type GamesSetInput = {
+  allow_card_skips?: Maybe<Scalars['Boolean']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   host_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
@@ -608,6 +626,7 @@ export type GamesSumOrderBy = {
 };
 
 export enum GamesUpdateColumn {
+  AllowCardSkips = 'allow_card_skips',
   CreatedAt = 'created_at',
   HostId = 'host_id',
   Id = 'id',
@@ -2664,10 +2683,11 @@ export type AddRoundMutation = { insert_rounds_one?: Maybe<Pick<Rounds, 'id' | '
 export type CreateTurnMutationVariables = {
   gameId: Scalars['uuid'];
   playerId: Scalars['uuid'];
+  roundId: Scalars['uuid'];
 };
 
 
-export type CreateTurnMutation = { insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id'>> };
+export type CreateTurnMutation = { insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id' | 'round_id'>> };
 
 export type StartTurnMutationVariables = {
   currentTurnId: Scalars['uuid'];
@@ -2685,10 +2705,11 @@ export type EndCurrentTurnAndStartNextTurnMutationVariables = {
   currentTurnScorings: Array<TurnScoringsInsertInput>;
   nextTurnplayerId: Scalars['uuid'];
   nextTurnSecondsPerTurnOverride?: Maybe<Scalars['Int']>;
+  roundId: Scalars['uuid'];
 };
 
 
-export type EndCurrentTurnAndStartNextTurnMutation = { insert_turn_scorings?: Maybe<{ returning: Array<Pick<TurnScorings, 'id'>> }>, update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'ended_at' | 'completed_card_ids'>>, insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id' | 'seconds_per_turn_override'>> };
+export type EndCurrentTurnAndStartNextTurnMutation = { insert_turn_scorings?: Maybe<{ returning: Array<Pick<TurnScorings, 'id'>> }>, update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'ended_at' | 'completed_card_ids'>>, insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id' | 'seconds_per_turn_override' | 'round_id'>> };
 
 export type StartReviewMutationVariables = {
   currentTurnId: Scalars['uuid'];
@@ -3331,11 +3352,12 @@ export type AddRoundMutationHookResult = ReturnType<typeof useAddRoundMutation>;
 export type AddRoundMutationResult = ApolloReactCommon.MutationResult<AddRoundMutation>;
 export type AddRoundMutationOptions = ApolloReactCommon.BaseMutationOptions<AddRoundMutation, AddRoundMutationVariables>;
 export const CreateTurnDocument = gql`
-    mutation CreateTurn($gameId: uuid!, $playerId: uuid!) {
-  insert_turns_one(object: {game_id: $gameId, player_id: $playerId}) {
+    mutation CreateTurn($gameId: uuid!, $playerId: uuid!, $roundId: uuid!) {
+  insert_turns_one(object: {game_id: $gameId, player_id: $playerId, round_id: $roundId}) {
     id
     game_id
     player_id
+    round_id
   }
 }
     `;
@@ -3356,6 +3378,7 @@ export type CreateTurnMutationFn = ApolloReactCommon.MutationFunction<CreateTurn
  *   variables: {
  *      gameId: // value for 'gameId'
  *      playerId: // value for 'playerId'
+ *      roundId: // value for 'roundId'
  *   },
  * });
  */
@@ -3400,7 +3423,7 @@ export type StartTurnMutationHookResult = ReturnType<typeof useStartTurnMutation
 export type StartTurnMutationResult = ApolloReactCommon.MutationResult<StartTurnMutation>;
 export type StartTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<StartTurnMutation, StartTurnMutationVariables>;
 export const EndCurrentTurnAndStartNextTurnDocument = gql`
-    mutation EndCurrentTurnAndStartNextTurn($currentTurnId: uuid!, $completedCardIds: jsonb!, $endedAt: timestamptz!, $gameId: uuid!, $currentTurnScorings: [turn_scorings_insert_input!]!, $nextTurnplayerId: uuid!, $nextTurnSecondsPerTurnOverride: Int) {
+    mutation EndCurrentTurnAndStartNextTurn($currentTurnId: uuid!, $completedCardIds: jsonb!, $endedAt: timestamptz!, $gameId: uuid!, $currentTurnScorings: [turn_scorings_insert_input!]!, $nextTurnplayerId: uuid!, $nextTurnSecondsPerTurnOverride: Int, $roundId: uuid!) {
   insert_turn_scorings(objects: $currentTurnScorings) {
     returning {
       id
@@ -3411,11 +3434,12 @@ export const EndCurrentTurnAndStartNextTurnDocument = gql`
     ended_at
     completed_card_ids
   }
-  insert_turns_one(object: {game_id: $gameId, player_id: $nextTurnplayerId, seconds_per_turn_override: $nextTurnSecondsPerTurnOverride}) {
+  insert_turns_one(object: {game_id: $gameId, player_id: $nextTurnplayerId, seconds_per_turn_override: $nextTurnSecondsPerTurnOverride, round_id: $roundId}) {
     id
     game_id
     player_id
     seconds_per_turn_override
+    round_id
   }
 }
     `;
@@ -3441,6 +3465,7 @@ export type EndCurrentTurnAndStartNextTurnMutationFn = ApolloReactCommon.Mutatio
  *      currentTurnScorings: // value for 'currentTurnScorings'
  *      nextTurnplayerId: // value for 'nextTurnplayerId'
  *      nextTurnSecondsPerTurnOverride: // value for 'nextTurnSecondsPerTurnOverride'
+ *      roundId: // value for 'roundId'
  *   },
  * });
  */

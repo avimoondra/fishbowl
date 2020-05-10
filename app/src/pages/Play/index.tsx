@@ -119,6 +119,23 @@ function Play() {
     return null
   }
 
+  const numCompletedCards = completedCardIds.length
+  const totalNumCards = currentGame.cards.length
+  const numRounds = currentGame.rounds.length
+
+  if (numCompletedCards === numRounds * totalNumCards) {
+    return <NoMoreRounds></NoMoreRounds>
+  }
+
+  const roundMarkers = [...Array(numRounds).keys()]
+  let roundMarker = numCompletedCards / totalNumCards
+  const roundId = currentGame.rounds[roundMarker].id
+  let round
+  if (roundMarkers.includes(roundMarker)) {
+    const value = capitalize(currentGame.rounds[roundMarker].value)
+    round = GameRound[value as GameRound] || value
+  }
+
   const yourTurn = activePlayer.id === currentPlayer.id
   const yourTeamTurn =
     activePlayer.team ===
@@ -151,7 +168,8 @@ function Play() {
             }
           })
         }}
-      ></YourTurnContent>
+        roundId={roundId}
+      />
     )
   } else if (yourTeamTurn) {
     titleText = "You're Guessin'"
@@ -169,22 +187,6 @@ function Play() {
         activeTurn={activeTurn}
       ></OtherTeamConent>
     )
-  }
-
-  const numCompletedCards = completedCardIds.length
-  const totalNumCards = currentGame.cards.length
-  const numRounds = currentGame.rounds.length
-
-  if (numCompletedCards === numRounds * totalNumCards) {
-    return <NoMoreRounds></NoMoreRounds>
-  }
-
-  const roundMarkers = [...Array(numRounds).keys()]
-  let roundMarker = numCompletedCards / totalNumCards
-  let round
-  if (roundMarkers.includes(roundMarker)) {
-    const value = capitalize(currentGame.rounds[roundMarker].value)
-    round = GameRound[value as GameRound] || value
   }
 
   return (
@@ -233,6 +235,7 @@ function Play() {
           <HostControls
             activePlayer={activePlayer}
             activeTurn={activeTurn}
+            roundId={roundId}
           ></HostControls>
         </Grid>
       )}
