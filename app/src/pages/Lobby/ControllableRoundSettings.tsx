@@ -22,7 +22,7 @@ import {
 } from "generated/graphql"
 import { capitalize, lowerFirst, reject } from "lodash"
 import * as React from "react"
-import { useOnClickOutside } from "lib/click";
+import { useOnClickOutside } from "lib/useOnClickOutside";
 
 function ControllableRoundSettings() {
   const currentGame = React.useContext(CurrentGameContext)

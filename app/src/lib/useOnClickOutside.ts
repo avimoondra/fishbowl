@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 
+// From: https://usehooks.com/useOnClickOutside/
 export function useOnClickOutside(ref: React.RefObject<any>, handler: CallableFunction) {
   useEffect(
     () => {
