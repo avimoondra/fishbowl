@@ -141,8 +141,6 @@ function Play() {
     activePlayer.team ===
     currentPlayerTeam(currentPlayer.id, currentGame.players)
 
-  console.log("round id", roundId)
-
   let titleText = null
   let content = null
   if (yourTurn) {
