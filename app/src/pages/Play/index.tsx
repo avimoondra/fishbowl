@@ -184,15 +184,12 @@ function Play() {
       <YourTeamTurnContent
         activePlayer={activePlayer}
         activeTurn={activeTurn}
-      ></YourTeamTurnContent>
+      />
     )
   } else {
     titleText = "You're Chillin'"
     content = (
-      <OtherTeamContent
-        activePlayer={activePlayer}
-        activeTurn={activeTurn}
-      ></OtherTeamContent>
+      <OtherTeamContent activePlayer={activePlayer} activeTurn={activeTurn} />
     )
   }
 
@@ -214,7 +211,7 @@ function Play() {
                 currentPlayerTeam(currentPlayer.id, currentGame.players) as Team
               ] || grey[600]
           }}
-        ></Divider>
+        />
       </Grid>
 
       {round && !hasDismissedInstructionCard && (
@@ -226,14 +223,14 @@ function Play() {
               onDismiss={() => {
                 setHasDismissedInstructionCard(true)
               }}
-            ></GameRoundInstructionCard>
+            />
           </Box>
         </Grid>
       )}
       <Grid item>
         <TurnContextPanel
           secondsLeft={Math.round(Math.max(secondsLeft, 0)) || 0}
-        ></TurnContextPanel>
+        />
       </Grid>
       <Grid item>{content}</Grid>
 
@@ -243,7 +240,7 @@ function Play() {
             activePlayer={activePlayer}
             activeTurn={activeTurn}
             currentRoundId={currentRoundId}
-          ></HostControls>
+          />
         </Grid>
       )}
     </Grid>
