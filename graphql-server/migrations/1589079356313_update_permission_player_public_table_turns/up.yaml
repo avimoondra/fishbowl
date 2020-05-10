@@ -1,0 +1,32 @@
+- args:
+    role: player
+    table:
+      name: turns
+      schema: public
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - completed_card_ids
+      - created_at
+      - ended_at
+      - game_id
+      - id
+      - player_id
+      - review_started_at
+      - round_id
+      - seconds_per_turn_override
+      - sequential_id
+      - started_at
+      computed_fields: []
+      filter:
+        game:
+          players:
+            id:
+              _eq: X-Hasura-User-Id
+    role: player
+    table:
+      name: turns
+      schema: public
+  type: create_select_permission

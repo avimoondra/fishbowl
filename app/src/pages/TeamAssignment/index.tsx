@@ -135,7 +135,8 @@ function TeamAssignment() {
                       null,
                       currentGame.turns,
                       currentGame.players
-                    ).id
+                    ).id,
+                    roundId: currentGame.rounds[0].id
                   }
                 })
                 updateGameState({

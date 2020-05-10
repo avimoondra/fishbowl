@@ -58,6 +58,9 @@ tables:
     schema: public
     name: games
   object_relationships:
+  - name: game_state
+    using:
+      foreign_key_constraint_on: state
   - name: host
     using:
       foreign_key_constraint_on: host_id
@@ -180,6 +183,9 @@ tables:
       - client_uuid
       - game_id
       - id
+      - team
+      - team_sequence
+      - username
       filter: {}
   - role: player
     permission:
@@ -315,7 +321,6 @@ tables:
       - started_at
       - status
       - turn_id
-      backend_only: false
   select_permissions:
   - role: player
     permission:
@@ -364,6 +369,7 @@ tables:
       - ended_at
       - game_id
       - player_id
+      - round_id
       - seconds_per_turn_override
       - started_at
   select_permissions:
@@ -377,6 +383,7 @@ tables:
       - id
       - player_id
       - review_started_at
+      - round_id
       - seconds_per_turn_override
       - sequential_id
       - started_at
@@ -394,6 +401,7 @@ tables:
       - game_id
       - player_id
       - review_started_at
+      - round_id
       - seconds_per_turn_override
       - started_at
       filter:
@@ -405,15 +413,14 @@ tables:
 actions:
 - name: joinGame
   definition:
+    kind: synchronous
     handler: '{{ACTION_BASE_ENDPOINT}}/joinGame'
-    output_type: joinGameOutput
     arguments:
     - name: gameId
       type: String!
     - name: clientUuid
       type: String!
-    type: mutation
-    kind: synchronous
+    output_type: joinGameOutput
   permissions:
   - role: anonymous
   - role: player
