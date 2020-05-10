@@ -364,6 +364,7 @@ tables:
       - ended_at
       - game_id
       - player_id
+      - round_id
       - seconds_per_turn_override
       - started_at
   select_permissions:
@@ -377,6 +378,7 @@ tables:
       - id
       - player_id
       - review_started_at
+      - round_id
       - seconds_per_turn_override
       - sequential_id
       - started_at
@@ -394,6 +396,7 @@ tables:
       - game_id
       - player_id
       - review_started_at
+      - round_id
       - seconds_per_turn_override
       - started_at
       filter:

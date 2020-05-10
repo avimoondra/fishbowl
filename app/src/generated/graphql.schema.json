@@ -3053,6 +3053,16 @@
             "defaultValue": null
           },
           {
+            "name": "round_id",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "seconds_per_turn_override",
             "description": "",
             "type": {
@@ -3145,6 +3155,16 @@
           },
           {
             "name": "review_started_at",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "round_id",
             "description": "",
             "type": {
               "kind": "ENUM",
@@ -4737,6 +4757,16 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "timestamptz_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "round_id",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "uuid_comparison_exp",
               "ofType": null
             },
             "defaultValue": null
@@ -7845,6 +7875,12 @@
             "deprecationReason": null
           },
           {
+            "name": "round_id",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "seconds_per_turn_override",
             "description": "",
             "isDeprecated": false,
@@ -7953,6 +7989,16 @@
           },
           {
             "name": "review_started_at",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "round_id",
             "description": "",
             "type": {
               "kind": "ENUM",
@@ -8604,6 +8650,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "round_id",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "uuid",
               "ofType": null
             },
             "isDeprecated": false,
@@ -10037,6 +10095,18 @@
             "deprecationReason": null
           },
           {
+            "name": "round_id",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "uuid",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "seconds_per_turn_override",
             "description": "",
             "args": [],
@@ -10150,6 +10220,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "round_id",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "uuid",
               "ofType": null
             },
             "isDeprecated": false,
@@ -14622,6 +14704,16 @@
             "defaultValue": null
           },
           {
+            "name": "round_id",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "uuid",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "scorings",
             "description": "",
             "type": {
@@ -14955,6 +15047,12 @@
           },
           {
             "name": "review_started_at",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "round_id",
             "description": "",
             "isDeprecated": false,
             "deprecationReason": null
@@ -16249,6 +16347,16 @@
             "type": {
               "kind": "SCALAR",
               "name": "timestamptz",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "round_id",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "uuid",
               "ofType": null
             },
             "defaultValue": null

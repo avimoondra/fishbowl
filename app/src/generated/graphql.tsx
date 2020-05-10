@@ -2153,6 +2153,7 @@ export type Turns = {
   player: Players;
   player_id: Scalars['uuid'];
   review_started_at?: Maybe<Scalars['timestamptz']>;
+  round_id?: Maybe<Scalars['uuid']>;
   scorings: Array<TurnScorings>;
   scorings_aggregate: TurnScoringsAggregate;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
@@ -2254,6 +2255,7 @@ export type TurnsBoolExp = {
   player?: Maybe<PlayersBoolExp>;
   player_id?: Maybe<UuidComparisonExp>;
   review_started_at?: Maybe<TimestamptzComparisonExp>;
+  round_id?: Maybe<UuidComparisonExp>;
   scorings?: Maybe<TurnScoringsBoolExp>;
   seconds_per_turn_override?: Maybe<IntComparisonExp>;
   sequential_id?: Maybe<IntComparisonExp>;
@@ -2291,6 +2293,7 @@ export type TurnsInsertInput = {
   player?: Maybe<PlayersObjRelInsertInput>;
   player_id?: Maybe<Scalars['uuid']>;
   review_started_at?: Maybe<Scalars['timestamptz']>;
+  round_id?: Maybe<Scalars['uuid']>;
   scorings?: Maybe<TurnScoringsArrRelInsertInput>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id?: Maybe<Scalars['Int']>;
@@ -2304,6 +2307,7 @@ export type TurnsMaxFields = {
   id?: Maybe<Scalars['uuid']>;
   player_id?: Maybe<Scalars['uuid']>;
   review_started_at?: Maybe<Scalars['timestamptz']>;
+  round_id?: Maybe<Scalars['uuid']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
@@ -2316,6 +2320,7 @@ export type TurnsMaxOrderBy = {
   id?: Maybe<OrderBy>;
   player_id?: Maybe<OrderBy>;
   review_started_at?: Maybe<OrderBy>;
+  round_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
   sequential_id?: Maybe<OrderBy>;
   started_at?: Maybe<OrderBy>;
@@ -2328,6 +2333,7 @@ export type TurnsMinFields = {
   id?: Maybe<Scalars['uuid']>;
   player_id?: Maybe<Scalars['uuid']>;
   review_started_at?: Maybe<Scalars['timestamptz']>;
+  round_id?: Maybe<Scalars['uuid']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
@@ -2340,6 +2346,7 @@ export type TurnsMinOrderBy = {
   id?: Maybe<OrderBy>;
   player_id?: Maybe<OrderBy>;
   review_started_at?: Maybe<OrderBy>;
+  round_id?: Maybe<OrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
   sequential_id?: Maybe<OrderBy>;
   started_at?: Maybe<OrderBy>;
@@ -2371,6 +2378,7 @@ export type TurnsOrderBy = {
   player?: Maybe<PlayersOrderBy>;
   player_id?: Maybe<OrderBy>;
   review_started_at?: Maybe<OrderBy>;
+  round_id?: Maybe<OrderBy>;
   scorings_aggregate?: Maybe<TurnScoringsAggregateOrderBy>;
   seconds_per_turn_override?: Maybe<OrderBy>;
   sequential_id?: Maybe<OrderBy>;
@@ -2393,6 +2401,7 @@ export enum TurnsSelectColumn {
   Id = 'id',
   PlayerId = 'player_id',
   ReviewStartedAt = 'review_started_at',
+  RoundId = 'round_id',
   SecondsPerTurnOverride = 'seconds_per_turn_override',
   SequentialId = 'sequential_id',
   StartedAt = 'started_at'
@@ -2406,6 +2415,7 @@ export type TurnsSetInput = {
   id?: Maybe<Scalars['uuid']>;
   player_id?: Maybe<Scalars['uuid']>;
   review_started_at?: Maybe<Scalars['timestamptz']>;
+  round_id?: Maybe<Scalars['uuid']>;
   seconds_per_turn_override?: Maybe<Scalars['Int']>;
   sequential_id?: Maybe<Scalars['Int']>;
   started_at?: Maybe<Scalars['timestamptz']>;
@@ -2459,6 +2469,7 @@ export enum TurnsUpdateColumn {
   Id = 'id',
   PlayerId = 'player_id',
   ReviewStartedAt = 'review_started_at',
+  RoundId = 'round_id',
   SecondsPerTurnOverride = 'seconds_per_turn_override',
   SequentialId = 'sequential_id',
   StartedAt = 'started_at'
