@@ -16,21 +16,22 @@ import {
   useEndCurrentTurnAndStartNextTurnMutation,
   useStartTurnMutation
 } from "generated/graphql"
-import { timestamptzNow } from "lib/time"
+import { timestamptzNow, timestamptzNowFromDate } from "lib/time"
 import {
   ActiveTurnPlayState,
   drawableCardsWithoutCompletedCardsInActiveTurn,
   nextPlayerForNextTeam,
   nextPlayerForSameTeam
 } from "lib/turn"
-import { filter, includes, reject, sample } from "lodash"
+import { compact, filter, includes, reject, sample } from "lodash"
 import * as React from "react"
 import { isMobile } from "react-device-detect"
 
 enum ShownCardStatus {
-  Completed = 1,
-  Skipped,
-  Incomplete
+  Complete = "complete",
+  Skipped = "skipped",
+  Incomplete = "incomplete",
+  Incorrect = "incorrect"
 }
 
 const GreenCheckbox = withStyles({
@@ -62,7 +63,7 @@ function YourTurnContent(props: {
   >(null)
 
   const [shownCardsInActiveTurn, setShownCardsInActiveTurn] = React.useState<
-    Map<number, ShownCardStatus>
+    Map<number, { status: ShownCardStatus; startedAt?: Date; endedAt?: Date }>
   >(new Map())
 
   // Attach keyboard shortcuts to the Correct and Skip actions
@@ -70,7 +71,7 @@ function YourTurnContent(props: {
   const SHORTCUTS_SKIP = ["s"]
   const upHandler = (event: KeyboardEvent) => {
     if (includes(SHORTCUTS_COMPLETE, event.key)) {
-      onNextCardClick(ShownCardStatus.Completed)
+      onNextCardClick(ShownCardStatus.Complete)
     } else if (includes(SHORTCUTS_SKIP, event.key)) {
       onNextCardClick(ShownCardStatus.Skipped)
     }
@@ -82,10 +83,37 @@ function YourTurnContent(props: {
     }
   }, [activeCard])
 
+  React.useEffect(() => {
+    if (activeCard && props.secondsLeft <= 0) {
+      const shownCard = shownCardsInActiveTurn.get(activeCard.id)
+      if (shownCard) {
+        setShownCardsInActiveTurn(
+          new Map(
+            shownCardsInActiveTurn.set(activeCard.id, {
+              ...shownCard,
+              endedAt: new Date()
+            })
+          )
+        )
+      }
+    }
+  }, [props.secondsLeft, activeCard])
+
   const onNextCardClick = (status: ShownCardStatus) => {
-    if (activeCard?.id) {
-      const nextMap = new Map(shownCardsInActiveTurn.set(activeCard.id, status))
-      setShownCardsInActiveTurn(nextMap)
+    if (activeCard) {
+      const shownCard = shownCardsInActiveTurn.get(activeCard.id)
+      if (shownCard) {
+        setShownCardsInActiveTurn(
+          new Map(
+            shownCardsInActiveTurn.set(activeCard.id, {
+              ...shownCard,
+              status: status,
+              endedAt: new Date()
+            })
+          )
+        )
+      }
+
       const nextSet = drawableCardsWithoutCompletedCardsInActiveTurn(
         props.cardsInBowl,
         [...shownCardsInActiveTurn.keys()]
@@ -98,10 +126,10 @@ function YourTurnContent(props: {
         setActiveCard(nextActiveCard)
         if (nextActiveCard) {
           const nextMap = new Map(
-            shownCardsInActiveTurn.set(
-              nextActiveCard.id,
-              ShownCardStatus.Incomplete
-            )
+            shownCardsInActiveTurn.set(nextActiveCard.id, {
+              status: ShownCardStatus.Incomplete,
+              startedAt: new Date()
+            })
           )
           setShownCardsInActiveTurn(nextMap)
         }
@@ -177,24 +205,27 @@ function YourTurnContent(props: {
                       <Box>
                         <GreenCheckbox
                           checked={
-                            shownCardsInActiveTurn.get(cardId) ===
-                            ShownCardStatus.Completed
+                            shownCardsInActiveTurn.get(cardId)?.status ===
+                            ShownCardStatus.Complete
                           }
                           onChange={({ target: { checked } }) => {
-                            setShownCardsInActiveTurn(
-                              new Map(
-                                shownCardsInActiveTurn.set(
-                                  cardId,
-                                  checked
-                                    ? ShownCardStatus.Completed
-                                    : ShownCardStatus.Incomplete
+                            const shownCard = shownCardsInActiveTurn.get(cardId)
+                            if (shownCard) {
+                              setShownCardsInActiveTurn(
+                                new Map(
+                                  shownCardsInActiveTurn.set(cardId, {
+                                    ...shownCard,
+                                    status: checked
+                                      ? ShownCardStatus.Complete
+                                      : ShownCardStatus.Incomplete
+                                  })
                                 )
                               )
-                            )
+                            }
                           }}
                         ></GreenCheckbox>
                       </Box>
-                      {shownCardsInActiveTurn.get(cardId) ===
+                      {shownCardsInActiveTurn.get(cardId)?.status ===
                         ShownCardStatus.Skipped && (
                         <Box color={grey[600]}>(skip)</Box>
                       )}
@@ -233,7 +264,7 @@ function YourTurnContent(props: {
                   variant="contained"
                   color="primary"
                   onClick={async () => {
-                    onNextCardClick(ShownCardStatus.Completed)
+                    onNextCardClick(ShownCardStatus.Complete)
                   }}
                 >
                   Correct
@@ -252,6 +283,7 @@ function YourTurnContent(props: {
                       completedCardIds: [],
                       endedAt: timestamptzNow(),
                       gameId: currentGame.id,
+                      currentTurnScorings: [],
                       nextTurnplayerId: nextPlayerForSameTeam(
                         props.activePlayer,
                         currentGame.players
@@ -274,8 +306,8 @@ function YourTurnContent(props: {
                   const shownCardIds = [...shownCardsInActiveTurn.keys()]
                   const completedCardIds = filter(shownCardIds, cardId => {
                     return (
-                      shownCardsInActiveTurn.get(cardId) ===
-                      ShownCardStatus.Completed
+                      shownCardsInActiveTurn.get(cardId)?.status ===
+                      ShownCardStatus.Complete
                     )
                   })
                   const continueTurnIntoNewRound =
@@ -285,12 +317,33 @@ function YourTurnContent(props: {
                       [...shownCardsInActiveTurn.keys()]
                     ).length === 0 &&
                     props.secondsLeft !== 0
+
+                  const scorings = compact(
+                    shownCardIds.map(cardId => {
+                      const card = shownCardsInActiveTurn.get(cardId)
+                      if (card && card.startedAt && card.endedAt) {
+                        return {
+                          turn_id: props.activeTurn.id,
+                          card_id: cardId,
+                          score:
+                            card.status === ShownCardStatus.Complete ? 1 : 0,
+                          status: card.status,
+                          started_at: timestamptzNowFromDate(card.startedAt),
+                          ended_at: timestamptzNowFromDate(card.endedAt)
+                        }
+                      } else {
+                        return null
+                      }
+                    })
+                  )
+
                   await endTurn({
                     variables: {
                       currentTurnId: props.activeTurn.id,
                       completedCardIds: completedCardIds,
                       endedAt: timestamptzNow(),
                       gameId: currentGame.id,
+                      currentTurnScorings: scorings,
                       nextTurnplayerId: continueTurnIntoNewRound
                         ? props.activePlayer.id
                         : nextPlayerForNextTeam(
@@ -335,13 +388,17 @@ function YourTurnContent(props: {
                       )
                     ) || null
                   if (nextActiveCard) {
-                    const nextMap = new Map(
-                      shownCardsInActiveTurn.set(
-                        nextActiveCard.id,
-                        ShownCardStatus.Incomplete
-                      )
+                    setShownCardsInActiveTurn(
+                      new Map([
+                        [
+                          nextActiveCard.id,
+                          {
+                            status: ShownCardStatus.Incomplete,
+                            startedAt: new Date()
+                          }
+                        ]
+                      ])
                     )
-                    setShownCardsInActiveTurn(nextMap)
                     setActiveCard(nextActiveCard)
                   }
                 }}

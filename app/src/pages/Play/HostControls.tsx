@@ -70,6 +70,7 @@ function HostControls(props: {
                       completedCardIds: [],
                       endedAt: timestamptzNow(),
                       gameId: currentGame.id,
+                      currentTurnScorings: [],
                       nextTurnplayerId: nextPlayerActiveTeam.id
                     }
                   })
@@ -106,6 +107,7 @@ function HostControls(props: {
                       completedCardIds: [],
                       endedAt: timestamptzNow(),
                       gameId: currentGame.id,
+                      currentTurnScorings: [],
                       nextTurnplayerId: nextPlayerNextTeam.id
                     }
                   })

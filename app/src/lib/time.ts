@@ -12,6 +12,10 @@ export function dateFromTimestamptzNow(dateString: string) {
   return parse(dateString, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", new Date())
 }
 
+export function timestamptzNowFromDate(date: Date) {
+  return format(date, "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+}
+
 export function calculateSecondsLeft(startDate: Date, seconds: number) {
   const endInSeconds = startDate.getTime() / 1000 + seconds
   const nowInSeconds = new Date().getTime() / 1000
