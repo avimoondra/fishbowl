@@ -24,11 +24,11 @@ import {
   SubmissionsPerPlayerInput,
   UsernameInput
 } from "pages/Lobby/Inputs"
+import AllowCardSkipsCheckbox from "pages/Lobby/Inputs/AllowCardSkipsCheckbox"
 import RoundSettings from "pages/Lobby/RoundSettings"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
 import * as React from "react"
 import Clipboard from "react-clipboard.js"
-import AllowCardSkipsCheckbox from "pages/Lobby/Inputs/AllowCardSkipsCheckbox"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -139,11 +139,7 @@ function SettingsSection() {
             <Grid item>
               <LetterInput value={currentGame.starting_letter || ""} />
             </Grid>
-            <Grid item>
-              <AllowCardSkipsCheckbox
-                value={Boolean(currentGame.allow_card_skips)}
-              />
-            </Grid>
+
             <Grid item>
               <Typography variant="h6" className={titleClasses.title}>
                 Turns
@@ -152,6 +148,11 @@ function SettingsSection() {
             <Grid item>
               <SecondsPerTurnInput
                 value={String(currentGame.seconds_per_turn || "")}
+              />
+            </Grid>
+            <Grid item>
+              <AllowCardSkipsCheckbox
+                value={Boolean(currentGame.allow_card_skips)}
               />
             </Grid>
             <Grid item>

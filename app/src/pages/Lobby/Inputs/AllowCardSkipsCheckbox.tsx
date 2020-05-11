@@ -1,9 +1,10 @@
-import * as React from "react"
-import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import { CurrentGameContext } from "contexts/CurrentGame"
-import { useUpdateGameSettingsMutation } from "generated/graphql"
+import { grey } from "@material-ui/core/colors"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Switch from "@material-ui/core/Switch"
+import { CurrentGameContext } from "contexts/CurrentGame"
+import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
+import { useUpdateGameSettingsMutation } from "generated/graphql"
+import * as React from "react"
 
 export default function AllowCardSkipsCheckbox(props: { value: boolean }) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
@@ -34,7 +35,9 @@ export default function AllowCardSkipsCheckbox(props: { value: boolean }) {
           }}
         />
       }
-      label="Allow card skips"
+      label={
+        <span style={{ color: grey[600] }}>Allow card skips during turn</span>
+      }
     />
   )
 }
