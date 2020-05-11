@@ -79,6 +79,40 @@ Fishbowl is built with [Material UI](https://material-ui.com/), [Typescript](htt
     hasura console --admin-secret=myadminsecretkey
     ```
 
+5. Generate gql apollo hooks and types (repeatedly)
+
+    ```bash
+    cd app
+    yarn gql-gen --watch
+    ```
+## FAQ
+
+### Update allowed queries/mutations on prod?
+
+There's a [gql operations white list](https://fishbowl-graphql.onrender.com/console/settings/allowed-queries) on production. Any operation that's not in this list is disallowed (on prod only). If merging a PR that updates any *.graphql file, the order of operations is...
+
+1. Before merging code, set `HASURA_GRAPHQL_ENABLE_ALLOWLIST` to `false`, in [Render](https://dashboard.render.com/web/srv-bqave7tp1qr5voljem1g/env)
+2. Deploy the code + update the query/mutation(s) from the new code in the [production gql operations white list](https://fishbowl-graphql.onrender.com/console/settings/allowed-queries).
+3. After the FE is deployed w/the new code + white list updated, set `HASURA_GRAPHQL_ENABLE_ALLOWLIST` back to `true`, in [Render](https://dashboard.render.com/web/srv-bqave7tp1qr5voljem1g/env).
+
+### Reset my local DB?
+
+```bash
+docker rm $(docker ps -a -q)
+docker volume prune
+docker-compose up
+```
+
+### Connect to my local DB w/psql?
+
+Install [psql](https://www.postgresql.org/docs/9.3/app-psql.html) or [Postico](https://eggerapps.at/postico/), or your favorite postgres client.
+
+```bash
+psql postgres://postgres:postgrespassword@localhost:5432/postgres
+```
+
+You can also find a SQL runner in Hasura itself, [here](http://localhost:9695/data/sql).
+
 # Contribute w/code
 
 Open a new pull request or issue! Be sure to check out the [Public Trello](https://trello.com/b/xxUmKj7q/fishbowl-game) which defines a loose roadmap, and has many features, bugs, or chores already logged!
