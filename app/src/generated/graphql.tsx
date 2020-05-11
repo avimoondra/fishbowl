@@ -15,18 +15,6 @@ export type Scalars = {
   json: any;
 };
 
-export type BooleanComparisonExp = {
-  _eq?: Maybe<Scalars['Boolean']>;
-  _gt?: Maybe<Scalars['Boolean']>;
-  _gte?: Maybe<Scalars['Boolean']>;
-  _in?: Maybe<Array<Scalars['Boolean']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['Boolean']>;
-  _lte?: Maybe<Scalars['Boolean']>;
-  _neq?: Maybe<Scalars['Boolean']>;
-  _nin?: Maybe<Array<Scalars['Boolean']>>;
-};
-
 export type Cards = {
   created_at: Scalars['timestamptz'];
   game: Games;
@@ -290,7 +278,6 @@ export enum GameStateUpdateColumn {
 }
 
 export type Games = {
-  allow_card_skips: Scalars['Boolean'];
   cards: Array<Cards>;
   cards_aggregate: CardsAggregate;
   created_at: Scalars['timestamptz'];
@@ -440,7 +427,6 @@ export type GamesBoolExp = {
   _and?: Maybe<Array<Maybe<GamesBoolExp>>>;
   _not?: Maybe<GamesBoolExp>;
   _or?: Maybe<Array<Maybe<GamesBoolExp>>>;
-  allow_card_skips?: Maybe<BooleanComparisonExp>;
   cards?: Maybe<CardsBoolExp>;
   created_at?: Maybe<TimestamptzComparisonExp>;
   host?: Maybe<PlayersBoolExp>;
@@ -468,7 +454,6 @@ export type GamesIncInput = {
 };
 
 export type GamesInsertInput = {
-  allow_card_skips?: Maybe<Scalars['Boolean']>;
   cards?: Maybe<CardsArrRelInsertInput>;
   created_at?: Maybe<Scalars['timestamptz']>;
   host?: Maybe<PlayersObjRelInsertInput>;
@@ -541,7 +526,6 @@ export type GamesOnConflict = {
 };
 
 export type GamesOrderBy = {
-  allow_card_skips?: Maybe<OrderBy>;
   cards_aggregate?: Maybe<CardsAggregateOrderBy>;
   created_at?: Maybe<OrderBy>;
   host?: Maybe<PlayersOrderBy>;
@@ -562,7 +546,6 @@ export type GamesPkColumnsInput = {
 };
 
 export enum GamesSelectColumn {
-  AllowCardSkips = 'allow_card_skips',
   CreatedAt = 'created_at',
   HostId = 'host_id',
   Id = 'id',
@@ -574,7 +557,6 @@ export enum GamesSelectColumn {
 }
 
 export type GamesSetInput = {
-  allow_card_skips?: Maybe<Scalars['Boolean']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   host_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
@@ -626,7 +608,6 @@ export type GamesSumOrderBy = {
 };
 
 export enum GamesUpdateColumn {
-  AllowCardSkips = 'allow_card_skips',
   CreatedAt = 'created_at',
   HostId = 'host_id',
   Id = 'id',
