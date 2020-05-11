@@ -53,7 +53,7 @@ function YourTurnContent(props: {
   activeTurnPlayState: ActiveTurnPlayState
   secondsLeft: number
   currentRoundId: Round["id"]
-  nextRoundId?: Round["id"] | undefined
+  nextRoundId?: Round["id"]
   onStart: () => void
   onOutOfCards: () => void
 }) {
