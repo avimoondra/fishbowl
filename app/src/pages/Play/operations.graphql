@@ -1,8 +1,11 @@
-mutation CreateTurn($gameId: uuid!, $playerId: uuid!) {
-  insert_turns_one(object: { game_id: $gameId, player_id: $playerId }) {
+mutation CreateTurn($gameId: uuid!, $playerId: uuid!, $roundId: uuid!) {
+  insert_turns_one(
+    object: { game_id: $gameId, player_id: $playerId, round_id: $roundId }
+  ) {
     id
     game_id
     player_id
+    round_id
   }
 }
 
@@ -24,6 +27,7 @@ mutation EndCurrentTurnAndStartNextTurn(
   $currentTurnScorings: [turn_scorings_insert_input!]!
   $nextTurnplayerId: uuid!
   $nextTurnSecondsPerTurnOverride: Int
+  $roundId: uuid
 ) {
   insert_turn_scorings(objects: $currentTurnScorings) {
     returning {
@@ -43,12 +47,14 @@ mutation EndCurrentTurnAndStartNextTurn(
       game_id: $gameId
       player_id: $nextTurnplayerId
       seconds_per_turn_override: $nextTurnSecondsPerTurnOverride
+      round_id: $roundId
     }
   ) {
     id
     game_id
     player_id
     seconds_per_turn_override
+    round_id
   }
 }
 

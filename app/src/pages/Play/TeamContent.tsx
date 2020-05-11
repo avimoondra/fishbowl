@@ -52,7 +52,7 @@ export function YourTeamTurnContent(props: Props) {
   )
 }
 
-export function OtherTeamConent(props: Props) {
+export function OtherTeamContent(props: Props) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const nextActivePlayer = nextPlayerForNextTeam(

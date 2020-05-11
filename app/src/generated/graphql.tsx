@@ -2664,10 +2664,11 @@ export type AddRoundMutation = { insert_rounds_one?: Maybe<Pick<Rounds, 'id' | '
 export type CreateTurnMutationVariables = {
   gameId: Scalars['uuid'];
   playerId: Scalars['uuid'];
+  roundId: Scalars['uuid'];
 };
 
 
-export type CreateTurnMutation = { insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id'>> };
+export type CreateTurnMutation = { insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id' | 'round_id'>> };
 
 export type StartTurnMutationVariables = {
   currentTurnId: Scalars['uuid'];
@@ -2685,10 +2686,11 @@ export type EndCurrentTurnAndStartNextTurnMutationVariables = {
   currentTurnScorings: Array<TurnScoringsInsertInput>;
   nextTurnplayerId: Scalars['uuid'];
   nextTurnSecondsPerTurnOverride?: Maybe<Scalars['Int']>;
+  roundId?: Maybe<Scalars['uuid']>;
 };
 
 
-export type EndCurrentTurnAndStartNextTurnMutation = { insert_turn_scorings?: Maybe<{ returning: Array<Pick<TurnScorings, 'id'>> }>, update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'ended_at' | 'completed_card_ids'>>, insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id' | 'seconds_per_turn_override'>> };
+export type EndCurrentTurnAndStartNextTurnMutation = { insert_turn_scorings?: Maybe<{ returning: Array<Pick<TurnScorings, 'id'>> }>, update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'ended_at' | 'completed_card_ids'>>, insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id' | 'seconds_per_turn_override' | 'round_id'>> };
 
 export type StartReviewMutationVariables = {
   currentTurnId: Scalars['uuid'];
@@ -3331,11 +3333,12 @@ export type AddRoundMutationHookResult = ReturnType<typeof useAddRoundMutation>;
 export type AddRoundMutationResult = ApolloReactCommon.MutationResult<AddRoundMutation>;
 export type AddRoundMutationOptions = ApolloReactCommon.BaseMutationOptions<AddRoundMutation, AddRoundMutationVariables>;
 export const CreateTurnDocument = gql`
-    mutation CreateTurn($gameId: uuid!, $playerId: uuid!) {
-  insert_turns_one(object: {game_id: $gameId, player_id: $playerId}) {
+    mutation CreateTurn($gameId: uuid!, $playerId: uuid!, $roundId: uuid!) {
+  insert_turns_one(object: {game_id: $gameId, player_id: $playerId, round_id: $roundId}) {
     id
     game_id
     player_id
+    round_id
   }
 }
     `;
@@ -3356,6 +3359,7 @@ export type CreateTurnMutationFn = ApolloReactCommon.MutationFunction<CreateTurn
  *   variables: {
  *      gameId: // value for 'gameId'
  *      playerId: // value for 'playerId'
+ *      roundId: // value for 'roundId'
  *   },
  * });
  */
@@ -3400,7 +3404,7 @@ export type StartTurnMutationHookResult = ReturnType<typeof useStartTurnMutation
 export type StartTurnMutationResult = ApolloReactCommon.MutationResult<StartTurnMutation>;
 export type StartTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<StartTurnMutation, StartTurnMutationVariables>;
 export const EndCurrentTurnAndStartNextTurnDocument = gql`
-    mutation EndCurrentTurnAndStartNextTurn($currentTurnId: uuid!, $completedCardIds: jsonb!, $endedAt: timestamptz!, $gameId: uuid!, $currentTurnScorings: [turn_scorings_insert_input!]!, $nextTurnplayerId: uuid!, $nextTurnSecondsPerTurnOverride: Int) {
+    mutation EndCurrentTurnAndStartNextTurn($currentTurnId: uuid!, $completedCardIds: jsonb!, $endedAt: timestamptz!, $gameId: uuid!, $currentTurnScorings: [turn_scorings_insert_input!]!, $nextTurnplayerId: uuid!, $nextTurnSecondsPerTurnOverride: Int, $roundId: uuid) {
   insert_turn_scorings(objects: $currentTurnScorings) {
     returning {
       id
@@ -3411,11 +3415,12 @@ export const EndCurrentTurnAndStartNextTurnDocument = gql`
     ended_at
     completed_card_ids
   }
-  insert_turns_one(object: {game_id: $gameId, player_id: $nextTurnplayerId, seconds_per_turn_override: $nextTurnSecondsPerTurnOverride}) {
+  insert_turns_one(object: {game_id: $gameId, player_id: $nextTurnplayerId, seconds_per_turn_override: $nextTurnSecondsPerTurnOverride, round_id: $roundId}) {
     id
     game_id
     player_id
     seconds_per_turn_override
+    round_id
   }
 }
     `;
@@ -3441,6 +3446,7 @@ export type EndCurrentTurnAndStartNextTurnMutationFn = ApolloReactCommon.Mutatio
  *      currentTurnScorings: // value for 'currentTurnScorings'
  *      nextTurnplayerId: // value for 'nextTurnplayerId'
  *      nextTurnSecondsPerTurnOverride: // value for 'nextTurnSecondsPerTurnOverride'
+ *      roundId: // value for 'roundId'
  *   },
  * });
  */

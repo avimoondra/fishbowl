@@ -13,6 +13,7 @@ import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import {
   CurrentGameSubscription,
+  Rounds,
   useEndCurrentTurnAndStartNextTurnMutation,
   useStartTurnMutation
 } from "generated/graphql"
@@ -51,6 +52,8 @@ function YourTurnContent(props: {
   activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
   activeTurnPlayState: ActiveTurnPlayState
   secondsLeft: number
+  currentRoundId: Rounds["id"]
+  nextRoundId?: Rounds["id"]
   onStart: () => void
   onOutOfCards: () => void
 }) {
@@ -287,7 +290,8 @@ function YourTurnContent(props: {
                       nextTurnplayerId: nextPlayerForSameTeam(
                         props.activePlayer,
                         currentGame.players
-                      ).id
+                      ).id,
+                      roundId: props.currentRoundId
                     }
                   })
                 }}
@@ -344,6 +348,9 @@ function YourTurnContent(props: {
                       endedAt: timestamptzNow(),
                       gameId: currentGame.id,
                       currentTurnScorings: scorings,
+                      roundId: continueTurnIntoNewRound
+                        ? props.nextRoundId
+                        : props.currentRoundId,
                       nextTurnplayerId: continueTurnIntoNewRound
                         ? props.activePlayer.id
                         : nextPlayerForNextTeam(

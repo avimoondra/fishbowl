@@ -18,7 +18,7 @@ import GameRoundInstructionCard, {
 } from "pages/Play/GameRoundInstructionCard"
 import HostControls from "pages/Play/HostControls"
 import NoMoreRounds from "pages/Play/NoMoreRounds"
-import { OtherTeamConent, YourTeamTurnContent } from "pages/Play/TeamContent"
+import { OtherTeamContent, YourTeamTurnContent } from "pages/Play/TeamContent"
 import TurnContextPanel from "pages/Play/TurnContextPanel"
 import YourTurnContent from "pages/Play/YourTurnContent"
 import * as React from "react"
@@ -119,6 +119,26 @@ function Play() {
     return null
   }
 
+  const numCompletedCards = completedCardIds.length
+  const totalNumCards = currentGame.cards.length
+  const numRounds = currentGame.rounds.length
+
+  if (numCompletedCards === numRounds * totalNumCards) {
+    return <NoMoreRounds />
+  }
+
+  const roundMarkers = [...Array(numRounds).keys()]
+  let roundNum = Math.floor(numCompletedCards / totalNumCards)
+  const currentRoundId = currentGame.rounds[roundNum].id
+  const nextRoundId = currentGame.rounds[roundNum + 1]?.id
+
+  let roundMarker = numCompletedCards / totalNumCards
+  let round
+  if (roundMarkers.includes(roundMarker)) {
+    const value = capitalize(currentGame.rounds[roundMarker].value)
+    round = GameRound[value as GameRound] || value
+  }
+
   const yourTurn = activePlayer.id === currentPlayer.id
   const yourTeamTurn =
     activePlayer.team ===
@@ -151,7 +171,9 @@ function Play() {
             }
           })
         }}
-      ></YourTurnContent>
+        currentRoundId={currentRoundId}
+        nextRoundId={nextRoundId}
+      />
     )
   } else if (yourTeamTurn) {
     titleText = "You're Guessin'"
@@ -159,32 +181,13 @@ function Play() {
       <YourTeamTurnContent
         activePlayer={activePlayer}
         activeTurn={activeTurn}
-      ></YourTeamTurnContent>
+      />
     )
   } else {
     titleText = "You're Chillin'"
     content = (
-      <OtherTeamConent
-        activePlayer={activePlayer}
-        activeTurn={activeTurn}
-      ></OtherTeamConent>
+      <OtherTeamContent activePlayer={activePlayer} activeTurn={activeTurn} />
     )
-  }
-
-  const numCompletedCards = completedCardIds.length
-  const totalNumCards = currentGame.cards.length
-  const numRounds = currentGame.rounds.length
-
-  if (numCompletedCards === numRounds * totalNumCards) {
-    return <NoMoreRounds></NoMoreRounds>
-  }
-
-  const roundMarkers = [...Array(numRounds).keys()]
-  let roundMarker = numCompletedCards / totalNumCards
-  let round
-  if (roundMarkers.includes(roundMarker)) {
-    const value = capitalize(currentGame.rounds[roundMarker].value)
-    round = GameRound[value as GameRound] || value
   }
 
   return (
@@ -205,7 +208,7 @@ function Play() {
                 currentPlayerTeam(currentPlayer.id, currentGame.players) as Team
               ] || grey[600]
           }}
-        ></Divider>
+        />
       </Grid>
 
       {round && !hasDismissedInstructionCard && (
@@ -217,14 +220,14 @@ function Play() {
               onDismiss={() => {
                 setHasDismissedInstructionCard(true)
               }}
-            ></GameRoundInstructionCard>
+            />
           </Box>
         </Grid>
       )}
       <Grid item>
         <TurnContextPanel
           secondsLeft={Math.round(Math.max(secondsLeft, 0)) || 0}
-        ></TurnContextPanel>
+        />
       </Grid>
       <Grid item>{content}</Grid>
 
@@ -233,7 +236,8 @@ function Play() {
           <HostControls
             activePlayer={activePlayer}
             activeTurn={activeTurn}
-          ></HostControls>
+            currentRoundId={currentRoundId}
+          />
         </Grid>
       )}
     </Grid>
