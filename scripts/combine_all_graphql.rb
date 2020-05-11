@@ -1,6 +1,6 @@
 # Usage
 # $ cd scripts/
-# $ ruby scripts/combine_all_graphql.rb
+# $ ruby combine_all_graphql.rb
 
 outfile_name = "upload.graphql"
 File.delete(outfile_name) if File.exist?(outfile_name)

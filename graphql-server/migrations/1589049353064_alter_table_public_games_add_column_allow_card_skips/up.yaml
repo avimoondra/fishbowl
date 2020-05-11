@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."games" ADD COLUMN "allow_card_skips" boolean NOT NULL
+      DEFAULT true;
+  type: run_sql

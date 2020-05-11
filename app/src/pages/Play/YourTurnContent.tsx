@@ -79,7 +79,10 @@ function YourTurnContent(props: {
   const upHandler = (event: KeyboardEvent) => {
     if (includes(SHORTCUTS_COMPLETE, event.key)) {
       onNextCardClick(ShownCardStatus.Complete)
-    } else if (includes(SHORTCUTS_SKIP, event.key)) {
+    } else if (
+      currentGame.allow_card_skips &&
+      includes(SHORTCUTS_SKIP, event.key)
+    ) {
       onNextCardClick(ShownCardStatus.Skipped)
     }
   }
@@ -193,7 +196,8 @@ function YourTurnContent(props: {
         {props.activeTurnPlayState === ActiveTurnPlayState.Reviewing && (
           <>
             <Grid item>
-              Review the cards you went through this turn. If you skipped or
+              Review the cards you went through this turn. If you
+              {currentGame.allow_card_skips && "skipped or"}
               missed any, just uncheck them.
             </Grid>
             <Grid item container direction="column" spacing={2}>
@@ -256,16 +260,18 @@ function YourTurnContent(props: {
         <Grid item container justify="space-around">
           {props.activeTurnPlayState === ActiveTurnPlayState.Playing && (
             <>
-              <Grid item>
-                <Button
-                  color="default"
-                  onClick={async () => {
-                    onNextCardClick(ShownCardStatus.Skipped)
-                  }}
-                >
-                  Skip
-                </Button>
-              </Grid>
+              {currentGame.allow_card_skips && (
+                <Grid item>
+                  <Button
+                    color="default"
+                    onClick={async () => {
+                      onNextCardClick(ShownCardStatus.Skipped)
+                    }}
+                  >
+                    Skip
+                  </Button>
+                </Grid>
+              )}
               <Grid item>
                 <Button
                   variant="contained"
@@ -444,7 +450,8 @@ function YourTurnContent(props: {
         {!isMobile &&
           props.activeTurnPlayState === ActiveTurnPlayState.Playing && (
             <Grid item style={{ color: grey[600] }}>
-              Hint: Press the spacebar for "Correct", and S for "Skip"
+              Hint: Press the spacebar for "Correct"
+              {currentGame.allow_card_skips && ', and S for "Skip"'}
             </Grid>
           )}
       </Grid>

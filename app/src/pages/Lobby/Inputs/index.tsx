@@ -1,5 +1,4 @@
 import { Box, Button, Link, TextField } from "@material-ui/core"
-import { grey } from "@material-ui/core/colors"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
@@ -18,50 +17,7 @@ function HelperText(props: { children: React.ReactNode }) {
   )
 }
 
-export function UsernameInput(props: {
-  playerId: Players["id"]
-  username: string
-}) {
-  const [updatePlayer] = useUpdatePlayerMutation()
-  const [value, setValue] = React.useState(props.username || "")
-  return (
-    <>
-      <Box display="flex" alignItems="center" justifyContent="flex-start">
-        <Box>
-          <TextField
-            label="Username"
-            variant="outlined"
-            size="medium"
-            defaultValue={props.username || ""}
-            onChange={({ target: { value } }) => {
-              setValue(value)
-            }}
-          />
-        </Box>
-        <Box pl={2}>
-          <Button
-            disabled={value === ""}
-            variant="outlined"
-            size="large"
-            onClick={() => {
-              updatePlayer({
-                variables: {
-                  id: props.playerId,
-                  input: { username: value }
-                }
-              })
-            }}
-          >
-            Submit
-          </Button>
-        </Box>
-      </Box>
-      <Box pt={1} color={grey[600]}>
-        Emojis encouraged! 🌍🚀✨
-      </Box>
-    </>
-  )
-}
+
 
 export function LetterInput(props: { value: string }) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
@@ -141,6 +97,7 @@ export function SecondsPerTurnInput(props: { value: string }) {
 
   return (
     <TextField
+      type="number"
       label="Seconds Per Turn"
       variant="outlined"
       size="medium"
@@ -175,13 +132,12 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
 
   return (
     <TextField
+      type="number"
       label="Submissions Per Player"
       variant="outlined"
       size="medium"
       required
-      helperText={
-        <HelperText>Depends on group size, but usually 4-6</HelperText>
-      }
+      helperText={<HelperText>Usually 4-6 depending on group size</HelperText>}
       value={textFieldValue}
       inputProps={{ style: { textTransform: "uppercase" } }}
       disabled={!canConfigureSettings}

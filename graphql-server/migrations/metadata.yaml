@@ -113,14 +113,15 @@ tables:
   - role: player
     permission:
       columns:
+      - allow_card_skips
+      - created_at
+      - host_id
       - id
       - join_code
-      - state
-      - host_id
-      - starting_letter
-      - seconds_per_turn
       - num_entries_per_player
-      - created_at
+      - seconds_per_turn
+      - starting_letter
+      - state
       filter:
         players:
           id:
@@ -129,6 +130,7 @@ tables:
   - role: player
     permission:
       columns:
+      - allow_card_skips
       - created_at
       - host_id
       - id

@@ -5,6 +5,7 @@ mutation UpdateGameSettings($id: uuid!, $input: games_set_input!) {
     starting_letter
     seconds_per_turn
     num_entries_per_player
+    allow_card_skips
   }
 }
 

@@ -13,7 +13,7 @@ function BowlCard(props: { children: React.ReactNode }) {
 
 const StyledCard = styled(Card)({
   minHeight: 150,
-  width: 270
+  width: 250
 })
 
 export default BowlCard
