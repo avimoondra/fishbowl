@@ -2595,7 +2595,7 @@ export type BecomeHostMutationVariables = {
 };
 
 
-export type BecomeHostMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn'>> };
+export type BecomeHostMutation = { update_games_by_pk?: Maybe<Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player'>> };
 
 export type GameByJoinCodeQueryVariables = {
   joinCode: Scalars['String'];
@@ -2975,6 +2975,7 @@ export const BecomeHostDocument = gql`
     join_code
     starting_letter
     seconds_per_turn
+    num_entries_per_player
   }
 }
     `;

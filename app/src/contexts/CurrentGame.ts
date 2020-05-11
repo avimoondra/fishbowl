@@ -10,5 +10,5 @@ export const CurrentGameContext = createContext<CurrentGameContextType>({
   cards: [],
   players: [],
   turns: [],
-  allow_card_skips: false
+  allow_card_skips: true
 })
