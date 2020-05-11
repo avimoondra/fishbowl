@@ -21,10 +21,10 @@ import ControllableRoundSettings from "pages/Lobby/ControllableRoundSettings"
 import {
   LetterInput,
   SecondsPerTurnInput,
-  SubmissionsPerPlayerInput,
-  UsernameInput
+  SubmissionsPerPlayerInput
 } from "pages/Lobby/Inputs"
 import AllowCardSkipsCheckbox from "pages/Lobby/Inputs/AllowCardSkipsCheckbox"
+import UsernameInput from "pages/Lobby/Inputs/UsernameInput"
 import RoundSettings from "pages/Lobby/RoundSettings"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
 import * as React from "react"
