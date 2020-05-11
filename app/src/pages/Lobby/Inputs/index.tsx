@@ -45,7 +45,7 @@ export function UsernameInput(props: {
             onChange={({ target: { value } }) => {
               setValue(value)
             }}
-            helperText={<HelperText>Emojis encouraged! 🌍🚀✨</HelperText>}
+            helperText={<span>Emojis encouraged! 🌍🚀✨</span>}
           />
         </Box>
         <Box pl={2}>
