@@ -13,6 +13,7 @@ import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import {
   CurrentGameSubscription,
+  Round,
   useEndCurrentTurnAndStartNextTurnMutation,
   useStartTurnMutation
 } from "generated/graphql"
@@ -51,8 +52,8 @@ function YourTurnContent(props: {
   activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
   activeTurnPlayState: ActiveTurnPlayState
   secondsLeft: number
-  currentRoundId: number
-  nextRoundId: number
+  currentRoundId: Round["id"]
+  nextRoundId?: Round["id"] | undefined
   onStart: () => void
   onOutOfCards: () => void
 }) {

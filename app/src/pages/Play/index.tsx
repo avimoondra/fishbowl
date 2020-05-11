@@ -128,14 +128,11 @@ function Play() {
   }
 
   const roundMarkers = [...Array(numRounds).keys()]
-  let roundMarker = Math.floor(numCompletedCards / totalNumCards)
+  let roundNum = Math.floor(numCompletedCards / totalNumCards)
+  const currentRoundId = currentGame.rounds[roundNum].id
+  const nextRoundId = currentGame.rounds[roundNum + 1]?.id
 
-  const currentRoundId = currentGame.rounds[roundMarker].id
-  let nextRoundId
-  if (currentGame.rounds.length > roundMarker + 1) {
-    nextRoundId = currentGame.rounds[roundMarker + 1].id
-  }
-
+  let roundMarker = numCompletedCards / totalNumCards
   let round
   if (roundMarkers.includes(roundMarker)) {
     const value = capitalize(currentGame.rounds[roundMarker].value)
