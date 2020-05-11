@@ -61,6 +61,10 @@ function YourTurnContent(props: {
   const [startTurn] = useStartTurnMutation()
   const [endTurn] = useEndCurrentTurnAndStartNextTurnMutation()
 
+  const [startingTurn, setStartingTurn] = React.useState(false)
+  const [endingTurn, setEndingTurn] = React.useState(false)
+  const [skippingTurn, setSkippingTurn] = React.useState(false)
+
   const [activeCard, setActiveCard] = React.useState<
     CurrentGameSubscription["games"][0]["cards"][0] | null
   >(null)
@@ -279,21 +283,32 @@ function YourTurnContent(props: {
           {props.activeTurnPlayState === ActiveTurnPlayState.Waiting && (
             <Grid item>
               <Button
+                disabled={skippingTurn}
                 onClick={async () => {
-                  endTurn({
-                    variables: {
-                      currentTurnId: props.activeTurn.id,
-                      completedCardIds: [],
-                      endedAt: timestamptzNow(),
-                      gameId: currentGame.id,
-                      currentTurnScorings: [],
-                      nextTurnplayerId: nextPlayerForSameTeam(
-                        props.activePlayer,
-                        currentGame.players
-                      ).id,
-                      roundId: props.currentRoundId
+                  setSkippingTurn(true)
+                  if (
+                    window.confirm(`Are you sure you want to skip your turn?`)
+                  ) {
+                    const response = await endTurn({
+                      variables: {
+                        currentTurnId: props.activeTurn.id,
+                        completedCardIds: [],
+                        endedAt: timestamptzNow(),
+                        gameId: currentGame.id,
+                        currentTurnScorings: [],
+                        nextTurnplayerId: nextPlayerForSameTeam(
+                          props.activePlayer,
+                          currentGame.players
+                        ).id,
+                        roundId: props.currentRoundId
+                      }
+                    })
+                    if (response.errors) {
+                      setSkippingTurn(false)
                     }
-                  })
+                  } else {
+                    setSkippingTurn(false)
+                  }
                 }}
               >
                 Skip turn
@@ -306,7 +321,9 @@ function YourTurnContent(props: {
               <Button
                 variant="contained"
                 color="primary"
+                disabled={endingTurn}
                 onClick={async () => {
+                  setEndingTurn(true)
                   const shownCardIds = [...shownCardsInActiveTurn.keys()]
                   const completedCardIds = filter(shownCardIds, cardId => {
                     return (
@@ -341,7 +358,7 @@ function YourTurnContent(props: {
                     })
                   )
 
-                  await endTurn({
+                  const response = await endTurn({
                     variables: {
                       currentTurnId: props.activeTurn.id,
                       completedCardIds: completedCardIds,
@@ -363,7 +380,10 @@ function YourTurnContent(props: {
                         : null
                     }
                   })
-                  if (continueTurnIntoNewRound) {
+
+                  if (response.errors) {
+                    setEndingTurn(false)
+                  } else if (continueTurnIntoNewRound) {
                     window.location.reload()
                   }
                 }}
@@ -379,34 +399,39 @@ function YourTurnContent(props: {
                 variant="contained"
                 size="large"
                 color="primary"
+                disabled={startingTurn}
                 onClick={async () => {
-                  await startTurn({
+                  setStartingTurn(true)
+                  const response = await startTurn({
                     variables: {
                       currentTurnId: props.activeTurn.id,
                       startedAt: timestamptzNow()
                     }
                   })
-                  props.onStart()
-                  const nextActiveCard =
-                    sample(
+                  if (response.errors) {
+                    setStartingTurn(false)
+                  } else {
+                    const nextActiveCard = sample(
                       drawableCardsWithoutCompletedCardsInActiveTurn(
                         props.cardsInBowl,
                         [...shownCardsInActiveTurn.keys()]
                       )
-                    ) || null
-                  if (nextActiveCard) {
-                    setShownCardsInActiveTurn(
-                      new Map([
-                        [
-                          nextActiveCard.id,
-                          {
-                            status: ShownCardStatus.Incomplete,
-                            startedAt: new Date()
-                          }
-                        ]
-                      ])
                     )
-                    setActiveCard(nextActiveCard)
+                    if (nextActiveCard) {
+                      setShownCardsInActiveTurn(
+                        new Map([
+                          [
+                            nextActiveCard.id,
+                            {
+                              status: ShownCardStatus.Incomplete,
+                              startedAt: new Date()
+                            }
+                          ]
+                        ])
+                      )
+                      setActiveCard(nextActiveCard)
+                    }
+                    props.onStart()
                   }
                 }}
               >
