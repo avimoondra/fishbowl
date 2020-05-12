@@ -1,8 +1,7 @@
-FROM hasura/graphql-engine:v1.2.1.cli-migrations-v2
+FROM hasura/graphql-engine:v1.2.1
 
-COPY graphql-server/migrations /hasura-migrations
-COPY graphql-server/metadata /hasura-metadata
-
+# Change $DATABASE_URL to your heroku postgres URL if you're not using
+# the primary postgres instance in your app
 CMD graphql-engine \
     --database-url $DATABASE_URL \
     serve \
