@@ -138,7 +138,7 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
       updateGameSettings({
         variables: {
           id: currentGame.id,
-          input: { seconds_per_turn: Number(value) }
+          input: { num_entries_per_player: Number(value) }
         }
       })
     }, 1000)
