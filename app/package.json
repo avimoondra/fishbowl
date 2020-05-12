@@ -31,7 +31,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "gql-gen": "graphql-codegen --config codegen.js"
+    "gql-gen": "graphql-codegen --config codegen.js --require dotenv/config"
   },
   "eslintConfig": {
     "extends": "react-app"
