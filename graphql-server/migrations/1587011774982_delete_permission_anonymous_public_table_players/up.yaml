@@ -1,6 +1,0 @@
-- args:
-    role: anonymous
-    table:
-      name: players
-      schema: public
-  type: drop_update_permission

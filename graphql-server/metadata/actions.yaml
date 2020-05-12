@@ -1,0 +1,14 @@
+actions:
+- name: joinGame
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/joinGame'
+  permissions:
+  - role: anonymous
+  - role: player
+custom_types:
+  enums: []
+  input_objects: []
+  objects:
+  - name: joinGameOutput
+  scalars: []

@@ -1,7 +1,0 @@
-- args:
-    action: joinGame
-    definition:
-      select:
-        filter: {}
-    role: anonymous
-  type: create_action_permission

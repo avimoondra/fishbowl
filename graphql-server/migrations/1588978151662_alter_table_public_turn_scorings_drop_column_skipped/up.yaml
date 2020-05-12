@@ -1,5 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: ALTER TABLE "public"."turn_scorings" DROP COLUMN "skipped" CASCADE;
-  type: run_sql
