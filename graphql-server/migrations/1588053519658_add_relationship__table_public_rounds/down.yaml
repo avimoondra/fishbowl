@@ -1,6 +1,0 @@
-- args:
-    relationship: game
-    table:
-      name: rounds
-      schema: public
-  type: drop_relationship

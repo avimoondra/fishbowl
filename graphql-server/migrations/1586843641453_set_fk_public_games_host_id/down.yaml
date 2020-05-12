@@ -1,5 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: alter table "public"."games" drop constraint "games_host_id_fkey";
-  type: run_sql

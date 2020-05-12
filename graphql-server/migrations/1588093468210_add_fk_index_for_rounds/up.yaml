@@ -1,5 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: CREATE INDEX rounds_game_idx ON rounds (game_id);
-  type: run_sql

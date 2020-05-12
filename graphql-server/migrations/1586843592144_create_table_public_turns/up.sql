@@ -1,0 +1,3 @@
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE TABLE "public"."turns"("id" uuid NOT NULL DEFAULT gen_random_uuid(), "player_id" uuid NOT NULL, "game_id" uuid NOT NULL, "completed_card_ids" jsonb NOT NULL DEFAULT jsonb_build_array(), "seconds_per_turn_override" integer, "created_at" timestamptz NOT NULL DEFAULT now(), "started_at" timestamptz, "ended_at" timestamptz, PRIMARY KEY ("id") , FOREIGN KEY ("game_id") REFERENCES "public"."games"("id") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("player_id") REFERENCES "public"."players"("id") ON UPDATE restrict ON DELETE restrict, UNIQUE ("id"));

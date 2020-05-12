@@ -1,6 +1,0 @@
-- args:
-    relationship: turn
-    table:
-      name: turn_scorings
-      schema: public
-  type: drop_relationship

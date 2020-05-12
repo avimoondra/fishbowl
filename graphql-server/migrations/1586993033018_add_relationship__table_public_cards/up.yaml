@@ -1,8 +1,0 @@
-- args:
-    name: game
-    table:
-      name: cards
-      schema: public
-    using:
-      foreign_key_constraint_on: game_id
-  type: create_object_relationship

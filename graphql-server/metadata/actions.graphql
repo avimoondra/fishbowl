@@ -1,0 +1,15 @@
+type Mutation {
+  joinGame (
+    gameId: String!
+    clientUuid: String!
+  ): joinGameOutput
+}
+
+
+
+
+type joinGameOutput {
+  id : String!
+  jwt_token : String!
+}
+
