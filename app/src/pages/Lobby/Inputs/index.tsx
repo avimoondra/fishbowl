@@ -1,12 +1,8 @@
-import { Box, Button, Link, TextField } from "@material-ui/core"
+import { Link, TextField } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import {
-  Players,
-  useUpdateGameSettingsMutation,
-  useUpdatePlayerMutation
-} from "generated/graphql"
-import { sample } from "lodash"
+import { useUpdateGameSettingsMutation } from "generated/graphql"
+import { debounce, sample } from "lodash"
 import * as React from "react"
 
 function HelperText(props: { children: React.ReactNode }) {
@@ -16,8 +12,6 @@ function HelperText(props: { children: React.ReactNode }) {
     </span>
   )
 }
-
-
 
 export function LetterInput(props: { value: string }) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
@@ -30,15 +24,16 @@ export function LetterInput(props: { value: string }) {
     setTextFieldValue(props.value)
   }, [props.value])
 
-  const onChange = (value: string) => {
-    setTextFieldValue(value)
-    updateGameSettings({
-      variables: {
-        id: currentGame.id,
-        input: { starting_letter: value }
-      }
-    })
-  }
+  const debouncedUpdateGameSettings = React.useRef(
+    debounce((value: string) => {
+      updateGameSettings({
+        variables: {
+          id: currentGame.id,
+          input: { starting_letter: value }
+        }
+      })
+    }, 1000)
+  )
 
   return (
     <TextField
@@ -60,7 +55,8 @@ export function LetterInput(props: { value: string }) {
                   e.preventDefault()
                   const randomLetter =
                     sample(Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ")) || "A"
-                  onChange(randomLetter)
+                  setTextFieldValue(randomLetter)
+                  debouncedUpdateGameSettings.current(randomLetter)
                 }}
               >
                 Generate random letter
@@ -78,7 +74,8 @@ export function LetterInput(props: { value: string }) {
       inputProps={{ maxLength: 1, style: { textTransform: "uppercase" } }}
       disabled={!canConfigureSettings}
       onChange={({ target: { value } }) => {
-        onChange(value)
+        setTextFieldValue(value)
+        debouncedUpdateGameSettings.current(value)
       }}
     />
   )
@@ -90,6 +87,17 @@ export function SecondsPerTurnInput(props: { value: string }) {
   const [updateGameSettings] = useUpdateGameSettingsMutation()
   const [textFieldValue, setTextFieldValue] = React.useState(props.value)
   const canConfigureSettings = currentPlayer.role === PlayerRole.Host
+
+  const debouncedUpdateGameSettings = React.useRef(
+    debounce((value: string) => {
+      updateGameSettings({
+        variables: {
+          id: currentGame.id,
+          input: { seconds_per_turn: Number(value) }
+        }
+      })
+    }, 1000)
+  )
 
   React.useEffect(() => {
     setTextFieldValue(props.value)
@@ -108,12 +116,7 @@ export function SecondsPerTurnInput(props: { value: string }) {
       disabled={!canConfigureSettings}
       onChange={({ target: { value } }) => {
         setTextFieldValue(value)
-        updateGameSettings({
-          variables: {
-            id: currentGame.id,
-            input: { seconds_per_turn: Number(value) }
-          }
-        })
+        debouncedUpdateGameSettings.current(value)
       }}
     />
   )
@@ -130,6 +133,17 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
     setTextFieldValue(props.value)
   }, [props.value])
 
+  const debouncedUpdateGameSettings = React.useRef(
+    debounce((value: string) => {
+      updateGameSettings({
+        variables: {
+          id: currentGame.id,
+          input: { seconds_per_turn: Number(value) }
+        }
+      })
+    }, 1000)
+  )
+
   return (
     <TextField
       type="number"
@@ -143,12 +157,7 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
       disabled={!canConfigureSettings}
       onChange={({ target: { value } }) => {
         setTextFieldValue(value)
-        updateGameSettings({
-          variables: {
-            id: currentGame.id,
-            input: { num_entries_per_player: Number(value) }
-          }
-        })
+        debouncedUpdateGameSettings.current(value)
       }}
     />
   )
