@@ -69,7 +69,9 @@ Fishbowl is built with [Material UI](https://material-ui.com/), [Typescript](htt
     ```
     cd graphql-server
     docker-compose up
-    hasura migrate apply --admin-secret=myadminsecretkey # for new databases
+    # for new databases...
+    hasura migrate apply --admin-secret=myadminsecretkey
+    hasura metadata apply --admin-secret=myadminsecretkey
     ```
 
 4. Open Hasura console on `localhost:9695` (to track migrations)
@@ -97,10 +99,17 @@ There's a [gql operations white list](https://fishbowl-graphql.onrender.com/cons
 
 ### Reset my local DB?
 
+stop your docker containers
 ```bash
 docker rm $(docker ps -a -q)
 docker volume prune
 docker-compose up
+```
+
+followed by
+```bash
+hasura migrate apply --admin-secret=myadminsecretkey
+hasura metadata apply --admin-secret=myadminsecretkey
 ```
 
 ### Connect to my local DB w/psql?
