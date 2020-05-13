@@ -3,11 +3,12 @@ on: [push]
 jobs:
   app:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Change directory
-        run: cd app
       - name: Read .nvmrc
         run: echo ::set-output name=NVMRC::$(cat .nvmrc)
         id: nvm
