@@ -5,6 +5,7 @@ import {
   difference,
   filter,
   findLast,
+  flatMap,
   groupBy,
   max,
   reject,
@@ -72,14 +73,14 @@ export function nextPlayerForNextTeam(
 export function completedCardIds(
   turns: CurrentGameSubscription["games"][0]["turns"]
 ) {
-  return turns.flatMap(turn => turn.completed_card_ids)
+  return flatMap(turns, turn => turn.completed_card_ids)
 }
 
 export function drawableCards(
   turns: CurrentGameSubscription["games"][0]["turns"],
   cards: CurrentGameSubscription["games"][0]["cards"]
 ) {
-  const allCompletedCardIds = turns.flatMap(turn => turn.completed_card_ids)
+  const allCompletedCardIds = flatMap(turns, turn => turn.completed_card_ids)
 
   const maxCount = max(values(countBy(allCompletedCardIds)))
 

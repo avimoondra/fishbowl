@@ -12,7 +12,7 @@ import {
 } from "lib/time"
 import { ActiveTurnPlayState, drawableCards } from "lib/turn"
 import useInterval from "lib/useInterval"
-import { capitalize, filter, last } from "lodash"
+import { capitalize, filter, flatMap, last } from "lodash"
 import GameRoundInstructionCard, {
   GameRound
 } from "pages/Play/GameRoundInstructionCard"
@@ -35,7 +35,8 @@ function Play() {
     setHasDismissedInstructionCard
   ] = React.useState(false)
 
-  const completedCardIds = currentGame.turns.flatMap(
+  const completedCardIds = flatMap(
+    currentGame.turns,
     turn => turn.completed_card_ids
   )
 

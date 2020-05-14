@@ -1,6 +1,6 @@
 import { CurrentGameSubscription } from "generated/graphql"
 import { Team } from "lib/team"
-import { filter } from "lodash"
+import { filter, flatMap } from "lodash"
 
 export function teamScore(
   team: Team,
@@ -13,5 +13,5 @@ export function teamScore(
   const teamTurns = filter(turns, turn =>
     teamPlayerIds.includes(turn.player_id)
   )
-  return teamTurns.flatMap(turn => turn.completed_card_ids).length
+  return flatMap(teamTurns, turn => turn.completed_card_ids).length
 }
