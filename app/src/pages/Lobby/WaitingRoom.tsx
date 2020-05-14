@@ -8,7 +8,7 @@ import {
   useRemovePlayerMutation,
   useUpdateGameStateMutation
 } from "generated/graphql"
-import { filter, isEmpty, reject } from "lodash"
+import { filter, find, isEmpty, reject } from "lodash"
 import * as React from "react"
 
 function WaitingRoom() {
@@ -27,7 +27,8 @@ function WaitingRoom() {
     canSeeStartGameButton &&
     currentGame.seconds_per_turn &&
     currentGame.num_entries_per_player &&
-    playersWithUsernames.length >= MIN_NUMBER_OF_PLAYERS
+    playersWithUsernames.length >= MIN_NUMBER_OF_PLAYERS &&
+    find(playersWithUsernames, player => player.id === currentPlayer.id)
 
   return (
     <>
@@ -37,10 +38,16 @@ function WaitingRoom() {
           hostCanRemovePlayer={currentPlayer.role === PlayerRole.Host}
         ></PlayerArena>
         {currentPlayer.role === PlayerRole.Host && (
-          <Box mt={2} color={grey[600]}>
-            In case someone is switching devices or browsers, you can remove
-            them as the host.
-          </Box>
+          <>
+            <Box mt={2} color={grey[600]}>
+              In case someone is switching devices or browsers, you can remove
+              them as the host.
+            </Box>
+            <Box my={2} color={grey[600]}>
+              <b>Once you start the game, new players cannot join</b>. We'll add
+              support for players joining late soon!
+            </Box>
+          </>
         )}
       </Grid>
       <Grid item style={{ textAlign: "center" }}>
