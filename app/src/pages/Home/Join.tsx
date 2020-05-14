@@ -1,5 +1,6 @@
 import { useLazyQuery } from "@apollo/react-hooks"
 import { Button, Grid, TextField } from "@material-ui/core"
+import * as Sentry from "@sentry/browser"
 import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { clientUuid } from "contexts/CurrentPlayer"
 import { GameByJoinCodeDocument, useJoinGameMutation } from "generated/graphql"
@@ -17,29 +18,43 @@ function Join(props: { onBack: () => void }) {
     variables: { joinCode: joinCode?.toLocaleUpperCase() },
     onCompleted: async data => {
       if (data && data.games[0]) {
-        const registration = await joinGame({
-          variables: {
-            gameId: data.games[0].id,
-            clientUuid: clientUuid()
-          }
-        })
-        if (registration.data?.joinGame) {
-          await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
-        }
-        setJoining(false)
-        setRedirectRoute(
-          generatePath(routes.game.lobby, {
-            joinCode: joinCode?.toLocaleUpperCase()
+        try {
+          const registration = await joinGame({
+            variables: {
+              gameId: data.games[0].id,
+              clientUuid: clientUuid()
+            }
           })
-        )
+          if (registration.data?.joinGame) {
+            await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
+          }
+          setJoining(false)
+          setRedirectRoute(
+            generatePath(routes.game.lobby, {
+              joinCode: joinCode?.toLocaleUpperCase()
+            })
+          )
+        } catch {
+          // cannot join game
+          Sentry.captureException(
+            new Error(
+              `(button) Cannot join game, ${joinCode?.toLocaleUpperCase()}. Client uuid: ${clientUuid()}`
+            )
+          )
+          props.onBack()
+        }
       } else {
-        setJoining(false)
-        setRedirectRoute(routes.game.root)
+        // cannot find game
+        Sentry.captureException(
+          new Error(
+            `(button) Cannot find game, ${joinCode?.toLocaleUpperCase()}`
+          )
+        )
+        props.onBack()
       }
     },
     onError: _ => {
-      setJoining(false)
-      setRedirectRoute(routes.game.root)
+      props.onBack()
     }
   })
 

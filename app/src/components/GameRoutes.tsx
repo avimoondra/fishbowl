@@ -1,4 +1,5 @@
 import { useLazyQuery } from "@apollo/react-hooks"
+import * as Sentry from "@sentry/browser"
 import GameStateRedirects from "components/GameStateRedirects"
 import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { CurrentGameContext } from "contexts/CurrentGame"
@@ -46,22 +47,38 @@ function CurrentPlayerProvider(props: {
       }
 
       if (data?.games[0]) {
-        const registration = await joinGame({
-          variables: {
-            gameId: data.games[0].id,
-            clientUuid: clientUuid()
+        try {
+          const registration = await joinGame({
+            variables: {
+              gameId: data.games[0].id,
+              clientUuid: clientUuid()
+            }
+          })
+          if (registration.data?.joinGame) {
+            await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
+            setSkipCallback(true)
           }
-        })
-        if (registration.data?.joinGame) {
-          await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
+        } catch (err) {
+          // cannot join game
+          Sentry.captureException(
+            new Error(
+              `(url) Cannot join game, ${props.joinCode.toLocaleUpperCase()}. Client uuid: ${clientUuid()}`
+            )
+          )
+          setRedirectRoute(routes.root)
         }
-        setSkipCallback(true)
       } else {
-        setRedirectRoute(routes.game.root)
+        // cannot find game
+        Sentry.captureException(
+          new Error(
+            `(url) Cannot find game, ${props.joinCode.toLocaleUpperCase()}`
+          )
+        )
+        setRedirectRoute(routes.root)
       }
     },
     onError: _ => {
-      setRedirectRoute(routes.game.root)
+      setRedirectRoute(routes.root)
     }
   })
 
@@ -81,7 +98,7 @@ function CurrentPlayerProvider(props: {
       }
     },
     onError: _ => {
-      setRedirectRoute(routes.game.root)
+      setRedirectRoute(routes.root)
     }
   })
 
