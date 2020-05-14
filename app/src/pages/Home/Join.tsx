@@ -23,6 +23,11 @@ function Join(props: { onBack: () => void }) {
             variables: {
               gameId: data.games[0].id,
               clientUuid: clientUuid()
+            },
+            context: {
+              headers: {
+                "X-Hasura-Role": "anonymous"
+              }
             }
           })
           if (registration.data?.joinGame) {
@@ -83,7 +88,13 @@ function Join(props: { onBack: () => void }) {
             size="large"
             onClick={() => {
               setJoining(true)
-              loadGame()
+              loadGame({
+                context: {
+                  headers: {
+                    "X-Hasura-Role": "anonymous"
+                  }
+                }
+              })
             }}
             disabled={!joinCode || joinCode.length < 4 || joining}
           >

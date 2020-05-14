@@ -55,13 +55,24 @@ function Home() {
                 size="large"
                 onClick={async () => {
                   setPlayerState(PlayerState.Hosting)
-                  const { data } = await startGame()
+                  const { data } = await startGame({
+                    context: {
+                      headers: {
+                        "X-Hasura-Role": "anonymous"
+                      }
+                    }
+                  })
                   const gameId = data?.insert_games_one?.id
                   if (gameId) {
                     const registration = await joinGame({
                       variables: {
                         gameId: gameId,
                         clientUuid: clientUuid()
+                      },
+                      context: {
+                        headers: {
+                          "X-Hasura-Role": "anonymous"
+                        }
                       }
                     })
                     if (registration.data?.joinGame) {
