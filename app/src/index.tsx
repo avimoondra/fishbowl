@@ -5,6 +5,7 @@ import {
   makeStyles,
   ThemeProvider
 } from "@material-ui/core"
+import * as Sentry from "@sentry/browser"
 import ApolloWrapper from "ApolloWrapper"
 import App from "App"
 import AuthWrapper from "AuthWrapper"
@@ -12,6 +13,11 @@ import "index.css"
 import React from "react"
 import ReactDOM from "react-dom"
 import * as serviceWorker from "serviceWorker"
+
+Sentry.init({
+  dsn:
+    "https://d142f9cb081e4dbe9f14316996496044@o392843.ingest.sentry.io/5241100"
+})
 
 export const useTitleStyle = makeStyles({
   title: {
