@@ -1,9 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const Sentry = require("@sentry/node");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
+
+Sentry.init({
+  dsn:
+    "https://593a557ed4834276803af5fc8a4432b5@o392843.ingest.sentry.io/5241108",
+});
 
 const app = express();
 
