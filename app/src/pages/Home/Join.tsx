@@ -1,5 +1,6 @@
 import { useLazyQuery } from "@apollo/react-hooks"
 import { Button, Grid, TextField } from "@material-ui/core"
+import * as Sentry from "@sentry/browser"
 import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { clientUuid } from "contexts/CurrentPlayer"
 import { GameByJoinCodeDocument, useJoinGameMutation } from "generated/graphql"
@@ -35,10 +36,20 @@ function Join(props: { onBack: () => void }) {
           )
         } catch {
           // cannot join game
+          Sentry.captureException(
+            new Error(
+              `(button) Cannot join game, ${joinCode?.toLocaleUpperCase()}. Client uuid: ${clientUuid()}`
+            )
+          )
           props.onBack()
         }
       } else {
         // cannot find game
+        Sentry.captureException(
+          new Error(
+            `(button) Cannot find game, ${joinCode?.toLocaleUpperCase()}`
+          )
+        )
         props.onBack()
       }
     },

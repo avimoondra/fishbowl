@@ -1,4 +1,5 @@
 import { useLazyQuery } from "@apollo/react-hooks"
+import * as Sentry from "@sentry/browser"
 import GameStateRedirects from "components/GameStateRedirects"
 import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { CurrentGameContext } from "contexts/CurrentGame"
@@ -57,12 +58,22 @@ function CurrentPlayerProvider(props: {
             await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
             setSkipCallback(true)
           }
-        } catch {
+        } catch (err) {
           // cannot join game
+          Sentry.captureException(
+            new Error(
+              `(url) Cannot join game, ${props.joinCode.toLocaleUpperCase()}. Client uuid: ${clientUuid()}`
+            )
+          )
           setRedirectRoute(routes.root)
         }
       } else {
         // cannot find game
+        Sentry.captureException(
+          new Error(
+            `(url) Cannot find game, ${props.joinCode.toLocaleUpperCase()}`
+          )
+        )
         setRedirectRoute(routes.root)
       }
     },
