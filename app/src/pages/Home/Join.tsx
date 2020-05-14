@@ -17,29 +17,33 @@ function Join(props: { onBack: () => void }) {
     variables: { joinCode: joinCode?.toLocaleUpperCase() },
     onCompleted: async data => {
       if (data && data.games[0]) {
-        const registration = await joinGame({
-          variables: {
-            gameId: data.games[0].id,
-            clientUuid: clientUuid()
-          }
-        })
-        if (registration.data?.joinGame) {
-          await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
-        }
-        setJoining(false)
-        setRedirectRoute(
-          generatePath(routes.game.lobby, {
-            joinCode: joinCode?.toLocaleUpperCase()
+        try {
+          const registration = await joinGame({
+            variables: {
+              gameId: data.games[0].id,
+              clientUuid: clientUuid()
+            }
           })
-        )
+          if (registration.data?.joinGame) {
+            await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
+          }
+          setJoining(false)
+          setRedirectRoute(
+            generatePath(routes.game.lobby, {
+              joinCode: joinCode?.toLocaleUpperCase()
+            })
+          )
+        } catch {
+          // cannot join game
+          props.onBack()
+        }
       } else {
-        setJoining(false)
-        setRedirectRoute(routes.game.root)
+        // cannot find game
+        props.onBack()
       }
     },
     onError: _ => {
-      setJoining(false)
-      setRedirectRoute(routes.game.root)
+      props.onBack()
     }
   })
 

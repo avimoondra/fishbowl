@@ -46,22 +46,28 @@ function CurrentPlayerProvider(props: {
       }
 
       if (data?.games[0]) {
-        const registration = await joinGame({
-          variables: {
-            gameId: data.games[0].id,
-            clientUuid: clientUuid()
+        try {
+          const registration = await joinGame({
+            variables: {
+              gameId: data.games[0].id,
+              clientUuid: clientUuid()
+            }
+          })
+          if (registration.data?.joinGame) {
+            await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
+            setSkipCallback(true)
           }
-        })
-        if (registration.data?.joinGame) {
-          await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
+        } catch {
+          // cannot join game
+          setRedirectRoute(routes.root)
         }
-        setSkipCallback(true)
       } else {
-        setRedirectRoute(routes.game.root)
+        // cannot find game
+        setRedirectRoute(routes.root)
       }
     },
     onError: _ => {
-      setRedirectRoute(routes.game.root)
+      setRedirectRoute(routes.root)
     }
   })
 
@@ -81,7 +87,7 @@ function CurrentPlayerProvider(props: {
       }
     },
     onError: _ => {
-      setRedirectRoute(routes.game.root)
+      setRedirectRoute(routes.root)
     }
   })
 
