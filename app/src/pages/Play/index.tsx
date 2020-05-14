@@ -28,7 +28,7 @@ function Play() {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
 
-  const [startReview] = useStartReviewMutation()
+  const [startReview, { called: startReviewCalled }] = useStartReviewMutation()
 
   const [
     hasDismissedInstructionCard,
@@ -106,6 +106,7 @@ function Play() {
       setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
 
       activeTurn &&
+        !startReviewCalled &&
         startReview({
           variables: {
             currentTurnId: activeTurn.id,
@@ -164,12 +165,13 @@ function Play() {
         }}
         onOutOfCards={() => {
           setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
-          startReview({
-            variables: {
-              currentTurnId: activeTurn.id,
-              reviewStartedAt: timestamptzNow()
-            }
-          })
+          !startReviewCalled &&
+            startReview({
+              variables: {
+                currentTurnId: activeTurn.id,
+                reviewStartedAt: timestamptzNow()
+              }
+            })
         }}
         currentRoundId={currentRoundId}
         nextRoundId={nextRoundId}
