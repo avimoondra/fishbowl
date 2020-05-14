@@ -18,7 +18,7 @@ export function Title(props: { text: string }) {
 
 enum CardSubmissionState {
   Submitting = 1,
-  Waiting,
+  Waiting
 }
 
 function CardSubmission() {
@@ -27,7 +27,7 @@ function CardSubmission() {
 
   const numSubmitted = filter(
     currentGame.cards,
-    (card) => card.player_id === currentPlayer.id
+    card => card.player_id === currentPlayer.id
   ).length
 
   const [cardSubmissionState, setCardSubmissionState] = React.useState<
