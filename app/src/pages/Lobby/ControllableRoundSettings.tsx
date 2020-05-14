@@ -22,7 +22,7 @@ import {
 } from "generated/graphql"
 import { capitalize, lowerFirst, reject } from "lodash"
 import * as React from "react"
-import { useOnClickOutside } from "lib/useOnClickOutside";
+import { useOnClickOutside } from "lib/useOnClickOutside"
 
 function ControllableRoundSettings() {
   const currentGame = React.useContext(CurrentGameContext)
@@ -31,7 +31,7 @@ function ControllableRoundSettings() {
   const [addRound] = useAddRoundMutation()
   const [showAddRoundForm, setShowAddRoundForm] = React.useState(false)
   const [addRoundValue, setAddRoundValue] = React.useState("")
-  const ref = React.useRef<HTMLDivElement>(null);
+  const ref = React.useRef<HTMLDivElement>(null)
 
   useOnClickOutside(ref, () => {
     if (showAddRoundForm) {
@@ -160,8 +160,8 @@ function ControllableRoundSettings() {
                   }}
                 ></TextField>
               ) : (
-                  <Box color="#fafafa">.</Box>
-                )}
+                <Box color="#fafafa">.</Box>
+              )}
             </ListItemText>
             <ListItemSecondaryAction>
               <IconButton

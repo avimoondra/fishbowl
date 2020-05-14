@@ -18,5 +18,5 @@ jobs:
           node-version: '${{ steps.nvm.outputs.NVMRC }}'
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Lint TypeScript
+      - name: Lint
         run: yarn run lint
