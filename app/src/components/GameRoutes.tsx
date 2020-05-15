@@ -52,6 +52,11 @@ function CurrentPlayerProvider(props: {
             variables: {
               gameId: data.games[0].id,
               clientUuid: clientUuid()
+            },
+            context: {
+              headers: {
+                "X-Hasura-Role": "anonymous"
+              }
             }
           })
           if (registration.data?.joinGame) {
@@ -98,7 +103,7 @@ function CurrentPlayerProvider(props: {
       }
     },
     onError: _ => {
-      setRedirectRoute(routes.root)
+      currentAuth.setJwtToken(null)
     }
   })
 
@@ -112,7 +117,13 @@ function CurrentPlayerProvider(props: {
   // sign up
   React.useEffect(() => {
     if (!loadingSignIn && !currentPlayer) {
-      signUp()
+      signUp({
+        context: {
+          headers: {
+            "X-Hasura-Role": "anonymous"
+          }
+        }
+      })
     }
   }, [loadingSignIn, currentPlayer])
 
