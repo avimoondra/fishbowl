@@ -14,11 +14,13 @@ import React from "react"
 import ReactDOM from "react-dom"
 import * as serviceWorker from "serviceWorker"
 
-Sentry.init({
-  dsn:
-    "https://d142f9cb081e4dbe9f14316996496044@o392843.ingest.sentry.io/5241100",
-  environment: process.env.NODE_ENV
-})
+if (process.env.NODE_ENV !== "development") {
+  Sentry.init({
+    dsn:
+      "https://d142f9cb081e4dbe9f14316996496044@o392843.ingest.sentry.io/5241100",
+    environment: process.env.NODE_ENV
+  })
+}
 
 export const useTitleStyle = makeStyles({
   title: {
