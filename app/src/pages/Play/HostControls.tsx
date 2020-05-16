@@ -50,11 +50,6 @@ function HostControls(props: {
       </Grid>
 
       <Grid item>
-        Someone drop out or lose connection? They can join back in with the same
-        browser! Join code: <b>{currentGame.join_code?.toLocaleUpperCase()}</b>
-      </Grid>
-
-      <Grid item>
         <Box display="flex" alignItems="center" justifyContent="flex-start">
           <Box display="flex" flex="130px 1 auto" alignItems="center">
             <Button
@@ -128,6 +123,12 @@ function HostControls(props: {
             would be next
           </Box>
         </Box>
+      </Grid>
+      <Grid item>
+        Someone drop out or lose connection? They can join back in with code{" "}
+        <b>{currentGame.join_code?.toLocaleUpperCase()}</b> from the same
+        browser! If they need additional help, click the settings button ⚙️ to
+        send a unique join link for that player.
       </Grid>
     </Grid>
   )

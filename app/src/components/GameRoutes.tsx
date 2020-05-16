@@ -1,12 +1,14 @@
 import { useLazyQuery } from "@apollo/react-hooks"
 import * as Sentry from "@sentry/browser"
+import GameLayout from "components/GameLayout"
 import GameStateRedirects from "components/GameStateRedirects"
 import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import {
   clientUuid,
   CurrentPlayerContext,
-  PlayerRole
+  PlayerRole,
+  setClientUuid
 } from "contexts/CurrentPlayer"
 import {
   CurrentPlayerDocument,
@@ -19,9 +21,17 @@ import CardSubmission from "pages/CardSubmission"
 import EndGame from "pages/EndGame"
 import Lobby from "pages/Lobby"
 import Play from "pages/Play"
+import Settings from "pages/Settings"
 import TeamAssignment from "pages/TeamAssignment"
+import queryString from "query-string"
 import * as React from "react"
-import { Redirect, Route, Switch } from "react-router-dom"
+import {
+  generatePath,
+  Redirect,
+  Route,
+  Switch,
+  useLocation
+} from "react-router-dom"
 import routes from "routes"
 
 function CurrentPlayerProvider(props: {
@@ -65,12 +75,11 @@ function CurrentPlayerProvider(props: {
           }
         } catch (err) {
           // cannot join game
-          Sentry.captureException(
-            new Error(
-              `(url) Cannot join game, ${props.joinCode.toLocaleUpperCase()}. Client uuid: ${clientUuid()}`
-            )
+          setRedirectRoute(
+            generatePath(routes.game.pending, {
+              joinCode: props.joinCode.toLocaleUpperCase()
+            })
           )
-          setRedirectRoute(routes.root)
         }
       } else {
         // cannot find game
@@ -128,7 +137,7 @@ function CurrentPlayerProvider(props: {
   }, [loadingSignIn, currentPlayer])
 
   if (redirectRoute) {
-    return <Redirect to={routes.root}></Redirect>
+    return <Redirect to={redirectRoute}></Redirect>
   }
 
   return currentPlayer?.game?.host?.id ? (
@@ -168,25 +177,40 @@ function CurrentGameProvider(props: {
 }
 
 function GameRoutes(props: { joinCode: string }) {
+  const location = useLocation()
+
+  React.useEffect(() => {
+    const clientUuid = queryString.parse(location.search).client_uuid as
+      | string
+      | null
+      | undefined
+    if (clientUuid) {
+      setClientUuid(clientUuid)
+    }
+  }, [])
+
   return (
     <CurrentPlayerProvider joinCode={props.joinCode}>
       <CurrentGameProvider joinCode={props.joinCode}>
         <GameStateRedirects joinCode={props.joinCode}></GameStateRedirects>
-        <Switch>
-          <Route exact path={routes.game.lobby} component={Lobby} />
-          <Route
-            exact
-            path={routes.game.cardSubmission}
-            component={CardSubmission}
-          ></Route>
-          <Route
-            exact
-            path={routes.game.teamAssignment}
-            component={TeamAssignment}
-          ></Route>
-          <Route exact path={routes.game.play} component={Play}></Route>
-          <Route exact path={routes.game.ended} component={EndGame}></Route>
-        </Switch>
+        <GameLayout joinCode={props.joinCode}>
+          <Switch>
+            <Route exact path={routes.game.settings} component={Settings} />
+            <Route exact path={routes.game.lobby} component={Lobby} />
+            <Route
+              exact
+              path={routes.game.cardSubmission}
+              component={CardSubmission}
+            ></Route>
+            <Route
+              exact
+              path={routes.game.teamAssignment}
+              component={TeamAssignment}
+            ></Route>
+            <Route exact path={routes.game.play} component={Play}></Route>
+            <Route exact path={routes.game.ended} component={EndGame}></Route>
+          </Switch>
+        </GameLayout>
       </CurrentGameProvider>
     </CurrentPlayerProvider>
   )

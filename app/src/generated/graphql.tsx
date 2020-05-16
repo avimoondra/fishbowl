@@ -2558,7 +2558,7 @@ export type CurrentGameSubscriptionVariables = {
 
 export type CurrentGameSubscription = { games: Array<(
     Pick<Games, 'id' | 'join_code' | 'starting_letter' | 'seconds_per_turn' | 'num_entries_per_player' | 'allow_card_skips' | 'state'>
-    & { host?: Maybe<Pick<Players, 'id' | 'username'>>, rounds: Array<Pick<Rounds, 'id' | 'value'>>, cards: Array<Pick<Cards, 'id' | 'word' | 'player_id'>>, players: Array<Pick<Players, 'id' | 'username' | 'team' | 'team_sequence'>>, turns: Array<Pick<Turns, 'id' | 'player_id' | 'started_at' | 'completed_card_ids' | 'seconds_per_turn_override'>> }
+    & { host?: Maybe<Pick<Players, 'id' | 'username'>>, rounds: Array<Pick<Rounds, 'id' | 'value'>>, cards: Array<Pick<Cards, 'id' | 'word' | 'player_id'>>, players: Array<Pick<Players, 'id' | 'client_uuid' | 'username' | 'team' | 'team_sequence'>>, turns: Array<Pick<Turns, 'id' | 'player_id' | 'started_at' | 'completed_card_ids' | 'seconds_per_turn_override'>> }
   )> };
 
 export type UpdateGameStateMutationVariables = {
@@ -2799,6 +2799,7 @@ export const CurrentGameDocument = gql`
     }
     players {
       id
+      client_uuid
       username
       team
       team_sequence

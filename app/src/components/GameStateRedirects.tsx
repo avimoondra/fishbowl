@@ -35,6 +35,14 @@ const stateRoutePairs = [
 function GameStateRedirects(props: { joinCode: string }) {
   const location = useLocation()
   const currentGame = React.useContext(CurrentGameContext)
+
+  if (
+    matchPath(location.pathname, { path: routes.game.pending, exact: true }) ||
+    matchPath(location.pathname, { path: routes.game.settings, exact: true })
+  ) {
+    return null
+  }
+
   const pair = stateRoutePairs.find(pair => pair.state === currentGame.state)
   if (
     pair?.state &&
