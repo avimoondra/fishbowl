@@ -10,13 +10,23 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route exact path={routes.root} component={Home} />
-        <Route exact path={routes.game.pending} component={Pending} />
+        <Route
+          exact
+          path={routes.game.pending}
+          render={({ match }) => {
+            return (
+              <Pending
+                joinCode={match.params.joinCode.toLocaleUpperCase()}
+              ></Pending>
+            )
+          }}
+        />
         <Route
           path={routes.game.root}
           render={({ match }) => {
             return (
               <GameRoutes
-                joinCode={match.params.joinCode.toUpperCase()}
+                joinCode={match.params.joinCode.toLocaleUpperCase()}
               ></GameRoutes>
             )
           }}
