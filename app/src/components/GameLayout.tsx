@@ -22,7 +22,7 @@ function GameLayout(props: { children: React.ReactNode; joinCode: string }) {
     exact: true
   })
 
-  const showFab = !some(
+  const showFabOnThisRoute = !some(
     [routes.game.pending, routes.game.settings, routes.game.ended],
     route => {
       return matchPath(location.pathname, {
@@ -35,7 +35,7 @@ function GameLayout(props: { children: React.ReactNode; joinCode: string }) {
   return (
     <Box>
       <Box>{props.children}</Box>
-      {showFab && currentPlayer.role === PlayerRole.Host && (
+      {showFabOnThisRoute && currentPlayer.role === PlayerRole.Host && (
         <Box display="flex" flexDirection="row-reverse" pb={2} pt={6}>
           <Fab
             color="default"
