@@ -13,7 +13,7 @@ function Pending(props: { joinCode: string }) {
       </Grid>
       <Grid item>
         Ask your host to{" "}
-        <b>click the settings button ⚙️in the bottom right corner</b> of their
+        <b>click the settings button ⚙️ in the bottom right corner</b> of their
         page to send your unique join link so you can get back in it!
       </Grid>
       <Grid item>

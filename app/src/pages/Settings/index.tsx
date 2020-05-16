@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   FormControl,
   Grid,
@@ -117,9 +116,6 @@ function Settings() {
           </Grid>
         </>
       )}
-      <Grid item>
-        <Box pb={4}></Box>
-      </Grid>
     </Grid>
   )
 }
