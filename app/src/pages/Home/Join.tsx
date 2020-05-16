@@ -41,12 +41,11 @@ function Join(props: { onBack: () => void }) {
           )
         } catch {
           // cannot join game
-          Sentry.captureException(
-            new Error(
-              `(button) Cannot join game, ${joinCode?.toLocaleUpperCase()}. Client uuid: ${clientUuid()}`
-            )
+          setRedirectRoute(
+            generatePath(routes.game.pending, {
+              joinCode: joinCode?.toLocaleUpperCase()
+            })
           )
-          props.onBack()
         }
       } else {
         // cannot find game

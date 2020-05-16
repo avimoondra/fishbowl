@@ -42,6 +42,7 @@ subscription CurrentGame($joinCode: String!) {
     }
     players {
       id
+      client_uuid
       username
       team
       team_sequence
