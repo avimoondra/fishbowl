@@ -23,7 +23,7 @@ function GameLayout(props: { children: React.ReactNode; joinCode: string }) {
   })
 
   const showFabOnThisRoute = !some(
-    [routes.game.pending, routes.game.settings, routes.game.ended],
+    [routes.game.pending, routes.game.lobby, routes.game.ended],
     route => {
       return matchPath(location.pathname, {
         path: route,
