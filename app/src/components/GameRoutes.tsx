@@ -1,5 +1,4 @@
 import { useLazyQuery } from "@apollo/react-hooks"
-import * as Sentry from "@sentry/browser"
 import GameLayout from "components/GameLayout"
 import GameStateRedirects from "components/GameStateRedirects"
 import { CurrentAuthContext } from "contexts/CurrentAuth"
@@ -10,6 +9,7 @@ import {
   PlayerRole,
   setClientUuid
 } from "contexts/CurrentPlayer"
+import { NotificationContext } from "contexts/Notification"
 import {
   CurrentPlayerDocument,
   CurrentPlayerQuery,
@@ -39,6 +39,7 @@ function CurrentPlayerProvider(props: {
   children: React.ReactNode
 }) {
   const currentAuth = React.useContext(CurrentAuthContext)
+  const notification = React.useContext(NotificationContext)
 
   const [currentPlayer, setCurrentPlayer] = React.useState<
     CurrentPlayerQuery["players"][0] | null
@@ -83,10 +84,8 @@ function CurrentPlayerProvider(props: {
         }
       } else {
         // cannot find game
-        Sentry.captureException(
-          new Error(
-            `(url) Cannot find game, ${props.joinCode.toLocaleUpperCase()}`
-          )
+        notification.send(
+          `Cannot find game ${props.joinCode.toLocaleUpperCase()}. Double check the url! 👀`
         )
         setRedirectRoute(routes.root)
       }

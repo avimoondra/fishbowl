@@ -1,8 +1,8 @@
 import { useLazyQuery } from "@apollo/react-hooks"
 import { Button, Grid, TextField } from "@material-ui/core"
-import * as Sentry from "@sentry/browser"
 import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { clientUuid } from "contexts/CurrentPlayer"
+import { NotificationContext } from "contexts/Notification"
 import { GameByJoinCodeDocument, useJoinGameMutation } from "generated/graphql"
 import * as React from "react"
 import { generatePath, Redirect } from "react-router-dom"
@@ -10,9 +10,12 @@ import routes from "routes"
 
 function Join(props: { onBack: () => void }) {
   const currentAuth = React.useContext(CurrentAuthContext)
+  const notification = React.useContext(NotificationContext)
+
   const [joining, setJoining] = React.useState(false)
   const [redirectRoute, setRedirectRoute] = React.useState("")
   const [joinCode, setJoinCode] = React.useState("")
+
   const [joinGame] = useJoinGameMutation()
   const [loadGame] = useLazyQuery(GameByJoinCodeDocument, {
     variables: { joinCode: joinCode?.toLocaleUpperCase() },
@@ -49,10 +52,8 @@ function Join(props: { onBack: () => void }) {
         }
       } else {
         // cannot find game
-        Sentry.captureException(
-          new Error(
-            `(button) Cannot find game, ${joinCode?.toLocaleUpperCase()}`
-          )
+        notification.send(
+          `Cannot find game ${joinCode?.toLocaleUpperCase()}. Double check the code! 👀`
         )
         props.onBack()
       }
