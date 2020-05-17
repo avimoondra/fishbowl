@@ -54,6 +54,13 @@ function Play() {
       : startingSeconds
   )
 
+  // change in settings
+  React.useEffect(() => {
+    if (currentGame.seconds_per_turn) {
+      setSecondsLeft(currentGame.seconds_per_turn)
+    }
+  }, [currentGame.seconds_per_turn])
+
   // for non active players
   React.useEffect(() => {
     if (activeTurn?.started_at !== null) {

@@ -6,7 +6,10 @@ import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useUpdateGameSettingsMutation } from "generated/graphql"
 import * as React from "react"
 
-export default function AllowCardSkipsCheckbox(props: { value: boolean }) {
+export default function AllowCardSkipsCheckbox(props: {
+  value: boolean
+  disabled?: boolean
+}) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
@@ -23,7 +26,7 @@ export default function AllowCardSkipsCheckbox(props: { value: boolean }) {
         <Switch
           checked={checkboxValue}
           color="primary"
-          disabled={!canConfigureSettings}
+          disabled={!canConfigureSettings || props.disabled}
           onChange={({ target: { checked } }) => {
             setCheckboxValue(checked)
             updateGameSettings({
