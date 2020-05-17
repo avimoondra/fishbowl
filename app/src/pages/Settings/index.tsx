@@ -1,5 +1,7 @@
 import {
+  Box,
   Button,
+  Divider,
   FormControl,
   Grid,
   InputLabel,
@@ -10,7 +12,9 @@ import { green } from "@material-ui/core/colors"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { Players } from "generated/graphql"
-import { find } from "lodash"
+import { find, last } from "lodash"
+import { SecondsPerTurnInput } from "pages/Lobby/Inputs"
+import AllowCardSkipsCheckbox from "pages/Lobby/Inputs/AllowCardSkipsCheckbox"
 import * as React from "react"
 import Clipboard from "react-clipboard.js"
 
@@ -39,10 +43,12 @@ function Settings() {
     return () => timeout && clearTimeout(timeout)
   }, [copyButtonClicked])
 
+  const activeTurn = last(currentGame.turns)
+
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
-        Players can rejoin the game with code:{" "}
+        Players can rejoin the game with code{" "}
         <b>{currentGame.join_code?.toLocaleUpperCase()}</b>
       </Grid>
       <Grid item>
@@ -116,6 +122,29 @@ function Settings() {
           </Grid>
         </>
       )}
+      <Grid item>
+        <Box py={2}>
+          <Divider variant="fullWidth"></Divider>
+        </Box>
+      </Grid>
+      <Grid item>
+        <Box pb={1}>
+          As the host, you can adjust these settings before each turn or round
+          starts.
+        </Box>
+      </Grid>
+      <Grid item>
+        <SecondsPerTurnInput
+          value={String(currentGame.seconds_per_turn || "")}
+          disabled={activeTurn?.started_at}
+        />
+      </Grid>
+      <Grid item>
+        <AllowCardSkipsCheckbox
+          value={Boolean(currentGame.allow_card_skips)}
+          disabled={activeTurn?.started_at}
+        />
+      </Grid>
     </Grid>
   )
 }

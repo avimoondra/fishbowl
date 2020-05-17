@@ -81,7 +81,10 @@ export function LetterInput(props: { value: string }) {
   )
 }
 
-export function SecondsPerTurnInput(props: { value: string }) {
+export function SecondsPerTurnInput(props: {
+  value: string
+  disabled?: boolean
+}) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
@@ -113,7 +116,7 @@ export function SecondsPerTurnInput(props: { value: string }) {
       helperText={<HelperText>Usually 30 or 60</HelperText>}
       value={textFieldValue}
       inputProps={{ style: { textTransform: "uppercase" } }}
-      disabled={!canConfigureSettings}
+      disabled={!canConfigureSettings || props.disabled}
       onChange={({ target: { value } }) => {
         setTextFieldValue(value)
         debouncedUpdateGameSettings.current(value)

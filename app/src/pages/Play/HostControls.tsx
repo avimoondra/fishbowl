@@ -127,8 +127,12 @@ function HostControls(props: {
       <Grid item>
         Someone drop out or lose connection? They can join back in with code{" "}
         <b>{currentGame.join_code?.toLocaleUpperCase()}</b> from the same
-        browser! If they need additional help, click the settings button ⚙️ to
-        send a unique join link for that player.
+        browser!
+      </Grid>
+      <Grid item>
+        Or if they need additional help, click the settings button ⚙️ to send a
+        unique join link for that player. From here, you can also adjust other
+        settings, including seconds per turn, skips, etc.
       </Grid>
     </Grid>
   )
