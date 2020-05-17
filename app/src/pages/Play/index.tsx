@@ -2,14 +2,9 @@ import { Box, Divider, Grid, Typography } from "@material-ui/core"
 import { grey } from "@material-ui/core/colors"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import { useStartReviewMutation } from "generated/graphql"
 import { useTitleStyle } from "index"
 import { currentPlayerTeam, Team, TeamColor } from "lib/team"
-import {
-  calculateSecondsLeft,
-  dateFromTimestamptzNow,
-  timestamptzNow
-} from "lib/time"
+import { calculateSecondsLeft, dateFromTimestamptzNow } from "lib/time"
 import { ActiveTurnPlayState, drawableCards } from "lib/turn"
 import useInterval from "lib/useInterval"
 import { capitalize, filter, flatMap, last } from "lodash"
@@ -27,8 +22,6 @@ function Play() {
   const titleClasses = useTitleStyle()
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
-
-  const [startReview] = useStartReviewMutation()
 
   const [
     hasDismissedInstructionCard,
@@ -105,14 +98,6 @@ function Play() {
       secondsLeft <= 0
     ) {
       setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
-
-      activeTurn &&
-        startReview({
-          variables: {
-            currentTurnId: activeTurn.id,
-            reviewStartedAt: timestamptzNow()
-          }
-        })
     }
   }, 1000)
 
@@ -165,12 +150,6 @@ function Play() {
         }}
         onOutOfCards={() => {
           setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
-          startReview({
-            variables: {
-              currentTurnId: activeTurn.id,
-              reviewStartedAt: timestamptzNow()
-            }
-          })
         }}
         currentRoundId={currentRoundId}
         nextRoundId={nextRoundId}
