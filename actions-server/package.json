@@ -4,19 +4,34 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon -r esm src/server.js"
+    "start": "yarn run serve",
+    "build": "yarn run build-ts",
+    "serve": "node build/actions-server/src/server.js",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "debug": "npm run build && npm run watch-debug",
+    "serve-debug": "nodemon --inspect build/actions-server/src/server.js",
+    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
   },
   "dependencies": {
     "@sentry/node": "5.15.5",
+    "@types/jsonwebtoken": "^8.5.0",
     "body-parser": "1.19.0",
     "express": "4.16.4",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "2.6.0"
   },
   "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/node": "^14.0.1",
+    "@types/node-fetch": "^2.5.7",
+    "concurrently": "^5.2.0",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
-    "nodemon": "1.18.4"
+    "graphql": "^15.0.0",
+    "nodemon": "1.18.4",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.2"
   },
   "keywords": []
 }
