@@ -1989,8 +1989,7 @@ export type TurnScoringsBoolExp = {
 };
 
 export enum TurnScoringsConstraint {
-  TurnScoringsPkey = 'turn_scorings_pkey',
-  TurnScoringsTurnIdCardIdKey = 'turn_scorings_turn_id_card_id_key'
+  TurnScoringsPkey = 'turn_scorings_pkey'
 }
 
 export type TurnScoringsIncInput = {
