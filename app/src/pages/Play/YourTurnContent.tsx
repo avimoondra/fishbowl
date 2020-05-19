@@ -22,6 +22,7 @@ import { timestamptzNow, timestamptzNowFromDate } from "lib/time"
 import {
   ActiveTurnPlayState,
   drawableCardsWithoutCompletedCardsInActiveTurn,
+  nextPlayerForNextTeam,
   nextPlayerForSameTeam
 } from "lib/turn"
 import { compact, filter, includes, reject, sample } from "lodash"
