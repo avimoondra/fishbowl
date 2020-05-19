@@ -8,6 +8,7 @@ import {
   withStyles
 } from "@material-ui/core"
 import { green, grey } from "@material-ui/core/colors"
+import * as Sentry from "@sentry/browser"
 import BowlCard from "components/BowlCard"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
@@ -21,7 +22,6 @@ import { timestamptzNow, timestamptzNowFromDate } from "lib/time"
 import {
   ActiveTurnPlayState,
   drawableCardsWithoutCompletedCardsInActiveTurn,
-  nextPlayerForNextTeam,
   nextPlayerForSameTeam
 } from "lib/turn"
 import { compact, filter, includes, reject, sample } from "lodash"
@@ -111,6 +111,7 @@ function YourTurnContent(props: {
 
   const onNextCardClick = (status: ShownCardStatus) => {
     if (activeCard) {
+      // mark the active card as "complete" or "skipped"
       const shownCard = shownCardsInActiveTurn.get(activeCard.id)
       if (shownCard) {
         setShownCardsInActiveTurn(
@@ -133,15 +134,16 @@ function YourTurnContent(props: {
         props.onOutOfCards()
       } else {
         const nextActiveCard = sample(nextSet) || null
-        setActiveCard(nextActiveCard)
         if (nextActiveCard) {
-          const nextMap = new Map(
-            shownCardsInActiveTurn.set(nextActiveCard.id, {
-              status: ShownCardStatus.Incomplete,
-              startedAt: new Date()
-            })
+          setActiveCard(nextActiveCard)
+          setShownCardsInActiveTurn(
+            new Map(
+              shownCardsInActiveTurn.set(nextActiveCard.id, {
+                status: ShownCardStatus.Incomplete,
+                startedAt: new Date()
+              })
+            )
           )
-          setShownCardsInActiveTurn(nextMap)
         }
       }
     }
@@ -359,6 +361,10 @@ function YourTurnContent(props: {
                           ended_at: timestamptzNowFromDate(card.endedAt)
                         }
                       } else {
+                        Sentry.captureMessage(
+                          `missing startedAt or endedAt for turn_id ${props.activeTurn.id}, card_id ${cardId}`,
+                          Sentry.Severity.Debug
+                        )
                         return null
                       }
                     })
@@ -417,17 +423,18 @@ function YourTurnContent(props: {
                   if (response.errors) {
                     setStartingTurn(false)
                   } else {
-                    const nextActiveCard = sample(
+                    const firstActiveCard = sample(
                       drawableCardsWithoutCompletedCardsInActiveTurn(
                         props.cardsInBowl,
                         [...shownCardsInActiveTurn.keys()]
                       )
                     )
-                    if (nextActiveCard) {
+                    if (firstActiveCard) {
+                      setActiveCard(firstActiveCard)
                       setShownCardsInActiveTurn(
                         new Map([
                           [
-                            nextActiveCard.id,
+                            firstActiveCard.id,
                             {
                               status: ShownCardStatus.Incomplete,
                               startedAt: new Date()
@@ -435,7 +442,6 @@ function YourTurnContent(props: {
                           ]
                         ])
                       )
-                      setActiveCard(nextActiveCard)
                     }
                     props.onStart()
                   }
