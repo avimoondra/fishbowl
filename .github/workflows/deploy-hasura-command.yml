@@ -1,0 +1,22 @@
+name: deploy-hasura-command
+on:
+  repository_dispatch:
+    types: [deploy-hasura-command]
+jobs:
+  deployHasura:
+    runs-on: ubuntu-latest
+    env:
+      HASURA_ENDPOINT: ${{ secrets.HASURA_ENDPOINT }}
+      HASURA_ADMIN_SECRET: ${{ secrets.HASURA_ADMIN_SECRET }}
+      HASURA_WORKDIR: graphql-server
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Apply Hasura migrations
+        uses: tibotiber/hasura-action@master
+        with:
+          args: migrate apply
+      - name: Apply Hasura metadata
+        uses: tibotiber/hasura-action@master
+        with:
+          args: metadata apply
