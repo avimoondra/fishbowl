@@ -16,7 +16,6 @@ import {
   CurrentGameSubscription,
   Rounds,
   useEndCurrentTurnAndStartNextTurnMutation,
-  useStartReviewMutation,
   useStartTurnMutation
 } from "generated/graphql"
 import { timestamptzNow, timestamptzNowFromDate } from "lib/time"
@@ -62,7 +61,6 @@ function YourTurnContent(props: {
   const currentGame = React.useContext(CurrentGameContext)
   const [startTurn] = useStartTurnMutation()
   const [endTurn] = useEndCurrentTurnAndStartNextTurnMutation()
-  const [startReview] = useStartReviewMutation()
 
   const [startingTurn, setStartingTurn] = React.useState(false)
   const [endingTurn, setEndingTurn] = React.useState(false)
