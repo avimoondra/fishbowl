@@ -1,7 +1,6 @@
 import { Box, Button, Divider, Grid, Link, Typography } from "@material-ui/core"
 import BuyMeACoffeeButton from "components/BuyMeACoffeeButton"
 import PlayerChip from "components/PlayerChip"
-import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { useTitleStyle } from "index"
@@ -19,7 +18,6 @@ import {
 import routes from "routes"
 
 function EndGame() {
-  const currentAuth = React.useContext(CurrentAuthContext)
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const titleClasses = useTitleStyle()

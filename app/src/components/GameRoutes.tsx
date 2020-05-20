@@ -95,25 +95,25 @@ function CurrentPlayerProvider(props: {
     }
   })
 
-  const [
-    signIn,
-    { loading: loadingSignIn, called: calledSignIn }
-  ] = useLazyQuery(CurrentPlayerDocument, {
-    variables: {
-      joinCode: props.joinCode.toLocaleUpperCase(),
-      clientUuid: clientUuid()
-    },
-    onCompleted: async data => {
-      if (data?.players[0]) {
-        setCurrentPlayer(data?.players[0])
-      } else {
-        await currentAuth.setJwtToken(null)
+  const [signIn, { loading: loadingSignIn }] = useLazyQuery(
+    CurrentPlayerDocument,
+    {
+      variables: {
+        joinCode: props.joinCode.toLocaleUpperCase(),
+        clientUuid: clientUuid()
+      },
+      onCompleted: async data => {
+        if (data?.players[0]) {
+          setCurrentPlayer(data?.players[0])
+        } else {
+          await currentAuth.setJwtToken(null)
+        }
+      },
+      onError: _ => {
+        currentAuth.setJwtToken(null)
       }
-    },
-    onError: _ => {
-      currentAuth.setJwtToken(null)
     }
-  })
+  )
 
   // sign in
   React.useEffect(() => {
