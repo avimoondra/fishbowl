@@ -2723,6 +2723,14 @@ export type EndCurrentTurnAndStartNextTurnMutationVariables = {
 
 export type EndCurrentTurnAndStartNextTurnMutation = { delete_turn_scorings?: Maybe<{ returning: Array<Pick<TurnScorings, 'id'>> }>, insert_turn_scorings?: Maybe<{ returning: Array<Pick<TurnScorings, 'id'>> }>, update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'ended_at' | 'completed_card_ids'>>, insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id' | 'seconds_per_turn_override' | 'round_id'>> };
 
+export type StartReviewMutationVariables = {
+  currentTurnId: Scalars['uuid'];
+  reviewStartedAt: Scalars['timestamptz'];
+};
+
+
+export type StartReviewMutation = { update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'review_started_at'>> };
+
 export type UpdateAllPlayersMutationVariables = {
   gameId: Scalars['uuid'];
   players: Array<PlayersInsertInput>;
@@ -3487,6 +3495,40 @@ export function useEndCurrentTurnAndStartNextTurnMutation(baseOptions?: ApolloRe
 export type EndCurrentTurnAndStartNextTurnMutationHookResult = ReturnType<typeof useEndCurrentTurnAndStartNextTurnMutation>;
 export type EndCurrentTurnAndStartNextTurnMutationResult = ApolloReactCommon.MutationResult<EndCurrentTurnAndStartNextTurnMutation>;
 export type EndCurrentTurnAndStartNextTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<EndCurrentTurnAndStartNextTurnMutation, EndCurrentTurnAndStartNextTurnMutationVariables>;
+export const StartReviewDocument = gql`
+    mutation StartReview($currentTurnId: uuid!, $reviewStartedAt: timestamptz!) {
+  update_turns_by_pk(pk_columns: {id: $currentTurnId}, _set: {review_started_at: $reviewStartedAt}) {
+    id
+    review_started_at
+  }
+}
+    `;
+export type StartReviewMutationFn = ApolloReactCommon.MutationFunction<StartReviewMutation, StartReviewMutationVariables>;
+
+/**
+ * __useStartReviewMutation__
+ *
+ * To run a mutation, you first call `useStartReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStartReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [startReviewMutation, { data, loading, error }] = useStartReviewMutation({
+ *   variables: {
+ *      currentTurnId: // value for 'currentTurnId'
+ *      reviewStartedAt: // value for 'reviewStartedAt'
+ *   },
+ * });
+ */
+export function useStartReviewMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<StartReviewMutation, StartReviewMutationVariables>) {
+        return ApolloReactHooks.useMutation<StartReviewMutation, StartReviewMutationVariables>(StartReviewDocument, baseOptions);
+      }
+export type StartReviewMutationHookResult = ReturnType<typeof useStartReviewMutation>;
+export type StartReviewMutationResult = ApolloReactCommon.MutationResult<StartReviewMutation>;
+export type StartReviewMutationOptions = ApolloReactCommon.BaseMutationOptions<StartReviewMutation, StartReviewMutationVariables>;
 export const UpdateAllPlayersDocument = gql`
     mutation UpdateAllPlayers($gameId: uuid!, $players: [players_insert_input!]!) {
   insert_games_one(object: {id: $gameId, players: {data: $players, on_conflict: {constraint: players_pkey, update_columns: [team, team_sequence]}}}, on_conflict: {constraint: games_pkey, update_columns: [id]}) {

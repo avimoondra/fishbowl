@@ -29,7 +29,7 @@ mutation EndCurrentTurnAndStartNextTurn(
   $nextTurnSecondsPerTurnOverride: Int
   $roundId: uuid
 ) {
-  delete_turn_scorings(where: { turn_id: { _eq: $currentTurnId }}) {
+  delete_turn_scorings(where: { turn_id: { _eq: $currentTurnId } }) {
     returning {
       id
     }
@@ -60,5 +60,15 @@ mutation EndCurrentTurnAndStartNextTurn(
     player_id
     seconds_per_turn_override
     round_id
+  }
+}
+
+mutation StartReview($currentTurnId: uuid!, $reviewStartedAt: timestamptz!) {
+  update_turns_by_pk(
+    pk_columns: { id: $currentTurnId }
+    _set: { review_started_at: $reviewStartedAt }
+  ) {
+    id
+    review_started_at
   }
 }
