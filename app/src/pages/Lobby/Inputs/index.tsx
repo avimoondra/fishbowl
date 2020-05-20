@@ -5,6 +5,8 @@ import { useUpdateGameSettingsMutation } from "generated/graphql"
 import { debounce, sample } from "lodash"
 import * as React from "react"
 
+const DEBOUNCE_SECONDS = 2000
+
 function HelperText(props: { children: React.ReactNode }) {
   return (
     <span style={{ width: 220, display: "inline-block" }}>
@@ -32,7 +34,7 @@ export function LetterInput(props: { value: string }) {
           input: { starting_letter: value }
         }
       })
-    }, 1000)
+    }, DEBOUNCE_SECONDS)
   )
 
   return (
@@ -99,7 +101,7 @@ export function SecondsPerTurnInput(props: {
           input: { seconds_per_turn: Number(value) }
         }
       })
-    }, 1000)
+    }, DEBOUNCE_SECONDS)
   )
 
   React.useEffect(() => {
@@ -144,7 +146,7 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
           input: { num_entries_per_player: Number(value) }
         }
       })
-    }, 1000)
+    }, DEBOUNCE_SECONDS)
   )
 
   return (
