@@ -11,6 +11,11 @@ jobs:
           - db_data:/var/lib/postgresql/data
         env:
           POSTGRES_PASSWORD: postgrespassword
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 #      actions-server:
 #        image: node:12.16.3-stretch
 #        env:
@@ -29,6 +34,11 @@ jobs:
         volumes:
           - /graphql-server/migrations:/hasura-migrations
           - /graphql-server/metadata:/hasura-metadata
+        options: >-
+          --health-cmd "wget --quiet --tries=1 --spider http://localhost/8080/healthz || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     defaults:
       run:
         working-directory: app
@@ -40,7 +50,7 @@ jobs:
       - name: Generate GraphQL code
         env:
           DEBUG: 1
-          REACT_APP_FISHBOWL_GRAPHQL_ENDPOINT: http://graphql-engine/v1/graphql
+          REACT_APP_FISHBOWL_GRAPHQL_ENDPOINT: http://graphql-engine:8080/v1/graphql
         run: yarn run gql-gen
       - name: Lint
         run: yarn run lint
