@@ -112,17 +112,6 @@ function YourTurnContent(props: {
     }
   }, [props.secondsLeft, activeCard])
 
-  React.useEffect(() => {
-    if (props.secondsLeft <= 0 && props.activeTurn.started_at) {
-      startReview({
-        variables: {
-          currentTurnId: props.activeTurn.id,
-          reviewStartedAt: timestamptzNow(),
-        },
-      })
-    }
-  }, [props.secondsLeft])
-
   const onNextCardClick = (status: ShownCardStatus) => {
     if (activeCard) {
       // mark the active card as "complete" or "skipped"

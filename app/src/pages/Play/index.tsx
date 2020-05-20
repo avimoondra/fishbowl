@@ -61,8 +61,6 @@ function Play() {
       : startingSeconds
   )
 
-  const [outOfTime, setOutOfTime] = React.useState(false)
-
   // change in settings
   React.useEffect(() => {
     if (currentGame.seconds_per_turn) {
@@ -113,7 +111,14 @@ function Play() {
       activeTurnPlayState === ActiveTurnPlayState.Playing &&
       secondsLeft <= 0
     ) {
-      setOutOfTime(true)
+      if (currentPlayer.id === activeTurn?.player_id && activeTurn?.id) {
+        startReview({
+          variables: {
+            currentTurnId: activeTurn.id,
+            reviewStartedAt: timestamptzNow(),
+          },
+        })
+      }
       setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
     }
   }, 1000)
