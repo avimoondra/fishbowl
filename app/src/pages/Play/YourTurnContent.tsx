@@ -8,7 +8,6 @@ import {
   withStyles
 } from "@material-ui/core"
 import { green, grey } from "@material-ui/core/colors"
-import * as Sentry from "@sentry/browser"
 import BowlCard from "components/BowlCard"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
@@ -71,7 +70,7 @@ function YourTurnContent(props: {
   >(null)
 
   const [shownCardsInActiveTurn, setShownCardsInActiveTurn] = React.useState<
-    Map<number, { status: ShownCardStatus; startedAt?: Date; endedAt?: Date }>
+    Map<number, { status: ShownCardStatus; startedAt: Date; endedAt: Date }>
   >(new Map())
 
   // Attach keyboard shortcuts to the Correct and Skip actions
@@ -141,7 +140,8 @@ function YourTurnContent(props: {
             new Map(
               shownCardsInActiveTurn.set(nextActiveCard.id, {
                 status: ShownCardStatus.Incomplete,
-                startedAt: new Date()
+                startedAt: new Date(),
+                endedAt: new Date()
               })
             )
           )
@@ -351,7 +351,7 @@ function YourTurnContent(props: {
                   const scorings = compact(
                     shownCardIds.map(cardId => {
                       const card = shownCardsInActiveTurn.get(cardId)
-                      if (card && card.startedAt && card.endedAt) {
+                      if (card) {
                         return {
                           turn_id: props.activeTurn.id,
                           card_id: cardId,
@@ -362,10 +362,6 @@ function YourTurnContent(props: {
                           ended_at: timestamptzNowFromDate(card.endedAt)
                         }
                       } else {
-                        Sentry.captureMessage(
-                          `missing startedAt or endedAt for turn_id ${props.activeTurn.id}, card_id ${cardId}`,
-                          Sentry.Severity.Debug
-                        )
                         return null
                       }
                     })
@@ -438,7 +434,8 @@ function YourTurnContent(props: {
                             firstActiveCard.id,
                             {
                               status: ShownCardStatus.Incomplete,
-                              startedAt: new Date()
+                              startedAt: new Date(),
+                              endedAt: new Date()
                             }
                           ]
                         ])
