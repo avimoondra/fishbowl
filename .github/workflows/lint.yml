@@ -15,7 +15,7 @@ jobs:
         image: node:12.16.3-stretch
         env:
           PORT: 3001
-        options: yarn run start
+        options: --entrypoint "yarn run start"
       graphql-engine:
         image: hasura/graphql-engine:v1.2.1.cli-migrations-v2
         env:
