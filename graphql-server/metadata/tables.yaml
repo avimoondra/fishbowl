@@ -305,8 +305,10 @@
     permission:
       check:
         turn:
-          player_id:
-            _eq: X-Hasura-User-Id
+          game:
+            players:
+              id:
+                _eq: X-Hasura-User-Id
       columns:
       - card_id
       - ended_at
@@ -327,6 +329,15 @@
       - started_at
       - status
       - turn_id
+      filter:
+        turn:
+          game:
+            players:
+              id:
+                _eq: X-Hasura-User-Id
+  delete_permissions:
+  - role: player
+    permission:
       filter:
         turn:
           game:

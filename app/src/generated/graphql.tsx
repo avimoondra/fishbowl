@@ -1911,6 +1911,7 @@ export type TimestamptzComparisonExp = {
 
 export type TurnScorings = {
   card_id: Scalars['uuid'];
+  created_at: Scalars['timestamptz'];
   ended_at: Scalars['timestamptz'];
   id: Scalars['uuid'];
   score: Scalars['Int'];
@@ -1977,6 +1978,7 @@ export type TurnScoringsBoolExp = {
   _not?: Maybe<TurnScoringsBoolExp>;
   _or?: Maybe<Array<Maybe<TurnScoringsBoolExp>>>;
   card_id?: Maybe<UuidComparisonExp>;
+  created_at?: Maybe<TimestamptzComparisonExp>;
   ended_at?: Maybe<TimestamptzComparisonExp>;
   id?: Maybe<UuidComparisonExp>;
   score?: Maybe<IntComparisonExp>;
@@ -1987,7 +1989,8 @@ export type TurnScoringsBoolExp = {
 };
 
 export enum TurnScoringsConstraint {
-  TurnScoringsPkey = 'turn_scorings_pkey'
+  TurnScoringsPkey = 'turn_scorings_pkey',
+  TurnScoringsTurnIdCardIdKey = 'turn_scorings_turn_id_card_id_key'
 }
 
 export type TurnScoringsIncInput = {
@@ -1996,6 +1999,7 @@ export type TurnScoringsIncInput = {
 
 export type TurnScoringsInsertInput = {
   card_id?: Maybe<Scalars['uuid']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   ended_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   score?: Maybe<Scalars['Int']>;
@@ -2007,6 +2011,7 @@ export type TurnScoringsInsertInput = {
 
 export type TurnScoringsMaxFields = {
   card_id?: Maybe<Scalars['uuid']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   ended_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   score?: Maybe<Scalars['Int']>;
@@ -2017,6 +2022,7 @@ export type TurnScoringsMaxFields = {
 
 export type TurnScoringsMaxOrderBy = {
   card_id?: Maybe<OrderBy>;
+  created_at?: Maybe<OrderBy>;
   ended_at?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   score?: Maybe<OrderBy>;
@@ -2027,6 +2033,7 @@ export type TurnScoringsMaxOrderBy = {
 
 export type TurnScoringsMinFields = {
   card_id?: Maybe<Scalars['uuid']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   ended_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   score?: Maybe<Scalars['Int']>;
@@ -2037,6 +2044,7 @@ export type TurnScoringsMinFields = {
 
 export type TurnScoringsMinOrderBy = {
   card_id?: Maybe<OrderBy>;
+  created_at?: Maybe<OrderBy>;
   ended_at?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   score?: Maybe<OrderBy>;
@@ -2063,6 +2071,7 @@ export type TurnScoringsOnConflict = {
 
 export type TurnScoringsOrderBy = {
   card_id?: Maybe<OrderBy>;
+  created_at?: Maybe<OrderBy>;
   ended_at?: Maybe<OrderBy>;
   id?: Maybe<OrderBy>;
   score?: Maybe<OrderBy>;
@@ -2078,6 +2087,7 @@ export type TurnScoringsPkColumnsInput = {
 
 export enum TurnScoringsSelectColumn {
   CardId = 'card_id',
+  CreatedAt = 'created_at',
   EndedAt = 'ended_at',
   Id = 'id',
   Score = 'score',
@@ -2088,6 +2098,7 @@ export enum TurnScoringsSelectColumn {
 
 export type TurnScoringsSetInput = {
   card_id?: Maybe<Scalars['uuid']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   ended_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   score?: Maybe<Scalars['Int']>;
@@ -2130,6 +2141,7 @@ export type TurnScoringsSumOrderBy = {
 
 export enum TurnScoringsUpdateColumn {
   CardId = 'card_id',
+  CreatedAt = 'created_at',
   EndedAt = 'ended_at',
   Id = 'id',
   Score = 'score',
@@ -2709,7 +2721,7 @@ export type EndCurrentTurnAndStartNextTurnMutationVariables = {
 };
 
 
-export type EndCurrentTurnAndStartNextTurnMutation = { insert_turn_scorings?: Maybe<{ returning: Array<Pick<TurnScorings, 'id'>> }>, update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'ended_at' | 'completed_card_ids'>>, insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id' | 'seconds_per_turn_override' | 'round_id'>> };
+export type EndCurrentTurnAndStartNextTurnMutation = { delete_turn_scorings?: Maybe<{ returning: Array<Pick<TurnScorings, 'id'>> }>, insert_turn_scorings?: Maybe<{ returning: Array<Pick<TurnScorings, 'id'>> }>, update_turns_by_pk?: Maybe<Pick<Turns, 'id' | 'ended_at' | 'completed_card_ids'>>, insert_turns_one?: Maybe<Pick<Turns, 'id' | 'game_id' | 'player_id' | 'seconds_per_turn_override' | 'round_id'>> };
 
 export type UpdateAllPlayersMutationVariables = {
   gameId: Scalars['uuid'];
@@ -3419,6 +3431,11 @@ export type StartTurnMutationResult = ApolloReactCommon.MutationResult<StartTurn
 export type StartTurnMutationOptions = ApolloReactCommon.BaseMutationOptions<StartTurnMutation, StartTurnMutationVariables>;
 export const EndCurrentTurnAndStartNextTurnDocument = gql`
     mutation EndCurrentTurnAndStartNextTurn($currentTurnId: uuid!, $completedCardIds: jsonb!, $endedAt: timestamptz!, $gameId: uuid!, $currentTurnScorings: [turn_scorings_insert_input!]!, $nextTurnplayerId: uuid!, $nextTurnSecondsPerTurnOverride: Int, $roundId: uuid) {
+  delete_turn_scorings(where: {turn_id: {_eq: $currentTurnId}}) {
+    returning {
+      id
+    }
+  }
   insert_turn_scorings(objects: $currentTurnScorings) {
     returning {
       id

@@ -5201,6 +5201,16 @@
             "defaultValue": null
           },
           {
+            "name": "created_at",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "timestamptz_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "ended_at",
             "description": "",
             "type": {
@@ -8364,6 +8374,16 @@
             "defaultValue": null
           },
           {
+            "name": "created_at",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "ended_at",
             "description": "",
             "type": {
@@ -8436,6 +8456,16 @@
         "inputFields": [
           {
             "name": "card_id",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "created_at",
             "description": "",
             "type": {
               "kind": "ENUM",
@@ -9055,6 +9085,12 @@
             "deprecationReason": null
           },
           {
+            "name": "created_at",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "ended_at",
             "description": "",
             "isDeprecated": false,
@@ -9101,6 +9137,16 @@
         "inputFields": [
           {
             "name": "card_id",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "created_at",
             "description": "",
             "type": {
               "kind": "ENUM",
@@ -9199,6 +9245,22 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "uuid",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "timestamptz",
                 "ofType": null
               }
             },
@@ -9583,6 +9645,18 @@
             "deprecationReason": null
           },
           {
+            "name": "created_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "ended_at",
             "description": "",
             "args": [],
@@ -9672,6 +9746,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "uuid",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created_at",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
               "ofType": null
             },
             "isDeprecated": false,
@@ -14987,6 +15073,16 @@
             "defaultValue": null
           },
           {
+            "name": "created_at",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "ended_at",
             "description": "",
             "type": {
@@ -15317,6 +15413,12 @@
             "description": "",
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "turn_scorings_turn_id_card_id_key",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "possibleTypes": null
@@ -15331,6 +15433,12 @@
         "enumValues": [
           {
             "name": "card_id",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created_at",
             "description": "",
             "isDeprecated": false,
             "deprecationReason": null
@@ -16226,6 +16334,16 @@
             "type": {
               "kind": "SCALAR",
               "name": "uuid",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "created_at",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
               "ofType": null
             },
             "defaultValue": null

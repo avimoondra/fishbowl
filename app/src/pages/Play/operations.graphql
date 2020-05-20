@@ -29,6 +29,11 @@ mutation EndCurrentTurnAndStartNextTurn(
   $nextTurnSecondsPerTurnOverride: Int
   $roundId: uuid
 ) {
+  delete_turn_scorings(where: { turn_id: { _eq: $currentTurnId }}) {
+    returning {
+      id
+    }
+  }
   insert_turn_scorings(objects: $currentTurnScorings) {
     returning {
       id
