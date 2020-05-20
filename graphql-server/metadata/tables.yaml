@@ -305,8 +305,10 @@
     permission:
       check:
         turn:
-          player_id:
-            _eq: X-Hasura-User-Id
+          game:
+            players:
+              id:
+                _eq: X-Hasura-User-Id
       columns:
       - card_id
       - ended_at
@@ -338,8 +340,10 @@
     permission:
       filter:
         turn:
-          player_id:
-            _eq: X-Hasura-User-Id
+          game:
+            players:
+              id:
+                _eq: X-Hasura-User-Id
 - table:
     schema: public
     name: turns
