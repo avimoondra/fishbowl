@@ -22,7 +22,7 @@ jobs:
 #          PORT: 3001
 #        options: --entrypoint "/bin/sh -c yarn run start"
       graphql-engine:
-        image: hasura/graphql-engine:v1.2.1.cli-migrations-v2
+        image: hasura/graphql-engine:v1.2.1
         env:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
           HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
@@ -31,9 +31,9 @@ jobs:
           HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
 #          ACTION_BASE_ENDPOINT: http://actions-server:3001
           HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256", "key": "FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE"}'
-        volumes:
-          - /graphql-server/migrations:/hasura-migrations
-          - /graphql-server/metadata:/hasura-metadata
+#        volumes:
+#          - /graphql-server/migrations:/hasura-migrations
+#          - /graphql-server/metadata:/hasura-metadata
         options: >-
           --health-cmd "wget --quiet --tries=1 --spider http://localhost:8080/healthz || exit 1"
           --health-interval 10s
