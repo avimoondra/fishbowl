@@ -111,6 +111,7 @@ function Play() {
       activeTurnPlayState === ActiveTurnPlayState.Playing &&
       secondsLeft <= 0
     ) {
+      setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
       if (currentPlayer.id === activeTurn?.player_id && activeTurn?.id) {
         startReview({
           variables: {
@@ -119,7 +120,6 @@ function Play() {
           }
         })
       }
-      setActiveTurnPlayState(ActiveTurnPlayState.Reviewing)
     }
   }, 1000)
 
