@@ -333,6 +333,13 @@
             players:
               id:
                 _eq: X-Hasura-User-Id
+  delete_permissions:
+  - role: player
+    permission:
+      filter:
+        turn:
+          player_id:
+            _eq: X-Hasura-User-Id
 - table:
     schema: public
     name: turns
