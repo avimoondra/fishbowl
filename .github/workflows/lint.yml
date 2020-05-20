@@ -11,11 +11,6 @@ jobs:
           - db_data:/var/lib/postgresql/data
         env:
           POSTGRES_PASSWORD: postgrespassword
-      actions-server:
-        image: node:12.16.3-stretch
-        env:
-          PORT: 3001
-        options: --entrypoint "/bin/sh -c yarn run start"
       graphql-engine:
         image: hasura/graphql-engine:v1.2.1.cli-migrations-v2
         env:
