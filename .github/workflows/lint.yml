@@ -11,6 +11,11 @@ jobs:
           - db_data:/var/lib/postgresql/data
         env:
           POSTGRES_PASSWORD: postgrespassword
+#      actions-server:
+#        image: node:12.16.3-stretch
+#        env:
+#          PORT: 3001
+#        options: --entrypoint "/bin/sh -c yarn run start"
       graphql-engine:
         image: hasura/graphql-engine:v1.2.1.cli-migrations-v2
         env:
@@ -22,8 +27,8 @@ jobs:
           ACTION_BASE_ENDPOINT: http://actions-server:3001
           HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256", "key": "FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE"}'
         volumes:
-          - graphql-server/migrations:/hasura-migrations
-          - graphql-server/metadata:/hasura-metadata
+          - /graphql-server/migrations:/hasura-migrations
+          - /graphql-server/metadata:/hasura-metadata
     defaults:
       run:
         working-directory: app
