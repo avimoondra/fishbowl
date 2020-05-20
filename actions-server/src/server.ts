@@ -1,4 +1,4 @@
-import Sentry from "@sentry/node"
+import * as Sentry from "@sentry/node"
 import bodyParser from "body-parser"
 import express from "express"
 
