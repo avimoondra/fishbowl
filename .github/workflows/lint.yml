@@ -39,6 +39,7 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Generate GraphQL code
         env:
+          DEBUG: 1
           REACT_APP_FISHBOWL_GRAPHQL_ENDPOINT: http://graphql-engine:8080/v1/graphql
         run: yarn run gql-gen
       - name: Lint
