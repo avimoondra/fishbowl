@@ -21,7 +21,6 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.0.1",
     "@types/node-fetch": "^2.5.7",
-    "concurrently": "^5.2.0",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "nodemon": "1.18.4",
