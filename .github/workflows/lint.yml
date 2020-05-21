@@ -21,11 +21,11 @@ jobs:
       - name: Lint
         run: yarn run lint
 
-  action-server:
+  actions-server:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: action-server
+        working-directory: actions-server
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
