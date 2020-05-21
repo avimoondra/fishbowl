@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { DocumentNode } from "graphql"
+import { DocumentNode, print as gqlToString } from "graphql"
 import jwt from "jsonwebtoken"
 import fetch from "node-fetch"
 import {
@@ -14,8 +14,8 @@ const execute = async (query: DocumentNode, variables: object) => {
   const fetchResponse = await fetch(process.env.HASURA_ENDPOINT, {
     method: "POST",
     body: JSON.stringify({
-      query,
-      variables,
+      query: gqlToString(query),
+      variables: variables,
     }),
   })
   const data = await fetchResponse.json()
