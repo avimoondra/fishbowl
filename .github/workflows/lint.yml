@@ -34,7 +34,7 @@ jobs:
           HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256", "key": "FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE"}'
         options: >-
           --health-cmd "wget --quiet --tries=1 --spider http://localhost:8080/healthz || exit 1"
-          --health-interval 10s
+          --health-interval 30s
           --health-timeout 5s
           --health-retries 5
     steps:
