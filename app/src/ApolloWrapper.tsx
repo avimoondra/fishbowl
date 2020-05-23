@@ -8,7 +8,7 @@ import { getMainDefinition } from "apollo-utilities"
 import {
   AuthRole,
   CurrentAuthContext,
-  CurrentAuthContextType
+  CurrentAuthContextType,
 } from "contexts/CurrentAuth"
 import * as React from "react"
 
@@ -19,9 +19,9 @@ const createApolloClient = (jwtToken: CurrentAuthContextType["jwtToken"]) => {
     headers: jwtToken
       ? {
           Authorization: `Bearer ${jwtToken}`,
-          "X-Hasura-Role": AuthRole.Player
+          "X-Hasura-Role": AuthRole.Player,
         }
-      : undefined
+      : undefined,
   })
 
   const wsLink = new WebSocketLink({
@@ -33,11 +33,11 @@ const createApolloClient = (jwtToken: CurrentAuthContextType["jwtToken"]) => {
         headers: jwtToken
           ? {
               Authorization: `Bearer ${jwtToken}`,
-              "X-Hasura-Role": AuthRole.Player
+              "X-Hasura-Role": AuthRole.Player,
             }
-          : undefined
-      }
-    }
+          : undefined,
+      },
+    },
   })
 
   const link = split(
@@ -54,7 +54,7 @@ const createApolloClient = (jwtToken: CurrentAuthContextType["jwtToken"]) => {
 
   return new ApolloClient({
     link: link,
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
   })
 }
 

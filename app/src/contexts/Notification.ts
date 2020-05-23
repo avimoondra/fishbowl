@@ -5,5 +5,5 @@ export type NotificationContextType = {
 }
 
 export const NotificationContext = createContext<NotificationContextType>({
-  send: () => {}
+  send: () => {},
 })

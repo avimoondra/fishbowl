@@ -8,7 +8,7 @@ import {
   generatePath,
   matchPath,
   useHistory,
-  useLocation
+  useLocation,
 } from "react-router-dom"
 import routes from "routes"
 
@@ -19,15 +19,15 @@ function GameLayout(props: { children: React.ReactNode; joinCode: string }) {
 
   const inSettings = matchPath(location.pathname, {
     path: routes.game.settings,
-    exact: true
+    exact: true,
   })
 
   const showFabOnThisRoute = !some(
     [routes.game.pending, routes.game.lobby, routes.game.ended],
-    route => {
+    (route) => {
       return matchPath(location.pathname, {
         path: route,
-        exact: true
+        exact: true,
       })
     }
   )
@@ -46,7 +46,7 @@ function GameLayout(props: { children: React.ReactNode; joinCode: string }) {
               } else {
                 history.push(
                   generatePath(routes.game.settings, {
-                    joinCode: props.joinCode.toLocaleUpperCase()
+                    joinCode: props.joinCode.toLocaleUpperCase(),
                   })
                 )
               }

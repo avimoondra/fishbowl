@@ -31,8 +31,8 @@ export function LetterInput(props: { value: string }) {
       updateGameSettings({
         variables: {
           id: currentGame.id,
-          input: { starting_letter: value }
-        }
+          input: { starting_letter: value },
+        },
       })
     }, DEBOUNCE_SECONDS)
   )
@@ -98,8 +98,8 @@ export function SecondsPerTurnInput(props: {
       updateGameSettings({
         variables: {
           id: currentGame.id,
-          input: { seconds_per_turn: Number(value) }
-        }
+          input: { seconds_per_turn: Number(value) },
+        },
       })
     }, DEBOUNCE_SECONDS)
   )
@@ -143,8 +143,8 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
       updateGameSettings({
         variables: {
           id: currentGame.id,
-          input: { num_entries_per_player: Number(value) }
-        }
+          input: { num_entries_per_player: Number(value) },
+        },
       })
     }, DEBOUNCE_SECONDS)
   )

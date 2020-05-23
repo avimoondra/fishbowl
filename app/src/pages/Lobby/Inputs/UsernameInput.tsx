@@ -7,13 +7,13 @@ function UsernameInput(props: { playerId: Players["id"]; username: string }) {
   const [value, setValue] = React.useState(props.username || "")
   return (
     <form
-      onSubmit={event => {
+      onSubmit={(event) => {
         event.preventDefault()
         updatePlayer({
           variables: {
             id: props.playerId,
-            input: { username: value }
-          }
+            input: { username: value },
+          },
         })
       }}
     >

@@ -14,7 +14,7 @@ import { ActiveTurnPlayState, drawableCards } from "lib/turn"
 import useInterval from "lib/useInterval"
 import { capitalize, filter, flatMap, last } from "lodash"
 import GameRoundInstructionCard, {
-  GameRound
+  GameRound,
 } from "pages/Play/GameRoundInstructionCard"
 import HostControls from "pages/Play/HostControls"
 import NoMoreRounds from "pages/Play/NoMoreRounds"
@@ -32,17 +32,17 @@ function Play() {
 
   const [
     hasDismissedInstructionCard,
-    setHasDismissedInstructionCard
+    setHasDismissedInstructionCard,
   ] = React.useState(false)
 
   const completedCardIds = flatMap(
     currentGame.turns,
-    turn => turn.completed_card_ids
+    (turn) => turn.completed_card_ids
   )
 
   const activeTurn = last(currentGame.turns)
   const activePlayer = currentGame.players.find(
-    player => player.id === activeTurn?.player_id
+    (player) => player.id === activeTurn?.player_id
   )
 
   const [activeTurnPlayState, setActiveTurnPlayState] = React.useState(
@@ -160,7 +160,7 @@ function Play() {
       <YourTurnContent
         yourTeamPlayers={filter(
           currentGame.players,
-          player => activePlayer.team === player.team
+          (player) => activePlayer.team === player.team
         )}
         cardsInBowl={drawableCards(currentGame.turns, currentGame.cards)}
         secondsLeft={secondsLeft}
@@ -214,7 +214,7 @@ function Play() {
             backgroundColor:
               TeamColor[
                 currentPlayerTeam(currentPlayer.id, currentGame.players) as Team
-              ] || grey[600]
+              ] || grey[600],
           }}
         />
       </Grid>

@@ -21,7 +21,7 @@ export const setClientUuid = (uuid: string) => {
 
 export enum PlayerRole {
   Participant = 0,
-  Host
+  Host,
 }
 
 export type CurrentPlayerContextType = CurrentPlayerQuery["players"][0] & {
@@ -32,6 +32,6 @@ export const CurrentPlayerContext = createContext<CurrentPlayerContextType>({
   id: "",
   role: PlayerRole.Participant,
   game: {
-    id: ""
-  }
+    id: "",
+  },
 })

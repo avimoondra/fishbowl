@@ -6,7 +6,7 @@ import {
   Games,
   useBecomeHostMutation,
   useJoinGameMutation,
-  useStartGameMutation
+  useStartGameMutation,
 } from "generated/graphql"
 import { useTitleStyle } from "index"
 import HostRedirect from "pages/Home/Host"
@@ -17,7 +17,7 @@ import * as React from "react"
 enum PlayerState {
   Joining = 1,
   Hosting,
-  Choosing
+  Choosing,
 }
 
 function Home() {
@@ -58,22 +58,22 @@ function Home() {
                   const { data } = await startGame({
                     context: {
                       headers: {
-                        "X-Hasura-Role": "anonymous"
-                      }
-                    }
+                        "X-Hasura-Role": "anonymous",
+                      },
+                    },
                   })
                   const gameId = data?.insert_games_one?.id
                   if (gameId) {
                     const registration = await joinGame({
                       variables: {
                         gameId: gameId,
-                        clientUuid: clientUuid()
+                        clientUuid: clientUuid(),
                       },
                       context: {
                         headers: {
-                          "X-Hasura-Role": "anonymous"
-                        }
-                      }
+                          "X-Hasura-Role": "anonymous",
+                        },
+                      },
                     })
                     if (registration.data?.joinGame) {
                       await currentAuth.setJwtToken(
@@ -82,8 +82,8 @@ function Home() {
                       await becomeHost({
                         variables: {
                           gameId: gameId,
-                          playerId: registration.data.joinGame.id
-                        }
+                          playerId: registration.data.joinGame.id,
+                        },
                       })
                       setGameId(gameId)
                     }

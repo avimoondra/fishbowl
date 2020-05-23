@@ -1,7 +1,7 @@
 import {
   AuthStorageKey,
   CurrentAuthContext,
-  CurrentAuthContextType
+  CurrentAuthContextType,
 } from "contexts/CurrentAuth"
 import * as React from "react"
 
@@ -25,7 +25,7 @@ function AuthWrapper(props: { children: React.ReactNode }) {
             localStorage.removeItem(AuthStorageKey)
           }
           setJwtToken(jwtToken)
-        }
+        },
       }}
     >
       {props.children}

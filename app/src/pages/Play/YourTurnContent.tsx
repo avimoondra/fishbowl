@@ -1,29 +1,11 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  CheckboxProps,
-  Grid,
-  Typography,
-  withStyles
-} from "@material-ui/core"
+import { Box, Button, Checkbox, CheckboxProps, Grid, Typography, withStyles } from "@material-ui/core"
 import { green, grey } from "@material-ui/core/colors"
 import BowlCard from "components/BowlCard"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
-import {
-  CurrentGameSubscription,
-  Rounds,
-  useEndCurrentTurnAndStartNextTurnMutation,
-  useStartTurnMutation
-} from "generated/graphql"
+import { CurrentGameSubscription, Rounds, useEndCurrentTurnAndStartNextTurnMutation, useStartTurnMutation } from "generated/graphql"
 import { timestamptzNow, timestamptzNowFromDate } from "lib/time"
-import {
-  ActiveTurnPlayState,
-  drawableCardsWithoutCompletedCardsInActiveTurn,
-  nextPlayerForNextTeam,
-  nextPlayerForSameTeam
-} from "lib/turn"
+import { ActiveTurnPlayState, drawableCardsWithoutCompletedCardsInActiveTurn, nextPlayerForNextTeam, nextPlayerForSameTeam } from "lib/turn"
 import { compact, filter, includes, reject, sample } from "lodash"
 import * as React from "react"
 import { isMobile } from "react-device-detect"
@@ -32,17 +14,17 @@ enum ShownCardStatus {
   Complete = "complete",
   Skipped = "skipped",
   Incomplete = "incomplete",
-  Incorrect = "incorrect"
+  Incorrect = "incorrect",
 }
 
 const GreenCheckbox = withStyles({
   root: {
     color: grey[600],
     "&$checked": {
-      color: green[600]
-    }
+      color: green[600],
+    },
   },
-  checked: {}
+  checked: {},
 })((props: CheckboxProps) => <Checkbox color="default" {...props} />)
 
 function YourTurnContent(props: {
@@ -101,7 +83,7 @@ function YourTurnContent(props: {
           new Map(
             shownCardsInActiveTurn.set(activeCard.id, {
               ...shownCard,
-              endedAt: new Date()
+              endedAt: new Date(),
             })
           )
         )
@@ -119,7 +101,7 @@ function YourTurnContent(props: {
             shownCardsInActiveTurn.set(activeCard.id, {
               ...shownCard,
               status: status,
-              endedAt: new Date()
+              endedAt: new Date(),
             })
           )
         )
@@ -168,8 +150,8 @@ function YourTurnContent(props: {
             <Grid item container>
               {reject(
                 props.yourTeamPlayers,
-                player => player.id === props.activePlayer.id
-              ).map(player => {
+                (player) => player.id === props.activePlayer.id
+              ).map((player) => {
                 return (
                   <>
                     <PlayerChip
@@ -204,7 +186,7 @@ function YourTurnContent(props: {
               missed any, just uncheck them.
             </Grid>
             <Grid item container direction="column" spacing={2}>
-              {[...shownCardsInActiveTurn.keys()].map(cardId => {
+              {[...shownCardsInActiveTurn.keys()].map((cardId) => {
                 return (
                   <Grid
                     key={cardId}
@@ -231,7 +213,7 @@ function YourTurnContent(props: {
                                     ...shownCard,
                                     status: checked
                                       ? ShownCardStatus.Complete
-                                      : ShownCardStatus.Incomplete
+                                      : ShownCardStatus.Incomplete,
                                   })
                                 )
                               )
@@ -247,7 +229,7 @@ function YourTurnContent(props: {
                     <Grid item>
                       <BowlCard>
                         {
-                          props.cardsInBowl.find(card => card.id === cardId)
+                          props.cardsInBowl.find((card) => card.id === cardId)
                             ?.word
                         }
                       </BowlCard>
@@ -309,8 +291,8 @@ function YourTurnContent(props: {
                           props.activePlayer,
                           currentGame.players
                         ).id,
-                        roundId: props.currentRoundId
-                      }
+                        roundId: props.currentRoundId,
+                      },
                     })
                     if (response.errors) {
                       setSkippingTurn(false)
@@ -334,7 +316,7 @@ function YourTurnContent(props: {
                 onClick={async () => {
                   setEndingTurn(true)
                   const shownCardIds = [...shownCardsInActiveTurn.keys()]
-                  const completedCardIds = filter(shownCardIds, cardId => {
+                  const completedCardIds = filter(shownCardIds, (cardId) => {
                     return (
                       shownCardsInActiveTurn.get(cardId)?.status ===
                       ShownCardStatus.Complete
@@ -349,7 +331,7 @@ function YourTurnContent(props: {
                     props.secondsLeft !== 0
 
                   const scorings = compact(
-                    shownCardIds.map(cardId => {
+                    shownCardIds.map((cardId) => {
                       const card = shownCardsInActiveTurn.get(cardId)
                       if (card) {
                         return {
@@ -359,7 +341,7 @@ function YourTurnContent(props: {
                             card.status === ShownCardStatus.Complete ? 1 : 0,
                           status: card.status,
                           started_at: timestamptzNowFromDate(card.startedAt),
-                          ended_at: timestamptzNowFromDate(card.endedAt)
+                          ended_at: timestamptzNowFromDate(card.endedAt),
                         }
                       } else {
                         return null
@@ -386,8 +368,8 @@ function YourTurnContent(props: {
                           ).id,
                       nextTurnSecondsPerTurnOverride: continueTurnIntoNewRound
                         ? Math.round(Number(props.secondsLeft))
-                        : null
-                    }
+                        : null,
+                    },
                   })
 
                   if (response.errors) {
@@ -414,8 +396,8 @@ function YourTurnContent(props: {
                   const response = await startTurn({
                     variables: {
                       currentTurnId: props.activeTurn.id,
-                      startedAt: timestamptzNow()
-                    }
+                      startedAt: timestamptzNow(),
+                    },
                   })
                   if (response.errors) {
                     setStartingTurn(false)
@@ -435,9 +417,14 @@ function YourTurnContent(props: {
                             {
                               status: ShownCardStatus.Incomplete,
                               startedAt: new Date(),
+<<<<<<< HEAD
                               endedAt: new Date()
                             }
                           ]
+=======
+                            },
+                          ],
+>>>>>>> Fix app prettier
                         ])
                       )
                     }

@@ -6,7 +6,7 @@ import {
   Grid,
   InputLabel,
   Select,
-  TextField
+  TextField,
 } from "@material-ui/core"
 import { green } from "@material-ui/core/colors"
 import PlayerChip from "components/PlayerChip"
@@ -26,7 +26,10 @@ function Settings() {
   >(null)
   const [copyButtonClicked, setCopyButtonClicked] = React.useState(false)
 
-  const selectedPlayer = find(players, player => player.id === selectedPlayerId)
+  const selectedPlayer = find(
+    players,
+    (player) => player.id === selectedPlayerId
+  )
   const selectedPlayerUrl =
     document.URL.replace("http://", "")
       .replace("https://", "")
@@ -68,11 +71,11 @@ function Settings() {
             }}
             inputProps={{
               name: "Player name",
-              id: "player-name-native-simple"
+              id: "player-name-native-simple",
             }}
           >
             <option aria-label="None" value="" />
-            {players.map(player => {
+            {players.map((player) => {
               return (
                 <option value={player.id || "unknown"}>
                   {player.username}
@@ -91,7 +94,7 @@ function Settings() {
                 value={selectedPlayerUrl}
                 fullWidth
                 InputProps={{
-                  readOnly: true
+                  readOnly: true,
                 }}
               />
             </Grid>

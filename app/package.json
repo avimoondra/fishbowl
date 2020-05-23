@@ -34,7 +34,8 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "gql-gen": "graphql-codegen --config codegen.js --require dotenv/config",
-    "lint": "eslint --ext ts,tsx src && tsc --noEmit && prettier --config ../.prettierrc --check \"src/{,!(generated)/**/}*.{js,ts,jsx,tsx}\""
+    "lint": "eslint --ext ts,tsx src && tsc --noEmit && yarn run prettier",
+    "prettier": "prettier --config ../.prettierrc --check \"src/{,!(generated)/**/}*.{js,ts,jsx,tsx}\""
   },
   "eslintConfig": {
     "extends": "react-app"

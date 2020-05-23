@@ -4,7 +4,7 @@ import {
   Divider,
   Grid,
   makeStyles,
-  Theme
+  Theme,
 } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { teamScore } from "lib/score"
@@ -63,8 +63,8 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       // width: "fit-content",
       border: `1px solid ${theme.palette.divider}`,
-      borderRadius: theme.shape.borderRadius
-    }
+      borderRadius: theme.shape.borderRadius,
+    },
   })
 )
 

@@ -10,7 +10,7 @@ import {
   makeStyles,
   TextField,
   Theme,
-  Typography
+  Typography,
 } from "@material-ui/core"
 import { green, grey } from "@material-ui/core/colors"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
@@ -21,7 +21,7 @@ import ControllableRoundSettings from "pages/Lobby/ControllableRoundSettings"
 import {
   LetterInput,
   SecondsPerTurnInput,
-  SubmissionsPerPlayerInput
+  SubmissionsPerPlayerInput,
 } from "pages/Lobby/Inputs"
 import AllowCardSkipsCheckbox from "pages/Lobby/Inputs/AllowCardSkipsCheckbox"
 import UsernameInput from "pages/Lobby/Inputs/UsernameInput"
@@ -33,8 +33,8 @@ import Clipboard from "react-clipboard.js"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     section: {
-      margin: theme.spacing(2)
-    }
+      margin: theme.spacing(2),
+    },
   })
 )
 
@@ -65,7 +65,7 @@ function ShareSection() {
             )}
             fullWidth
             InputProps={{
-              readOnly: true
+              readOnly: true,
             }}
           />
         </Grid>
@@ -103,7 +103,7 @@ function SettingsSection() {
     <ExpansionPanel
       style={{
         boxShadow: "none",
-        background: "none"
+        background: "none",
       }}
     >
       <ExpansionPanelSummary
