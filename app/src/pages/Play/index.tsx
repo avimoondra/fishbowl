@@ -99,7 +99,7 @@ function Play() {
     if (
       activeTurnPlayState === ActiveTurnPlayState.Playing &&
       activeTurn?.started_at &&
-      secondsLeft >= 0
+      secondsLeft >= 1
     ) {
       setSecondsLeft(
         calculateSecondsLeft(

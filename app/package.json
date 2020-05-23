@@ -27,6 +27,7 @@
     "react-share": "^4.1.0",
     "subscriptions-transport-ws": "^0.9.16",
     "typescript": "~3.7.2",
+    "use-sound": "^1.0.2",
     "uuid": "^7.0.2"
   },
   "scripts": {
