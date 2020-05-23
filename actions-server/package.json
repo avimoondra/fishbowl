@@ -4,9 +4,11 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "build": "prettier --config ../.prettierrc --check \"src/**/*.{js,ts}\" && yarn run tsc",
-    "start": "yarn run node build/actions-server/src/server.js",
-    "start-debug": "yarn run nodemon --inspect"
+    "build": "tsc",
+    "start": "node build/actions-server/src/server.js",
+    "start-debug": "nodemon --inspect",
+    "lint": "tsc --noEmit && yarn run prettier",
+    "prettier": "prettier --config ../.prettierrc --check \"src/**/*.{js,ts}\""
   },
   "dependencies": {
     "@sentry/node": "5.15.5",

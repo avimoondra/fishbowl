@@ -10,7 +10,7 @@ import {
 } from "../../../app/src/generated/graphql"
 
 // execute the parent operation in Hasura
-const execute = async (query: DocumentNode, variables: object) => {
+const execute = async <T>(query: DocumentNode, variables: T) => {
   const fetchResponse = await fetch(process.env.HASURA_ENDPOINT, {
     method: "POST",
     body: JSON.stringify({
@@ -30,13 +30,12 @@ const handler = async (req: Request, res: Response) => {
 
   // execute the Hasura operation(s)
   let playerId
-  const { data: lookupData, errors } = await execute(
-    LookupPlayerForGameDocument,
-    {
-      gameId,
-      clientUuid,
-    } as LookupPlayerForGameQueryVariables
-  )
+  const { data: lookupData, errors } = await execute<
+    LookupPlayerForGameQueryVariables
+  >(LookupPlayerForGameDocument, {
+    gameId,
+    clientUuid,
+  })
   if (errors) {
     return res.status(400).json(errors[0])
   }
@@ -45,13 +44,12 @@ const handler = async (req: Request, res: Response) => {
     playerId = lookupData.players[0].id
   } else {
     // new player for game
-    const { data: insertData, errors } = await execute(
-      InsertPlayerForGameDocument,
-      {
-        gameId,
-        clientUuid,
-      } as InsertPlayerForGameMutationVariables
-    )
+    const { data: insertData, errors } = await execute<
+      InsertPlayerForGameMutationVariables
+    >(InsertPlayerForGameDocument, {
+      gameId,
+      clientUuid,
+    })
     if (errors) {
       return res.status(400).json(errors[0])
     }
