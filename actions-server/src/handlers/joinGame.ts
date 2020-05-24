@@ -7,7 +7,7 @@ import {
   InsertPlayerForGameMutationVariables,
   LookupPlayerForGameDocument,
   LookupPlayerForGameQueryVariables,
-} from "../../../app/src/generated/graphql"
+} from "src/generated/graphql"
 
 // execute the parent operation in Hasura
 const execute = async <T>(query: DocumentNode, variables: T) => {

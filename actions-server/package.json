@@ -8,7 +8,8 @@
     "start": "node build/actions-server/src/server.js",
     "start-debug": "nodemon --inspect",
     "lint": "tsc --noEmit && yarn run prettier",
-    "prettier": "prettier --config ../.prettierrc --check \"src/**/*.{js,ts}\""
+    "prettier": "prettier --config ../.prettierrc --check \"src/**/*.{js,ts}\"",
+    "gql-gen": "graphql-codegen --config codegen.js --require dotenv/config"
   },
   "dependencies": {
     "@sentry/node": "5.15.5",
@@ -19,10 +20,17 @@
     "node-fetch": "2.6.0"
   },
   "devDependencies": {
+    "@apollo/react-hooks": "^3.1.5",
+    "@graphql-codegen/cli": "^1.14.0",
+    "@graphql-codegen/typescript": "^1.14.0",
+    "@graphql-codegen/typescript-operations": "^1.14.0",
+    "@graphql-codegen/typescript-react-apollo": "^1.14.0",
     "@types/express": "^4.17.6",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.0.1",
     "@types/node-fetch": "^2.5.7",
+    "@types/react": "^16.9.35",
+    "apollo-client": "^2.6.10",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "graphql": "^15.0.0",
