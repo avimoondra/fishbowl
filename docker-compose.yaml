@@ -10,6 +10,18 @@ services:
       - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgrespassword
+  actions-server:
+    build: ./actions-server
+    image: fishbowl/actions-server:latest
+    container_name: actions-server
+    ports:
+      - 3001:3001
+    restart: always
+    entrypoint: npx nodemon
+    command: -r esm src/server.js
+    volumes:
+      - ./actions-server:/usr/app
+      - /usr/app/node_modules
   graphql-engine:
     image: hasura/graphql-engine:v1.2.1.cli-migrations-v2
     container_name: graphql-engine
@@ -17,6 +29,7 @@ services:
       - 8080:8080
     depends_on:
       - postgres
+      - actions-server
     restart: always
     volumes:
       - ./graphql-server/migrations:/hasura-migrations
@@ -29,20 +42,6 @@ services:
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
       ACTION_BASE_ENDPOINT: http://actions-server:3001
       HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256", "key": "FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE"}'
-  actions-server:
-    build: ./actions-server
-    image: fishbowl/actions-server:latest
-    container_name: actions-server
-    ports:
-      - 3001:3000
-    depends_on:
-      - graphql-engine
-    restart: always
-    entrypoint: npx nodemon
-    command: -r esm src/server.js
-    volumes:
-      - ./actions-server:/usr/app
-      - /usr/app/node_modules
   app:
     build: ./app
     image: fishbowl/app:latest
@@ -52,7 +51,6 @@ services:
       - 3000:3000
     depends_on:
       - graphql-engine
-      - actions-server
     restart: always
     volumes:
       - ./app:/usr/app

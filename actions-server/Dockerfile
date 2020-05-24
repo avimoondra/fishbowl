@@ -1,5 +1,5 @@
 FROM node:12.16.3-alpine
-EXPOSE 3000
+EXPOSE 3001
 WORKDIR /usr/app
 COPY package.json .
 COPY yarn.lock .
