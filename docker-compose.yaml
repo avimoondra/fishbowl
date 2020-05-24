@@ -10,6 +10,11 @@ services:
       - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgrespassword
+    healthcheck:
+      test: "pg_isready -U postgres"
+      interval: 10s
+      timeout: 5s
+      retries: 5
   actions-server:
     build: ./actions-server
     image: fishbowl/actions-server:latest
@@ -42,6 +47,10 @@ services:
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
       ACTION_BASE_ENDPOINT: http://actions-server:3001
       HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256", "key": "FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE"}'
+    healthcheck:
+      test: "wget --quiet --spider http://localhost:8080/healthz || exit 1"
+      interval: 30s
+      timeout: 3s
   app:
     build: ./app
     image: fishbowl/app:latest
