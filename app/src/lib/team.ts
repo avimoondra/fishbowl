@@ -3,12 +3,12 @@ import { cloneDeep, filter, find, remove, shuffle } from "lodash"
 
 export enum Team {
   Red = "red",
-  Blue = "blue"
+  Blue = "blue",
 }
 
 export const TeamColor = {
   [Team.Red]: "#f50057",
-  [Team.Blue]: "#3f51b5"
+  [Team.Blue]: "#3f51b5",
 }
 
 function addTeamAndSequence(players: Players, team: Team) {
@@ -45,14 +45,14 @@ export function teamsWithSequenceWithUpdate(
   players: Players,
   updatedPlayer: Player
 ) {
-  remove(players, player => player.id === updatedPlayer.id)
+  remove(players, (player) => player.id === updatedPlayer.id)
   players.push(updatedPlayer)
   const redTeam = addTeamAndSequence(
-    filter(players, player => player.team === Team.Red),
+    filter(players, (player) => player.team === Team.Red),
     Team.Red
   )
   const blueTeam = addTeamAndSequence(
-    filter(players, player => player.team === Team.Blue),
+    filter(players, (player) => player.team === Team.Blue),
     Team.Blue
   )
   return redTeam.concat(blueTeam)
@@ -62,5 +62,5 @@ export function currentPlayerTeam(
   currentPlayerId: Player["id"],
   players: Players
 ): Team {
-  return find(players, player => player.id === currentPlayerId)?.team as Team
+  return find(players, (player) => player.id === currentPlayerId)?.team as Team
 }

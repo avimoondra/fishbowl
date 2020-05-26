@@ -10,13 +10,13 @@ import {
   max,
   reject,
   sortBy,
-  values
+  values,
 } from "lodash"
 
 export enum ActiveTurnPlayState {
   Waiting = 1,
   Playing,
-  Reviewing
+  Reviewing,
 }
 
 export function nextPlayerForSameTeam(
@@ -25,10 +25,10 @@ export function nextPlayerForSameTeam(
 ) {
   const sameTeamPlayers = filter(
     players,
-    player => activePlayer.team === player.team
+    (player) => activePlayer.team === player.team
   )
   const sameTeamPlayersSortedBySequence = sortBy(sameTeamPlayers, [
-    "team_sequence"
+    "team_sequence",
   ])
   const nextPositionInSequence =
     ((activePlayer.team_sequence || 0) + 1) %
@@ -48,17 +48,19 @@ export function nextPlayerForNextTeam(
   const nextTeamToPlay = lastTeamToPlay === Team.Blue ? Team.Red : Team.Blue
   const nextTeamToPlayPlayers = filter(
     players,
-    player => player.team === nextTeamToPlay
+    (player) => player.team === nextTeamToPlay
   )
-  const lastTurnFromNextTeamToPlay = findLast(turns, turn =>
-    nextTeamToPlayPlayers.map(player => player.id).includes(turn.player_id)
+  const lastTurnFromNextTeamToPlay = findLast(turns, (turn) =>
+    nextTeamToPlayPlayers.map((player) => player.id).includes(turn.player_id)
   )
   const lastPlayerFromNextTeamToPlay = lastTurnFromNextTeamToPlay
-    ? players.find(player => player.id === lastTurnFromNextTeamToPlay.player_id)
+    ? players.find(
+        (player) => player.id === lastTurnFromNextTeamToPlay.player_id
+      )
     : null
 
   const nextTeamPlayersSortedBySequence = sortBy(nextTeamToPlayPlayers, [
-    "team_sequence"
+    "team_sequence",
   ])
   const nextPlayerFromNextTeamToPlay = lastPlayerFromNextTeamToPlay
     ? nextTeamPlayersSortedBySequence[
@@ -73,31 +75,31 @@ export function nextPlayerForNextTeam(
 export function completedCardIds(
   turns: CurrentGameSubscription["games"][0]["turns"]
 ) {
-  return flatMap(turns, turn => turn.completed_card_ids)
+  return flatMap(turns, (turn) => turn.completed_card_ids)
 }
 
 export function drawableCards(
   turns: CurrentGameSubscription["games"][0]["turns"],
   cards: CurrentGameSubscription["games"][0]["cards"]
 ) {
-  const allCompletedCardIds = flatMap(turns, turn => turn.completed_card_ids)
+  const allCompletedCardIds = flatMap(turns, (turn) => turn.completed_card_ids)
 
   const maxCount = max(values(countBy(allCompletedCardIds)))
 
   let completedCardIdsForRound = filter(
     groupBy(allCompletedCardIds),
-    arr => arr.length === maxCount
-  ).map(arr => arr[0])
+    (arr) => arr.length === maxCount
+  ).map((arr) => arr[0])
 
   const remainingIdsForRound = difference(
-    cards.map(card => card.id),
+    cards.map((card) => card.id),
     completedCardIdsForRound
   )
 
   if (remainingIdsForRound.length === 0) {
     return cards
   } else {
-    return filter(cards, card => remainingIdsForRound.includes(card.id))
+    return filter(cards, (card) => remainingIdsForRound.includes(card.id))
   }
 }
 
@@ -105,5 +107,5 @@ export function drawableCardsWithoutCompletedCardsInActiveTurn(
   cards: CurrentGameSubscription["games"][0]["cards"],
   completedCardIdsInActiveTurn: Array<number>
 ) {
-  return reject(cards, card => completedCardIdsInActiveTurn.includes(card.id))
+  return reject(cards, (card) => completedCardIdsInActiveTurn.includes(card.id))
 }

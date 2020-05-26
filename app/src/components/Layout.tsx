@@ -39,7 +39,7 @@ function Layout(props: { children: React.ReactNode }) {
           send: (message: string) => {
             setMessage(message)
             setOpen(true)
-          }
+          },
         }}
       >
         {props.children}

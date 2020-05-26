@@ -5,7 +5,7 @@ import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import {
   Players,
   useRemovePlayerMutation,
-  useUpdateAllPlayersMutation
+  useUpdateAllPlayersMutation,
 } from "generated/graphql"
 import { Team, teamsWithSequenceWithUpdate } from "lib/team"
 import * as React from "react"
@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "10px",
       overflow: "auto",
       "& > *": {
-        margin: theme.spacing(0.5)
-      }
-    }
+        margin: theme.spacing(0.5),
+      },
+    },
   })
 )
 
@@ -41,7 +41,7 @@ function PlayerArena(props: {
 
   return (
     <Paper elevation={2} className={classes.playerList}>
-      {props.players.map(player => {
+      {props.players.map((player) => {
         return (
           player.username && (
             <PlayerChip
@@ -49,7 +49,7 @@ function PlayerArena(props: {
                 props.hostCanSwitchTeams
                   ? () => {
                       const updatedPlayer = currentGame.players.find(
-                        p => p.id === player.id
+                        (p) => p.id === player.id
                       )
                       if (updatedPlayer) {
                         updatedPlayer.team =
@@ -68,10 +68,10 @@ function PlayerArena(props: {
                               ({ id, team, team_sequence }) => ({
                                 id,
                                 team,
-                                team_sequence
+                                team_sequence,
                               })
-                            )
-                          }
+                            ),
+                          },
                         })
                       }
                     }
@@ -90,8 +90,8 @@ function PlayerArena(props: {
                       ) {
                         removePlayer({
                           variables: {
-                            id: player.id
-                          }
+                            id: player.id,
+                          },
                         })
                       }
                     }

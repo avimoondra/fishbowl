@@ -7,7 +7,7 @@ import {
   clientUuid,
   CurrentPlayerContext,
   PlayerRole,
-  setClientUuid
+  setClientUuid,
 } from "contexts/CurrentPlayer"
 import { NotificationContext } from "contexts/Notification"
 import {
@@ -15,7 +15,7 @@ import {
   CurrentPlayerQuery,
   GameByJoinCodeDocument,
   useCurrentGameSubscription,
-  useJoinGameMutation
+  useJoinGameMutation,
 } from "generated/graphql"
 import CardSubmission from "pages/CardSubmission"
 import EndGame from "pages/EndGame"
@@ -30,7 +30,7 @@ import {
   Redirect,
   Route,
   Switch,
-  useLocation
+  useLocation,
 } from "react-router-dom"
 import routes from "routes"
 
@@ -52,7 +52,7 @@ function CurrentPlayerProvider(props: {
   const [joinGame] = useJoinGameMutation()
   const [signUp] = useLazyQuery(GameByJoinCodeDocument, {
     variables: { joinCode: props.joinCode.toLocaleUpperCase() },
-    onCompleted: async data => {
+    onCompleted: async (data) => {
       if (skipCallback) {
         return
       }
@@ -62,13 +62,13 @@ function CurrentPlayerProvider(props: {
           const registration = await joinGame({
             variables: {
               gameId: data.games[0].id,
-              clientUuid: clientUuid()
+              clientUuid: clientUuid(),
             },
             context: {
               headers: {
-                "X-Hasura-Role": "anonymous"
-              }
-            }
+                "X-Hasura-Role": "anonymous",
+              },
+            },
           })
           if (registration.data?.joinGame) {
             await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
@@ -78,7 +78,7 @@ function CurrentPlayerProvider(props: {
           // cannot join game
           setRedirectRoute(
             generatePath(routes.game.pending, {
-              joinCode: props.joinCode.toLocaleUpperCase()
+              joinCode: props.joinCode.toLocaleUpperCase(),
             })
           )
         }
@@ -90,9 +90,9 @@ function CurrentPlayerProvider(props: {
         setRedirectRoute(routes.root)
       }
     },
-    onError: _ => {
+    onError: (_) => {
       setRedirectRoute(routes.root)
-    }
+    },
   })
 
   const [signIn, { loading: loadingSignIn }] = useLazyQuery(
@@ -100,18 +100,18 @@ function CurrentPlayerProvider(props: {
     {
       variables: {
         joinCode: props.joinCode.toLocaleUpperCase(),
-        clientUuid: clientUuid()
+        clientUuid: clientUuid(),
       },
-      onCompleted: async data => {
+      onCompleted: async (data) => {
         if (data?.players[0]) {
           setCurrentPlayer(data?.players[0])
         } else {
           await currentAuth.setJwtToken(null)
         }
       },
-      onError: _ => {
+      onError: (_) => {
         currentAuth.setJwtToken(null)
-      }
+      },
     }
   )
 
@@ -128,9 +128,9 @@ function CurrentPlayerProvider(props: {
       signUp({
         context: {
           headers: {
-            "X-Hasura-Role": "anonymous"
-          }
-        }
+            "X-Hasura-Role": "anonymous",
+          },
+        },
       })
     }
   }, [loadingSignIn, currentPlayer])
@@ -146,7 +146,7 @@ function CurrentPlayerProvider(props: {
         role:
           currentPlayer.id === currentPlayer.game.host.id
             ? PlayerRole.Host
-            : PlayerRole.Participant
+            : PlayerRole.Participant,
       }}
     >
       {props.children}
@@ -160,8 +160,8 @@ function CurrentGameProvider(props: {
 }) {
   const { data, loading } = useCurrentGameSubscription({
     variables: {
-      joinCode: props.joinCode
-    }
+      joinCode: props.joinCode,
+    },
   })
 
   if (!loading && !data?.games[0]) {

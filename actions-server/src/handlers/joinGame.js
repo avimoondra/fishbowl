@@ -1,5 +1,5 @@
-const fetch = require("node-fetch");
-const jwt = require("jsonwebtoken");
+const fetch = require("node-fetch")
+const jwt = require("jsonwebtoken")
 
 const INSERT_OPERATION = `
 mutation InsertPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
@@ -9,7 +9,7 @@ mutation InsertPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
     id
   }
 }
-`;
+`
 
 const LOOKUP_OPERATION = `
 query LookupPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
@@ -17,7 +17,7 @@ query LookupPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
     id
   }
 }
-`;
+`
 
 // execute the parent operation in Hasura
 const execute = async (query, variables) => {
@@ -27,43 +27,43 @@ const execute = async (query, variables) => {
       query,
       variables,
     }),
-  });
-  const data = await fetchResponse.json();
-  console.log("DEBUG: ", data);
-  return data;
-};
+  })
+  const data = await fetchResponse.json()
+  console.log("DEBUG: ", data)
+  return data
+}
 
 // Request Handler
 const handler = async (req, res) => {
   // get request input
-  const { gameId, clientUuid } = req.body.input;
+  const { gameId, clientUuid } = req.body.input
 
   // execute the Hasura operation(s)
-  let playerId;
+  let playerId
   const { data: lookupData, errors } = await execute(LOOKUP_OPERATION, {
     gameId,
     clientUuid,
-  });
+  })
   if (errors) {
-    return res.status(400).json(errors[0]);
+    return res.status(400).json(errors[0])
   }
   if (lookupData.players[0]) {
     // already joined game
-    playerId = lookupData.players[0].id;
+    playerId = lookupData.players[0].id
   } else {
     // new player for game
     const { data: insertData, errors } = await execute(INSERT_OPERATION, {
       gameId,
       clientUuid,
-    });
+    })
     if (errors) {
-      return res.status(400).json(errors[0]);
+      return res.status(400).json(errors[0])
     }
-    playerId = insertData.insert_players_one.id;
+    playerId = insertData.insert_players_one.id
   }
 
   if (!playerId) {
-    return res.status(500);
+    return res.status(500)
   }
 
   // if Hasura operation errors, then throw error
@@ -79,15 +79,15 @@ const handler = async (req, res) => {
       "x-hasura-role": "player",
     },
     exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
-  };
+  }
 
-  const token = jwt.sign(tokenContents, process.env.HASURA_GRAPHQL_JWT_SECRET);
+  const token = jwt.sign(tokenContents, process.env.HASURA_GRAPHQL_JWT_SECRET)
 
   // success
   return res.json({
     id: playerId.toString(),
     jwt_token: token,
-  });
-};
+  })
+}
 
-module.exports = handler;
+module.exports = handler

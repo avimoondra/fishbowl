@@ -1,5 +1,0 @@
-{
-  "dependencies": {
-    "@sentry/browser": "^5.15.5"
-  }
-}

@@ -19,19 +19,19 @@ function Join(props: { onBack: () => void }) {
   const [joinGame] = useJoinGameMutation()
   const [loadGame] = useLazyQuery(GameByJoinCodeDocument, {
     variables: { joinCode: joinCode?.toLocaleUpperCase() },
-    onCompleted: async data => {
+    onCompleted: async (data) => {
       if (data && data.games[0]) {
         try {
           const registration = await joinGame({
             variables: {
               gameId: data.games[0].id,
-              clientUuid: clientUuid()
+              clientUuid: clientUuid(),
             },
             context: {
               headers: {
-                "X-Hasura-Role": "anonymous"
-              }
-            }
+                "X-Hasura-Role": "anonymous",
+              },
+            },
           })
           if (registration.data?.joinGame) {
             await currentAuth.setJwtToken(registration.data.joinGame.jwt_token)
@@ -39,14 +39,14 @@ function Join(props: { onBack: () => void }) {
           setJoining(false)
           setRedirectRoute(
             generatePath(routes.game.lobby, {
-              joinCode: joinCode?.toLocaleUpperCase()
+              joinCode: joinCode?.toLocaleUpperCase(),
             })
           )
         } catch {
           // cannot join game
           setRedirectRoute(
             generatePath(routes.game.pending, {
-              joinCode: joinCode?.toLocaleUpperCase()
+              joinCode: joinCode?.toLocaleUpperCase(),
             })
           )
         }
@@ -58,9 +58,9 @@ function Join(props: { onBack: () => void }) {
         props.onBack()
       }
     },
-    onError: _ => {
+    onError: (_) => {
       props.onBack()
-    }
+    },
   })
 
   return (
@@ -91,9 +91,9 @@ function Join(props: { onBack: () => void }) {
               loadGame({
                 context: {
                   headers: {
-                    "X-Hasura-Role": "anonymous"
-                  }
-                }
+                    "X-Hasura-Role": "anonymous",
+                  },
+                },
               })
             }}
             disabled={!joinCode || joinCode.length < 4 || joining}

@@ -2,7 +2,7 @@ import { createContext } from "react"
 
 export enum AuthRole {
   Anonymous = "anonymous",
-  Player = "player"
+  Player = "player",
 }
 
 export const AuthStorageKey = "player.jwtToken"
@@ -14,5 +14,5 @@ export type CurrentAuthContextType = {
 
 export const CurrentAuthContext = createContext<CurrentAuthContextType>({
   jwtToken: null,
-  setJwtToken: () => {}
+  setJwtToken: () => {},
 })

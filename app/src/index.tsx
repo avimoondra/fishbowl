@@ -3,7 +3,7 @@ import {
   createMuiTheme,
   CssBaseline,
   makeStyles,
-  ThemeProvider
+  ThemeProvider,
 } from "@material-ui/core"
 import * as Sentry from "@sentry/browser"
 import ApolloWrapper from "ApolloWrapper"
@@ -18,14 +18,14 @@ if (process.env.NODE_ENV !== "development") {
   Sentry.init({
     dsn:
       "https://d142f9cb081e4dbe9f14316996496044@o392843.ingest.sentry.io/5241100",
-    environment: process.env.NODE_ENV
+    environment: process.env.NODE_ENV,
   })
 }
 
 export const useTitleStyle = makeStyles({
   title: {
-    fontFamily: "Playfair Display; serif"
-  }
+    fontFamily: "Playfair Display; serif",
+  },
 })
 
 const theme = createMuiTheme({})
