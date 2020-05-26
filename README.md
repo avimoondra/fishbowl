@@ -48,45 +48,41 @@ Fishbowl is built with [Material UI](https://material-ui.com/), [Typescript](htt
 
 ## Running
 
-1. Run actions node express server on `localhost:3001`
+The local environment is configured with [Docker Compose](https://docs.docker.com/compose/).
 
-    ```bash
-    cd actions-server
-    npm install
-    PORT=3001 npm start
-    ```
+Running the application with:
 
-2. Run front end on `localhost:3000`
+```bash
+docker-compose up
+```
 
-    ```bash
-    cd app
-    yarn install --frozen-lockfile
-    yarn run start
-    ```
+will build and start these services which are all accessible on the host:
 
-3. Run Hasura on `localhost:8080`
+| service | description | host connection |
+| --- | --- | --- |
+| `app` | React front-end | [`localhost:3000`](http://localhost:3000/) |
+| `graphql-engine` | Hasura GraphQL Engine | [`localhost:8080`](http://localhost:8080/) |
+| `actions-server` | Hasura actions server | [`localhost:3001`](http://localhost:3001/) |
+| `postgres` | Postgres database | [`localhost:5432`](http://localhost:5432/) |
 
-    ```
-    cd graphql-server
-    docker-compose up
-    # for new databases...
-    hasura migrate apply --admin-secret=myadminsecretkey
-    hasura metadata apply --admin-secret=myadminsecretkey
-    ```
+### Migrations
 
-4. Open Hasura console on `localhost:9695` (to track migrations)
+Open Hasura console on [`localhost:9695`](http://localhost:9695/) to track migrations:
 
-    ```bash
-    cd graphql-server
-    hasura console --admin-secret=myadminsecretkey
-    ```
+```bash
+cd graphql-server
+hasura console --admin-secret=myadminsecretkey
+```
 
-5. Generate gql apollo hooks and types (repeatedly)
+### GraphQL Code Generation
 
-    ```bash
-    cd app
-    yarn gql-gen --watch
-    ```
+Repeatedly generate GraphQL Apollo hooks and TypeScript operations:
+
+```bash
+cd app
+yarn gql-gen --watch
+```
+
 ## FAQ
 
 ### Update allowed queries/mutations on prod?
@@ -99,17 +95,10 @@ There's a [gql operations white list](https://fishbowl-graphql.onrender.com/cons
 
 ### Reset my local DB?
 
-stop your docker containers
 ```bash
-docker rm $(docker ps -a -q)
+docker rm postgres
 docker volume prune
 docker-compose up
-```
-
-followed by
-```bash
-hasura migrate apply --admin-secret=myadminsecretkey
-hasura metadata apply --admin-secret=myadminsecretkey
 ```
 
 ### Connect to my local DB w/psql?
