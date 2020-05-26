@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "prettier": "prettier --config ../.prettierrc --check \"src/**/*.{js,ts}\"",
-    "lint": "yarn run prettier",
+    "lint": "yarn run tsc && yarn run prettier",
     "start": "yarn run node build/actions-server/src/server.js",
     "start-debug": "yarn run nodemon --inspect"
   },
