@@ -13,7 +13,7 @@ import {
   FacebookIcon,
   FacebookShareButton,
   TwitterIcon,
-  TwitterShareButton
+  TwitterShareButton,
 } from "react-share"
 import routes from "routes"
 
@@ -24,14 +24,14 @@ function EndGame() {
   const [redirectHome, setRedirectHome] = React.useState(false)
 
   const turnsByPlayer = new Map()
-  currentGame.turns.forEach(turn => {
+  currentGame.turns.forEach((turn) => {
     turnsByPlayer.set(
       turn.player_id,
       reject(
         (turnsByPlayer.get(turn.player_id) || []).concat([
-          turn.completed_card_ids
+          turn.completed_card_ids,
         ]),
-        arr => isEmpty(arr)
+        (arr) => isEmpty(arr)
       )
     )
   })
@@ -50,7 +50,7 @@ function EndGame() {
 
   const highScorePlayers = filter(
     currentGame.players,
-    player => scoresByPlayer.get(player.id) === highScore
+    (player) => scoresByPlayer.get(player.id) === highScore
   )
 
   const redScore = teamScore(Team.Red, currentGame.turns, currentGame.players)
@@ -88,7 +88,7 @@ function EndGame() {
         </Grid>
         {!isEmpty(highScorePlayers) && (
           <Grid item>
-            {highScorePlayers.map(player => (
+            {highScorePlayers.map((player) => (
               <PlayerChip
                 key={player.id}
                 username={player?.username || ""}
@@ -98,8 +98,9 @@ function EndGame() {
             {` put the team on their back. They got their team to guess the most number of cards (${highScore}!), across all rounds.`}
           </Grid>
         )}
-        <Grid item>{`You scored ${scoresByPlayer.get(currentPlayer.id) ||
-          0} across all rounds.`}</Grid>
+        <Grid item>{`You scored ${
+          scoresByPlayer.get(currentPlayer.id) || 0
+        } across all rounds.`}</Grid>
         <Grid item>
           <Divider variant="fullWidth"></Divider>
         </Grid>

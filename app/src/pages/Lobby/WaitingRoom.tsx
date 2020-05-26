@@ -6,7 +6,7 @@ import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
   GameStateEnum,
   useRemovePlayerMutation,
-  useUpdateGameStateMutation
+  useUpdateGameStateMutation,
 } from "generated/graphql"
 import { filter, find, isEmpty, reject } from "lodash"
 import * as React from "react"
@@ -19,16 +19,16 @@ function WaitingRoom() {
   const [removePlayer] = useRemovePlayerMutation()
 
   const playersWithUsernames =
-    reject(currentGame.players, player => isEmpty(player.username)) || []
+    reject(currentGame.players, (player) => isEmpty(player.username)) || []
   const playersWithoutUsernames =
-    filter(currentGame.players, player => isEmpty(player.username)) || []
+    filter(currentGame.players, (player) => isEmpty(player.username)) || []
   const canSeeStartGameButton = currentPlayer.role === PlayerRole.Host
   const canStartGame =
     canSeeStartGameButton &&
     currentGame.seconds_per_turn &&
     currentGame.num_entries_per_player &&
     playersWithUsernames.length >= MIN_NUMBER_OF_PLAYERS &&
-    find(playersWithUsernames, player => player.id === currentPlayer.id)
+    find(playersWithUsernames, (player) => player.id === currentPlayer.id)
 
   return (
     <>
@@ -55,19 +55,19 @@ function WaitingRoom() {
           <Button
             onClick={async () => {
               await Promise.all(
-                playersWithoutUsernames.map(player => {
+                playersWithoutUsernames.map((player) => {
                   return removePlayer({
                     variables: {
-                      id: player.id
-                    }
+                      id: player.id,
+                    },
                   })
                 })
               )
               await updateGameState({
                 variables: {
                   id: currentGame.id,
-                  state: GameStateEnum.CardSubmission
-                }
+                  state: GameStateEnum.CardSubmission,
+                },
               })
             }}
             disabled={!canStartGame}

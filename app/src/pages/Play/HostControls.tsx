@@ -4,7 +4,7 @@ import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import {
   CurrentGameSubscription,
-  useEndCurrentTurnAndStartNextTurnMutation
+  useEndCurrentTurnAndStartNextTurnMutation,
 } from "generated/graphql"
 import { useTitleStyle } from "index"
 import { timestamptzNow } from "lib/time"
@@ -44,7 +44,7 @@ function HostControls(props: {
           style={{
             width: 150,
             height: 1,
-            backgroundColor: grey[600]
+            backgroundColor: grey[600],
           }}
         ></Divider>
       </Grid>
@@ -68,8 +68,8 @@ function HostControls(props: {
                       gameId: currentGame.id,
                       currentTurnScorings: [],
                       nextTurnplayerId: nextPlayerActiveTeam.id,
-                      roundId: props.currentRoundId
-                    }
+                      roundId: props.currentRoundId,
+                    },
                   })
                 }
               }}
@@ -106,8 +106,8 @@ function HostControls(props: {
                       gameId: currentGame.id,
                       currentTurnScorings: [],
                       nextTurnplayerId: nextPlayerNextTeam.id,
-                      roundId: props.currentRoundId
-                    }
+                      roundId: props.currentRoundId,
+                    },
                   })
                 }
               }}

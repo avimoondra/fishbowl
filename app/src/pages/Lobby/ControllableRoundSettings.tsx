@@ -6,7 +6,7 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
-  TextField
+  TextField,
 } from "@material-ui/core"
 import AddCircleIcon from "@material-ui/icons/AddCircle"
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
@@ -18,7 +18,7 @@ import { CurrentGameContext } from "contexts/CurrentGame"
 import {
   useAddRoundMutation,
   useDeleteRoundMutation,
-  useUpdateAllRoundsMutation
+  useUpdateAllRoundsMutation,
 } from "generated/graphql"
 import { capitalize, lowerFirst, reject } from "lodash"
 import * as React from "react"
@@ -67,11 +67,11 @@ function ControllableRoundSettings() {
                                 return {
                                   id: updatedRound.id,
                                   value: updatedRound.value,
-                                  order_sequence: updatedIndex
+                                  order_sequence: updatedIndex,
                                 }
                               }
-                            )
-                          }
+                            ),
+                          },
                         })
                       }}
                     >
@@ -95,11 +95,11 @@ function ControllableRoundSettings() {
                                 return {
                                   id: updatedRound.id,
                                   value: updatedRound.value,
-                                  order_sequence: updatedIndex
+                                  order_sequence: updatedIndex,
                                 }
                               }
-                            )
-                          }
+                            ),
+                          },
                         })
                       }}
                     >
@@ -118,7 +118,7 @@ function ControllableRoundSettings() {
                     onClick={async () => {
                       const updatedRounds = reject(
                         currentGame.rounds,
-                        _r => _r.id === round.id
+                        (_r) => _r.id === round.id
                       )
                       await deleteRound({
                         variables: {
@@ -129,11 +129,11 @@ function ControllableRoundSettings() {
                               return {
                                 id: updatedRound.id,
                                 value: updatedRound.value,
-                                order_sequence: updatedIndex
+                                order_sequence: updatedIndex,
                               }
                             }
-                          )
-                        }
+                          ),
+                        },
                       })
                     }}
                   >
@@ -156,7 +156,7 @@ function ControllableRoundSettings() {
                       <InputAdornment position="start">
                         {currentGame.rounds.length + 1}.
                       </InputAdornment>
-                    )
+                    ),
                   }}
                 ></TextField>
               ) : (
@@ -175,9 +175,9 @@ function ControllableRoundSettings() {
                         object: {
                           game_id: currentGame.id,
                           value: lowerFirst(addRoundValue),
-                          order_sequence: currentGame.rounds.length
-                        }
-                      }
+                          order_sequence: currentGame.rounds.length,
+                        },
+                      },
                     })
                     setShowAddRoundForm(false)
                     setAddRoundValue("")

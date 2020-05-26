@@ -32,8 +32,8 @@ export default function AllowCardSkipsCheckbox(props: {
             updateGameSettings({
               variables: {
                 id: currentGame.id,
-                input: { allow_card_skips: checked }
-              }
+                input: { allow_card_skips: checked },
+              },
             })
           }}
         />

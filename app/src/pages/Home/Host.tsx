@@ -6,8 +6,8 @@ import routes from "routes"
 function HostRedirect(props: { gameId: Games["id"] }) {
   const { data } = useGameByIdSubscription({
     variables: {
-      id: props.gameId
-    }
+      id: props.gameId,
+    },
   })
   const joinCode = data?.games_by_pk?.join_code
   if (joinCode) {
@@ -15,7 +15,7 @@ function HostRedirect(props: { gameId: Games["id"] }) {
       <Redirect
         push
         to={generatePath(routes.game.lobby, {
-          joinCode: joinCode
+          joinCode: joinCode,
         })}
       />
     )

@@ -18,7 +18,7 @@ function SubmissionCard(props: { onChange: (value: string) => void }) {
   }
 
   const hasSimilarSubmissionError = (word: string) => {
-    const submittedWords = currentGame.cards.map(card => lowerCase(card.word))
+    const submittedWords = currentGame.cards.map((card) => lowerCase(card.word))
     return submittedWords.includes(lowerCase(word))
   }
 

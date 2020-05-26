@@ -19,14 +19,15 @@ function SubmissionForm(props: { onSubmit: () => void }) {
     )
   )
 
-  const emptyWords = words.some(word => word.length < 1)
+  const emptyWords = words.some((word) => word.length < 1)
 
   return (
     <>
       <Grid item>
         <Title
-          text={`Submit ${currentGame.num_entries_per_player ||
-            DEFAULT_NUM_ENTRIES}
+          text={`Submit ${
+            currentGame.num_entries_per_player || DEFAULT_NUM_ENTRIES
+          }
           cards`}
         ></Title>
       </Grid>
@@ -71,14 +72,14 @@ function SubmissionForm(props: { onSubmit: () => void }) {
           onClick={async () => {
             await submitCards({
               variables: {
-                cards: words.map(word => {
+                cards: words.map((word) => {
                   return {
                     player_id: currentPlayer.id,
                     game_id: currentGame.id,
-                    word: word
+                    word: word,
                   }
-                })
-              }
+                }),
+              },
             })
             props.onSubmit()
           }}

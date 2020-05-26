@@ -5,13 +5,13 @@ import * as React from "react"
 export enum GameRound {
   Taboo = "Taboo",
   Charades = "Charades",
-  Password = "Password"
+  Password = "Password",
 }
 
 export const GameRounds = [
   GameRound.Taboo,
   GameRound.Charades,
-  GameRound.Password
+  GameRound.Password,
 ]
 
 export const GameRoundDescription = {
@@ -32,7 +32,7 @@ export const GameRoundDescription = {
       You can say exactly one word to describe the word or phrase on the card,
       no more! You'll rely on your team's memory and association.
     </>
-  )
+  ),
 }
 
 function GameRoundInstructionCard(props: {
@@ -69,7 +69,7 @@ function GameRoundInstructionCard(props: {
 }
 
 const StyledPaper = styled(Paper)({
-  minWidth: 280
+  minWidth: 280,
 })
 
 export default GameRoundInstructionCard

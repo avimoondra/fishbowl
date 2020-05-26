@@ -28,8 +28,8 @@ function NoMoreRounds() {
               updateGameState({
                 variables: {
                   id: currentGame.id,
-                  state: GameStateEnum.Ended
-                }
+                  state: GameStateEnum.Ended,
+                },
               })
             }}
           >

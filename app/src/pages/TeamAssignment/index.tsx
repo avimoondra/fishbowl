@@ -7,7 +7,7 @@ import {
   GameStateEnum,
   useCreateTurnMutation,
   useUpdateAllPlayersMutation,
-  useUpdateGameStateMutation
+  useUpdateGameStateMutation,
 } from "generated/graphql"
 import { currentPlayerTeam, Team, TeamColor, teamsWithSequence } from "lib/team"
 import { nextPlayerForNextTeam } from "lib/turn"
@@ -25,7 +25,7 @@ function TeamAssignment() {
   const myTeamColor = currentPlayerTeam(currentPlayer.id, currentGame.players)
   const myTeamPlayers = filter(
     currentGame.players,
-    player => player.team === myTeamColor
+    (player) => player.team === myTeamColor
   )
   const otherTeamColor =
     currentPlayerTeam(currentPlayer.id, currentGame.players) === Team.Blue
@@ -33,7 +33,7 @@ function TeamAssignment() {
       : Team.Blue
   const otherTeamPlayers = filter(
     currentGame.players,
-    player => player.team === otherTeamColor
+    (player) => player.team === otherTeamColor
   )
 
   return (
@@ -45,7 +45,7 @@ function TeamAssignment() {
       <Grid
         item
         style={{
-          textAlign: "left"
+          textAlign: "left",
         }}
         container
         direction="column"
@@ -110,9 +110,9 @@ function TeamAssignment() {
                         players: players.map(({ id, team, team_sequence }) => ({
                           id,
                           team,
-                          team_sequence
-                        }))
-                      }
+                          team_sequence,
+                        })),
+                      },
                     })
                   }}
                 >
@@ -136,14 +136,14 @@ function TeamAssignment() {
                       currentGame.turns,
                       currentGame.players
                     ).id,
-                    roundId: currentGame.rounds[0].id
-                  }
+                    roundId: currentGame.rounds[0].id,
+                  },
                 })
                 updateGameState({
                   variables: {
                     id: currentGame.id,
-                    state: GameStateEnum.ActivePlay
-                  }
+                    state: GameStateEnum.ActivePlay,
+                  },
                 })
               }}
             >

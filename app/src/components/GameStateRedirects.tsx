@@ -5,31 +5,31 @@ import {
   generatePath,
   matchPath,
   Redirect,
-  useLocation
+  useLocation,
 } from "react-router-dom"
 import routes from "routes"
 
 const stateRoutePairs = [
   {
     state: GameStateEnum.Lobby,
-    route: routes.game.lobby
+    route: routes.game.lobby,
   },
   {
     state: GameStateEnum.CardSubmission,
-    route: routes.game.cardSubmission
+    route: routes.game.cardSubmission,
   },
   {
     state: GameStateEnum.TeamAssignment,
-    route: routes.game.teamAssignment
+    route: routes.game.teamAssignment,
   },
   {
     state: GameStateEnum.ActivePlay,
-    route: routes.game.play
+    route: routes.game.play,
   },
   {
     state: GameStateEnum.Ended,
-    route: routes.game.ended
-  }
+    route: routes.game.ended,
+  },
 ]
 
 function GameStateRedirects(props: { joinCode: string }) {
@@ -43,18 +43,18 @@ function GameStateRedirects(props: { joinCode: string }) {
     return null
   }
 
-  const pair = stateRoutePairs.find(pair => pair.state === currentGame.state)
+  const pair = stateRoutePairs.find((pair) => pair.state === currentGame.state)
   if (
     pair?.state &&
     !matchPath(location.pathname, {
       path: pair.route,
-      exact: true
+      exact: true,
     })
   ) {
     return (
       <Redirect
         to={generatePath(pair.route, {
-          joinCode: props.joinCode
+          joinCode: props.joinCode,
         })}
       ></Redirect>
     )

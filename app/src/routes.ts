@@ -8,8 +8,8 @@ const routes = {
     cardSubmission: "/game/:joinCode/cards",
     teamAssignment: "/game/:joinCode/teams",
     play: "/game/:joinCode/play",
-    ended: "/game/:joinCode/end"
-  }
+    ended: "/game/:joinCode/end",
+  },
 }
 
 export default routes
