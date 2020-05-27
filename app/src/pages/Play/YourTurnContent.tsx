@@ -8,6 +8,7 @@ import {
   withStyles,
 } from "@material-ui/core"
 import { green, grey } from "@material-ui/core/colors"
+import bell from "assets/audio/bell.mp3"
 import BowlCard from "components/BowlCard"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
@@ -28,7 +29,6 @@ import { compact, filter, includes, reject, sample } from "lodash"
 import * as React from "react"
 import { isMobile } from "react-device-detect"
 import useSound from "use-sound"
-import bell from "../../assets/audio/bell.mp3"
 enum ShownCardStatus {
   Complete = "complete",
   Skipped = "skipped",
