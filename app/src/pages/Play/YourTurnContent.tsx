@@ -8,6 +8,7 @@ import {
   withStyles,
 } from "@material-ui/core"
 import { green, grey } from "@material-ui/core/colors"
+import bell from "assets/audio/bell.mp3"
 import BowlCard from "components/BowlCard"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
@@ -27,7 +28,7 @@ import {
 import { compact, filter, includes, reject, sample } from "lodash"
 import * as React from "react"
 import { isMobile } from "react-device-detect"
-
+import useSound from "use-sound"
 enum ShownCardStatus {
   Complete = "complete",
   Skipped = "skipped",
@@ -108,6 +109,14 @@ function YourTurnContent(props: {
       }
     }
   }, [props.secondsLeft, activeCard])
+
+  const [play] = useSound(bell)
+
+  React.useEffect(() => {
+    if (props.secondsLeft == 0) {
+      play()
+    }
+  }, [props.secondsLeft])
 
   const onNextCardClick = (status: ShownCardStatus) => {
     if (activeCard) {
@@ -200,7 +209,7 @@ function YourTurnContent(props: {
           <>
             <Grid item>
               Review the cards you went through this turn. If you
-              {currentGame.allow_card_skips && "skipped or"}
+              {currentGame.allow_card_skips && " skipped or "}
               missed any, just uncheck them.
             </Grid>
             <Grid item container direction="column" spacing={2}>
