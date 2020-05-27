@@ -3,11 +3,11 @@ import { DocumentNode, print as gqlToString } from "graphql"
 import jwt from "jsonwebtoken"
 import fetch from "node-fetch"
 import {
-  InsertPlayerForGameDocument,
+  InsertPlayerForGame,
   InsertPlayerForGameMutationVariables,
-  LookupPlayerForGameDocument,
+  LookupPlayerForGame,
   LookupPlayerForGameQueryVariables,
-} from "../../../app/src/generated/graphql"
+} from "src/generated/graphql"
 
 // execute the parent operation in Hasura
 const execute = async <T>(query: DocumentNode, variables: T) => {
@@ -32,7 +32,7 @@ const handler = async (req: Request, res: Response) => {
   let playerId
   const { data: lookupData, errors } = await execute<
     LookupPlayerForGameQueryVariables
-  >(LookupPlayerForGameDocument, {
+  >(LookupPlayerForGame, {
     gameId,
     clientUuid,
   })
@@ -46,7 +46,7 @@ const handler = async (req: Request, res: Response) => {
     // new player for game
     const { data: insertData, errors } = await execute<
       InsertPlayerForGameMutationVariables
-    >(InsertPlayerForGameDocument, {
+    >(InsertPlayerForGame, {
       gameId,
       clientUuid,
     })

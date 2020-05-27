@@ -1,0 +1,13 @@
+mutation InsertPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
+  insert_players_one(object: { game_id: $gameId, client_uuid: $clientUuid }) {
+    id
+  }
+}
+
+query LookupPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
+  players(
+    where: { game_id: { _eq: $gameId }, client_uuid: { _eq: $clientUuid } }
+  ) {
+    id
+  }
+}
