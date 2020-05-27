@@ -2,7 +2,12 @@ import { Request, Response } from "express"
 import { DocumentNode, print as gqlToString } from "graphql"
 import jwt from "jsonwebtoken"
 import fetch from "node-fetch"
-import { InsertPlayerForGame, InsertPlayerForGameMutationVariables, LookupPlayerForGame, LookupPlayerForGameQueryVariables } from "../generated/graphql"
+import {
+  InsertPlayerForGame,
+  InsertPlayerForGameMutationVariables,
+  LookupPlayerForGame,
+  LookupPlayerForGameQueryVariables,
+} from "../generated/graphql"
 
 // execute the parent operation in Hasura
 const execute = async <T>(query: DocumentNode, variables: T) => {
