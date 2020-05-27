@@ -16,39 +16,83 @@ Fishbowl is built with [Material UI](https://material-ui.com/), [Typescript](htt
 
 1. Clone the repo:
 
-    ```bash
-    git clone git@github.com:avimoondra/fishbowl.git
-    ```
+   ```bash
+   git clone git@github.com:avimoondra/fishbowl.git
+   ```
 
 2. Install [Homebrew](https://brew.sh/), and:
 
-    ```bash
-    brew bundle
-    ```
+   ```bash
+   brew bundle
+   ```
 
 3. Install Node.js via [Node Version Manager](https://github.com/nvm-sh/nvm):
 
-    ```bash
-    nvm install
-    ```
+   ```bash
+   nvm install
+   ```
 
 4. Install Docker
 
-    Download and install [Docker](https://docs.docker.com/docker-for-mac/install/) via Docker for Mac. Further documentation can be found [here](https://docs.docker.com/engine/docker-overview/).
+   Download and install [Docker](https://docs.docker.com/docker-for-mac/install/) via Docker for Mac. Further documentation can be found [here](https://docs.docker.com/engine/docker-overview/).
 
 5. Install Hasura CLI
 
-    [Hasura](https://hasura.io/) is a GraphQL server that gives you instant, realtime GraphQL APIs over Postgres, with webhook triggers on database events, and remote schemas for business logic.
+   [Hasura](https://hasura.io/) is a GraphQL server that gives you instant, realtime GraphQL APIs over Postgres, with webhook triggers on database events, and remote schemas for business logic.
 
-    ```bash
-    curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
-    ```
+   ```bash
+   curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
+   ```
 
-    See more detailed instructions [here](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/install-hasura-cli.html)
+   See more detailed instructions [here](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/install-hasura-cli.html)
 
 ## Running
 
+1. Run actions node express server on `localhost:3001`
+
+   ```bash
+   cd actions-server
+   npm install
+   PORT=3001 npm start
+   ```
+
+2. Run front end on `localhost:3000`
+
+   ```bash
+   cd app
+   yarn install --frozen-lockfile
+   yarn run start
+   ```
+
+3. Run Hasura on `localhost:8080`
+
+   ```
+   cd graphql-server
+   docker-compose up
+   # for new databases...
+   hasura migrate apply --admin-secret=myadminsecretkey
+   hasura metadata apply --admin-secret=myadminsecretkey
+   ```
+
+4. Open Hasura console on `localhost:9695` (to track migrations)
+
+   ```bash
+   cd graphql-server
+   hasura console --admin-secret=myadminsecretkey
+   ```
+
+5. Generate gql apollo hooks and types (repeatedly)
+
+   ```bash
+   cd app
+   yarn gql-gen --watch
+   ```
+
+## Experimental: Running w/Docker
+
 The local environment is configured with [Docker Compose](https://docs.docker.com/compose/).
+
+Change `actions-server/.env` to HASURA_ENDPOINT=http://graphql-engine:8080/v1/graphql
 
 Running the application with:
 
@@ -57,7 +101,6 @@ docker-compose up
 ```
 
 will build and start these services which are all accessible on the host:
-
 | service | description | host connection |
 | --- | --- | --- |
 | `app` | React front-end | [`localhost:3000`](http://localhost:3000/) |
@@ -65,7 +108,7 @@ will build and start these services which are all accessible on the host:
 | `actions-server` | Hasura actions server | [`localhost:3001`](http://localhost:3001/) |
 | `postgres` | Postgres database | [`localhost:5432`](http://localhost:5432/) |
 
-### Migrations
+#### Migrations
 
 Open Hasura console on [`localhost:9695`](http://localhost:9695/) to track migrations:
 
@@ -74,7 +117,7 @@ cd graphql-server
 hasura console --admin-secret=myadminsecretkey
 ```
 
-### GraphQL Code Generation
+#### GraphQL Code Generation
 
 Repeatedly generate GraphQL Apollo hooks and TypeScript operations:
 
@@ -87,7 +130,7 @@ yarn gql-gen --watch
 
 ### Update allowed queries/mutations on prod?
 
-There's a [gql operations white list](https://fishbowl-graphql.onrender.com/console/settings/allowed-queries) on production. Any operation that's not in this list is disallowed (on prod only). If merging a PR that updates any *.graphql file, the order of operations is...
+There's a [gql operations white list](https://fishbowl-graphql.onrender.com/console/settings/allowed-queries) on production. Any operation that's not in this list is disallowed (on prod only). If merging a PR that updates any \*.graphql file, the order of operations is...
 
 1. Before merging code, set `HASURA_GRAPHQL_ENABLE_ALLOWLIST` to `false`, in [Render](https://dashboard.render.com/web/srv-bqave7tp1qr5voljem1g/env)
 2. Deploy the code + update the query/mutation(s) from the new code in the [production gql operations white list](https://fishbowl-graphql.onrender.com/console/settings/allowed-queries).
@@ -95,10 +138,19 @@ There's a [gql operations white list](https://fishbowl-graphql.onrender.com/cons
 
 ### Reset my local DB?
 
+stop your docker containers
+
 ```bash
-docker rm postgres
+docker rm $(docker ps -a -q)
 docker volume prune
 docker-compose up
+```
+
+followed by
+
+```bash
+hasura migrate apply --admin-secret=myadminsecretkey
+hasura metadata apply --admin-secret=myadminsecretkey
 ```
 
 ### Connect to my local DB w/psql?
