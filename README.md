@@ -46,53 +46,9 @@ Fishbowl is built with [Material UI](https://material-ui.com/), [Typescript](htt
 
    See more detailed instructions [here](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/install-hasura-cli.html)
 
-## Running
-
-1. Run actions node express server on `localhost:3001`
-
-   ```bash
-   cd actions-server
-   npm install
-   PORT=3001 npm start
-   ```
-
-2. Run front end on `localhost:3000`
-
-   ```bash
-   cd app
-   yarn install --frozen-lockfile
-   yarn run start
-   ```
-
-3. Run Hasura on `localhost:8080`
-
-   ```
-   cd graphql-server
-   docker-compose up
-   # for new databases...
-   hasura migrate apply --admin-secret=myadminsecretkey
-   hasura metadata apply --admin-secret=myadminsecretkey
-   ```
-
-4. Open Hasura console on `localhost:9695` (to track migrations)
-
-   ```bash
-   cd graphql-server
-   hasura console --admin-secret=myadminsecretkey
-   ```
-
-5. Generate gql apollo hooks and types (repeatedly)
-
-   ```bash
-   cd app
-   yarn gql-gen --watch
-   ```
-
-## Experimental: Running w/Docker
+## Running w/Docker
 
 The local environment is configured with [Docker Compose](https://docs.docker.com/compose/).
-
-Change `actions-server/.env` to HASURA_ENDPOINT=http://graphql-engine:8080/v1/graphql
 
 Running the application with:
 
@@ -108,7 +64,7 @@ will build and start these services which are all accessible on the host:
 | `actions-server` | Hasura actions server | [`localhost:3001`](http://localhost:3001/) |
 | `postgres` | Postgres database | [`localhost:5432`](http://localhost:5432/) |
 
-#### Migrations
+### Migrations
 
 Open Hasura console on [`localhost:9695`](http://localhost:9695/) to track migrations:
 
@@ -117,13 +73,31 @@ cd graphql-server
 hasura console --admin-secret=myadminsecretkey
 ```
 
-#### GraphQL Code Generation
+Migrations and metadata will automatically apply on start up. But to revert or apply migrations manually, 
 
-Repeatedly generate GraphQL Apollo hooks and TypeScript operations:
+```bash
+cd graphql-server
+hasura migrate apply --admin-secret=myadminsecretkey
+hasura metadata apply --admin-secret=myadminsecretkey
+```
+
+### GraphQL Code Generation
+
+Repeatedly generate GraphQL Apollo React hooks and TypeScript operations:
 
 ```bash
 cd app
 yarn gql-gen --watch
+```
+
+```bash
+docker-compose exec actions-server yarn gql-gen --watch
+```
+
+### Adding or updating dependencies in `app` or `actions-server`
+
+```bash
+docker-compose exec [actions-server|app] yarn [add|remove|etc.] xyz-package
 ```
 
 ## FAQ
@@ -138,19 +112,12 @@ There's a [gql operations white list](https://fishbowl-graphql.onrender.com/cons
 
 ### Reset my local DB?
 
-stop your docker containers
+Stop your docker containers, then:
 
 ```bash
-docker rm $(docker ps -a -q)
+docker rm postgres
 docker volume prune
 docker-compose up
-```
-
-followed by
-
-```bash
-hasura migrate apply --admin-secret=myadminsecretkey
-hasura metadata apply --admin-secret=myadminsecretkey
 ```
 
 ### Connect to my local DB w/psql?
