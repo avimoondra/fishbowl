@@ -5,5 +5,6 @@ COPY package.json .
 COPY yarn.lock .
 RUN yarn install --frozen-lockfile
 COPY . .
-ENTRYPOINT ["node"]
-CMD ["src/server.js"]
+RUN yarn run build
+ENTRYPOINT ["yarn"]
+CMD ["run", "start"]
