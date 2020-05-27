@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "prettier": "prettier --config ../.prettierrc --check \"src/**/*.{js,ts}\"",
+    "prettier": "prettier --config ../.prettierrc --check \"src/{,!(generated)/**/}*.{js,ts}\"",
     "lint": "yarn run prettier",
     "build": "tsc",
     "start": "yarn run node build/actions-server/src/server.js",
