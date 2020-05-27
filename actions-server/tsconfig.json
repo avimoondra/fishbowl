@@ -8,8 +8,11 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "build",
-    "baseUrl": ".",
-    "jsx": "react"
+    "baseUrl": "src",
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "allowJs": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*"]
+  "include": ["src"]
 }

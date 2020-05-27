@@ -2,22 +2,20 @@ import { Request, Response } from "express"
 import { DocumentNode, print as gqlToString } from "graphql"
 import jwt from "jsonwebtoken"
 import fetch from "node-fetch"
-import {
-  InsertPlayerForGame,
-  InsertPlayerForGameMutationVariables,
-  LookupPlayerForGame,
-  LookupPlayerForGameQueryVariables,
-} from "src/generated/graphql"
+import { InsertPlayerForGame, InsertPlayerForGameMutationVariables, LookupPlayerForGame, LookupPlayerForGameQueryVariables } from "../generated/graphql"
 
 // execute the parent operation in Hasura
 const execute = async <T>(query: DocumentNode, variables: T) => {
-  const fetchResponse = await fetch(process.env.HASURA_ENDPOINT, {
-    method: "POST",
-    body: JSON.stringify({
-      query: gqlToString(query),
-      variables: variables,
-    }),
-  })
+  const fetchResponse = await fetch(
+    process.env.HASURA_ENDPOINT || "missing endpoint",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        query: gqlToString(query),
+        variables: variables,
+      }),
+    }
+  )
   const data = await fetchResponse.json()
   console.log("DEBUG: ", data)
   return data
@@ -73,7 +71,10 @@ const handler = async (req: Request, res: Response) => {
     exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
   }
 
-  const token = jwt.sign(tokenContents, process.env.HASURA_GRAPHQL_JWT_SECRET)
+  const token = jwt.sign(
+    tokenContents,
+    process.env.HASURA_GRAPHQL_JWT_SECRET || "missing secret"
+  )
 
   return res.json({
     id: playerId.toString(),
