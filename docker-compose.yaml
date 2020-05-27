@@ -22,8 +22,8 @@ services:
     ports:
       - 3001:3001
     restart: always
-    entrypoint: npx nodemon
-    command: -r esm src/server.js
+    entrypoint: yarn
+    command: run start-debug
     volumes:
       - ./actions-server:/usr/app
       - /usr/app/node_modules
