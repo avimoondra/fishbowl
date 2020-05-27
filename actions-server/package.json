@@ -8,7 +8,8 @@
     "lint": "yarn run prettier",
     "build": "tsc",
     "start": "yarn run node build/actions-server/src/server.js",
-    "start-debug": "yarn run nodemon --inspect"
+    "start-debug": "nodemon --inspect",
+    "gql-gen": "graphql-codegen --config codegen.js --require dotenv/config"
   },
   "dependencies": {
     "@sentry/node": "5.15.5",
@@ -18,15 +19,19 @@
     "node-fetch": "2.6.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.15.0",
+    "@graphql-codegen/typescript": "^1.15.0",
+    "@graphql-codegen/typescript-document-nodes": "^1.15.0",
+    "@graphql-codegen/typescript-operations": "^1.15.0",
     "@types/express": "^4.17.6",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.0.1",
     "@types/node-fetch": "^2.5.7",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
+    "graphql": "^15.0.0",
     "nodemon": "1.18.4",
     "prettier": "^2.0.5",
-    "graphql": "^15.0.0",
     "ts-node": "^8.10.1",
     "typescript": "^3.9.2"
   },
