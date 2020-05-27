@@ -7,7 +7,7 @@
     "prettier": "prettier --config ../.prettierrc --check \"src/{,!(generated)/**/}*.{js,ts}\"",
     "lint": "yarn run prettier",
     "build": "tsc",
-    "start": "yarn run node build/actions-server/src/server.js",
+    "start": "node build/server.js",
     "start-debug": "nodemon --inspect",
     "gql-gen": "graphql-codegen --config codegen.js --require dotenv/config"
   },
