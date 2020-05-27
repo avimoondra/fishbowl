@@ -1,46 +1,41 @@
-const fetch = require("node-fetch")
-const jwt = require("jsonwebtoken")
-
-const INSERT_OPERATION = `
-mutation InsertPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
-  insert_players_one(
-    object: { game_id: $gameId, client_uuid: $clientUuid }
-  ) {
-    id
-  }
-}
-`
-
-const LOOKUP_OPERATION = `
-query LookupPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
-  players(where: {game_id: {_eq: $gameId}, client_uuid: {_eq: $clientUuid}}) {
-    id
-  }
-}
-`
+import { Request, Response } from "express"
+import { DocumentNode, print as gqlToString } from "graphql"
+import jwt from "jsonwebtoken"
+import fetch from "node-fetch"
+import {
+  InsertPlayerForGame,
+  InsertPlayerForGameMutationVariables,
+  LookupPlayerForGame,
+  LookupPlayerForGameQueryVariables,
+} from "../generated/graphql"
 
 // execute the parent operation in Hasura
-const execute = async (query, variables) => {
-  const fetchResponse = await fetch(process.env.HASURA_ENDPOINT, {
-    method: "POST",
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
-  })
+const execute = async <T>(query: DocumentNode, variables: T) => {
+  const fetchResponse = await fetch(
+    process.env.HASURA_ENDPOINT || "missing endpoint",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        query: gqlToString(query),
+        variables: variables,
+      }),
+    }
+  )
   const data = await fetchResponse.json()
   console.log("DEBUG: ", data)
   return data
 }
 
 // Request Handler
-const handler = async (req, res) => {
+const handler = async (req: Request, res: Response) => {
   // get request input
   const { gameId, clientUuid } = req.body.input
 
   // execute the Hasura operation(s)
   let playerId
-  const { data: lookupData, errors } = await execute(LOOKUP_OPERATION, {
+  const { data: lookupData, errors } = await execute<
+    LookupPlayerForGameQueryVariables
+  >(LookupPlayerForGame, {
     gameId,
     clientUuid,
   })
@@ -52,7 +47,9 @@ const handler = async (req, res) => {
     playerId = lookupData.players[0].id
   } else {
     // new player for game
-    const { data: insertData, errors } = await execute(INSERT_OPERATION, {
+    const { data: insertData, errors } = await execute<
+      InsertPlayerForGameMutationVariables
+    >(InsertPlayerForGame, {
       gameId,
       clientUuid,
     })
@@ -65,8 +62,6 @@ const handler = async (req, res) => {
   if (!playerId) {
     return res.status(500)
   }
-
-  // if Hasura operation errors, then throw error
 
   const tokenContents = {
     sub: playerId.toString(),
@@ -81,9 +76,11 @@ const handler = async (req, res) => {
     exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
   }
 
-  const token = jwt.sign(tokenContents, process.env.HASURA_GRAPHQL_JWT_SECRET)
+  const token = jwt.sign(
+    tokenContents,
+    process.env.HASURA_GRAPHQL_JWT_SECRET || "missing secret"
+  )
 
-  // success
   return res.json({
     id: playerId.toString(),
     jwt_token: token,

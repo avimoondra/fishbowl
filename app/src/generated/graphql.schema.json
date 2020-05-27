@@ -15413,12 +15413,6 @@
             "description": "",
             "isDeprecated": false,
             "deprecationReason": null
-          },
-          {
-            "name": "turn_scorings_turn_id_card_id_key",
-            "description": "",
-            "isDeprecated": false,
-            "deprecationReason": null
           }
         ],
         "possibleTypes": null

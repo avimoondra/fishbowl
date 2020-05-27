@@ -1,6 +1,6 @@
-const express = require("express")
-const bodyParser = require("body-parser")
-const Sentry = require("@sentry/node")
+import * as Sentry from "@sentry/node"
+import bodyParser from "body-parser"
+import express from "express"
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config()
