@@ -73,7 +73,7 @@ cd graphql-server
 hasura console --admin-secret=myadminsecretkey
 ```
 
-To revert or apply migrations manually, 
+Migrations and metadata will automatically apply on start up. But to revert or apply migrations manually, 
 
 ```bash
 cd graphql-server
@@ -94,10 +94,10 @@ yarn gql-gen --watch
 docker-compose exec actions-server yarn gql-gen --watch
 ```
 
-### Adding or updating dependencies
+### Adding or updating dependencies in `app` or `actions-server`
 
 ```bash
-docker-compose exec [actions-server|app] yarn add xyz
+docker-compose exec [actions-server|app] yarn [add|remove|etc.] xyz-package
 ```
 
 ## FAQ
