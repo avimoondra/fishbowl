@@ -3,9 +3,50 @@ on: [push]
 jobs:
   app:
     runs-on: ubuntu-latest
+    container: ubuntu:latest
+    env:
+      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_PASSWORD: postgrespassword
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      graphql-engine:
+        image: hasura/graphql-engine:v1.2.1
+        env:
+          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+          HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+          HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+          HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
+          HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256", "key": "FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE"}'
+        options: >-
+          --health-cmd "wget --quiet --spider http://localhost:8080/healthz"
+          --health-interval 30s
+          --health-timeout 3s
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Apply Hasura migrations
+        uses: tibotiber/hasura-action@v1
+        with:
+          args: migrate apply
+        env:
+          HASURA_ENDPOINT: http://graphql-engine:8080/v1/graphql
+          HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
+          HASURA_WORKDIR: graphql-server
+      - name: Apply Hasura metadata
+        uses: tibotiber/hasura-action@v1
+        with:
+          args: metadata apply
+        env:
+          HASURA_ENDPOINT: http://graphql-engine:8080/v1/graphql
+          HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
+          HASURA_WORKDIR: graphql-server
       - name: Read .nvmrc
         run: echo ::set-output name=NVMRC::$(cat .nvmrc)
         id: nvm
@@ -16,6 +57,12 @@ jobs:
       - name: Install dependencies
         working-directory: app
         run: yarn install --frozen-lockfile
+      - name: Generate GraphQL code
+        env:
+          DEBUG: 1
+          REACT_APP_FISHBOWL_GRAPHQL_ENDPOINT: http://graphql-engine:8080/v1/graphql
+        run: yarn run gql-gen
+        working-directory: app
       - name: Lint
         working-directory: app
         run: yarn run lint
