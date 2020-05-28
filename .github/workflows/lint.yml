@@ -24,6 +24,7 @@ jobs:
           HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
           HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
+          ACTION_BASE_ENDPOINT: http://actions-server:3001
           HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256", "key": "FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE"}'
         options: >-
           --health-cmd "wget --quiet --spider http://localhost:8080/healthz"
