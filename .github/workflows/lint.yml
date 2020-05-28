@@ -32,7 +32,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Apply Hasura migrations
-        uses: tibotiber/hasura-action@v1
+        uses: tibotiber/hasura-action@master
         with:
           args: migrate apply
         env:
@@ -40,7 +40,7 @@ jobs:
           HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
           HASURA_WORKDIR: graphql-server
       - name: Apply Hasura metadata
-        uses: tibotiber/hasura-action@v1
+        uses: tibotiber/hasura-action@master
         with:
           args: metadata apply
         env:
