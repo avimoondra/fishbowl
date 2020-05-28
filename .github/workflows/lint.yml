@@ -3,7 +3,7 @@ on: [push]
 jobs:
   app:
     runs-on: ubuntu-latest
-    container: ubuntu:latest
+    container: node:12.16.3-stretch
     env:
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
     services:
