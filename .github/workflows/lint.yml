@@ -37,7 +37,7 @@ jobs:
         with:
           args: migrate apply
         env:
-          HASURA_ENDPOINT: http://graphql-engine:8080/v1/graphql
+          HASURA_ENDPOINT: http://graphql-engine:8080
           HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
           HASURA_WORKDIR: graphql-server
       - name: Apply Hasura metadata
@@ -45,7 +45,7 @@ jobs:
         with:
           args: metadata apply
         env:
-          HASURA_ENDPOINT: http://graphql-engine:8080/v1/graphql
+          HASURA_ENDPOINT: http://graphql-engine:8080
           HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
           HASURA_WORKDIR: graphql-server
       - name: Read .nvmrc
