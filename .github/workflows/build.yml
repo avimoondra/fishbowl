@@ -2,7 +2,9 @@ name: build
 on: [push]
 env:
   POSTGRES_PASSWORD: postgrespassword
+  POSTGRES_URL: postgres://postgres:${{ env.POSTGRES_PASSWORD }}@postgres:5432/postgres
   HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+  ACTIONS_SERVER_URL: http://actions-server:3001
 jobs:
   app:
     runs-on: ubuntu-latest
@@ -20,9 +22,9 @@ jobs:
       graphql-engine:
         image: hasura/graphql-engine:v1.2.1
         env:
-          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+          HASURA_GRAPHQL_DATABASE_URL: ${{ env.POSTGRES_URL }}
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
-          ACTION_BASE_ENDPOINT: http://actions-server:3001
+          ACTION_BASE_ENDPOINT: ${{ env.ACTIONS_SERVER_URL }}
         options: >-
           --health-cmd "wget --quiet --spider http://localhost:8080/healthz"
           --health-interval 30s
@@ -66,12 +68,12 @@ jobs:
         run: yarn run lint
       - name: Build
 #        if: github.ref == 'refs/heads/master'
+        env:
+          CI: false
         working-directory: app
         run: yarn run build
       - uses: actions/upload-artifact@v2
 #        if: github.ref == 'refs/heads/master'
-        env:
-          CI: false
         with:
           name: app
           path: app/build/
