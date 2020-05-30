@@ -2,7 +2,7 @@ name: build
 on: [push]
 env:
   POSTGRES_PASSWORD: postgrespassword
-  POSTGRES_URL: postgres://postgres:${{ env.POSTGRES_PASSWORD }}@postgres:5432/postgres
+  POSTGRES_URL: 'postgres://postgres:${{ env.POSTGRES_PASSWORD }}@postgres:5432/postgres'
   HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
   ACTIONS_SERVER_URL: http://actions-server:3001
 jobs:
