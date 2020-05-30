@@ -1,4 +1,4 @@
-name: lint
+name: build
 on: [push]
 jobs:
   app:
@@ -20,12 +20,10 @@ jobs:
         image: hasura/graphql-engine:v1.2.1
         env:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-          HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
-          HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
-          HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
+#          HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
           ACTION_BASE_ENDPOINT: http://actions-server:3001
-          HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256", "key": "FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE"}'
+#          HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256", "key": "FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE"}'
         options: >-
           --health-cmd "wget --quiet --spider http://localhost:8080/healthz"
           --health-interval 30s
@@ -68,6 +66,15 @@ jobs:
       - name: Lint
         working-directory: app
         run: yarn run lint
+      - name: Build
+#        if: github.ref == 'refs/heads/master'
+        working-directory: app
+        run: yarn run build
+      - uses: actions/upload-artifact@v2
+#        if: github.ref == 'refs/heads/master'
+        with:
+          name: app
+          path: app/build/
 
   actions-server:
     runs-on: ubuntu-latest
