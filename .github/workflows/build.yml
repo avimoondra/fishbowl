@@ -1,29 +1,29 @@
 name: build
 on: [push]
+env:
+  POSTGRES_PASSWORD: postgrespassword
+  POSTGRES_SERVICE_OPTIONS: >-
+    --health-cmd "pg_isready -U postgres"
+    --health-interval 10s
+    --health-timeout 5s
+    --health-retries 5
+  HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
 jobs:
   app:
     runs-on: ubuntu-latest
     container: node:12.16.3-stretch
-    env:
-      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
     services:
       postgres:
         image: postgres:11
         env:
-          POSTGRES_PASSWORD: postgrespassword
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+        options: ${{ env.POSTGRES_SERVICE_OPTIONS }}
       graphql-engine:
         image: hasura/graphql-engine:v1.2.1
         env:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
-#          HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
           ACTION_BASE_ENDPOINT: http://actions-server:3001
-#          HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256", "key": "FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE"}'
         options: >-
           --health-cmd "wget --quiet --spider http://localhost:8080/healthz"
           --health-interval 30s
@@ -59,7 +59,6 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Generate GraphQL code
         env:
-          DEBUG: 1
           REACT_APP_FISHBOWL_GRAPHQL_ENDPOINT: http://graphql-engine:8080/v1/graphql
         run: yarn run gql-gen
         working-directory: app
@@ -72,6 +71,8 @@ jobs:
         run: yarn run build
       - uses: actions/upload-artifact@v2
 #        if: github.ref == 'refs/heads/master'
+        env:
+          CI: false
         with:
           name: app
           path: app/build/
