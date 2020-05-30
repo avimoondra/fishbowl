@@ -2,11 +2,6 @@ name: build
 on: [push]
 env:
   POSTGRES_PASSWORD: postgrespassword
-  POSTGRES_SERVICE_OPTIONS: >-
-    --health-cmd "pg_isready -U postgres"
-    --health-interval 10s
-    --health-timeout 5s
-    --health-retries 5
   HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
 jobs:
   app:
@@ -17,7 +12,11 @@ jobs:
         image: postgres:11
         env:
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-        options: ${{ env.POSTGRES_SERVICE_OPTIONS }}
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
       graphql-engine:
         image: hasura/graphql-engine:v1.2.1
         env:
