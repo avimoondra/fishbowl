@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/actions-server/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/actions-server/build" />
       <excludeFolder url="file://$MODULE_DIR$/actions-server/src/generated" />
+      <excludeFolder url="file://$MODULE_DIR$/app/build" />
       <excludeFolder url="file://$MODULE_DIR$/app/src/generated" />
     </content>
     <orderEntry type="inheritedJdk" />

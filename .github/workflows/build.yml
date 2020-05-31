@@ -71,7 +71,8 @@ jobs:
           CI: false
         working-directory: app
         run: yarn run build
-      - uses: actions/upload-artifact@v2
+      - name: Upload build
+        uses: actions/upload-artifact@v2
 #        if: github.ref == 'refs/heads/master'
         with:
           name: app
