@@ -1,12 +1,12 @@
-const schema = {}
-schema[`${process.env.REACT_APP_FISHBOWL_GRAPHQL_ENDPOINT}`] = {
-  headers: {
-    "X-Hasura-Admin-Secret": "myadminsecretkey"
-  }
-}
-
 module.exports = {
-  schema: [schema],
+  schema: {
+    [process.env.REACT_APP_FISHBOWL_GRAPHQL_ENDPOINT]: {
+      headers: {
+        "X-Hasura-Admin-Secret":
+          process.env.REACT_APP_FISHBOWL_HASURA_ADMIN_SECRET,
+      },
+    },
+  },
   documents: ["./src/**/*.graphql"],
   overwrite: true,
   generates: {
@@ -14,7 +14,7 @@ module.exports = {
       plugins: [
         "typescript",
         "typescript-operations",
-        "typescript-react-apollo"
+        "typescript-react-apollo",
       ],
       config: {
         noNamespaces: true,
@@ -25,12 +25,12 @@ module.exports = {
         transformUnderscore: true,
         namingConvention: {
           typeNames: "change-case#pascalCase",
-          transformUnderscore: true
-        }
-      }
+          transformUnderscore: true,
+        },
+      },
     },
     "./src/generated/graphql.schema.json": {
-      plugins: ["introspection"]
-    }
-  }
+      plugins: ["introspection"],
+    },
+  },
 }

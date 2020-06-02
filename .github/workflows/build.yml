@@ -60,20 +60,23 @@ jobs:
       - name: Generate GraphQL code
         env:
           REACT_APP_FISHBOWL_GRAPHQL_ENDPOINT: http://graphql-engine:8080/v1/graphql
-        run: yarn run gql-gen
+          REACT_APP_FISHBOWL_HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
         working-directory: app
+        run: yarn run gql-gen
       - name: Lint
         working-directory: app
         run: yarn run lint
       - name: Build
-#        if: github.ref == 'refs/heads/master'
+        #if: github.ref == 'refs/heads/master'
         env:
           CI: false
+          REACT_APP_FISHBOWL_GRAPHQL_ENDPOINT: https://fishbowl-graphql.onrender.com/v1/graphql
+          REACT_APP_FISHBOWL_WS_GRAPHQL_ENDPOINT: wss://fishbowl-graphql.onrender.com/v1/graphql
         working-directory: app
         run: yarn run build
       - name: Upload build
         uses: actions/upload-artifact@v2
-#        if: github.ref == 'refs/heads/master'
+        #if: github.ref == 'refs/heads/master'
         with:
           name: app
           path: app/build/
