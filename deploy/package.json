@@ -1,0 +1,21 @@
+{
+  "name": "fishbowl-deploy",
+  "version": "0.1.0",
+  "description": "Deploys Fishbowl applications",
+  "private": true,
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "prettier": "prettier --config ../.prettierrc --check \"src/*.ts\"",
+    "lint": "yarn run prettier && tsc --noEmit"
+  },
+  "dependencies": {
+    "@octokit/rest": "^17.9.2",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12",
+    "prettier": "^2.0.5",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.3"
+  }
+}
