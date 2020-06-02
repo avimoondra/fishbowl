@@ -75,11 +75,16 @@ jobs:
         working-directory: app
         run: yarn run build
       - name: Upload build
-        uses: actions/upload-artifact@v2
         #if: github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v2
         with:
           name: app
           path: app/build/
+      - name: Trigger Render deploy
+        #if: github.ref == 'refs/heads/master'
+        uses: wei/curl@v1
+        with:
+          args: ${{ secrets.RENDER_DEPLOY_HOOK_APP }}
 
   actions-server:
     runs-on: ubuntu-latest
