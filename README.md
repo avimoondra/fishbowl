@@ -1,10 +1,16 @@
 # https://fishbowl-game.com
 
-Play the Fishbowl game online! Also known as Salad bowl, Monikers, or Celebrities. It's a free, virtual version of a fun (and mostly hilarious) guessing game, designed for any group of all ages! You'll need at least 4 to play, but it only gets more fun with more players. Hop on a video call, and play through rounds of Taboo, Charades, and Password.
+Play the Fishbowl game online! Also known as Salad bowl, The Hat Game, The Bucket Game, Monikers, or Celebrities...
+
+It's a free, virtual version of a fun (and mostly hilarious) guessing game, designed for any group of all ages! You'll need at least 4 to play, but it only gets more fun with more players. Hop on a video call, and play through rounds of Taboo, Charades, and Password.
 
 # Technology
 
-Fishbowl is built with [Material UI](https://material-ui.com/), [Typescript](https://www.typescriptlang.org/), [React](https://reactjs.org/), [Apollo GraphQL](https://www.apollographql.com/), [Hasura](https://hasura.io/), and [Postgres](https://www.postgresql.org/). It's deployed on [Render](https://render.com/).
+Fishbowl is built with [Material UI](https://material-ui.com/), [Typescript](https://www.typescriptlang.org/), [React](https://reactjs.org/), [Apollo GraphQL](https://www.apollographql.com/), [Hasura](https://hasura.io/), and [Postgres](https://www.postgresql.org/).
+
+CI/CD via [Github Actions](https://github.com/features/actions). Hosted on [Render](https://render.com/).
+
+![build](https://github.com/avimoondra/fishbowl/workflows/build/badge.svg)
 
 # Roadmap
 
@@ -73,7 +79,7 @@ cd graphql-server
 hasura console --admin-secret=myadminsecretkey
 ```
 
-Migrations and metadata will automatically apply on start up. But to revert or apply migrations manually, 
+Migrations and metadata will automatically apply on start up. But to revert or apply migrations manually,
 
 ```bash
 cd graphql-server
