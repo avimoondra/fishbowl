@@ -9,15 +9,17 @@ function UsernameInput(props: { playerId: Players["id"]; username: string }) {
 
   return (
     <form
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault()
-        updatePlayer({
+        const response = await updatePlayer({
           variables: {
             id: props.playerId,
             input: { username: value },
           },
         })
-        setSavedName(value);
+        if (response.data?.update_players_by_pk?.username) {
+          setSavedName(value)
+        }
       }}
     >
       <Box display="flex" alignItems="flex-start" justifyContent="flex-start">
@@ -40,7 +42,7 @@ function UsernameInput(props: { playerId: Players["id"]; username: string }) {
             variant="outlined"
             size="large"
           >
-            { !!savedName ? 'Change Name' : 'Join' }
+            {!!savedName ? "Change" : "Join"}
           </Button>
         </Box>
       </Box>
