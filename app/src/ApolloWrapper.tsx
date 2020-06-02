@@ -55,6 +55,7 @@ const createApolloClient = (jwtToken: CurrentAuthContextType["jwtToken"]) => {
   return new ApolloClient({
     link: link,
     cache: new InMemoryCache(),
+    connectToDevTools: true,
   })
 }
 
