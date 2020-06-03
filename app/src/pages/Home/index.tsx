@@ -40,7 +40,7 @@ function Home() {
       <Grid container spacing={5} alignItems="center" direction="column">
         <Grid item>
           <Typography variant="h2" className={titleClasses.title}>
-            Fishbowl
+            Fishbowl 2
           </Typography>
         </Grid>
         <Grid item>
