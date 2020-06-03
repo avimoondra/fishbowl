@@ -143,6 +143,10 @@ jobs:
         uses: docker://docker
         with:
           args: docker ps
+      - name: Check logs
+        uses: docker://docker
+        with:
+          args: docker logs --since	5m hasura
       - name: Read .nvmrc
         run: echo ::set-output name=NVMRC::$(cat .nvmrc)
         id: nvm
