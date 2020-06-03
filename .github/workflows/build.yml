@@ -18,7 +18,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       graphql-engine:
-        image: hasura/graphql-engine:v1.2.1
+        image: hasura/graphql-engine:v1.2.2
         env:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${{ env.POSTGRES_PASSWORD }}@postgres:5432/postgres
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
