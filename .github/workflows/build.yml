@@ -112,38 +112,26 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       graphql-engine:
-        image: hasura/graphql-engine:v1.2.1
+        image: hasura/graphql-engine:v1.2.2.cli-migrations-v2
         env:
           HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${{ env.POSTGRES_PASSWORD }}@postgres:5432/postgres
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
           ACTION_BASE_ENDPOINT: http://actions-server:3001
         options: >-
+          --name hasura
+          --volume ${{ github.workspace }}/graphql-server/migrations:/hasura-migrations
+          --volume ${{ github.workspace }}/graphql-server/migrations:/hasura-metadata
           --health-cmd "wget --quiet --spider http://localhost:8080/healthz"
           --health-interval 30s
           --health-timeout 3s
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      # region bootstrap Hasura
-      - name: Apply Hasura migrations
-        uses: tibotiber/hasura-action@master
+      - name: Restart Hasura
+        uses: docker://docker
         with:
-          args: migrate apply
-        env:
-          HASURA_ENDPOINT: http://graphql-engine:8080
-          HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
-          HASURA_WORKDIR: graphql-server
-      - name: Apply Hasura metadata
-        uses: tibotiber/hasura-action@master
-        with:
-          args: metadata apply
-        env:
-          HASURA_ENDPOINT: http://graphql-engine:8080
-          HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
-          HASURA_WORKDIR: graphql-server
-      # endregion
-
+          args: docker restart hasura
       - name: Read .nvmrc
         run: echo ::set-output name=NVMRC::$(cat .nvmrc)
         id: nvm
