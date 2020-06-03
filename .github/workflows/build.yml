@@ -72,7 +72,6 @@ jobs:
         run: yarn run gql-gen
 
       - name: Lint
-        if: github.ref != 'refs/heads/master'
         working-directory: app
         run: yarn run lint
 
@@ -165,7 +164,6 @@ jobs:
         run: yarn run gql-gen
 
       - name: Lint
-        if: github.ref != 'refs/heads/master'
         working-directory: actions-server
         run: yarn run lint
 
