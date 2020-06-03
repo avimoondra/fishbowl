@@ -121,9 +121,9 @@ jobs:
           --name hasura
           --volume ${{ github.workspace }}/graphql-server/migrations:/hasura-migrations
           --volume ${{ github.workspace }}/graphql-server/migrations:/hasura-metadata
-          --health-cmd "wget --quiet --spider http://localhost:8080/healthz"
-          --health-interval 30s
-          --health-timeout 3s
+          # --health-cmd "wget --quiet --spider http://localhost:8080/healthz"
+          # --health-interval 30s
+          # --health-timeout 3s
 
     steps:
       - name: Checkout code
