@@ -177,7 +177,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: actions-server
-          path: actions-server/build/
+          path: actions-server/
       - name: Trigger Render deploy
         if: github.ref == 'refs/heads/master'
         uses: wei/curl@v1
