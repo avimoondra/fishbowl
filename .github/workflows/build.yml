@@ -125,6 +125,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: list out github workspace
+        run: ls -al $GITHUB_WORKSPACE
       - name: Restart Hasura
         uses: docker://docker
         with:
