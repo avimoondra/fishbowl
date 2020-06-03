@@ -100,9 +100,50 @@ jobs:
 
   actions-server:
     runs-on: ubuntu-latest
+    container: node:12.16.3-stretch
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      graphql-engine:
+        image: hasura/graphql-engine:v1.2.1
+        env:
+          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${{ env.POSTGRES_PASSWORD }}@postgres:5432/postgres
+          HASURA_GRAPHQL_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
+          ACTION_BASE_ENDPOINT: http://actions-server:3001
+        options: >-
+          --health-cmd "wget --quiet --spider http://localhost:8080/healthz"
+          --health-interval 30s
+          --health-timeout 3s
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      # region bootstrap Hasura
+      - name: Apply Hasura migrations
+        uses: tibotiber/hasura-action@master
+        with:
+          args: migrate apply
+        env:
+          HASURA_ENDPOINT: http://graphql-engine:8080
+          HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
+          HASURA_WORKDIR: graphql-server
+      - name: Apply Hasura metadata
+        uses: tibotiber/hasura-action@master
+        with:
+          args: metadata apply
+        env:
+          HASURA_ENDPOINT: http://graphql-engine:8080
+          HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
+          HASURA_WORKDIR: graphql-server
+      # endregion
+
       - name: Read .nvmrc
         run: echo ::set-output name=NVMRC::$(cat .nvmrc)
         id: nvm
@@ -113,9 +154,30 @@ jobs:
       - name: Install dependencies
         working-directory: actions-server
         run: yarn install --frozen-lockfile
+      - name: Generate GraphQL code
+        env:
+          HASURA_ENDPOINT: http://graphql-engine:8080/v1/graphql
+        working-directory: actions-server
+        run: yarn run gql-gen
       - name: Lint
+        if: github.ref != 'refs/heads/master'
         working-directory: actions-server
         run: yarn run lint
+      - name: Build
+        if: github.ref != 'refs/heads/master'
+        working-directory: actions-server
+        run: yarn run build
+      - name: Upload build
+        if: github.ref != 'refs/heads/master'
+        uses: actions/upload-artifact@v2
+        with:
+          name: actions-server
+          path: actions-server/build/
+      - name: Trigger Render deploy
+        if: github.ref == 'refs/heads/master'
+        uses: wei/curl@v1
+        with:
+          args: ${{ secrets.RENDER_DEPLOY_HOOK_ACTIONS_SERVER }}
 
   deploy:
     runs-on: ubuntu-latest
