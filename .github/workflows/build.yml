@@ -129,6 +129,18 @@ jobs:
         uses: docker://docker
         with:
           args: docker restart hasura
+      - name: Check processes
+        uses: docker://docker
+        with:
+          args: docker ps
+      - name: Sleep for 30 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: "120s"
+      - name: Check processes
+        uses: docker://docker
+        with:
+          args: docker ps
       - name: Read .nvmrc
         run: echo ::set-output name=NVMRC::$(cat .nvmrc)
         id: nvm
