@@ -113,7 +113,7 @@ function YourTurnContent(props: {
   const [play] = useSound(bell)
 
   React.useEffect(() => {
-    if (props.secondsLeft == 0) {
+    if (props.secondsLeft === 0) {
       play()
     }
   }, [props.secondsLeft])
