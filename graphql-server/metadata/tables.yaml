@@ -295,6 +295,20 @@
                 _eq: X-Hasura-User-Id
 - table:
     schema: public
+    name: server_time
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - now
+      filter: {}
+  - role: player
+    permission:
+      columns:
+      - now
+      filter: {}
+- table:
+    schema: public
     name: turn_scorings
   object_relationships:
   - name: turn
