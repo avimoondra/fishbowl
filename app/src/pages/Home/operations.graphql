@@ -21,6 +21,7 @@ mutation BecomeHost($gameId: uuid!, $playerId: uuid!) {
     starting_letter
     seconds_per_turn
     num_entries_per_player
+    screen_cards
   }
 }
 
