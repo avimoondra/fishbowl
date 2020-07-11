@@ -24,6 +24,7 @@ import {
   SubmissionsPerPlayerInput,
 } from "pages/Lobby/Inputs"
 import AllowCardSkipsCheckbox from "pages/Lobby/Inputs/AllowCardSkipsCheckbox"
+import ScreenCardsCheckbox from "pages/Lobby/Inputs/ScreenCardsCheckbox"
 import UsernameInput from "pages/Lobby/Inputs/UsernameInput"
 import RoundSettings from "pages/Lobby/RoundSettings"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
@@ -138,6 +139,9 @@ function SettingsSection() {
             </Grid>
             <Grid item>
               <LetterInput value={currentGame.starting_letter || ""} />
+            </Grid>
+            <Grid item>
+              <ScreenCardsCheckbox value={Boolean(currentGame.screen_cards)} />
             </Grid>
 
             <Grid item>
