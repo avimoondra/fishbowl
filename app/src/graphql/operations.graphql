@@ -36,7 +36,24 @@ subscription CurrentGame($joinCode: String!) {
       id
       value
     }
-    cards {
+    cards(
+      where: {
+        _or: [
+          {
+            _and: [
+              { game: { screen_cards: { _eq: true } } }
+              { is_allowed: { _eq: true } }
+            ]
+          }
+          {
+            _and: [
+              { game: { screen_cards: { _eq: false } } }
+              { is_allowed: { _eq: null } }
+            ]
+          }
+        ]
+      }
+    ) {
       id
       word
       player_id
