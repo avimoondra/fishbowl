@@ -18,17 +18,20 @@
             _eq: X-Hasura-User-Id
       columns:
       - game_id
+      - is_allowed
       - player_id
       - word
   select_permissions:
   - role: player
     permission:
       columns:
-      - id
-      - game_id
-      - player_id
-      - word
       - created_at
+      - game_id
+      - id
+      - is_allowed
+      - player_id
+      - updated_at
+      - word
       filter:
         game:
           players:
@@ -38,6 +41,7 @@
   - role: player
     permission:
       columns:
+      - is_allowed
       - word
       filter:
         _and:
@@ -117,9 +121,11 @@
       - id
       - join_code
       - num_entries_per_player
+      - screen_cards
       - seconds_per_turn
       - starting_letter
       - state
+      - updated_at
       filter:
         players:
           id:
@@ -134,9 +140,11 @@
       - id
       - join_code
       - num_entries_per_player
+      - screen_cards
       - seconds_per_turn
       - starting_letter
       - state
+      - updated_at
       filter:
         players:
           id:
@@ -184,13 +192,14 @@
   - role: player
     permission:
       columns:
-      - id
       - client_uuid
+      - created_at
       - game_id
-      - username
+      - id
       - team
       - team_sequence
-      - created_at
+      - updated_at
+      - username
       filter:
         game:
           players:
@@ -252,8 +261,11 @@
   - role: player
     permission:
       columns:
+      - created_at
+      - game_id
       - id
       - order_sequence
+      - updated_at
       - value
       filter:
         game:
@@ -337,12 +349,14 @@
     permission:
       columns:
       - card_id
+      - created_at
       - ended_at
       - id
       - score
       - started_at
       - status
       - turn_id
+      - updated_at
       filter:
         turn:
           game:
@@ -407,6 +421,7 @@
       - seconds_per_turn_override
       - sequential_id
       - started_at
+      - updated_at
       filter:
         game:
           players:
