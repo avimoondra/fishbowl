@@ -41,7 +41,9 @@ export default function ScreenCardsCheckbox(props: {
       label={
         <div>
           <span style={{ color: grey[600] }}>Allow host to screen cards</span>
-          <div style={{ fontSize: "12px", color: grey[600] }}>e.g. for profanity</div>
+          <div style={{ fontSize: "12px", color: grey[600] }}>
+            e.g. for profanity
+          </div>
         </div>
       }
     />
