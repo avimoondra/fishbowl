@@ -100,7 +100,7 @@ function WaitingForSubmissions() {
         <Grid item container direction="column" spacing={2} alignItems="center">
           {unscreenedCards.map((card, index) => (
             <Grid item key={index}>
-              <ScreenCard card={card}></ScreenCard>
+              <ScreenCard card={card} />
             </Grid>
           ))}
         </Grid>
@@ -108,8 +108,7 @@ function WaitingForSubmissions() {
 
       {WaitingForSubmissionsState.SubmittedAssign === state ? (
         <AssignTeamsButton />
-      ) : WaitingForSubmissionsState.Waiting === state &&
-        !unscreenedCards.length ? (
+      ) : !unscreenedCards.length ? (
         <div style={{ marginTop: 50 }}>
           <Fishbowl />
         </div>

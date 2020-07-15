@@ -49,8 +49,8 @@ function SubmissionForm(props: { onSubmit: () => void }) {
       <Grid item>
         <Title
           text={`Submit ${numToSubmit}
-          cards`}
-        ></Title>
+          card${1 === numToSubmit ? "" : "s"}`}
+        />
       </Grid>
 
       <Grid item>
