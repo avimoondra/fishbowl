@@ -31,6 +31,17 @@ function SubmissionForm(props: { onSubmit: () => void }) {
     )
   )
 
+  React.useEffect(() => {
+    setWords(
+      Array.from(
+        {
+          length: numToSubmit,
+        },
+        () => ""
+      )
+    )
+  }, [numToSubmit])
+
   const emptyWords = words.some((word) => word.length < 1)
 
   return (
