@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@material-ui/core"
-import BowlCard from "components/BowlCard"
 import Fishbowl from "components/FishbowlAnimation"
 import PlayerChip from "components/PlayerChip"
+import ScreenCard from "components/ReviewCard"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { reject, some } from "lodash"
@@ -97,7 +97,7 @@ function WaitingForSubmissions() {
       <Grid item container direction="column" spacing={2} alignItems="center">
         {unscreenedCards.map((card, index) => (
           <Grid item key={index}>
-            <BowlCard>{card.word}</BowlCard>
+            <ScreenCard card={card}></ScreenCard>
           </Grid>
         ))}
       </Grid>

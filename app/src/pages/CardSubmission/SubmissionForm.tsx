@@ -1,8 +1,8 @@
 import { Button, Grid } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
-import { CurrentPlayerContext } from "contexts/CurrentPlayer"
+import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useSubmitCardsMutation } from "generated/graphql"
-import { cloneDeep } from "lodash"
+import { cloneDeep, filter } from "lodash"
 import { Title } from "pages/CardSubmission"
 import SubmissionCard from "pages/CardSubmission/SubmissionCard"
 import * as React from "react"
@@ -12,9 +12,20 @@ function SubmissionForm(props: { onSubmit: () => void }) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [submitCards, { called }] = useSubmitCardsMutation()
+
+  const numSubmitted = filter(
+    currentGame.cards,
+    (card) => card.player_id === currentPlayer.id
+  ).length
+
   const [words, setWords] = React.useState<Array<string>>(
     Array.from(
-      { length: currentGame.num_entries_per_player || DEFAULT_NUM_ENTRIES },
+      {
+        length:
+          (currentGame.num_entries_per_player &&
+            currentGame.num_entries_per_player - numSubmitted) ||
+          DEFAULT_NUM_ENTRIES,
+      },
       () => ""
     )
   )
@@ -77,6 +88,8 @@ function SubmissionForm(props: { onSubmit: () => void }) {
                     player_id: currentPlayer.id,
                     game_id: currentGame.id,
                     word: word,
+                    is_allowed:
+                      currentPlayer.role === PlayerRole.Host ? true : null,
                   }
                 }),
               },
