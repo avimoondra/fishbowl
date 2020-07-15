@@ -4,7 +4,7 @@ import PlayerChip from "components/PlayerChip"
 import ScreenCard from "components/ReviewCard"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import { reject, some } from "lodash"
+import { filter, reject } from "lodash"
 import { Title } from "pages/CardSubmission"
 import AssignTeamsButton from "pages/CardSubmission/AssignTeamsButton"
 import * as React from "react"
@@ -27,19 +27,22 @@ function WaitingForSubmissions() {
   }
 
   const total = numEntriesPerPlayer * numPlayers
-  const submittedSoFar = currentGame.cards.length
+  const submittedOrAcceptedSoFar = currentGame.cards.length
 
   const waitingForPlayers = reject(currentGame.players, (player) => {
-    return some(currentGame.cards, (card) => card.player_id === player.id)
+    return (
+      filter(currentGame.cards, (card) => card.player_id === player.id)
+        .length === numEntriesPerPlayer
+    )
   })
 
-  if (!submittedSoFar) {
+  if (!submittedOrAcceptedSoFar) {
     return null
   }
 
   let state: WaitingForSubmissionsState
 
-  if (total === 0 || submittedSoFar !== total) {
+  if (total === 0 || submittedOrAcceptedSoFar !== total) {
     state = WaitingForSubmissionsState.Waiting
   } else if (PlayerRole.Host === currentPlayer.role) {
     state = WaitingForSubmissionsState.SubmittedAssign
@@ -47,19 +50,17 @@ function WaitingForSubmissions() {
     state = WaitingForSubmissionsState.SubmittedWait
   }
 
-  const unscreenedCards = currentGame.cards.filter(function (card) {
-    return (
-      PlayerRole.Host === currentPlayer.role &&
-      currentGame.screen_cards &&
-      null === card.is_allowed
-    )
-  })
+  const unscreenedCards =
+    PlayerRole.Host === currentPlayer.role && currentGame.screen_cards
+      ? currentGame.cards.filter((card) => card.is_allowed === null)
+      : []
 
   return (
     <>
       <Grid item>
         <Title text="Well done!" />
       </Grid>
+
       {
         {
           [WaitingForSubmissionsState.Waiting]: (
@@ -76,7 +77,7 @@ function WaitingForSubmissions() {
               </Grid>
               <Grid item>
                 <Typography variant="h5">
-                  {submittedSoFar}/{`${total} cards so far`}
+                  {submittedOrAcceptedSoFar}/{`${total} cards so far`}
                 </Typography>
               </Grid>
             </>
@@ -88,19 +89,23 @@ function WaitingForSubmissions() {
           ),
           [WaitingForSubmissionsState.SubmittedWait]: (
             <Grid item>
-              {`All players submitted, ${submittedSoFar} cards in total. Now we
+              {`All players submitted, ${submittedOrAcceptedSoFar} cards in total. Now we
               are waiting on the host to start the game!`}
             </Grid>
           ),
         }[state]
       }
-      <Grid item container direction="column" spacing={2} alignItems="center">
-        {unscreenedCards.map((card, index) => (
-          <Grid item key={index}>
-            <ScreenCard card={card}></ScreenCard>
-          </Grid>
-        ))}
-      </Grid>
+
+      {PlayerRole.Host === currentPlayer.role && currentGame.screen_cards && (
+        <Grid item container direction="column" spacing={2} alignItems="center">
+          {unscreenedCards.map((card, index) => (
+            <Grid item key={index}>
+              <ScreenCard card={card}></ScreenCard>
+            </Grid>
+          ))}
+        </Grid>
+      )}
+
       {WaitingForSubmissionsState.SubmittedAssign === state ? (
         <AssignTeamsButton />
       ) : WaitingForSubmissionsState.Waiting === state &&

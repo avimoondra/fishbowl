@@ -8,7 +8,6 @@ import SubmissionCard from "pages/CardSubmission/SubmissionCard"
 import * as React from "react"
 
 function SubmissionForm(props: { onSubmit: () => void }) {
-  const DEFAULT_NUM_ENTRIES = 3
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [submitCards, { called }] = useSubmitCardsMutation()
@@ -18,13 +17,15 @@ function SubmissionForm(props: { onSubmit: () => void }) {
     (card) => card.player_id === currentPlayer.id
   ).length
 
+  const numToSubmit =
+    (currentGame.num_entries_per_player &&
+      currentGame.num_entries_per_player - numSubmitted) ||
+    0
+
   const [words, setWords] = React.useState<Array<string>>(
     Array.from(
       {
-        length:
-          (currentGame.num_entries_per_player &&
-            currentGame.num_entries_per_player - numSubmitted) ||
-          DEFAULT_NUM_ENTRIES,
+        length: numToSubmit,
       },
       () => ""
     )
@@ -36,9 +37,7 @@ function SubmissionForm(props: { onSubmit: () => void }) {
     <>
       <Grid item>
         <Title
-          text={`Submit ${
-            currentGame.num_entries_per_player || DEFAULT_NUM_ENTRIES
-          }
+          text={`Submit ${numToSubmit}
           cards`}
         ></Title>
       </Grid>
