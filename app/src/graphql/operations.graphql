@@ -38,10 +38,7 @@ subscription CurrentGame($joinCode: String!) {
     }
     cards(
       where: {
-        _or: [
-          { is_allowed: { _is_null: true } }
-          { is_allowed: { _eq: true } }
-        ]
+        _or: [{ is_allowed: { _is_null: true } }, { is_allowed: { _eq: true } }]
       }
     ) {
       id
