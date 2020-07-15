@@ -1,13 +1,13 @@
 import { Grid, Typography } from "@material-ui/core"
+import BowlCard from "components/BowlCard"
 import Fishbowl from "components/FishbowlAnimation"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { reject, some } from "lodash"
 import { Title } from "pages/CardSubmission"
-import * as React from "react"
 import AssignTeamsButton from "pages/CardSubmission/AssignTeamsButton"
-import BowlCard from "components/BowlCard"
+import * as React from "react"
 
 enum WaitingForSubmissionsState {
   Waiting,
@@ -88,8 +88,8 @@ function WaitingForSubmissions() {
           ),
           [WaitingForSubmissionsState.SubmittedWait]: (
             <Grid item>
-              All players submitted, ${submittedSoFar} cards in total. Now we
-              are waiting on the host to start the game!
+              {`All players submitted, ${submittedSoFar} cards in total. Now we
+              are waiting on the host to start the game!`}
             </Grid>
           ),
         }[state]
