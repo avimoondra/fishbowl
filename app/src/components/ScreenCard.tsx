@@ -1,4 +1,5 @@
 import { Grid, IconButton } from "@material-ui/core"
+import { green } from "@material-ui/core/colors"
 import CancelIcon from "@material-ui/icons/Cancel"
 import CheckCircleIcon from "@material-ui/icons/CheckCircle"
 import BowlCard from "components/BowlCard"
@@ -30,31 +31,35 @@ function ScreenCard(props: {
         </Grid>
         <Grid container item direction="column" spacing={2} alignItems="center">
           <Grid item>{props.card.word}</Grid>
-          <Grid item>
-            <IconButton
-              color="secondary"
-              onClick={() => {
-                rejectCard({
-                  variables: {
-                    id: props.card.id,
-                  },
-                })
-              }}
-            >
-              <CancelIcon />
-            </IconButton>
-            <IconButton
-              color="primary"
-              onClick={() => {
-                acceptCard({
-                  variables: {
-                    id: props.card.id,
-                  },
-                })
-              }}
-            >
-              <CheckCircleIcon />
-            </IconButton>
+          <Grid item container justify="center" spacing={2}>
+            <Grid item>
+              <IconButton
+                color="secondary"
+                onClick={() => {
+                  rejectCard({
+                    variables: {
+                      id: props.card.id,
+                    },
+                  })
+                }}
+              >
+                <CancelIcon />
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <IconButton
+                style={{ color: green[600] }}
+                onClick={() => {
+                  acceptCard({
+                    variables: {
+                      id: props.card.id,
+                    },
+                  })
+                }}
+              >
+                <CheckCircleIcon />
+              </IconButton>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
