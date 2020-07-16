@@ -1,6 +1,6 @@
 import { Button, Grid } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
-import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
+import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { useSubmitCardsMutation } from "generated/graphql"
 import { cloneDeep, filter } from "lodash"
 import { Title } from "pages/CardSubmission"
@@ -78,7 +78,7 @@ function SubmissionForm(props: { onSubmit: () => void }) {
                   newWords[index] = value
                   setWords(newWords)
                 }}
-                value={words[index]}
+                word={words[index]}
               />
             </Grid>
           )
