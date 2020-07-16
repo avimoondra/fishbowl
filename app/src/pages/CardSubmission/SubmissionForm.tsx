@@ -78,6 +78,7 @@ function SubmissionForm(props: { onSubmit: () => void }) {
                   newWords[index] = value
                   setWords(newWords)
                 }}
+                value={words[index]}
               />
             </Grid>
           )

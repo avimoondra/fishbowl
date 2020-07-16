@@ -4,9 +4,14 @@ import { CurrentGameContext } from "contexts/CurrentGame"
 import { lowerCase } from "lodash"
 import * as React from "react"
 
-function SubmissionCard(props: { onChange: (value: string) => void }) {
+function SubmissionCard(props: {
+  onChange: (value: string) => void
+  value?: string
+}) {
   const currentGame = React.useContext(CurrentGameContext)
-  const [word, setWord] = React.useState("")
+  const [word, setWord] = React.useState(
+    props.value === undefined ? "" : props.value
+  )
 
   const hasStartingLetterError = (word: string) => {
     return (
@@ -21,6 +26,10 @@ function SubmissionCard(props: { onChange: (value: string) => void }) {
     const submittedWords = currentGame.cards.map((card) => lowerCase(card.word))
     return submittedWords.includes(lowerCase(word))
   }
+
+  React.useEffect(() => {
+    setWord(props.value === undefined ? "" : props.value)
+  }, [props.value])
 
   return (
     <BowlCard>
