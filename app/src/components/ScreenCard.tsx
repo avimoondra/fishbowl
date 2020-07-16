@@ -1,4 +1,4 @@
-import { IconButton } from "@material-ui/core"
+import { Grid, IconButton } from "@material-ui/core"
 import CancelIcon from "@material-ui/icons/Cancel"
 import CheckCircleIcon from "@material-ui/icons/CheckCircle"
 import BowlCard from "components/BowlCard"
@@ -23,33 +23,41 @@ function ScreenCard(props: {
   )
 
   return (
-    <BowlCard>
-      <PlayerChip username={player?.username || ""} />
-      <div>{props.card.word}</div>
-      <div>
-        <IconButton
-          onClick={() => {
-            rejectCard({
-              variables: {
-                id: props.card.id,
-              },
-            })
-          }}
-        >
-          <CancelIcon />
-        </IconButton>
-        <IconButton
-          onClick={() => {
-            acceptCard({
-              variables: {
-                id: props.card.id,
-              },
-            })
-          }}
-        >
-          <CheckCircleIcon></CheckCircleIcon>
-        </IconButton>
-      </div>
+    <BowlCard padding={2}>
+      <Grid container direction="column" spacing={2}>
+        <Grid item>
+          <PlayerChip username={player?.username || ""} />
+        </Grid>
+        <Grid container item direction="column" spacing={2} alignItems="center">
+          <Grid item>{props.card.word}</Grid>
+          <Grid item>
+            <IconButton
+              color="secondary"
+              onClick={() => {
+                rejectCard({
+                  variables: {
+                    id: props.card.id,
+                  },
+                })
+              }}
+            >
+              <CancelIcon />
+            </IconButton>
+            <IconButton
+              color="primary"
+              onClick={() => {
+                acceptCard({
+                  variables: {
+                    id: props.card.id,
+                  },
+                })
+              }}
+            >
+              <CheckCircleIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </Grid>
     </BowlCard>
   )
 }
