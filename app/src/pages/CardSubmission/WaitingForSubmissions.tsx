@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@material-ui/core"
 import Fishbowl from "components/FishbowlAnimation"
 import PlayerChip from "components/PlayerChip"
-import ScreenCard from "components/ReviewCard"
+import ScreenCard from "components/ScreenCard"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { filter, reject } from "lodash"
@@ -52,7 +52,10 @@ function WaitingForSubmissions() {
 
   const unscreenedCards =
     PlayerRole.Host === currentPlayer.role && currentGame.screen_cards
-      ? currentGame.cards.filter((card) => card.is_allowed === null)
+      ? currentGame.cards.filter(
+          (card) =>
+            card.is_allowed === null && card.player_id !== currentPlayer.id
+        )
       : []
 
   return (
@@ -107,7 +110,9 @@ function WaitingForSubmissions() {
       )}
 
       {WaitingForSubmissionsState.SubmittedAssign === state ? (
-        <AssignTeamsButton />
+        <div style={{ marginTop: 30 }}>
+          <AssignTeamsButton />
+        </div>
       ) : !unscreenedCards.length ? (
         <div style={{ marginTop: 50 }}>
           <Fishbowl />

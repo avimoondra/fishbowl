@@ -24,7 +24,7 @@ function ScreenCard(props: {
 
   return (
     <BowlCard>
-      <PlayerChip username={player?.username || ""}></PlayerChip>
+      <PlayerChip username={player?.username || ""} />
       <div>{props.card.word}</div>
       <div>
         <IconButton
@@ -36,7 +36,7 @@ function ScreenCard(props: {
             })
           }}
         >
-          <CancelIcon></CancelIcon>
+          <CancelIcon />
         </IconButton>
         <IconButton
           onClick={() => {

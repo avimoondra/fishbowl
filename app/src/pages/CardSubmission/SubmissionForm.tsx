@@ -78,7 +78,7 @@ function SubmissionForm(props: { onSubmit: () => void }) {
                   newWords[index] = value
                   setWords(newWords)
                 }}
-              ></SubmissionCard>
+              />
             </Grid>
           )
         })}
@@ -98,8 +98,6 @@ function SubmissionForm(props: { onSubmit: () => void }) {
                     player_id: currentPlayer.id,
                     game_id: currentGame.id,
                     word: word,
-                    is_allowed:
-                      currentPlayer.role === PlayerRole.Host ? true : null,
                   }
                 }),
               },
