@@ -5,7 +5,6 @@ mutation SubmitCards($cards: [cards_insert_input!]!) {
       player_id
       game_id
       word
-      is_allowed
     }
   }
 }
