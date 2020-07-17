@@ -115,7 +115,7 @@ export function SecondsPerTurnInput(props: {
       variant="outlined"
       size="medium"
       required
-      helperText={<HelperText>Usually 30 or 60</HelperText>}
+      helperText={<HelperText>Usually between 30 or 60</HelperText>}
       value={textFieldValue}
       inputProps={{ style: { textTransform: "uppercase" } }}
       disabled={!canConfigureSettings || props.disabled}

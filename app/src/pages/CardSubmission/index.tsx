@@ -38,6 +38,15 @@ function CardSubmission() {
       : CardSubmissionState.Submitting
   )
 
+  React.useEffect(() => {
+    if (
+      currentGame.num_entries_per_player &&
+      numSubmitted < currentGame.num_entries_per_player
+    ) {
+      setCardSubmissionState(CardSubmissionState.Submitting)
+    }
+  }, [numSubmitted])
+
   return (
     <Grid
       container

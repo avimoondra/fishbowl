@@ -4,9 +4,11 @@ import { CurrentGameContext } from "contexts/CurrentGame"
 import { lowerCase } from "lodash"
 import * as React from "react"
 
-function SubmissionCard(props: { onChange: (value: string) => void }) {
+function SubmissionCard(props: {
+  onChange: (value: string) => void
+  word: string
+}) {
   const currentGame = React.useContext(CurrentGameContext)
-  const [word, setWord] = React.useState("")
 
   const hasStartingLetterError = (word: string) => {
     return (
@@ -26,17 +28,19 @@ function SubmissionCard(props: { onChange: (value: string) => void }) {
     <BowlCard>
       <TextField
         size="medium"
-        value={word}
-        error={hasStartingLetterError(word) || hasSimilarSubmissionError(word)}
+        value={props.word}
+        error={
+          hasStartingLetterError(props.word) ||
+          hasSimilarSubmissionError(props.word)
+        }
         helperText={
           (currentGame.starting_letter &&
-            hasStartingLetterError(word) &&
+            hasStartingLetterError(props.word) &&
             `Must start with letter ${currentGame.starting_letter.toLocaleUpperCase()}!`) ||
-          (hasSimilarSubmissionError(word) &&
+          (hasSimilarSubmissionError(props.word) &&
             "Someone made a similar submission - try a new word!")
         }
         onChange={({ target: { value } }) => {
-          setWord(value)
           props.onChange(value)
         }}
       />

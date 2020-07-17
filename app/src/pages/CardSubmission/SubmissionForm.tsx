@@ -2,22 +2,45 @@ import { Button, Grid } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { useSubmitCardsMutation } from "generated/graphql"
-import { cloneDeep } from "lodash"
+import { cloneDeep, filter } from "lodash"
 import { Title } from "pages/CardSubmission"
 import SubmissionCard from "pages/CardSubmission/SubmissionCard"
 import * as React from "react"
 
 function SubmissionForm(props: { onSubmit: () => void }) {
-  const DEFAULT_NUM_ENTRIES = 3
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [submitCards, { called }] = useSubmitCardsMutation()
+
+  const numSubmitted = filter(
+    currentGame.cards,
+    (card) => card.player_id === currentPlayer.id
+  ).length
+
+  const numToSubmit =
+    (currentGame.num_entries_per_player &&
+      currentGame.num_entries_per_player - numSubmitted) ||
+    0
+
   const [words, setWords] = React.useState<Array<string>>(
     Array.from(
-      { length: currentGame.num_entries_per_player || DEFAULT_NUM_ENTRIES },
+      {
+        length: numToSubmit,
+      },
       () => ""
     )
   )
+
+  React.useEffect(() => {
+    setWords(
+      Array.from(
+        {
+          length: numToSubmit,
+        },
+        () => ""
+      )
+    )
+  }, [numToSubmit])
 
   const emptyWords = words.some((word) => word.length < 1)
 
@@ -25,11 +48,9 @@ function SubmissionForm(props: { onSubmit: () => void }) {
     <>
       <Grid item>
         <Title
-          text={`Submit ${
-            currentGame.num_entries_per_player || DEFAULT_NUM_ENTRIES
-          }
-          cards`}
-        ></Title>
+          text={`Submit ${numToSubmit}
+          card${1 === numToSubmit ? "" : "s"}`}
+        />
       </Grid>
 
       <Grid item>
@@ -57,7 +78,8 @@ function SubmissionForm(props: { onSubmit: () => void }) {
                   newWords[index] = value
                   setWords(newWords)
                 }}
-              ></SubmissionCard>
+                word={words[index]}
+              />
             </Grid>
           )
         })}

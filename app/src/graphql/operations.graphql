@@ -26,6 +26,7 @@ subscription CurrentGame($joinCode: String!) {
     seconds_per_turn
     num_entries_per_player
     allow_card_skips
+    screen_cards
     state
     host {
       id
@@ -35,10 +36,15 @@ subscription CurrentGame($joinCode: String!) {
       id
       value
     }
-    cards {
+    cards(
+      where: {
+        _or: [{ is_allowed: { _is_null: true } }, { is_allowed: { _eq: true } }]
+      }
+    ) {
       id
       word
       player_id
+      is_allowed
     }
     players {
       id

@@ -49,8 +49,12 @@
             players:
               id:
                 _eq: X-Hasura-User-Id
-        - player_id:
-            _eq: X-Hasura-User-Id
+        - _or:
+          - player_id:
+              _eq: X-Hasura-User-Id
+          - game:
+              host_id:
+                _eq: X-Hasura-User-Id
       check: null
 - table:
     schema: public

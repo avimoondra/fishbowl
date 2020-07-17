@@ -2,6 +2,23 @@ mutation SubmitCards($cards: [cards_insert_input!]!) {
   insert_cards(objects: $cards) {
     returning {
       id
+      player_id
+      game_id
+      word
     }
+  }
+}
+
+mutation AcceptCard($id: uuid!) {
+  update_cards_by_pk(pk_columns: { id: $id }, _set: { is_allowed: true }) {
+    id
+    is_allowed
+  }
+}
+
+mutation RejectCard($id: uuid!) {
+  update_cards_by_pk(pk_columns: { id: $id }, _set: { is_allowed: false }) {
+    id
+    is_allowed
   }
 }
