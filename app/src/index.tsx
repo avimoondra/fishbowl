@@ -24,7 +24,7 @@ if (process.env.NODE_ENV !== "development") {
 
 export const useTitleStyle = makeStyles({
   title: {
-    fontFamily: "Playfair Display; serif",
+    fontFamily: "Playfair Display, serif",
   },
 })
 
