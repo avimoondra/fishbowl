@@ -11,3 +11,15 @@ query LookupPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
     id
   }
 }
+
+mutation StartGame {
+  insert_games_one(object: {}) {
+    id
+  }
+}
+
+query GameById($id: uuid!) {
+  games_by_pk(id: $id) {
+    join_code
+  }
+}
