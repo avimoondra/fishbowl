@@ -7,10 +7,16 @@ import {
   InsertPlayerForGameMutationVariables,
   LookupPlayerForGame,
   LookupPlayerForGameQueryVariables,
+  BecomeHost,
+  BecomeHostMutationVariables,
 } from "../generated/graphql"
 
 // execute the parent operation in Hasura
-const execute = async <T>(query: DocumentNode, variables: T) => {
+const execute = async <T>(
+  query: DocumentNode,
+  variables: T,
+  token?: string
+) => {
   const fetchResponse = await fetch(
     process.env.HASURA_ENDPOINT || "missing endpoint",
     {
@@ -19,6 +25,9 @@ const execute = async <T>(query: DocumentNode, variables: T) => {
         query: gqlToString(query),
         variables: variables,
       }),
+      headers: {
+        ...(token ? { Authorization: "Bearer " + token } : {}),
+      },
     }
   )
   const data = await fetchResponse.json()
@@ -33,6 +42,7 @@ const handler = async (req: Request, res: Response) => {
 
   // execute the Hasura operation(s)
   let playerId
+  let hostExists = true
   const { data: lookupData, errors } = await execute<
     LookupPlayerForGameQueryVariables
   >(LookupPlayerForGame, {
@@ -45,6 +55,7 @@ const handler = async (req: Request, res: Response) => {
   if (lookupData.players[0]) {
     // already joined game
     playerId = lookupData.players[0].id
+    hostExists = lookupData.game?.host
   } else {
     // new player for game
     const { data: insertData, errors } = await execute<
@@ -57,6 +68,7 @@ const handler = async (req: Request, res: Response) => {
       return res.status(400).json(errors[0])
     }
     playerId = insertData.insert_players_one.id
+    hostExists = insertData.game?.host
   }
 
   if (!playerId) {
@@ -80,6 +92,21 @@ const handler = async (req: Request, res: Response) => {
     tokenContents,
     process.env.HASURA_GRAPHQL_JWT_SECRET || "missing secret"
   )
+
+  // if the game doesn't have a host, make it this player
+  if (!hostExists) {
+    const { errors } = await execute<BecomeHostMutationVariables>(
+      BecomeHost,
+      {
+        gameId,
+        playerId,
+      },
+      token
+    )
+    if (errors) {
+      return res.status(400).json(errors[0])
+    }
+  }
 
   return res.json({
     id: playerId.toString(),
