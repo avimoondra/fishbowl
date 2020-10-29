@@ -24,6 +24,9 @@ const handler = async (req: Request, res: Response) => {
     if (data?.players[0]) {
       // already joined game
       playerId = data.players[0].id
+      console.log(
+        `Player (id: ${playerId}, client_uuid: ${clientUuid}) has already joined game (id: ${gameId})`
+      )
     } else {
       // new player for game
       try {
@@ -34,8 +37,14 @@ const handler = async (req: Request, res: Response) => {
         if (data_insert?.insert_players_one) {
           playerId = data_insert.insert_players_one.id
         }
+        console.log(
+          `Player (id: ${playerId}, client_uuid: ${clientUuid}) joined game (id: ${gameId})`
+        )
       } catch {
-        return res.status(400)
+        console.log(
+          `Player (id: ${playerId}, client_uuid: ${clientUuid}) failed to joined game (id: ${gameId})`
+        )
+        return res.status(400).json({ success: false, errors })
       }
     }
 
@@ -61,6 +70,9 @@ const handler = async (req: Request, res: Response) => {
       process.env.HASURA_GRAPHQL_JWT_SECRET || "missing secret"
     )
 
+    console.log(
+      `Player (id: ${playerId}, client_uuid: ${clientUuid}) in game (id: ${gameId}) was issued a token`
+    )
     return res.status(200).json({
       id: playerId.toString(),
       jwt_token: token,
