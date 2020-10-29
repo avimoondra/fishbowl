@@ -1,5 +1,4 @@
 import * as Sentry from "@sentry/node"
-import bodyParser from "body-parser"
 import express from "express"
 
 if (process.env.NODE_ENV !== "production") {
@@ -18,7 +17,7 @@ const app = express()
 
 const PORT = process.env.PORT || 3001
 
-app.use(bodyParser.json())
+app.use(express.json())
 
 app.post("/:route", (req, res) => {
   try {
