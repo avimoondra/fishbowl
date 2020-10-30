@@ -1,53 +1,23 @@
 import { Request, Response } from "express"
-import { DocumentNode, print as gqlToString } from "graphql"
-import fetch from "node-fetch"
-import {
-  StartGame,
-  StartGameMutationVariables,
-  GameById,
-  GameByIdQueryVariables,
-} from "../generated/graphql"
-
-// execute the parent operation in Hasura
-const execute = async <T>(query: DocumentNode, variables: T) => {
-  const fetchResponse = await fetch(
-    process.env.HASURA_ENDPOINT || "missing endpoint",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        query: gqlToString(query),
-        variables: variables,
-      }),
-    }
-  )
-  const data = await fetchResponse.json()
-  console.log("DEBUG: ", data)
-  return data
-}
+import { graphQLClient } from "graphQLClient"
 
 // Request Handler
 const handler = async (req: Request, res: Response) => {
   // execute the Hasura operation(s)
-  const {
-    data: {
-      insert_games_one: { id },
-    },
-    errors: err1,
-  } = await execute<StartGameMutationVariables>(StartGame, {})
-  if (err1) {
-    return res.status(400).json(err1[0])
+  const { data, errors: err1 } = await graphQLClient().StartGame()
+
+  if (!data?.insert_games_one?.id || err1) {
+    return res.status(400).json({ errros: err1 })
   }
 
-  const {
-    data: {
-      games_by_pk: { join_code },
-    },
-    errors: err2,
-  } = await execute<GameByIdQueryVariables>(GameById, {
-    id,
+  const { data: gameData, errors: err2 } = await graphQLClient().GameById({
+    id: data.insert_games_one.id,
   })
-  if (err2) {
-    return res.status(400).json(err2[0])
+
+  const join_code = gameData?.games_by_pk?.join_code
+
+  if (!join_code || err2) {
+    return res.status(400).json({ errros: err2 })
   }
 
   return res.json({

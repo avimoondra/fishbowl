@@ -2,9 +2,7 @@ mutation InsertPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
   insert_players_one(object: { game_id: $gameId, client_uuid: $clientUuid }) {
     id
     game {
-      host {
-        id
-      }
+      host_id
     }
   }
 }
@@ -15,9 +13,7 @@ query LookupPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
   ) {
     id
     game {
-      host {
-        id
-      }
+      host_id
     }
   }
 }
@@ -30,6 +26,7 @@ mutation StartGame {
 
 query GameById($id: uuid!) {
   games_by_pk(id: $id) {
+    id
     join_code
   }
 }
