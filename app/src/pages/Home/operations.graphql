@@ -11,20 +11,6 @@ mutation JoinGame($gameId: String!, $clientUuid: String!) {
   }
 }
 
-mutation BecomeHost($gameId: uuid!, $playerId: uuid!) {
-  update_games_by_pk(
-    pk_columns: { id: $gameId }
-    _set: { host_id: $playerId }
-  ) {
-    id
-    join_code
-    starting_letter
-    seconds_per_turn
-    num_entries_per_player
-    screen_cards
-  }
-}
-
 query GameByJoinCode($joinCode: String!) {
   games(where: { join_code: { _eq: $joinCode } }) {
     id

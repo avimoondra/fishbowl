@@ -42,10 +42,11 @@ const handler = async (req: Request, res: Response) => {
         console.log(
           `Player (id: ${playerId}, client_uuid: ${clientUuid}) joined game (id: ${gameId})`
         )
-      } catch {
+      } catch (e) {
         console.log(
-          `Player (id: ${playerId}, client_uuid: ${clientUuid}) failed to joined game (id: ${gameId})`
+          `Player (id: ${playerId}, client_uuid: ${clientUuid}) failed to joined game (id: ${gameId});`
         )
+        console.log(e)
         return res.status(400).json({ success: false, errors })
       }
     }
@@ -97,7 +98,8 @@ const handler = async (req: Request, res: Response) => {
       id: playerId.toString(),
       jwt_token: token,
     })
-  } catch {
+  } catch (e) {
+    console.log(e)
     return res.status(400)
   }
 }

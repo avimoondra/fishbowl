@@ -4,7 +4,6 @@ import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { clientUuid } from "contexts/CurrentPlayer"
 import {
   Games,
-  useBecomeHostMutation,
   useJoinGameMutation,
   useStartGameMutation,
 } from "generated/graphql"
@@ -29,7 +28,6 @@ function Home() {
   )
   const [startGame] = useStartGameMutation()
   const [joinGame] = useJoinGameMutation()
-  const [becomeHost] = useBecomeHostMutation()
 
   React.useEffect(() => {
     currentAuth.setJwtToken(null)
@@ -79,12 +77,6 @@ function Home() {
                       await currentAuth.setJwtToken(
                         registration.data.joinGame.jwt_token
                       )
-                      await becomeHost({
-                        variables: {
-                          gameId: gameId,
-                          playerId: registration.data.joinGame.id,
-                        },
-                      })
                       setGameId(gameId)
                     }
                   }
