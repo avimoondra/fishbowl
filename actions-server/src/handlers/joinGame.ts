@@ -4,7 +4,7 @@ import { graphQLClient } from "../graphQLClient"
 
 // Request Handler
 const handler = async (req: Request, res: Response) => {
-  if (!process.env.HASURA_ENDPOINT || !process.env.HASURA_GRAPHQL_JWT_SECRET) {
+  if (!process.env.HASURA_GRAPHQL_JWT_SECRET) {
     return res.status(500)
   }
 
@@ -15,7 +15,7 @@ const handler = async (req: Request, res: Response) => {
 
   // execute the Hasura operation(s)
   let playerId
-
+  let hostExists = true
   try {
     const { data, errors } = await client.LookupPlayerForGame({
       gameId,
@@ -27,6 +27,7 @@ const handler = async (req: Request, res: Response) => {
       console.log(
         `Player (id: ${playerId}, client_uuid: ${clientUuid}) has already joined game (id: ${gameId})`
       )
+      hostExists = Boolean(data.players[0].game.host_id)
     } else {
       // new player for game
       try {
@@ -36,14 +37,16 @@ const handler = async (req: Request, res: Response) => {
         })
         if (data_insert?.insert_players_one) {
           playerId = data_insert.insert_players_one.id
+          hostExists = Boolean(data_insert.insert_players_one.game.host_id)
         }
         console.log(
           `Player (id: ${playerId}, client_uuid: ${clientUuid}) joined game (id: ${gameId})`
         )
-      } catch {
+      } catch (e) {
         console.log(
-          `Player (id: ${playerId}, client_uuid: ${clientUuid}) failed to joined game (id: ${gameId})`
+          `Player (id: ${playerId}, client_uuid: ${clientUuid}) failed to joined game (id: ${gameId});`
         )
+        console.log(e)
         return res.status(400).json({ success: false, errors })
       }
     }
@@ -70,6 +73,24 @@ const handler = async (req: Request, res: Response) => {
       process.env.HASURA_GRAPHQL_JWT_SECRET || "missing secret"
     )
 
+    if (!hostExists) {
+      const { errors } = await graphQLClient({ jwt: token }).BecomeHost({
+        gameId,
+        playerId,
+      })
+      if (errors) {
+        console.log(
+          `Player (id: ${playerId}, client_uuid: ${clientUuid}) in game (id: ${gameId}) failed to become the HOST; ${errors.join(
+            ","
+          )}`
+        )
+      } else {
+        console.log(
+          `Player (id: ${playerId}, client_uuid: ${clientUuid}) in game (id: ${gameId}) became the HOST`
+        )
+      }
+    }
+
     console.log(
       `Player (id: ${playerId}, client_uuid: ${clientUuid}) in game (id: ${gameId}) was issued a token`
     )
@@ -77,7 +98,8 @@ const handler = async (req: Request, res: Response) => {
       id: playerId.toString(),
       jwt_token: token,
     })
-  } catch {
+  } catch (e) {
+    console.log(e)
     return res.status(400)
   }
 }
