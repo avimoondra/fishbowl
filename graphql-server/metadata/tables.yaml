@@ -113,7 +113,6 @@
   - role: anonymous
     permission:
       columns:
-      - host_id
       - id
       - join_code
       filter: {}
