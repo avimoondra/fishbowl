@@ -16,6 +16,7 @@ import { green, grey } from "@material-ui/core/colors"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
+import { useUpdatePlayerMutation } from "generated/graphql"
 import { useTitleStyle } from "index"
 import ControllableRoundSettings from "pages/Lobby/ControllableRoundSettings"
 import {
@@ -30,6 +31,7 @@ import RoundSettings from "pages/Lobby/RoundSettings"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
 import * as React from "react"
 import Clipboard from "react-clipboard.js"
+import { useLocation } from "react-router-dom"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -209,13 +211,44 @@ function WaitingRoomSection() {
 
 function Lobby() {
   const currentPlayer = React.useContext(CurrentPlayerContext)
+  const [updatePlayer] = useUpdatePlayerMutation()
   const classes = useStyles()
+  const titleClasses = useTitleStyle()
+  const location = useLocation()
+  const [hideShare, setHideShare] = React.useState(false)
+
+  React.useEffect(() => {
+    const params = new URLSearchParams(location.search)
+
+    setHideShare(params.get("hideshare") === "true")
+
+    const username = params.get("name")
+    if (username) {
+      updatePlayer({
+        variables: {
+          id: currentPlayer.id,
+          input: { username },
+        },
+      })
+    }
+  }, [])
 
   return (
     <div>
-      <div className={classes.section}>
-        <ShareSection />
-      </div>
+      {!hideShare ? (
+        <div className={classes.section}>
+          <ShareSection />
+        </div>
+      ) : (
+        <Typography
+          variant="h4"
+          style={{ textAlign: "center", marginBottom: "1em" }}
+          className={titleClasses.title}
+        >
+          Fishbowl
+        </Typography>
+      )}
+
       <Divider variant="middle"></Divider>
 
       {currentPlayer.role === PlayerRole.Host && (
