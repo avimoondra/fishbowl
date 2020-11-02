@@ -6,9 +6,17 @@ actions:
   permissions:
   - role: anonymous
   - role: player
+- name: newGame
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/newGame'
+  permissions:
+  - role: anonymous
+  - role: player
 custom_types:
   enums: []
   input_objects: []
   objects:
   - name: joinGameOutput
+  - name: newGameOutput
   scalars: []

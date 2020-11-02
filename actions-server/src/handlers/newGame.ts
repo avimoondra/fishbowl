@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { graphQLClient } from "graphQLClient"
+import { graphQLClient } from "../graphQLClient"
 
 // Request Handler
 const handler = async (req: Request, res: Response) => {
@@ -20,7 +20,7 @@ const handler = async (req: Request, res: Response) => {
     return res.status(400).json({ errros: err2 })
   }
 
-  return res.json({
+  return res.status(200).json({
     join_code,
   })
 }
