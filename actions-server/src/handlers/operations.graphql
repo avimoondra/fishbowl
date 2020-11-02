@@ -1,12 +1,40 @@
 mutation InsertPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
   insert_players_one(object: { game_id: $gameId, client_uuid: $clientUuid }) {
     id
+    game {
+      host_id
+    }
   }
 }
 
 query LookupPlayerForGame($gameId: uuid!, $clientUuid: uuid!) {
   players(
     where: { game_id: { _eq: $gameId }, client_uuid: { _eq: $clientUuid } }
+  ) {
+    id
+    game {
+      host_id
+    }
+  }
+}
+
+mutation StartGame {
+  insert_games_one(object: {}) {
+    id
+  }
+}
+
+query GameById($id: uuid!) {
+  games_by_pk(id: $id) {
+    id
+    join_code
+  }
+}
+
+mutation BecomeHost($gameId: uuid!, $playerId: uuid!) {
+  update_games_by_pk(
+    pk_columns: { id: $gameId }
+    _set: { host_id: $playerId }
   ) {
     id
   }
