@@ -28,7 +28,7 @@ services:
       - ./actions-server:/usr/app
       - /usr/app/node_modules
   graphql-engine:
-    image: hasura/graphql-engine:v1.2.2.cli-migrations-v2
+    image: hasura/graphql-engine:v1.3.3.cli-migrations-v2
     container_name: graphql-engine
     ports:
       - 8080:8080
