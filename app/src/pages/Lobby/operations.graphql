@@ -83,3 +83,12 @@ mutation AddRound($object: rounds_insert_input!) {
     order_sequence
   }
 }
+
+mutation LoadWords($objects: [cards_insert_input!]!) {
+  insert_cards(objects: $objects) {
+    returning {
+      id
+    }
+    affected_rows
+  }
+}

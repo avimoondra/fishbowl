@@ -18,14 +18,10 @@ import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useUpdatePlayerMutation } from "generated/graphql"
 import { useTitleStyle } from "index"
+import CardSettings from "pages/Lobby/CardSettings"
 import ControllableRoundSettings from "pages/Lobby/ControllableRoundSettings"
-import {
-  LetterInput,
-  SecondsPerTurnInput,
-  SubmissionsPerPlayerInput,
-} from "pages/Lobby/Inputs"
+import { SecondsPerTurnInput } from "pages/Lobby/Inputs"
 import AllowCardSkipsCheckbox from "pages/Lobby/Inputs/AllowCardSkipsCheckbox"
-import ScreenCardsCheckbox from "pages/Lobby/Inputs/ScreenCardsCheckbox"
 import UsernameInput from "pages/Lobby/Inputs/UsernameInput"
 import RoundSettings from "pages/Lobby/RoundSettings"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
@@ -98,7 +94,10 @@ function ShareSection() {
   )
 }
 
-function SettingsSection() {
+function SettingsSection(props: {
+  wordList?: string
+  onChangeWordList?: (wordList: string) => void
+}) {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const titleClasses = useTitleStyle()
@@ -134,17 +133,10 @@ function SettingsSection() {
                 Cards
               </Typography>
             </Grid>
-            <Grid item>
-              <SubmissionsPerPlayerInput
-                value={String(currentGame.num_entries_per_player || "")}
-              />
-            </Grid>
-            <Grid item>
-              <LetterInput value={currentGame.starting_letter || ""} />
-            </Grid>
-            <Grid item>
-              <ScreenCardsCheckbox value={Boolean(currentGame.screen_cards)} />
-            </Grid>
+            <CardSettings
+              wordList={props.wordList}
+              onChangeWordList={props.onChangeWordList}
+            ></CardSettings>
 
             <Grid item>
               <Typography variant="h6" className={titleClasses.title}>
@@ -185,7 +177,7 @@ function SettingsSection() {
   )
 }
 
-function WaitingRoomSection() {
+function WaitingRoomSection(props: { wordList?: string }) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const titleClasses = useTitleStyle()
 
@@ -203,7 +195,7 @@ function WaitingRoomSection() {
             playerId={currentPlayer.id}
           />
         </Grid>
-        <WaitingRoom></WaitingRoom>
+        <WaitingRoom wordList={props.wordList}></WaitingRoom>
       </Grid>
     </Grid>
   )
@@ -216,6 +208,7 @@ function Lobby() {
   const titleClasses = useTitleStyle()
   const location = useLocation()
   const [hideShare, setHideShare] = React.useState(false)
+  const [wordList, setWordList] = React.useState("")
 
   React.useEffect(() => {
     const params = new URLSearchParams(location.search)
@@ -254,14 +247,17 @@ function Lobby() {
       {currentPlayer.role === PlayerRole.Host && (
         <>
           <div className={classes.section}>
-            <SettingsSection></SettingsSection>
+            <SettingsSection
+              onChangeWordList={(wordList: string) => setWordList(wordList)}
+              wordList={wordList}
+            ></SettingsSection>
           </div>
           <Divider variant="middle"></Divider>
         </>
       )}
 
       <div className={classes.section}>
-        <WaitingRoomSection></WaitingRoomSection>
+        <WaitingRoomSection wordList={wordList}></WaitingRoomSection>
       </div>
 
       {currentPlayer.role === PlayerRole.Participant && (

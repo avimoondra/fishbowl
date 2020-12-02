@@ -5,18 +5,20 @@ import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
   GameStateEnum,
+  useLoadWordsMutation,
   useRemovePlayerMutation,
   useUpdateGameStateMutation,
 } from "generated/graphql"
 import { filter, find, isEmpty, reject } from "lodash"
 import * as React from "react"
 
-function WaitingRoom() {
+function WaitingRoom(props: { wordList?: string }) {
   const MIN_NUMBER_OF_PLAYERS = 2 // TODO: Update to 4.
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const [updateGameState] = useUpdateGameStateMutation()
   const [removePlayer] = useRemovePlayerMutation()
+  const [loadWords] = useLoadWordsMutation()
 
   const playersWithUsernames =
     reject(currentGame.players, (player) => isEmpty(player.username)) || []
@@ -63,12 +65,36 @@ function WaitingRoom() {
                   })
                 })
               )
-              await updateGameState({
-                variables: {
-                  id: currentGame.id,
-                  state: GameStateEnum.CardSubmission,
-                },
-              })
+              if (props.wordList) {
+                await loadWords({
+                  variables: {
+                    objects: props.wordList
+                      .split(",")
+                      .map((word) => word.trim())
+                      .map((word) => {
+                        return {
+                          word,
+                          game_id: currentGame.id,
+                          player_id: currentPlayer.id,
+                          is_allowed: true,
+                        }
+                      }),
+                  },
+                })
+                await updateGameState({
+                  variables: {
+                    id: currentGame.id,
+                    state: GameStateEnum.TeamAssignment,
+                  },
+                })
+              } else {
+                await updateGameState({
+                  variables: {
+                    id: currentGame.id,
+                    state: GameStateEnum.CardSubmission,
+                  },
+                })
+              }
             }}
             disabled={!canStartGame}
             variant="contained"
