@@ -19,8 +19,7 @@ import RoundSettings from "pages/Lobby/RoundSettings"
 import * as React from "react"
 
 function SettingsSection(props: {
-  wordList?: string
-  onChangeWordList?: (wordList: string) => void
+  debouncedSetWordList?: (wordList: string) => void
 }) {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
@@ -58,8 +57,7 @@ function SettingsSection(props: {
               </Typography>
             </Grid>
             <CardSettings
-              wordList={props.wordList}
-              onChangeWordList={props.onChangeWordList}
+              debouncedSetWordList={props.debouncedSetWordList}
             ></CardSettings>
 
             <Grid item>

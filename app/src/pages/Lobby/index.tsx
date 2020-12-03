@@ -9,12 +9,15 @@ import {
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useUpdatePlayerMutation } from "generated/graphql"
 import { useTitleStyle } from "index"
+import { debounce } from "lodash"
 import UsernameInput from "pages/Lobby/Inputs/UsernameInput"
 import SettingsSection from "pages/Lobby/SettingsSection"
 import ShareSection from "pages/Lobby/ShareSection"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
 import * as React from "react"
 import { useLocation } from "react-router-dom"
+
+const DEBOUNCE_SECONDS = 1000
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +35,11 @@ function Lobby() {
   const location = useLocation()
   const [hideShare, setHideShare] = React.useState(false)
   const [wordList, setWordList] = React.useState("")
+  const debouncedSetWordList = React.useRef(
+    debounce((value: string) => {
+      setWordList(value)
+    }, DEBOUNCE_SECONDS)
+  ).current
 
   React.useEffect(() => {
     const params = new URLSearchParams(location.search)
@@ -71,8 +79,7 @@ function Lobby() {
         <>
           <div className={classes.section}>
             <SettingsSection
-              onChangeWordList={(wordList: string) => setWordList(wordList)}
-              wordList={wordList}
+              debouncedSetWordList={debouncedSetWordList}
             ></SettingsSection>
           </div>
           <Divider variant="middle"></Divider>

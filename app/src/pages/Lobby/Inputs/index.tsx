@@ -35,7 +35,7 @@ export function LetterInput(props: { value: string }) {
         },
       })
     }, DEBOUNCE_SECONDS)
-  )
+  ).current
 
   return (
     <TextField
@@ -58,7 +58,7 @@ export function LetterInput(props: { value: string }) {
                   const randomLetter =
                     sample(Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ")) || "A"
                   setTextFieldValue(randomLetter)
-                  debouncedUpdateGameSettings.current(randomLetter)
+                  debouncedUpdateGameSettings(randomLetter)
                 }}
               >
                 Generate random letter
@@ -77,7 +77,7 @@ export function LetterInput(props: { value: string }) {
       disabled={!canConfigureSettings}
       onChange={({ target: { value } }) => {
         setTextFieldValue(value)
-        debouncedUpdateGameSettings.current(value)
+        debouncedUpdateGameSettings(value)
       }}
     />
   )
@@ -102,7 +102,7 @@ export function SecondsPerTurnInput(props: {
         },
       })
     }, DEBOUNCE_SECONDS)
-  )
+  ).current
 
   React.useEffect(() => {
     setTextFieldValue(props.value)
@@ -121,7 +121,7 @@ export function SecondsPerTurnInput(props: {
       disabled={!canConfigureSettings || props.disabled}
       onChange={({ target: { value } }) => {
         setTextFieldValue(value)
-        debouncedUpdateGameSettings.current(value)
+        debouncedUpdateGameSettings(value)
       }}
     />
   )
@@ -147,7 +147,7 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
         },
       })
     }, DEBOUNCE_SECONDS)
-  )
+  ).current
 
   return (
     <TextField
@@ -162,7 +162,7 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
       disabled={!canConfigureSettings}
       onChange={({ target: { value } }) => {
         setTextFieldValue(value)
-        debouncedUpdateGameSettings.current(value)
+        debouncedUpdateGameSettings(value)
       }}
     />
   )
