@@ -33,7 +33,6 @@ function SettingsSection(props: {
         boxShadow: "none",
         background: "none",
       }}
-      defaultExpanded={true}
     >
       <ExpansionPanelSummary
         expandIcon={<ExpandMoreIcon />}
