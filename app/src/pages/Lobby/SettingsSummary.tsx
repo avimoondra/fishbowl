@@ -33,7 +33,7 @@ function SettingsSummary() {
         currentGame.seconds_per_turn
       } seconds across rounds of ${currentGame.rounds
         .map((round) => startCase(round.value))
-        .join(", ")}.${
+        .join(", ")}. ${
         currentGame.allow_card_skips
           ? "Skipping cards is allowed"
           : "Skipping cards is not allowed."
