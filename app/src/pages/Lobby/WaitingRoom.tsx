@@ -4,6 +4,7 @@ import PlayerArena from "components/PlayerArena"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
+  GameCardPlayStyleEnum,
   GameStateEnum,
   useLoadWordsMutation,
   useRemovePlayerMutation,
@@ -14,7 +15,10 @@ import { teamsWithSequence } from "lib/team"
 import { compact, filter, find, isEmpty, reject } from "lodash"
 import * as React from "react"
 
-function WaitingRoom(props: { wordList?: string }) {
+function WaitingRoom(props: {
+  cardPlayStyle: GameCardPlayStyleEnum
+  wordList?: string
+}) {
   const MIN_NUMBER_OF_PLAYERS = 2 // TODO: Update to 4.
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
@@ -31,9 +35,12 @@ function WaitingRoom(props: { wordList?: string }) {
   const canStartGame =
     canSeeStartGameButton &&
     currentGame.seconds_per_turn &&
-    currentGame.num_entries_per_player &&
+    find(playersWithUsernames, (player) => player.id === currentPlayer.id) &&
     playersWithUsernames.length >= MIN_NUMBER_OF_PLAYERS &&
-    find(playersWithUsernames, (player) => player.id === currentPlayer.id)
+    ((props.cardPlayStyle === GameCardPlayStyleEnum.PlayersSubmitWords &&
+      currentGame.num_entries_per_player) ||
+      (props.cardPlayStyle === GameCardPlayStyleEnum.HostProvidesWords &&
+        Boolean(props.wordList)))
 
   return (
     <>
@@ -68,7 +75,11 @@ function WaitingRoom(props: { wordList?: string }) {
                   })
                 })
               )
-              if (props.wordList) {
+              if (
+                props.cardPlayStyle ===
+                  GameCardPlayStyleEnum.HostProvidesWords &&
+                props.wordList
+              ) {
                 await loadWords({
                   variables: {
                     objects: compact(
@@ -106,7 +117,9 @@ function WaitingRoom(props: { wordList?: string }) {
                     state: GameStateEnum.TeamAssignment,
                   },
                 })
-              } else {
+              } else if (
+                props.cardPlayStyle === GameCardPlayStyleEnum.PlayersSubmitWords
+              ) {
                 await updateGameState({
                   variables: {
                     id: currentGame.id,
