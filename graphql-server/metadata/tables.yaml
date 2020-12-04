@@ -58,6 +58,21 @@
       check: null
 - table:
     schema: public
+    name: game_card_play_style
+  is_enum: true
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - value
+      filter: {}
+  - role: player
+    permission:
+      columns:
+      - value
+      filter: {}
+- table:
+    schema: public
     name: game_state
   is_enum: true
 - table:
@@ -121,6 +136,7 @@
     permission:
       columns:
       - allow_card_skips
+      - card_play_style
       - created_at
       - host_id
       - id
@@ -140,6 +156,7 @@
     permission:
       columns:
       - allow_card_skips
+      - card_play_style
       - created_at
       - host_id
       - id
