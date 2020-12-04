@@ -35,8 +35,8 @@ function SettingsSummary() {
         .map((round) => startCase(round.value))
         .join(", ")}. ${
         currentGame.allow_card_skips
-          ? "Skipping cards is allowed"
-          : "Skipping cards is not allowed."
+          ? "Players can skip cards during their turn."
+          : "Players cannot skip cards during their turn."
       }`}
     </>
   )
