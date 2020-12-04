@@ -17,6 +17,7 @@ import ControllableRoundSettings from "pages/Lobby/ControllableRoundSettings"
 import { SecondsPerTurnInput } from "pages/Lobby/Inputs"
 import AllowCardSkipsCheckbox from "pages/Lobby/Inputs/AllowCardSkipsCheckbox"
 import RoundSettings from "pages/Lobby/RoundSettings"
+import SettingsSummary from "pages/Lobby/SettingsSummary"
 import * as React from "react"
 
 function SettingsSection(props: {
@@ -27,22 +28,36 @@ function SettingsSection(props: {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const titleClasses = useTitleStyle()
+
+  const [expanded, setExpanded] = React.useState(false)
+
   return (
     <ExpansionPanel
       style={{
         boxShadow: "none",
         background: "none",
       }}
+      expanded={expanded}
     >
       <ExpansionPanelSummary
         expandIcon={<ExpandMoreIcon />}
         style={{ padding: 0 }}
         aria-controls="panel1a-content"
         id="panel1a-header"
+        onClick={() => {
+          setExpanded(!expanded)
+        }}
       >
-        <Typography variant="h4" className={titleClasses.title}>
-          Settings
-        </Typography>
+        <Box display="flex" flexDirection="column">
+          <Typography variant="h4" className={titleClasses.title}>
+            Settings
+          </Typography>
+          {!expanded && (
+            <Box mt={2} pr={4} style={{ color: grey[600] }}>
+              <SettingsSummary></SettingsSummary>
+            </Box>
+          )}
+        </Box>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails style={{ padding: 0 }}>
         <Grid item>
