@@ -127,7 +127,10 @@ function Lobby() {
                 playerId={currentPlayer.id}
               />
             </Grid>
-            <WaitingRoom wordList={wordList} cardPlayStyle={cardPlayStyle}></WaitingRoom>
+            <WaitingRoom
+              wordList={wordList}
+              cardPlayStyle={cardPlayStyle}
+            ></WaitingRoom>
           </Grid>
         </Grid>
       </div>
