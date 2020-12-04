@@ -44,6 +44,11 @@ function Lobby() {
   const [cardPlayStyle, setCardPlayStyle] = React.useState(
     GameCardPlayStyleEnum.PlayersSubmitWords
   )
+
+  React.useEffect(() => {
+    setCardPlayStyle(currentGame.card_play_style)
+  }, [currentGame.card_play_style])
+
   const [wordList, setWordList] = React.useState("")
   const debouncedSetWordList = React.useRef(
     debounce((value: string) => {
@@ -89,8 +94,9 @@ function Lobby() {
         <>
           <div className={classes.section}>
             <SettingsSection
-              cardPlayStyle={currentGame.card_play_style}
+              cardPlayStyle={cardPlayStyle}
               setCardPlayStyle={(value) => {
+                setCardPlayStyle(value as GameCardPlayStyleEnum)
                 updateGameSettings({
                   variables: {
                     id: currentGame.id,
@@ -130,9 +136,7 @@ function Lobby() {
         <>
           <Divider variant="middle"></Divider>
           <div className={classes.section}>
-            <SettingsSection
-              cardPlayStyle={currentGame.card_play_style}
-            ></SettingsSection>
+            <SettingsSection cardPlayStyle={cardPlayStyle}></SettingsSection>
           </div>
         </>
       )}

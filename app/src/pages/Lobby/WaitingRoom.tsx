@@ -7,8 +7,10 @@ import {
   GameStateEnum,
   useLoadWordsMutation,
   useRemovePlayerMutation,
+  useUpdateAllPlayersMutation,
   useUpdateGameStateMutation,
 } from "generated/graphql"
+import { teamsWithSequence } from "lib/team"
 import { compact, filter, find, isEmpty, reject } from "lodash"
 import * as React from "react"
 
@@ -19,6 +21,7 @@ function WaitingRoom(props: { wordList?: string }) {
   const [updateGameState] = useUpdateGameStateMutation()
   const [removePlayer] = useRemovePlayerMutation()
   const [loadWords] = useLoadWordsMutation()
+  const [updateAllPlayers] = useUpdateAllPlayersMutation()
 
   const playersWithUsernames =
     reject(currentGame.players, (player) => isEmpty(player.username)) || []
@@ -78,6 +81,23 @@ function WaitingRoom(props: { wordList?: string }) {
                         is_allowed: true,
                       }
                     }),
+                  },
+                })
+                const players = teamsWithSequence(currentGame.players)
+                await updateAllPlayers({
+                  variables: {
+                    gameId: currentGame.id,
+                    players: players.map(({ id, team, team_sequence }) => ({
+                      id,
+                      team,
+                      team_sequence,
+                    })),
+                  },
+                })
+                updateGameState({
+                  variables: {
+                    id: currentGame.id,
+                    state: GameStateEnum.TeamAssignment,
                   },
                 })
                 await updateGameState({
