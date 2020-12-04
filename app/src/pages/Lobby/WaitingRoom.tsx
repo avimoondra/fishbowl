@@ -111,12 +111,6 @@ function WaitingRoom(props: {
                     state: GameStateEnum.TeamAssignment,
                   },
                 })
-                await updateGameState({
-                  variables: {
-                    id: currentGame.id,
-                    state: GameStateEnum.TeamAssignment,
-                  },
-                })
               } else if (
                 props.cardPlayStyle === GameCardPlayStyleEnum.PlayersSubmitWords
               ) {
