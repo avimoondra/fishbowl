@@ -11,8 +11,9 @@ import {
   useUpdateAllPlayersMutation,
   useUpdateGameStateMutation,
 } from "generated/graphql"
+import { parseWordList } from "lib/cards"
 import { teamsWithSequence } from "lib/team"
-import { compact, filter, find, isEmpty, reject } from "lodash"
+import { filter, find, isEmpty, reject } from "lodash"
 import * as React from "react"
 
 function WaitingRoom(props: {
@@ -82,9 +83,7 @@ function WaitingRoom(props: {
               ) {
                 await loadWords({
                   variables: {
-                    objects: compact(
-                      props.wordList.split(",").map((word) => word.trim())
-                    ).map((word) => {
+                    objects: parseWordList(props.wordList).map((word) => {
                       return {
                         word,
                         game_id: currentGame.id,

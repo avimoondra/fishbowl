@@ -11,7 +11,7 @@ import { grey } from "@material-ui/core/colors"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { GameCardPlayStyleEnum } from "generated/graphql"
-import { compact } from "lodash"
+import { parseWordList } from "lib/cards"
 import { LetterInput, SubmissionsPerPlayerInput } from "pages/Lobby/Inputs"
 import ScreenCardsCheckbox from "pages/Lobby/Inputs/ScreenCardsCheckbox"
 import * as React from "react"
@@ -26,8 +26,7 @@ function CardSettings(props: {
   const [wordList, setWordList] = React.useState("")
   const canConfigureSettings = currentPlayer.role === PlayerRole.Host
 
-  const wordListLength = compact(wordList.split(",").map((word) => word.trim()))
-    .length
+  const wordListLength = parseWordList(wordList).length
 
   return (
     <>
