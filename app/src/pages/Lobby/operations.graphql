@@ -7,6 +7,7 @@ mutation UpdateGameSettings($id: uuid!, $input: games_set_input!) {
     num_entries_per_player
     allow_card_skips
     screen_cards
+    card_play_style
   }
 }
 
@@ -81,5 +82,14 @@ mutation AddRound($object: rounds_insert_input!) {
     id
     value
     order_sequence
+  }
+}
+
+mutation LoadWords($objects: [cards_insert_input!]!) {
+  insert_cards(objects: $objects) {
+    returning {
+      id
+    }
+    affected_rows
   }
 }

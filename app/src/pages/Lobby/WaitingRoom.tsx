@@ -4,19 +4,29 @@ import PlayerArena from "components/PlayerArena"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import {
+  GameCardPlayStyleEnum,
   GameStateEnum,
+  useLoadWordsMutation,
   useRemovePlayerMutation,
+  useUpdateAllPlayersMutation,
   useUpdateGameStateMutation,
 } from "generated/graphql"
+import { parseWordList } from "lib/cards"
+import { teamsWithSequence } from "lib/team"
 import { filter, find, isEmpty, reject } from "lodash"
 import * as React from "react"
 
-function WaitingRoom() {
+function WaitingRoom(props: {
+  cardPlayStyle: GameCardPlayStyleEnum
+  wordList?: string
+}) {
   const MIN_NUMBER_OF_PLAYERS = 2 // TODO: Update to 4.
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const [updateGameState] = useUpdateGameStateMutation()
   const [removePlayer] = useRemovePlayerMutation()
+  const [loadWords] = useLoadWordsMutation()
+  const [updateAllPlayers] = useUpdateAllPlayersMutation()
 
   const playersWithUsernames =
     reject(currentGame.players, (player) => isEmpty(player.username)) || []
@@ -26,9 +36,12 @@ function WaitingRoom() {
   const canStartGame =
     canSeeStartGameButton &&
     currentGame.seconds_per_turn &&
-    currentGame.num_entries_per_player &&
+    find(playersWithUsernames, (player) => player.id === currentPlayer.id) &&
     playersWithUsernames.length >= MIN_NUMBER_OF_PLAYERS &&
-    find(playersWithUsernames, (player) => player.id === currentPlayer.id)
+    ((props.cardPlayStyle === GameCardPlayStyleEnum.PlayersSubmitWords &&
+      currentGame.num_entries_per_player) ||
+      (props.cardPlayStyle === GameCardPlayStyleEnum.HostProvidesWords &&
+        Boolean(props.wordList)))
 
   return (
     <>
@@ -63,12 +76,50 @@ function WaitingRoom() {
                   })
                 })
               )
-              await updateGameState({
-                variables: {
-                  id: currentGame.id,
-                  state: GameStateEnum.CardSubmission,
-                },
-              })
+              if (
+                props.cardPlayStyle ===
+                  GameCardPlayStyleEnum.HostProvidesWords &&
+                props.wordList
+              ) {
+                await loadWords({
+                  variables: {
+                    objects: parseWordList(props.wordList).map((word) => {
+                      return {
+                        word,
+                        game_id: currentGame.id,
+                        player_id: currentPlayer.id,
+                        is_allowed: true,
+                      }
+                    }),
+                  },
+                })
+                const players = teamsWithSequence(currentGame.players)
+                await updateAllPlayers({
+                  variables: {
+                    gameId: currentGame.id,
+                    players: players.map(({ id, team, team_sequence }) => ({
+                      id,
+                      team,
+                      team_sequence,
+                    })),
+                  },
+                })
+                updateGameState({
+                  variables: {
+                    id: currentGame.id,
+                    state: GameStateEnum.TeamAssignment,
+                  },
+                })
+              } else if (
+                props.cardPlayStyle === GameCardPlayStyleEnum.PlayersSubmitWords
+              ) {
+                await updateGameState({
+                  variables: {
+                    id: currentGame.id,
+                    state: GameStateEnum.CardSubmission,
+                  },
+                })
+              }
             }}
             disabled={!canStartGame}
             variant="contained"
