@@ -10,6 +10,7 @@ import { grey } from "@material-ui/core/colors"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
+import { GameCardPlayStyleEnum } from "generated/graphql"
 import { useTitleStyle } from "index"
 import CardSettings from "pages/Lobby/CardSettings"
 import ControllableRoundSettings from "pages/Lobby/ControllableRoundSettings"
@@ -19,6 +20,8 @@ import RoundSettings from "pages/Lobby/RoundSettings"
 import * as React from "react"
 
 function SettingsSection(props: {
+  cardPlayStyle: GameCardPlayStyleEnum
+  setCardPlayStyle?: (cardPlayStyle: GameCardPlayStyleEnum) => void
   debouncedSetWordList?: (wordList: string) => void
 }) {
   const currentGame = React.useContext(CurrentGameContext)
@@ -30,6 +33,7 @@ function SettingsSection(props: {
         boxShadow: "none",
         background: "none",
       }}
+      defaultExpanded={true}
     >
       <ExpansionPanelSummary
         expandIcon={<ExpandMoreIcon />}
@@ -56,9 +60,7 @@ function SettingsSection(props: {
                 Cards
               </Typography>
             </Grid>
-            <CardSettings
-              debouncedSetWordList={props.debouncedSetWordList}
-            ></CardSettings>
+            <CardSettings {...props}></CardSettings>
 
             <Grid item>
               <Typography variant="h6" className={titleClasses.title}>

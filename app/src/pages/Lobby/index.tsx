@@ -6,8 +6,13 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core"
+import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
-import { useUpdatePlayerMutation } from "generated/graphql"
+import {
+  GameCardPlayStyleEnum,
+  useUpdateGameSettingsMutation,
+  useUpdatePlayerMutation,
+} from "generated/graphql"
 import { useTitleStyle } from "index"
 import { debounce } from "lodash"
 import UsernameInput from "pages/Lobby/Inputs/UsernameInput"
@@ -29,11 +34,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function Lobby() {
   const currentPlayer = React.useContext(CurrentPlayerContext)
+  const currentGame = React.useContext(CurrentGameContext)
   const [updatePlayer] = useUpdatePlayerMutation()
   const classes = useStyles()
   const titleClasses = useTitleStyle()
   const location = useLocation()
   const [hideShare, setHideShare] = React.useState(false)
+  const [updateGameSettings] = useUpdateGameSettingsMutation()
+  const [cardPlayStyle, setCardPlayStyle] = React.useState(
+    GameCardPlayStyleEnum.PlayersSubmitWords
+  )
   const [wordList, setWordList] = React.useState("")
   const debouncedSetWordList = React.useRef(
     debounce((value: string) => {
@@ -79,6 +89,17 @@ function Lobby() {
         <>
           <div className={classes.section}>
             <SettingsSection
+              cardPlayStyle={currentGame.card_play_style}
+              setCardPlayStyle={(value) => {
+                updateGameSettings({
+                  variables: {
+                    id: currentGame.id,
+                    input: {
+                      card_play_style: value as GameCardPlayStyleEnum,
+                    },
+                  },
+                })
+              }}
               debouncedSetWordList={debouncedSetWordList}
             ></SettingsSection>
           </div>
@@ -109,7 +130,9 @@ function Lobby() {
         <>
           <Divider variant="middle"></Divider>
           <div className={classes.section}>
-            <SettingsSection></SettingsSection>
+            <SettingsSection
+              cardPlayStyle={currentGame.card_play_style}
+            ></SettingsSection>
           </div>
         </>
       )}

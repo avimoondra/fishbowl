@@ -1,18 +1,28 @@
-import { FormControlLabel, Grid, Switch, TextField } from "@material-ui/core"
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  TextField,
+} from "@material-ui/core"
 import { grey } from "@material-ui/core/colors"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
+import { GameCardPlayStyleEnum } from "generated/graphql"
 import { compact } from "lodash"
 import { LetterInput, SubmissionsPerPlayerInput } from "pages/Lobby/Inputs"
 import ScreenCardsCheckbox from "pages/Lobby/Inputs/ScreenCardsCheckbox"
 import * as React from "react"
 
 function CardSettings(props: {
+  cardPlayStyle: GameCardPlayStyleEnum
+  setCardPlayStyle?: (cardPlayStyle: GameCardPlayStyleEnum) => void
   debouncedSetWordList?: (wordList: string) => void
 }) {
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
-  const [submittingCards, setSubmittingCards] = React.useState(true)
   const [wordList, setWordList] = React.useState("")
   const canConfigureSettings = currentPlayer.role === PlayerRole.Host
 
@@ -22,30 +32,30 @@ function CardSettings(props: {
   return (
     <>
       <Grid item>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={submittingCards}
-              disabled={!canConfigureSettings}
-              color="primary"
-              onChange={({ target: { checked } }) => {
-                setSubmittingCards(checked)
-              }}
-            />
-          }
-          label={
-            <div>
-              <span style={{ color: grey[600] }}>Players submit cards</span>
-              <div style={{ fontSize: "12px", color: grey[600] }}>
-                vs. host providing a list of words or phrases
-              </div>
-            </div>
-          }
-        ></FormControlLabel>
+        <FormControl component="fieldset" disabled={!canConfigureSettings}>
+          <RadioGroup
+            value={props.cardPlayStyle}
+            onChange={({ target: { value } }) => {
+              props.setCardPlayStyle &&
+                props.setCardPlayStyle(value as GameCardPlayStyleEnum)
+            }}
+          >
+            <FormControlLabel
+              value={GameCardPlayStyleEnum.PlayersSubmitWords}
+              control={<Radio color="primary"></Radio>}
+              label="Players submit words (default)"
+            ></FormControlLabel>
+            <FormControlLabel
+              value={GameCardPlayStyleEnum.HostProvidesWords}
+              control={<Radio color="primary"></Radio>}
+              label="Host provides words"
+            ></FormControlLabel>
+          </RadioGroup>
+        </FormControl>
       </Grid>
-      <Grid item />
-      {submittingCards ? (
+      {props.cardPlayStyle === GameCardPlayStyleEnum.PlayersSubmitWords && (
         <>
+          <Grid item />
           <Grid item>
             <SubmissionsPerPlayerInput
               value={String(currentGame.num_entries_per_player || "")}
@@ -58,29 +68,34 @@ function CardSettings(props: {
             <ScreenCardsCheckbox value={Boolean(currentGame.screen_cards)} />
           </Grid>
         </>
-      ) : (
-        <>
-          {canConfigureSettings && (
-            <Grid item>
-              <TextField
-                value={wordList}
-                onChange={({ target: { value } }) => {
-                  setWordList(value)
-                  props.debouncedSetWordList &&
-                    props.debouncedSetWordList(value)
-                }}
-                fullWidth
-                label="Words"
-                multiline
-                rows={5}
-                variant="outlined"
-                placeholder="Comma separated list of words here..."
-              ></TextField>
-              {wordListLength ? `${wordListLength} words detected` : ""}
-            </Grid>
-          )}
-        </>
       )}
+      {props.cardPlayStyle === GameCardPlayStyleEnum.HostProvidesWords &&
+        canConfigureSettings && (
+          <Grid item>
+            <TextField
+              autoFocus
+              value={wordList}
+              onChange={({ target: { value } }) => {
+                setWordList(value)
+                props.debouncedSetWordList && props.debouncedSetWordList(value)
+              }}
+              fullWidth
+              label="Words"
+              multiline
+              rows={5}
+              variant="outlined"
+              placeholder="Comma separated list of words here..."
+            ></TextField>
+            <Box
+              display="flex"
+              flexDirection="row-reverse"
+              pt={0.5}
+              color={grey[600]}
+            >
+              {wordListLength ? `${wordListLength} words detected` : ""}
+            </Box>
+          </Grid>
+        )}
     </>
   )
 }

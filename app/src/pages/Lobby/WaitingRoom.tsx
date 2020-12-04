@@ -9,7 +9,7 @@ import {
   useRemovePlayerMutation,
   useUpdateGameStateMutation,
 } from "generated/graphql"
-import { filter, find, isEmpty, reject } from "lodash"
+import { compact, filter, find, isEmpty, reject } from "lodash"
 import * as React from "react"
 
 function WaitingRoom(props: { wordList?: string }) {
@@ -68,17 +68,16 @@ function WaitingRoom(props: { wordList?: string }) {
               if (props.wordList) {
                 await loadWords({
                   variables: {
-                    objects: props.wordList
-                      .split(",")
-                      .map((word) => word.trim())
-                      .map((word) => {
-                        return {
-                          word,
-                          game_id: currentGame.id,
-                          player_id: currentPlayer.id,
-                          is_allowed: true,
-                        }
-                      }),
+                    objects: compact(
+                      props.wordList.split(",").map((word) => word.trim())
+                    ).map((word) => {
+                      return {
+                        word,
+                        game_id: currentGame.id,
+                        player_id: currentPlayer.id,
+                        is_allowed: true,
+                      }
+                    }),
                   },
                 })
                 await updateGameState({

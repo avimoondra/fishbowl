@@ -27,6 +27,7 @@ subscription CurrentGame($joinCode: String!) {
     num_entries_per_player
     allow_card_skips
     screen_cards
+    card_play_style
     state
     host {
       id
