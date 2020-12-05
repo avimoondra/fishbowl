@@ -2,13 +2,13 @@ import { Box, Grid } from "@material-ui/core"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
-import { CurrentGameSubscription } from "generated/graphql"
+import { CurrentGameQuery } from "generated/graphql"
 import { nextPlayerForNextTeam } from "lib/turn"
 import * as React from "react"
 
 type Props = {
-  activePlayer: CurrentGameSubscription["games"][0]["players"][0]
-  activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
+  activePlayer: CurrentGameQuery["games"][0]["players"][0]
+  activeTurn: CurrentGameQuery["games"][0]["turns"][0]
 }
 
 export function YourTeamTurnContent(props: Props) {

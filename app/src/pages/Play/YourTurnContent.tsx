@@ -13,7 +13,7 @@ import BowlCard from "components/BowlCard"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import {
-  CurrentGameSubscription,
+  CurrentGameQuery,
   Rounds,
   useEndCurrentTurnAndStartNextTurnMutation,
   useStartTurnMutation,
@@ -47,10 +47,10 @@ const GreenCheckbox = withStyles({
 })((props: CheckboxProps) => <Checkbox color="default" {...props} />)
 
 function YourTurnContent(props: {
-  yourTeamPlayers: CurrentGameSubscription["games"][0]["players"]
-  cardsInBowl: CurrentGameSubscription["games"][0]["cards"]
-  activePlayer: CurrentGameSubscription["games"][0]["players"][0]
-  activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
+  yourTeamPlayers: CurrentGameQuery["games"][0]["players"]
+  cardsInBowl: CurrentGameQuery["games"][0]["cards"]
+  activePlayer: CurrentGameQuery["games"][0]["players"][0]
+  activeTurn: CurrentGameQuery["games"][0]["turns"][0]
   activeTurnPlayState: ActiveTurnPlayState
   secondsLeft: number
   currentRoundId: Rounds["id"]
@@ -67,7 +67,7 @@ function YourTurnContent(props: {
   const [skippingTurn, setSkippingTurn] = React.useState(false)
 
   const [activeCard, setActiveCard] = React.useState<
-    CurrentGameSubscription["games"][0]["cards"][0] | null
+    CurrentGameQuery["games"][0]["cards"][0] | null
   >(null)
 
   const [shownCardsInActiveTurn, setShownCardsInActiveTurn] = React.useState<

@@ -1,4 +1,4 @@
-import { CurrentGameSubscription } from "generated/graphql"
+import { CurrentGameQuery } from "generated/graphql"
 import { cloneDeep, filter, find, remove, shuffle } from "lodash"
 
 export enum Team {
@@ -25,7 +25,7 @@ function addTeamAndSequence(players: Players, team: Team) {
 // > [1, 2, 3, 4] (first half will always be equal or 1 longer)
 // [1,2,3,4,5,6,7].splice(Math.ceil(7/ 2), 7)
 // > [5, 6, 7]
-type Player = CurrentGameSubscription["games"][0]["players"][0]
+type Player = CurrentGameQuery["games"][0]["players"][0]
 type Players = Array<Player>
 export function teamsWithSequence(players: Players) {
   const shuffledPlayers = shuffle(players)

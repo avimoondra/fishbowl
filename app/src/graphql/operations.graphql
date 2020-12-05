@@ -18,7 +18,53 @@ query CurrentPlayer($clientUuid: uuid!, $joinCode: String!) {
   }
 }
 
-subscription CurrentGame($joinCode: String!) {
+query CurrentGame($joinCode: String!) {
+  games(where: { join_code: { _eq: $joinCode } }) {
+    id
+    join_code
+    starting_letter
+    seconds_per_turn
+    num_entries_per_player
+    allow_card_skips
+    screen_cards
+    card_play_style
+    state
+    host {
+      id
+      username
+    }
+    rounds(order_by: { order_sequence: asc }) {
+      id
+      value
+    }
+    cards(
+      where: {
+        _or: [{ is_allowed: { _is_null: true } }, { is_allowed: { _eq: true } }]
+      }
+    ) {
+      id
+      word
+      player_id
+      is_allowed
+    }
+    players {
+      id
+      client_uuid
+      username
+      team
+      team_sequence
+    }
+    turns(order_by: { sequential_id: asc }) {
+      id
+      player_id
+      started_at
+      completed_card_ids
+      seconds_per_turn_override
+    }
+  }
+}
+
+subscription CurrentGameSub($joinCode: String!) {
   games(where: { join_code: { _eq: $joinCode } }) {
     id
     join_code

@@ -1,11 +1,11 @@
-import { CurrentGameSubscription } from "generated/graphql"
+import { CurrentGameQuery } from "generated/graphql"
 import { Team } from "lib/team"
 import { filter, flatMap } from "lodash"
 
 export function teamScore(
   team: Team,
-  turns: CurrentGameSubscription["games"][0]["turns"],
-  players: CurrentGameSubscription["games"][0]["players"]
+  turns: CurrentGameQuery["games"][0]["turns"],
+  players: CurrentGameQuery["games"][0]["players"]
 ) {
   const teamPlayerIds = filter(players, (player) => player.team === team).map(
     (player) => player.id
