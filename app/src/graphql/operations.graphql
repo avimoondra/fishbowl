@@ -18,6 +18,15 @@ query CurrentPlayer($clientUuid: uuid!, $joinCode: String!) {
   }
 }
 
+fragment Turn on turns {
+  id
+  player_id
+  started_at
+  review_started_at
+  completed_card_ids
+  seconds_per_turn_override
+}
+
 subscription CurrentGame($joinCode: String!) {
   games(where: { join_code: { _eq: $joinCode } }) {
     id
@@ -55,11 +64,7 @@ subscription CurrentGame($joinCode: String!) {
       team_sequence
     }
     turns(order_by: { sequential_id: asc }) {
-      id
-      player_id
-      started_at
-      completed_card_ids
-      seconds_per_turn_override
+      ...Turn
     }
   }
 }

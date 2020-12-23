@@ -72,3 +72,9 @@ mutation StartReview($currentTurnId: uuid!, $reviewStartedAt: timestamptz!) {
     review_started_at
   }
 }
+
+query ServerTime {
+  server_time {
+    now
+  }
+}
