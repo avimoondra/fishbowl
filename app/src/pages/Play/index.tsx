@@ -5,7 +5,6 @@ import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useStartReviewMutation } from "generated/graphql"
 import { useTitleStyle } from "index"
 import { currentPlayerTeam, Team, TeamColor } from "lib/team"
-import { timestamptzNow } from "lib/time"
 import { ActiveTurnPlayState, drawableCards } from "lib/turn"
 import { capitalize, filter, flatMap, last } from "lodash"
 import GameRoundInstructionCard, {
@@ -18,6 +17,7 @@ import TurnContextPanel from "pages/Play/TurnContextPanel"
 import YourTurnContent from "pages/Play/YourTurnContent"
 import * as React from "react"
 import useSecondsLeft from "./useSecondsLeft"
+import useServerTimeOffset from "./useServerTimeOffset"
 
 function Play() {
   const titleClasses = useTitleStyle()
@@ -57,9 +57,10 @@ function Play() {
   )
   React.useEffect(() => {
     setActiveTurnPlayState(getActiveTurnPlayState())
-  }, [activeTurn])
+  }, [activeTurn]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const secondsLeft = useSecondsLeft(activeTurnPlayState)
+  const serverTimeOffset = useServerTimeOffset()
+  const secondsLeft = useSecondsLeft(activeTurnPlayState, serverTimeOffset)
 
   // countdown timer
   React.useEffect(() => {
@@ -72,12 +73,11 @@ function Play() {
         startReview({
           variables: {
             currentTurnId: activeTurn.id,
-            reviewStartedAt: timestamptzNow(),
           },
         })
       }
     }
-  }, [secondsLeft])
+  }, [secondsLeft]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!activeTurn || !activePlayer) {
     return null
@@ -120,6 +120,7 @@ function Play() {
         )}
         cardsInBowl={drawableCards(currentGame.turns, currentGame.cards)}
         secondsLeft={secondsLeft}
+        serverTimeOffset={serverTimeOffset}
         activePlayer={activePlayer}
         activeTurn={activeTurn}
         activeTurnPlayState={activeTurnPlayState}
@@ -131,7 +132,6 @@ function Play() {
           startReview({
             variables: {
               currentTurnId: activeTurn.id,
-              reviewStartedAt: timestamptzNow(),
             },
           })
         }}

@@ -16,7 +16,7 @@ interface Sample {
  *
  * @see https://github.com/enmasseio/timesync#algorithm
  */
-export default function useServerDateOffset(): number {
+export default function useServerTimeOffset(): number {
   const [offset, setOffset] = React.useState(0)
   const { refetch: fetchServerTime } = useQuery<ServerTimeQuery>(
     ServerTimeDocument,
@@ -78,7 +78,7 @@ export default function useServerDateOffset(): number {
     }
 
     computeOffset()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return offset
 }
