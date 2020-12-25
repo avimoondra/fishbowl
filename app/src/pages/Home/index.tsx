@@ -1,4 +1,13 @@
-import { Box, Button, Divider, Grid, Link, Typography } from "@material-ui/core"
+import {
+  Box,
+  Button,
+  Card,
+  Divider,
+  Grid,
+  Link,
+  Typography,
+} from "@material-ui/core"
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline"
 import Fishbowl from "components/FishbowlAnimation"
 import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { clientUuid } from "contexts/CurrentPlayer"
@@ -42,6 +51,23 @@ function Home() {
           </Typography>
         </Grid>
         <Grid item>
+          <Card style={{ backgroundColor: "#ff9800" }}>
+            <Box
+              p={2}
+              display="flex"
+              justifyContent="space-evenly"
+              alignItems="center"
+              style={{ color: "white", fontWeight: 500 }}
+            >
+              <ErrorOutlineIcon fontSize="small"></ErrorOutlineIcon>
+              <Box pl={1}>
+                Unfortunately, our database is down. We are working on bringing
+                it back up!
+              </Box>
+            </Box>
+          </Card>
+        </Grid>
+        <Grid item>
           {[PlayerState.Choosing, PlayerState.Hosting].includes(
             playerState
           ) && (
@@ -81,11 +107,13 @@ function Home() {
                     }
                   }
                 }}
-                disabled={playerState === PlayerState.Hosting}
+                disabled
+                // disabled={playerState === PlayerState.Hosting}
               >
                 Host Game
               </Button>
               <Button
+                disabled
                 size="large"
                 variant="outlined"
                 onClick={() => setPlayerState(PlayerState.Joining)}
