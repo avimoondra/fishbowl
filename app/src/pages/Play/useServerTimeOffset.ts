@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/react-hooks"
 import { ServerTimeDocument, ServerTimeQuery } from "generated/graphql"
+import { compact } from "lodash"
 import { mean, median, std } from "mathjs"
 import React from "react"
 
@@ -64,25 +65,25 @@ export default function useServerTimeOffset(): number {
       }
 
       // calculate the limit for outliers
-      const roundtrips = samples
-        .filter(successfulSample)
-        .map((sample) => sample.roundtrip)
-      const limit = median(roundtrips) + std(roundtrips)
+      const roundtrips = compact(samples).map((sample) => sample.roundtrip)
+      const limits = [
+        median(roundtrips) - std(roundtrips),
+        median(roundtrips) + std(roundtrips),
+      ]
 
-      const offsets = samples
-        .filter(successfulSample)
-        .filter((sample) => sample.roundtrip < limit) // exclude long request outliers
+      // exclude long and short request outliers
+      const offsets = compact(samples)
+        .filter(
+          (sample) =>
+            sample.roundtrip > limits[0] && sample.roundtrip < limits[1]
+        )
         .map((sample) => sample.offset)
 
       setOffset(mean(offsets))
     }
 
     computeOffset()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fetchServerTime])
 
   return offset
-}
-
-function successfulSample(sample: Sample | null): sample is Sample {
-  return null !== sample
 }
