@@ -1,8 +1,10 @@
 import { CurrentGameContext } from "contexts/CurrentGame"
+import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { ActiveTurnPlayState } from "lib/turn"
 import useInterval from "lib/useInterval"
 import { last } from "lodash"
-import React from "react"
+import React, { useContext, useEffect } from "react"
+import { calculateSecondsLeft } from "./functions"
 
 /**
  * Milliseconds to delay in between timer updates.
@@ -14,35 +16,22 @@ import React from "react"
 const INTERVAL_DELAY = 100
 
 export default function useSecondsLeft(
-  activeTurnPlayState: ActiveTurnPlayState,
-  serverTimeOffset: number
+  activeTurnPlayState: ActiveTurnPlayState
 ): number {
-  const currentGame = React.useContext(CurrentGameContext)
+  const { serverTimeOffset } = useContext(CurrentPlayerContext)
+  const currentGame = useContext(CurrentGameContext)
   const activeTurn = last(currentGame.turns)
-  const activeTurnId = activeTurn?.id
   const startingSeconds =
     activeTurn?.seconds_per_turn_override || currentGame.seconds_per_turn || 0
 
-  const calculateSecondsLeft = () => {
-    if (!activeTurn?.started_at) {
-      return startingSeconds
-    }
-
-    const end =
-      new Date(activeTurn.started_at).getTime() + 1000 * startingSeconds
-
-    return Math.floor((end - (serverTimeOffset + Date.now())) / 1000)
-  }
-
-  const [secondsLeft, setSecondsLeft] = React.useState(calculateSecondsLeft())
-
-  React.useEffect(() => {
-    setSecondsLeft(calculateSecondsLeft())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    currentGame.seconds_per_turn, // change in settings
-    activeTurnId, // new turn, reset state
-  ])
+  const [secondsLeft, setSecondsLeft] = React.useState(
+    calculateSecondsLeft(startingSeconds, serverTimeOffset, activeTurn)
+  )
+  useEffect(() => {
+    setSecondsLeft(
+      calculateSecondsLeft(startingSeconds, serverTimeOffset, activeTurn)
+    )
+  }, [startingSeconds, serverTimeOffset, activeTurn])
 
   // countdown timer
   useInterval(() => {
@@ -51,7 +40,9 @@ export default function useSecondsLeft(
       activeTurn?.started_at &&
       secondsLeft >= 1
     ) {
-      setSecondsLeft(calculateSecondsLeft())
+      setSecondsLeft(
+        calculateSecondsLeft(startingSeconds, serverTimeOffset, activeTurn)
+      )
     }
   }, INTERVAL_DELAY)
 

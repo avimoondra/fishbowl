@@ -1,7 +1,8 @@
 import { useQuery } from "@apollo/react-hooks"
 import { ServerTimeDocument, ServerTimeQuery } from "generated/graphql"
+import { compact } from "lodash"
 import { mean, median, std } from "mathjs"
-import React from "react"
+import { useEffect, useState } from "react"
 
 const DELAY = 1000 // delay in milliseconds between each request
 const REPEAT = 5 // number of server requests to sample
@@ -17,7 +18,7 @@ interface Sample {
  * @see https://github.com/enmasseio/timesync#algorithm
  */
 export default function useServerTimeOffset(): number {
-  const [offset, setOffset] = React.useState(0)
+  const [offset, setOffset] = useState(0)
   const { refetch: fetchServerTime } = useQuery<ServerTimeQuery>(
     ServerTimeDocument,
     {
@@ -25,7 +26,7 @@ export default function useServerTimeOffset(): number {
     }
   )
 
-  React.useEffect(() => {
+  useEffect(() => {
     let first = true
     const samples: Array<Sample | null> = []
 
@@ -64,13 +65,10 @@ export default function useServerTimeOffset(): number {
       }
 
       // calculate the limit for outliers
-      const roundtrips = samples
-        .filter(successfulSample)
-        .map((sample) => sample.roundtrip)
+      const roundtrips = compact(samples).map((sample) => sample.roundtrip)
       const limit = median(roundtrips) + std(roundtrips)
 
-      const offsets = samples
-        .filter(successfulSample)
+      const offsets = compact(samples)
         .filter((sample) => sample.roundtrip < limit) // exclude long request outliers
         .map((sample) => sample.offset)
 
@@ -78,11 +76,7 @@ export default function useServerTimeOffset(): number {
     }
 
     computeOffset()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fetchServerTime])
 
   return offset
-}
-
-function successfulSample(sample: Sample | null): sample is Sample {
-  return null !== sample
 }

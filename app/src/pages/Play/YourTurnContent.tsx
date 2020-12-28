@@ -12,6 +12,7 @@ import bell from "assets/audio/bell.mp3"
 import BowlCard from "components/BowlCard"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
+import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import {
   CurrentGameSubscription,
   Rounds,
@@ -53,12 +54,12 @@ function YourTurnContent(props: {
   activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
   activeTurnPlayState: ActiveTurnPlayState
   secondsLeft: number
-  serverTimeOffset: number
   currentRoundId: Rounds["id"]
   nextRoundId?: Rounds["id"]
   onStart: () => void
   onOutOfCards: () => void
 }) {
+  const { serverTimeOffset } = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [startTurn] = useStartTurnMutation()
   const [endTurn] = useEndCurrentTurnAndStartNextTurnMutation()
@@ -369,10 +370,10 @@ function YourTurnContent(props: {
                               card.status === ShownCardStatus.Complete ? 1 : 0,
                             status: card.status,
                             started_at: new Date(
-                              card.startedAt.getTime() + props.serverTimeOffset
+                              card.startedAt.getTime() + serverTimeOffset
                             ),
                             ended_at: new Date(
-                              card.endedAt.getTime() + props.serverTimeOffset
+                              card.endedAt.getTime() + serverTimeOffset
                             ),
                           }
                         } else {

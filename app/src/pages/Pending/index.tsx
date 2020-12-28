@@ -8,7 +8,7 @@ function Pending(props: { joinCode: string }) {
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
-        This is embarassing, we cannot seem to figure out which player you are
+        This is embarrassing, we cannot seem to figure out which player you are
         in game <b>{props.joinCode.toLocaleUpperCase()}</b>... 😳
       </Grid>
       <Grid item>

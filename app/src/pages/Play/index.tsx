@@ -16,8 +16,8 @@ import { OtherTeamContent, YourTeamTurnContent } from "pages/Play/TeamContent"
 import TurnContextPanel from "pages/Play/TurnContextPanel"
 import YourTurnContent from "pages/Play/YourTurnContent"
 import * as React from "react"
+import { playStateFromTurn } from "./functions"
 import useSecondsLeft from "./useSecondsLeft"
-import useServerTimeOffset from "./useServerTimeOffset"
 
 function Play() {
   const titleClasses = useTitleStyle()
@@ -41,26 +41,14 @@ function Play() {
     (player) => player.id === activeTurn?.player_id
   )
 
-  const getActiveTurnPlayState = () => {
-    if (activeTurn?.review_started_at) {
-      return ActiveTurnPlayState.Reviewing
-    }
-
-    if (activeTurn?.started_at) {
-      return ActiveTurnPlayState.Playing
-    }
-
-    return ActiveTurnPlayState.Waiting
-  }
   const [activeTurnPlayState, setActiveTurnPlayState] = React.useState(
-    getActiveTurnPlayState()
+    playStateFromTurn(activeTurn)
   )
   React.useEffect(() => {
-    setActiveTurnPlayState(getActiveTurnPlayState())
-  }, [activeTurn]) // eslint-disable-line react-hooks/exhaustive-deps
+    setActiveTurnPlayState(playStateFromTurn(activeTurn))
+  }, [activeTurn])
 
-  const serverTimeOffset = useServerTimeOffset()
-  const secondsLeft = useSecondsLeft(activeTurnPlayState, serverTimeOffset)
+  const secondsLeft = useSecondsLeft(activeTurnPlayState)
 
   // countdown timer
   React.useEffect(() => {
@@ -120,7 +108,6 @@ function Play() {
         )}
         cardsInBowl={drawableCards(currentGame.turns, currentGame.cards)}
         secondsLeft={secondsLeft}
-        serverTimeOffset={serverTimeOffset}
         activePlayer={activePlayer}
         activeTurn={activeTurn}
         activeTurnPlayState={activeTurnPlayState}

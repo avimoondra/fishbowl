@@ -17,6 +17,7 @@ import {
   useCurrentGameSubscription,
   useJoinGameMutation,
 } from "generated/graphql"
+import useServerTimeOffset from "hooks/useServerTimeOffset"
 import CardSubmission from "pages/CardSubmission"
 import EndGame from "pages/EndGame"
 import Lobby from "pages/Lobby"
@@ -40,6 +41,7 @@ function CurrentPlayerProvider(props: {
 }) {
   const currentAuth = React.useContext(CurrentAuthContext)
   const notification = React.useContext(NotificationContext)
+  const serverTimeOffset = useServerTimeOffset()
 
   const [currentPlayer, setCurrentPlayer] = React.useState<
     CurrentPlayerQuery["players"][0] | null
@@ -147,6 +149,7 @@ function CurrentPlayerProvider(props: {
           currentPlayer.id === currentPlayer.game.host.id
             ? PlayerRole.Host
             : PlayerRole.Participant,
+        serverTimeOffset,
       }}
     >
       {props.children}
