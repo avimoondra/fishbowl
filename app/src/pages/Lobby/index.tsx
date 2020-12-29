@@ -41,13 +41,13 @@ function Lobby() {
   const location = useLocation()
   const [hideShare, setHideShare] = React.useState(false)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
-  const [cardPlayStyle, setCardPlayStyle] = React.useState(
-    GameCardPlayStyleEnum.PlayersSubmitWords
-  )
+  // const [cardPlayStyle, setCardPlayStyle] = React.useState(
+  //   GameCardPlayStyleEnum.PlayersSubmitWords
+  // )
 
-  React.useEffect(() => {
-    setCardPlayStyle(currentGame.card_play_style)
-  }, [currentGame.card_play_style])
+  // React.useEffect(() => {
+  //   setCardPlayStyle(currentGame.card_play_style)
+  // }, [currentGame.card_play_style])
 
   const [wordList, setWordList] = React.useState("")
   const debouncedSetWordList = React.useRef(
@@ -94,13 +94,19 @@ function Lobby() {
         <>
           <div className={classes.section}>
             <SettingsSection
-              cardPlayStyle={cardPlayStyle}
+              cardPlayStyle={currentGame.card_play_style}
               setCardPlayStyle={(value) => {
-                setCardPlayStyle(value as GameCardPlayStyleEnum)
+                // setCardPlayStyle(value as GameCardPlayStyleEnum)
                 updateGameSettings({
                   variables: {
                     id: currentGame.id,
                     input: {
+                      card_play_style: value as GameCardPlayStyleEnum,
+                    },
+                  },
+                  optimisticResponse: {
+                    update_games_by_pk: {
+                      ...currentGame,
                       card_play_style: value as GameCardPlayStyleEnum,
                     },
                   },
@@ -129,7 +135,7 @@ function Lobby() {
             </Grid>
             <WaitingRoom
               wordList={wordList}
-              cardPlayStyle={cardPlayStyle}
+              cardPlayStyle={currentGame.card_play_style}
             ></WaitingRoom>
           </Grid>
         </Grid>
@@ -139,7 +145,9 @@ function Lobby() {
         <>
           <Divider variant="middle"></Divider>
           <div className={classes.section}>
-            <SettingsSection cardPlayStyle={cardPlayStyle}></SettingsSection>
+            <SettingsSection
+              cardPlayStyle={currentGame.card_play_style}
+            ></SettingsSection>
           </div>
         </>
       )}

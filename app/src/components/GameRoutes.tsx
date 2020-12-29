@@ -11,10 +11,11 @@ import {
 } from "contexts/CurrentPlayer"
 import { NotificationContext } from "contexts/Notification"
 import {
+  CurrentGameSubDocument,
   CurrentPlayerDocument,
   CurrentPlayerQuery,
   GameByJoinCodeDocument,
-  useCurrentGameSubscription,
+  useCurrentGameQuery,
   useJoinGameMutation,
 } from "generated/graphql"
 import CardSubmission from "pages/CardSubmission"
@@ -158,11 +159,20 @@ function CurrentGameProvider(props: {
   joinCode: string
   children: React.ReactNode
 }) {
-  const { data, loading } = useCurrentGameSubscription({
+  const { data, loading, subscribeToMore } = useCurrentGameQuery({
     variables: {
       joinCode: props.joinCode,
     },
   })
+
+  React.useEffect(() => {
+    return subscribeToMore({
+      variables: {
+        joinCode: props.joinCode,
+      },
+      document: CurrentGameSubDocument,
+    })
+  }, [data?.games[0]])
 
   if (!loading && !data?.games[0]) {
     return <Redirect to={routes.root}></Redirect>

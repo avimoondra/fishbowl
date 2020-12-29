@@ -1,4 +1,4 @@
-import { CurrentGameSubscription } from "generated/graphql"
+import { CurrentGameQuery } from "generated/graphql"
 import { Team } from "lib/team"
 import {
   countBy,
@@ -20,8 +20,8 @@ export enum ActiveTurnPlayState {
 }
 
 export function nextPlayerForSameTeam(
-  activePlayer: CurrentGameSubscription["games"][0]["players"][0],
-  players: CurrentGameSubscription["games"][0]["players"]
+  activePlayer: CurrentGameQuery["games"][0]["players"][0],
+  players: CurrentGameQuery["games"][0]["players"]
 ) {
   const sameTeamPlayers = filter(
     players,
@@ -37,9 +37,9 @@ export function nextPlayerForSameTeam(
 }
 
 export function nextPlayerForNextTeam(
-  activePlayer: CurrentGameSubscription["games"][0]["players"][0] | null,
-  turns: CurrentGameSubscription["games"][0]["turns"],
-  players: CurrentGameSubscription["games"][0]["players"]
+  activePlayer: CurrentGameQuery["games"][0]["players"][0] | null,
+  turns: CurrentGameQuery["games"][0]["turns"],
+  players: CurrentGameQuery["games"][0]["players"]
 ) {
   if (!activePlayer) {
     return sortBy(players, ["team_sequence"])[0]
@@ -72,15 +72,13 @@ export function nextPlayerForNextTeam(
   return nextPlayerFromNextTeamToPlay
 }
 
-export function completedCardIds(
-  turns: CurrentGameSubscription["games"][0]["turns"]
-) {
+export function completedCardIds(turns: CurrentGameQuery["games"][0]["turns"]) {
   return flatMap(turns, (turn) => turn.completed_card_ids)
 }
 
 export function drawableCards(
-  turns: CurrentGameSubscription["games"][0]["turns"],
-  cards: CurrentGameSubscription["games"][0]["cards"]
+  turns: CurrentGameQuery["games"][0]["turns"],
+  cards: CurrentGameQuery["games"][0]["cards"]
 ) {
   const allCompletedCardIds = flatMap(turns, (turn) => turn.completed_card_ids)
 
@@ -104,7 +102,7 @@ export function drawableCards(
 }
 
 export function drawableCardsWithoutCompletedCardsInActiveTurn(
-  cards: CurrentGameSubscription["games"][0]["cards"],
+  cards: CurrentGameQuery["games"][0]["cards"],
   completedCardIdsInActiveTurn: Array<number>
 ) {
   return reject(cards, (card) => completedCardIdsInActiveTurn.includes(card.id))

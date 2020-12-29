@@ -6,15 +6,13 @@ import BowlCard from "components/BowlCard"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import {
-  CurrentGameSubscription,
+  CurrentGameQuery,
   useAcceptCardMutation,
   useRejectCardMutation,
 } from "generated/graphql"
 import * as React from "react"
 
-function ScreenCard(props: {
-  card: CurrentGameSubscription["games"][0]["cards"][0]
-}) {
+function ScreenCard(props: { card: CurrentGameQuery["games"][0]["cards"][0] }) {
   const currentGame = React.useContext(CurrentGameContext)
   const [acceptCard] = useAcceptCardMutation()
   const [rejectCard] = useRejectCardMutation()

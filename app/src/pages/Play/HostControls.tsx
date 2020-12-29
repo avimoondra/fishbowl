@@ -3,7 +3,7 @@ import { grey } from "@material-ui/core/colors"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import {
-  CurrentGameSubscription,
+  CurrentGameQuery,
   useEndCurrentTurnAndStartNextTurnMutation,
 } from "generated/graphql"
 import { useTitleStyle } from "index"
@@ -12,8 +12,8 @@ import { nextPlayerForNextTeam, nextPlayerForSameTeam } from "lib/turn"
 import * as React from "react"
 
 function HostControls(props: {
-  activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
-  activePlayer: CurrentGameSubscription["games"][0]["players"][0]
+  activeTurn: CurrentGameQuery["games"][0]["turns"][0]
+  activePlayer: CurrentGameQuery["games"][0]["players"][0]
   currentRoundId: number
 }) {
   const currentGame = React.useContext(CurrentGameContext)

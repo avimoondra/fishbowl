@@ -1,11 +1,11 @@
 import {
-  CurrentGameSubscription,
+  CurrentGameQuery,
   GameCardPlayStyleEnum,
   GameStateEnum,
 } from "generated/graphql"
 import { createContext } from "react"
 
-export type CurrentGameContextType = CurrentGameSubscription["games"][0]
+export type CurrentGameContextType = CurrentGameQuery["games"][0] 
 
 export const CurrentGameContext = createContext<CurrentGameContextType>({
   id: "",
