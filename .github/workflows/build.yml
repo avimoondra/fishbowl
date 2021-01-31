@@ -1,59 +1,19 @@
 name: build
 on:
   pull_request:
+    branches:
+      - master
   push:
-    branches: [master]
-env:
-  POSTGRES_PASSWORD: postgrespassword
-  HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+    branches:
+      - master
+
 jobs:
   app:
     runs-on: ubuntu-latest
     container: node:lts-stretch
-    services:
-      postgres:
-        image: postgres:11
-        env:
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-      graphql-engine:
-        image: hasura/graphql-engine:v1.3.3
-        env:
-          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${{ env.POSTGRES_PASSWORD }}@postgres:5432/postgres
-          HASURA_GRAPHQL_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
-          ACTION_BASE_ENDPOINT: http://actions-server:3001
-        options: >-
-          --health-cmd "wget --quiet --spider http://localhost:8080/healthz"
-          --health-interval 30s
-          --health-timeout 3s
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      # region bootstrap Hasura
-      - name: Apply Hasura migrations
-        uses: tibotiber/hasura-action@master
-        with:
-          args: migrate apply
-        env:
-          HASURA_ENDPOINT: http://graphql-engine:8080
-          HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
-          HASURA_WORKDIR: graphql-server
-      - name: Apply Hasura metadata
-        uses: tibotiber/hasura-action@master
-        with:
-          args: metadata apply
-        env:
-          HASURA_ENDPOINT: http://graphql-engine:8080
-          HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
-          HASURA_WORKDIR: graphql-server
-      # endregion
-
-      # region setup Node.js
       - name: Read .nvmrc
         run: echo ::set-output name=NVMRC::$(cat .nvmrc)
         id: nvm
@@ -61,135 +21,16 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
-      # endregion
-
       - name: Install dependencies
         working-directory: app
         run: yarn install --frozen-lockfile
-
-      - name: Generate GraphQL code
-        env:
-          REACT_APP_FISHBOWL_GRAPHQL_ENDPOINT: http://graphql-engine:8080/v1/graphql
-          REACT_APP_FISHBOWL_HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
-        working-directory: app
-        run: yarn run gql-gen
-
       - name: Lint
         working-directory: app
         run: yarn run lint
-
-      # region build and deploy
-      - name: Build
-        if: github.ref == 'refs/heads/master'
-        env:
-          CI: false
-          REACT_APP_FISHBOWL_GRAPHQL_ENDPOINT: https://fishbowl-graphql.onrender.com/v1/graphql
-          REACT_APP_FISHBOWL_WS_GRAPHQL_ENDPOINT: wss://fishbowl-graphql.onrender.com/v1/graphql
-        working-directory: app
-        run: yarn run build
-      - name: Upload build
-        if: github.ref == 'refs/heads/master'
-        uses: actions/upload-artifact@v2
-        with:
-          name: app
-          path: app/build/
-      - name: Trigger Render deploy
-        if: github.ref == 'refs/heads/master'
-        uses: wei/curl@v1
-        with:
-          args: ${{ secrets.RENDER_DEPLOY_HOOK_APP }}
-      # endregion
 
   actions-server:
     runs-on: ubuntu-latest
     container: node:lts-stretch
-    services:
-      postgres:
-        image: postgres:11
-        env:
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-      graphql-engine:
-        image: hasura/graphql-engine:v1.3.3
-        env:
-          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${{ env.POSTGRES_PASSWORD }}@postgres:5432/postgres
-          HASURA_GRAPHQL_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
-          ACTION_BASE_ENDPOINT: http://actions-server:3001
-        options: >-
-          --health-cmd "wget --quiet --spider http://localhost:8080/healthz"
-          --health-interval 30s
-          --health-timeout 3s
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # region bootstrap Hasura
-      - name: Apply Hasura migrations
-        uses: tibotiber/hasura-action@master
-        with:
-          args: migrate apply
-        env:
-          HASURA_ENDPOINT: http://graphql-engine:8080
-          HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
-          HASURA_WORKDIR: graphql-server
-      - name: Apply Hasura metadata
-        uses: tibotiber/hasura-action@master
-        with:
-          args: metadata apply
-        env:
-          HASURA_ENDPOINT: http://graphql-engine:8080
-          HASURA_ADMIN_SECRET: ${{ env.HASURA_GRAPHQL_ADMIN_SECRET }}
-          HASURA_WORKDIR: graphql-server
-      # endregion
-
-      # region setup Node.js
-      - name: Read .nvmrc
-        run: echo ::set-output name=NVMRC::$(cat .nvmrc)
-        id: nvm
-      - name: Use Node.js ${{ steps.nvm.outputs.NVMRC }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: "${{ steps.nvm.outputs.NVMRC }}"
-      # endregion
-
-      - name: Install dependencies
-        working-directory: actions-server
-        run: yarn install --frozen-lockfile
-
-      - name: Generate GraphQL code
-        env:
-          HASURA_ENDPOINT: http://graphql-engine:8080/v1/graphql
-        working-directory: actions-server
-        run: yarn run gql-gen
-
-      - name: Lint
-        working-directory: actions-server
-        run: yarn run lint
-
-      # region build and deploy
-      - name: Build
-        if: github.ref == 'refs/heads/master'
-        working-directory: actions-server
-        run: yarn run build
-      - name: Upload build
-        if: github.ref == 'refs/heads/master'
-        uses: actions/upload-artifact@v2
-        with:
-          name: actions-server
-          path: actions-server/build/
-      - name: Trigger Render deploy
-        if: github.ref == 'refs/heads/master'
-        uses: wei/curl@v1
-        with:
-          args: ${{ secrets.RENDER_DEPLOY_HOOK_ACTIONS_SERVER }}
-      # endregion
-
-  deploy:
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -201,8 +42,8 @@ jobs:
         with:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
       - name: Install dependencies
-        working-directory: deploy
+        working-directory: actions-server
         run: yarn install --frozen-lockfile
       - name: Lint
-        working-directory: deploy
+        working-directory: actions-server
         run: yarn run lint
