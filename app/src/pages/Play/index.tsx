@@ -5,13 +5,7 @@ import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useStartReviewMutation } from "generated/graphql"
 import { useTitleStyle } from "index"
 import { currentPlayerTeam, Team, TeamColor } from "lib/team"
-import {
-  calculateSecondsLeft,
-  dateFromTimestamptzNow,
-  timestamptzNow,
-} from "lib/time"
 import { ActiveTurnPlayState, drawableCards } from "lib/turn"
-import useInterval from "lib/useInterval"
 import { capitalize, filter, flatMap, last } from "lodash"
 import GameRoundInstructionCard, {
   GameRound,
@@ -22,6 +16,8 @@ import { OtherTeamContent, YourTeamTurnContent } from "pages/Play/TeamContent"
 import TurnContextPanel from "pages/Play/TurnContextPanel"
 import YourTurnContent from "pages/Play/YourTurnContent"
 import * as React from "react"
+import { playStateFromTurn } from "./functions"
+import useSecondsLeft from "./useSecondsLeft"
 
 function Play() {
   const titleClasses = useTitleStyle()
@@ -46,68 +42,17 @@ function Play() {
   )
 
   const [activeTurnPlayState, setActiveTurnPlayState] = React.useState(
-    ActiveTurnPlayState.Waiting
+    playStateFromTurn(activeTurn)
   )
-
-  const startingSeconds =
-    activeTurn?.seconds_per_turn_override || currentGame.seconds_per_turn || 0
-
-  const [secondsLeft, setSecondsLeft] = React.useState(
-    activeTurn?.started_at
-      ? calculateSecondsLeft(
-          dateFromTimestamptzNow(activeTurn.started_at),
-          startingSeconds
-        )
-      : startingSeconds
-  )
-
-  // change in settings
   React.useEffect(() => {
-    if (currentGame.seconds_per_turn) {
-      setSecondsLeft(currentGame.seconds_per_turn)
-    }
-  }, [currentGame.seconds_per_turn])
+    setActiveTurnPlayState(playStateFromTurn(activeTurn))
+  }, [activeTurn])
 
-  // for non active players
-  React.useEffect(() => {
-    if (activeTurn?.started_at !== null) {
-      setActiveTurnPlayState(ActiveTurnPlayState.Playing)
-      setSecondsLeft(
-        calculateSecondsLeft(
-          dateFromTimestamptzNow(activeTurn?.started_at),
-          startingSeconds
-        )
-      )
-    }
-  }, [activeTurn?.started_at])
-
-  // new turn, reset state
-  React.useEffect(() => {
-    setActiveTurnPlayState(ActiveTurnPlayState.Waiting)
-    setSecondsLeft(
-      activeTurn?.started_at
-        ? calculateSecondsLeft(
-            dateFromTimestamptzNow(activeTurn.started_at),
-            startingSeconds
-          )
-        : startingSeconds
-    )
-  }, [activeTurn?.id])
+  const secondsLeft = useSecondsLeft(activeTurnPlayState)
 
   // countdown timer
-  useInterval(() => {
+  React.useEffect(() => {
     if (
-      activeTurnPlayState === ActiveTurnPlayState.Playing &&
-      activeTurn?.started_at &&
-      secondsLeft >= 1
-    ) {
-      setSecondsLeft(
-        calculateSecondsLeft(
-          dateFromTimestamptzNow(activeTurn.started_at),
-          startingSeconds
-        )
-      )
-    } else if (
       activeTurnPlayState === ActiveTurnPlayState.Playing &&
       secondsLeft <= 0
     ) {
@@ -116,12 +61,11 @@ function Play() {
         startReview({
           variables: {
             currentTurnId: activeTurn.id,
-            reviewStartedAt: timestamptzNow(),
           },
         })
       }
     }
-  }, 1000)
+  }, [secondsLeft]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!activeTurn || !activePlayer) {
     return null
@@ -175,7 +119,6 @@ function Play() {
           startReview({
             variables: {
               currentTurnId: activeTurn.id,
-              reviewStartedAt: timestamptzNow(),
             },
           })
         }}

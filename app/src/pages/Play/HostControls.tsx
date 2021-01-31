@@ -7,7 +7,6 @@ import {
   useEndCurrentTurnAndStartNextTurnMutation,
 } from "generated/graphql"
 import { useTitleStyle } from "index"
-import { timestamptzNow } from "lib/time"
 import { nextPlayerForNextTeam, nextPlayerForSameTeam } from "lib/turn"
 import * as React from "react"
 
@@ -64,7 +63,6 @@ function HostControls(props: {
                     variables: {
                       currentTurnId: props.activeTurn.id,
                       completedCardIds: [],
-                      endedAt: timestamptzNow(),
                       gameId: currentGame.id,
                       currentTurnScorings: [],
                       nextTurnplayerId: nextPlayerActiveTeam.id,
@@ -102,7 +100,6 @@ function HostControls(props: {
                     variables: {
                       currentTurnId: props.activeTurn.id,
                       completedCardIds: [],
-                      endedAt: timestamptzNow(),
                       gameId: currentGame.id,
                       currentTurnScorings: [],
                       nextTurnplayerId: nextPlayerNextTeam.id,

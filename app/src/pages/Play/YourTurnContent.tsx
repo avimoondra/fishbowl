@@ -12,13 +12,14 @@ import bell from "assets/audio/bell.mp3"
 import BowlCard from "components/BowlCard"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
+import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import {
   CurrentGameSubscription,
   Rounds,
+  TurnScoringsInsertInput,
   useEndCurrentTurnAndStartNextTurnMutation,
   useStartTurnMutation,
 } from "generated/graphql"
-import { timestamptzNow, timestamptzNowFromDate } from "lib/time"
 import {
   ActiveTurnPlayState,
   drawableCardsWithoutCompletedCardsInActiveTurn,
@@ -58,6 +59,7 @@ function YourTurnContent(props: {
   onStart: () => void
   onOutOfCards: () => void
 }) {
+  const { serverTimeOffset } = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [startTurn] = useStartTurnMutation()
   const [endTurn] = useEndCurrentTurnAndStartNextTurnMutation()
@@ -311,7 +313,6 @@ function YourTurnContent(props: {
                       variables: {
                         currentTurnId: props.activeTurn.id,
                         completedCardIds: [],
-                        endedAt: timestamptzNow(),
                         gameId: currentGame.id,
                         currentTurnScorings: [],
                         nextTurnplayerId: nextPlayerForSameTeam(
@@ -358,29 +359,34 @@ function YourTurnContent(props: {
                     props.secondsLeft !== 0
 
                   const scorings = compact(
-                    shownCardIds.map((cardId) => {
-                      const card = shownCardsInActiveTurn.get(cardId)
-                      if (card) {
-                        return {
-                          turn_id: props.activeTurn.id,
-                          card_id: cardId,
-                          score:
-                            card.status === ShownCardStatus.Complete ? 1 : 0,
-                          status: card.status,
-                          started_at: timestamptzNowFromDate(card.startedAt),
-                          ended_at: timestamptzNowFromDate(card.endedAt),
+                    shownCardIds.map<TurnScoringsInsertInput | null>(
+                      (cardId) => {
+                        const card = shownCardsInActiveTurn.get(cardId)
+                        if (card) {
+                          return {
+                            turn_id: props.activeTurn.id,
+                            card_id: cardId,
+                            score:
+                              card.status === ShownCardStatus.Complete ? 1 : 0,
+                            status: card.status,
+                            started_at: new Date(
+                              card.startedAt.getTime() + serverTimeOffset
+                            ),
+                            ended_at: new Date(
+                              card.endedAt.getTime() + serverTimeOffset
+                            ),
+                          }
+                        } else {
+                          return null
                         }
-                      } else {
-                        return null
                       }
-                    })
+                    )
                   )
 
                   const response = await endTurn({
                     variables: {
                       currentTurnId: props.activeTurn.id,
                       completedCardIds: completedCardIds,
-                      endedAt: timestamptzNow(),
                       gameId: currentGame.id,
                       currentTurnScorings: scorings,
                       roundId: continueTurnIntoNewRound
@@ -423,7 +429,6 @@ function YourTurnContent(props: {
                   const response = await startTurn({
                     variables: {
                       currentTurnId: props.activeTurn.id,
-                      startedAt: timestamptzNow(),
                     },
                   })
                   if (response.errors) {

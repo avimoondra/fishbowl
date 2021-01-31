@@ -26,11 +26,13 @@ export enum PlayerRole {
 
 export type CurrentPlayerContextType = CurrentPlayerQuery["players"][0] & {
   role: PlayerRole
+  serverTimeOffset: number
 }
 
 export const CurrentPlayerContext = createContext<CurrentPlayerContextType>({
   id: "",
   role: PlayerRole.Participant,
+  serverTimeOffset: 0,
   game: {
     id: "",
   },

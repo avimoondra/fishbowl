@@ -9,10 +9,10 @@ mutation CreateTurn($gameId: uuid!, $playerId: uuid!, $roundId: uuid!) {
   }
 }
 
-mutation StartTurn($currentTurnId: uuid!, $startedAt: timestamptz!) {
+mutation StartTurn($currentTurnId: uuid!) {
   update_turns_by_pk(
     pk_columns: { id: $currentTurnId }
-    _set: { started_at: $startedAt }
+    _set: { started_at: "now()" }
   ) {
     id
     started_at
@@ -22,7 +22,6 @@ mutation StartTurn($currentTurnId: uuid!, $startedAt: timestamptz!) {
 mutation EndCurrentTurnAndStartNextTurn(
   $currentTurnId: uuid!
   $completedCardIds: jsonb!
-  $endedAt: timestamptz!
   $gameId: uuid!
   $currentTurnScorings: [turn_scorings_insert_input!]!
   $nextTurnplayerId: uuid!
@@ -41,7 +40,7 @@ mutation EndCurrentTurnAndStartNextTurn(
   }
   update_turns_by_pk(
     pk_columns: { id: $currentTurnId }
-    _set: { ended_at: $endedAt, completed_card_ids: $completedCardIds }
+    _set: { ended_at: "now()", completed_card_ids: $completedCardIds }
   ) {
     id
     ended_at
@@ -63,12 +62,18 @@ mutation EndCurrentTurnAndStartNextTurn(
   }
 }
 
-mutation StartReview($currentTurnId: uuid!, $reviewStartedAt: timestamptz!) {
+mutation StartReview($currentTurnId: uuid!) {
   update_turns_by_pk(
     pk_columns: { id: $currentTurnId }
-    _set: { review_started_at: $reviewStartedAt }
+    _set: { review_started_at: "now()" }
   ) {
     id
     review_started_at
+  }
+}
+
+query ServerTime {
+  server_time {
+    now
   }
 }
