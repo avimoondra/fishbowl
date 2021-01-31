@@ -1,0 +1,34 @@
+{
+  "home": {
+    "hostGameButton": "Host Game",
+    "joinGameButton": "Join Game",
+    "whatIsIt": {
+      "heading": "What is it?",
+      "content": "Fishbowl is a virtual version of a fun (and mostly hilarious) guessing game, designed for any group of all ages! You'll need at least 4 to play, but it only gets more fun with more players. Hop on a video call, and play through rounds of Taboo, Charades, and Password."
+    },
+    "howDoIPlay": {
+      "heading": "How do I play?",
+      "content1": "It's easy! One person will \"host\" the game, and after everyone has joined in with a link or 4-character code, the game can start!",
+      "content2": "First, everyone writes down a few words or phrases on \"cards\" that will be guessed later. The group will then randomly be split into two teams!",
+      "content3": "Players from each team will alternate turns, giving clues to their team to guess as many cards as possible against the clock. There'll be 3 rounds, and cards will get recycled after each round!",
+      "content4": "The team that guesses the most cards across all rounds wins!"
+    }
+  },
+  "play": {
+    "round": {
+      "heading": "Round",
+      "taboo": {
+        "name": "Taboo",
+        "description": "Use words to describe the word or phrase on the card, without any acting or gestures. You cannot use any part of the word or phrase!"
+      },
+      "charades": {
+        "name": "Charades",
+        "description": "Without words or sounds, act and use gestures to communicate the word or phrase on the card."
+      },
+      "password": {
+        "name": "Password",
+        "description": "You can say exactly one word to describe the word or phrase on the card, no more! You'll rely on your team's memory and association."
+      }
+    }
+  }
+}

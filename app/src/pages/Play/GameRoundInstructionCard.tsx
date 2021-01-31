@@ -3,9 +3,9 @@ import { useTitleStyle } from "index"
 import * as React from "react"
 
 export enum GameRound {
-  Taboo = "Taboo",
-  Charades = "Charades",
-  Password = "Password",
+  Taboo = "taboo",
+  Charades = "charades",
+  Password = "password",
 }
 
 export const GameRounds = [

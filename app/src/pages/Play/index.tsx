@@ -85,10 +85,11 @@ function Play() {
   const nextRoundId = currentGame.rounds[roundNum + 1]?.id
 
   let roundMarker = numCompletedCards / totalNumCards
-  let round
+  let round = ""
   if (roundMarkers.includes(roundMarker)) {
+    // TODO
     const value = capitalize(currentGame.rounds[roundMarker].value)
-    round = GameRound[value as GameRound] || value
+    round = GameRound[value as keyof typeof GameRound] || value
   }
 
   const yourTurn = activePlayer.id === currentPlayer.id
