@@ -159,7 +159,7 @@ docker-compose down --volumes
 Install [psql](https://www.postgresql.org/docs/9.3/app-psql.html) or [Postico](https://eggerapps.at/postico/), or your favorite postgres client.
 
 ```bash
-psql postgres://postgres:postgrespassword@localhost:5432/postgres
+psql postgres://postgres:password@localhost:5432/postgres
 ```
 
 You can also find a SQL runner in Hasura itself, [here](http://localhost:9695/data/sql).
