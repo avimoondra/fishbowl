@@ -10,7 +10,9 @@ on:
 jobs:
   app:
     runs-on: ubuntu-latest
-    container: node:lts-stretch
+    defaults:
+      run:
+        working-directory: app
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -22,15 +24,15 @@ jobs:
         with:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
       - name: Install dependencies
-        working-directory: app
         run: yarn install --frozen-lockfile
       - name: Lint
-        working-directory: app
         run: yarn run lint
 
   actions-server:
     runs-on: ubuntu-latest
-    container: node:lts-stretch
+    defaults:
+      run:
+        working-directory: actions-server
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -42,8 +44,6 @@ jobs:
         with:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
       - name: Install dependencies
-        working-directory: actions-server
         run: yarn install --frozen-lockfile
       - name: Lint
-        working-directory: actions-server
         run: yarn run lint
