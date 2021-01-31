@@ -52,6 +52,36 @@ CI/CD via [Github Actions](https://github.com/features/actions). Hosted on [Rend
 
    See more detailed instructions [here](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/install-hasura-cli.html)
 
+## One-time set up
+
+(1) Start only Hasura and Postgres services
+
+```
+docker-compose up --no-deps fishbowl-postgres fishbowl-graphql-engine
+```
+
+(2) Run GraphQL generation for `app`
+
+```
+cd app
+yarn install --frozen-lockfile
+yarn gql-gen
+```
+
+(3) Run GraphQL generation for `actions-server`
+
+```bash
+cd actions-server
+# update actions-server/.env
+# from: 
+#    HASURA_ENDPOINT=http://fishbowl-graphql-engine:8080/v1/graphql
+# to:
+#    HASURA_ENDPOINT=http://localhost:8080/v1/graphql
+yarn install --frozen-lockfile
+yarn gql-gen
+# revert the change to .env
+```
+
 ## Running w/Docker
 
 The local environment is configured with [Docker Compose](https://docs.docker.com/compose/).
@@ -121,9 +151,7 @@ There's a [gql operations white list](https://fishbowl-graphql.onrender.com/cons
 Stop your docker containers, then:
 
 ```bash
-docker rm postgres
-docker volume prune
-docker-compose up
+docker-compose down --volumes
 ```
 
 ### Connect to my local DB w/psql?
