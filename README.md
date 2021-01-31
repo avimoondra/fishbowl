@@ -52,36 +52,6 @@ CI/CD via [Github Actions](https://github.com/features/actions). Hosted on [Rend
 
    See more detailed instructions [here](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/install-hasura-cli.html)
 
-## One-time set up
-
-(1) Start only Hasura and Postgres services
-
-```
-docker-compose up --no-deps fishbowl-postgres fishbowl-graphql-engine
-```
-
-(2) Run GraphQL generation for `app`
-
-```
-cd app
-yarn install --frozen-lockfile
-yarn gql-gen
-```
-
-(3) Run GraphQL generation for `actions-server`
-
-```bash
-cd actions-server
-# update actions-server/.env
-# from: 
-#    HASURA_ENDPOINT=http://fishbowl-graphql-engine:8080/v1/graphql
-# to:
-#    HASURA_ENDPOINT=http://localhost:8080/v1/graphql
-yarn install --frozen-lockfile
-yarn gql-gen
-# revert the change to .env
-```
-
 ## Running w/Docker
 
 The local environment is configured with [Docker Compose](https://docs.docker.com/compose/).
@@ -95,10 +65,10 @@ docker-compose up
 will build and start these services which are all accessible on the host:
 | service | description | host connection |
 | --- | --- | --- |
-| `app` | React front-end | [`localhost:3000`](http://localhost:3000/) |
-| `graphql-engine` | Hasura GraphQL Engine | [`localhost:8080`](http://localhost:8080/) |
-| `actions-server` | Hasura actions server | [`localhost:3001`](http://localhost:3001/) |
-| `postgres` | Postgres database | [`localhost:5432`](http://localhost:5432/) |
+| `fishbowl-app` | React front-end | [`localhost:3000`](http://localhost:3000/) |
+| `fishbowl-graphql-engine` | Hasura GraphQL Engine | [`localhost:8080`](http://localhost:8080/) |
+| `fishbowl-actions-server` | Hasura actions server | [`localhost:3001`](http://localhost:3001/) |
+| `fishbowl-postgres` | Postgres database | [`localhost:5432`](http://localhost:5432/) |
 
 ### Migrations
 
@@ -130,10 +100,21 @@ yarn gql-gen --watch
 docker-compose exec actions-server yarn gql-gen --watch
 ```
 
-### Adding or updating dependencies in `app` or `actions-server`
+### npm Dependencies
+
+The `fishbowl-app` and `fishbowl-actions-server` Node.js Docker images have a separate copy of npm packages which are not kept in sync with your host's `node_modules`.
+
+You can add or update packages inside of the containers:
 
 ```bash
-docker-compose exec [actions-server|app] yarn [add|remove|etc.] xyz-package
+docker-compose exec [fishbowl-app|fishbowl-actions-server] yarn [add|remove|etc.] xyz-package
+```
+
+Once the lockfile has been updated, you'll likely want to reinstall dependencies on your host to facilitate IDE autocompletion:
+
+```bash
+cd [actions-server|app]
+yarn install --frozen-lockfile
 ```
 
 ## FAQ
