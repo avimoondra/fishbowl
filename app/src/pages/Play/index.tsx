@@ -87,9 +87,8 @@ function Play() {
   let roundMarker = numCompletedCards / totalNumCards
   let round = ""
   if (roundMarkers.includes(roundMarker)) {
-    // TODO
     const value = capitalize(currentGame.rounds[roundMarker].value)
-    round = GameRound[value as keyof typeof GameRound] || value
+    round = GameRound[value as GameRound] || value
   }
 
   const yourTurn = activePlayer.id === currentPlayer.id

@@ -3,9 +3,9 @@ import { useTitleStyle } from "index"
 import * as React from "react"
 
 export enum GameRound {
-  Taboo = "taboo",
-  Charades = "charades",
-  Password = "password",
+  Taboo = "Taboo",
+  Charades = "Charades",
+  Password = "Password",
 }
 
 export const GameRounds = [
@@ -14,25 +14,13 @@ export const GameRounds = [
   GameRound.Password,
 ]
 
-export const GameRoundDescription = {
-  [GameRound.Taboo]: (
-    <>
-      Use words to describe the word or phrase on the card, without any acting
-      or gestures. You cannot use any part of the word or phrase!
-    </>
-  ),
-  [GameRound.Charades]: (
-    <>
-      Without words or sounds, act and use gestures to communicate the word or
-      phrase on the card.
-    </>
-  ),
-  [GameRound.Password]: (
-    <>
-      You can say exactly one word to describe the word or phrase on the card,
-      no more! You'll rely on your team's memory and association.
-    </>
-  ),
+export const GameRoundDescription: Record<GameRound, string> = {
+  [GameRound.Taboo]:
+    "Use words to describe the word or phrase on the card, without any acting or gestures. You cannot use any part of the word or phrase!",
+  [GameRound.Charades]:
+    "Without words or sounds, act and use gestures to communicate the word or phrase on the card.",
+  [GameRound.Password]:
+    "You can say exactly one word to describe the word or phrase on the card, no more! You'll rely on your team's memory and association.",
 }
 
 function GameRoundInstructionCard(props: {

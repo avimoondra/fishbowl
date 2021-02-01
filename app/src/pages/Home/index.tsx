@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Grid, Link, Typography } from "@material-ui/core"
-import Fishbowl from "components/FishbowlAnimation"
+import Fishbowl from "components/Fishbowl"
 import { CurrentAuthContext } from "contexts/CurrentAuth"
 import { clientUuid } from "contexts/CurrentPlayer"
 import {
@@ -12,7 +12,7 @@ import HostRedirect from "pages/Home/Host"
 import HowToPlay from "pages/Home/HowToPlay"
 import Join from "pages/Home/Join"
 import * as React from "react"
-import { useTranslation } from "react-i18next"
+import { Trans, useTranslation } from "react-i18next"
 
 enum PlayerState {
   Joining = 1,
@@ -85,14 +85,14 @@ function Home() {
                 }}
                 disabled={playerState === PlayerState.Hosting}
               >
-                {t("hostGameButton")}
+                {t("hostGameButton", "Host Game")}
               </Button>
               <Button
                 size="large"
                 variant="outlined"
                 onClick={() => setPlayerState(PlayerState.Joining)}
               >
-                {t("joinGameButton")}
+                {t("joinGameButton", "Join Game")}
               </Button>
             </>
           )}
@@ -112,9 +112,14 @@ function Home() {
         <Grid item>
           <Box pl={1} pr={1}>
             <Typography variant="h4" className={titleClasses.title}>
-              {t("whatIsIt.heading")}
+              {t("whatIsIt.heading", "What is it?")}
             </Typography>
-            <Box pt={1}>{t("whatIsIt.content")}</Box>
+            <Box pt={1}>
+              {t(
+                "whatIsIt.content",
+                "Fishbowl is a virtual version of a fun (and mostly hilarious) guessing game, designed for any group of all ages! You'll need at least 4 to play, but it only gets more fun with more players. Hop on a video call, and play through rounds of Taboo, Charades, and Password."
+              )}
+            </Box>
           </Box>
         </Grid>
         <Grid item>
@@ -127,19 +132,31 @@ function Home() {
         <Divider variant="middle"></Divider>
       </Box>
       <Box pb={4} pl={1} pr={1} style={{ textAlign: "center" }}>
-        Free,{" "}
-        <Link href="https://github.com/avimoondra/fishbowl" target="_blank">
-          open source
-        </Link>
-        , and made with <span style={{ color: "red" }}>♥</span> - if you had
-        fun, consider{" "}
-        <Link target="_blank" href="https://www.buymeacoffee.com/fishbowlgame">
-          buying me a coffee
-        </Link>{" "}
-        or{" "}
-        <Link href="https://forms.gle/L9qWMsnAUghXqqxE9" target="_blank">
-          sharing any feedback!
-        </Link>
+        <p>
+          <Trans t={t} i18nKey="footer1">
+            Free,{" "}
+            <Link href="https://github.com/avimoondra/fishbowl" target="_blank">
+              open source
+            </Link>
+            , and made with <span style={{ color: "red" }}>♥</span>
+          </Trans>
+        </p>
+        <p>
+          <Trans t={t} i18nKey="footer2">
+            {"If you had fun, consider "}
+            <Link
+              target="_blank"
+              href="https://www.buymeacoffee.com/fishbowlgame"
+            >
+              buying us a coffee
+            </Link>
+            {" or "}
+            <Link href="https://forms.gle/L9qWMsnAUghXqqxE9" target="_blank">
+              sharing any feedback
+            </Link>
+            !
+          </Trans>
+        </p>
       </Box>
     </>
   )

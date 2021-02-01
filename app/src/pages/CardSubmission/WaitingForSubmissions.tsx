@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@material-ui/core"
-import Fishbowl from "components/FishbowlAnimation"
+import Fishbowl from "components/Fishbowl"
 import PlayerChip from "components/PlayerChip"
 import ScreenCard from "components/ScreenCard"
 import { CurrentGameContext } from "contexts/CurrentGame"
