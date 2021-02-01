@@ -4,10 +4,10 @@ import {
   Divider,
   Grid,
   makeStyles,
-  Theme,
+  Theme
 } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
-import { useGameStatsQuery } from "generated/graphql"
+import { useGameStatsLazyQuery } from "generated/graphql"
 import { teamScore } from "lib/score"
 import { Team, TeamColor } from "lib/team"
 import { drawableCards } from "lib/turn"
@@ -30,22 +30,29 @@ function CardsLeftItem() {
 function ScoreCardItem() {
   const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
-  const { data } = useGameStatsQuery({
-    fetchPolicy: "cache-and-network"
+  const numTurns = currentGame.turns.length
+  const [fetchStats, { data }] = useGameStatsLazyQuery({
+    fetchPolicy: "network-only"
   })
 
+  React.useEffect(() => {
+    fetchStats()
+  }, [numTurns, fetchStats])
+
   return (
-    <Box pl={2} pr={2}>
+    <Box pl={2} pr={2} key={numTurns}>
       <Box style={{ fontSize: "24px", lineHeight: "0.9" }}>
         {
           <span style={{ color: TeamColor[Team.Red] }}>
-            {data?.turn_scorings && teamScore(Team.Red, data.turn_scorings, currentGame.players)}
+            {data?.turn_scorings &&
+              teamScore(Team.Red, data.turn_scorings, currentGame.players)}
           </span>
         }
         {" - "}
         {
           <span style={{ color: TeamColor[Team.Blue] }}>
-            {data?.turn_scorings && teamScore(Team.Blue, data.turn_scorings, currentGame.players)}
+            {data?.turn_scorings &&
+              teamScore(Team.Blue, data.turn_scorings, currentGame.players)}
           </span>
         }
       </Box>
@@ -69,7 +76,6 @@ function CountdownTimerItem(props: { secondsLeft: number }) {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      // width: "fit-content",
       border: `1px solid ${theme.palette.divider}`,
       borderRadius: theme.shape.borderRadius,
     },

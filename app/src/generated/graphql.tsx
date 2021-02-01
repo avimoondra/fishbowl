@@ -3018,7 +3018,7 @@ export type GameStatsQueryVariables = {};
 
 export type GameStatsQuery = { turn_scorings: Array<(
     Pick<TurnScorings, 'id' | 'started_at' | 'ended_at' | 'status' | 'score'>
-    & { card: Pick<Cards, 'id' | 'player_id' | 'word'>, turn: Pick<Turns, 'player_id'> }
+    & { card: Pick<Cards, 'id' | 'player_id' | 'word'>, turn: Pick<Turns, 'id' | 'player_id' | 'review_started_at'> }
   )> };
 
 export type StartGameMutationVariables = {};
@@ -3428,7 +3428,9 @@ export const GameStatsDocument = gql`
       word
     }
     turn {
+      id
       player_id
+      review_started_at
     }
   }
 }

@@ -15,7 +15,7 @@ import {
   FacebookIcon,
   FacebookShareButton,
   TwitterIcon,
-  TwitterShareButton
+  TwitterShareButton,
 } from "react-share"
 import routes from "routes"
 
@@ -24,8 +24,10 @@ function EndGame() {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const titleClasses = useTitleStyle()
-  const [redirectHome, setRedirectHome] = React.useState(false) 
-  const { data } = useGameStatsQuery()
+  const [redirectHome, setRedirectHome] = React.useState(false)
+  const { data } = useGameStatsQuery({
+    fetchPolicy: "network-only",
+  })
 
   let stats
   if (data && data.turn_scorings) {

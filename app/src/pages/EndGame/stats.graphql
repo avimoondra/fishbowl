@@ -11,7 +11,9 @@ query GameStats {
       word
     }
     turn {
+      id
       player_id
+      review_started_at
     }
   }
 }
