@@ -4,13 +4,14 @@ import {
   Divider,
   Grid,
   makeStyles,
-  Theme
+  Theme,
 } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { useGameStatsLazyQuery } from "generated/graphql"
 import { teamScore } from "lib/score"
 import { Team, TeamColor } from "lib/team"
 import { drawableCards } from "lib/turn"
+import { flatten } from "lodash"
 import * as React from "react"
 import { useTranslation } from "react-i18next"
 
@@ -32,7 +33,7 @@ function ScoreCardItem() {
   const currentGame = React.useContext(CurrentGameContext)
   const numTurns = currentGame.turns.length
   const [fetchStats, { data }] = useGameStatsLazyQuery({
-    fetchPolicy: "network-only"
+    fetchPolicy: "no-cache",
   })
 
   React.useEffect(() => {
@@ -40,19 +41,19 @@ function ScoreCardItem() {
   }, [numTurns, fetchStats])
 
   return (
-    <Box pl={2} pr={2} key={numTurns}>
+    <Box pl={2} pr={2}>
       <Box style={{ fontSize: "24px", lineHeight: "0.9" }}>
         {
           <span style={{ color: TeamColor[Team.Red] }}>
-            {data?.turn_scorings &&
-              teamScore(Team.Red, data.turn_scorings, currentGame.players)}
+            {data?.turns &&
+              teamScore(Team.Red, data.turns, currentGame.players)}
           </span>
         }
         {" - "}
         {
           <span style={{ color: TeamColor[Team.Blue] }}>
-            {data?.turn_scorings &&
-              teamScore(Team.Blue, data.turn_scorings, currentGame.players)}
+            {data?.turns &&
+              teamScore(Team.Blue, data.turns, currentGame.players)}
           </span>
         }
       </Box>

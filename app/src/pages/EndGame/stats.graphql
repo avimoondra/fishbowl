@@ -1,19 +1,23 @@
-query GameStats {
-  turn_scorings {
+fragment TurnScoring on turn_scorings {
+  id
+  started_at
+  ended_at
+  status
+  score
+  card {
     id
-    started_at
-    ended_at
-    status
-    score
-    card {
-      id
-      player_id
-      word
-    }
-    turn {
-      id
-      player_id
-      review_started_at
+    player_id
+    word
+  }
+}
+
+query GameStats {
+  turns {
+    id
+    player_id
+    review_started_at
+    scorings {
+      ...TurnScoring
     }
   }
 }

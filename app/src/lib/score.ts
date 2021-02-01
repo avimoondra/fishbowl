@@ -1,23 +1,21 @@
 import { CurrentGameSubscription, GameStatsQuery } from "generated/graphql"
 import { Team } from "lib/team"
-import { filter, sum } from "lodash"
+import { filter, flatten, sum } from "lodash"
 
 export function teamScore(
   team: Team,
-  turn_scorings: GameStatsQuery["turn_scorings"],
+  turns: GameStatsQuery["turns"],
   players: CurrentGameSubscription["games"][0]["players"]
 ) {
   const teamPlayerIds = filter(players, (player) => player.team === team).map(
     (player) => player.id
   )
-  const teamTurnScorings = filter(
-    turn_scorings,
-    (turn_scoring) =>
-      turn_scoring.turn.review_started_at &&
-      teamPlayerIds.includes(turn_scoring.turn.player_id)
+  const completedTurns = filter(turns, (turn) => !!turn.review_started_at)
+  const teamTurns = filter(completedTurns, (turn) =>
+    teamPlayerIds.includes(turn.player_id)
   )
-
-  return sum(teamTurnScorings.map((turn_scoring) => turn_scoring.score))
+  const teamScorings = flatten(teamTurns.map((turn) => turn.scorings))
+  return sum(teamScorings.map((turn_scoring) => turn_scoring.score))
 }
 
 type PlayerScore = {
@@ -25,17 +23,18 @@ type PlayerScore = {
 }
 
 export function gameStats(
-  turn_scorings: GameStatsQuery["turn_scorings"],
+  turns: GameStatsQuery["turns"],
   players: CurrentGameSubscription["games"][0]["players"]
 ) {
   const playerScores: PlayerScore = {}
   players.forEach((player) => {
-    const playerTurnScorings = filter(
-      turn_scorings,
-      (turn_scoring) => turn_scoring.turn.player_id === player.id
+    const playerScorings = flatten(
+      filter(turns, (turn) => turn.player_id === player.id).map(
+        (turn) => turn.scorings
+      )
     )
     playerScores[player.id] = sum(
-      playerTurnScorings.map((turnScoring) => turnScoring.score)
+      playerScorings.map((scoring) => scoring.score)
     )
   })
 
@@ -51,8 +50,8 @@ export function gameStats(
     (player) => playerScores[player.id] === highScore
   )
 
-  const redScore = teamScore(Team.Red, turn_scorings, players)
-  const blueScore = teamScore(Team.Blue, turn_scorings, players)
+  const redScore = teamScore(Team.Red, turns, players)
+  const blueScore = teamScore(Team.Blue, turns, players)
   const teamScores = {
     [Team.Blue]: blueScore,
     [Team.Red]: redScore,

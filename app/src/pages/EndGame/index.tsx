@@ -26,12 +26,12 @@ function EndGame() {
   const titleClasses = useTitleStyle()
   const [redirectHome, setRedirectHome] = React.useState(false)
   const { data } = useGameStatsQuery({
-    fetchPolicy: "network-only",
+    fetchPolicy: "no-cache",
   })
 
   let stats
-  if (data && data.turn_scorings) {
-    stats = gameStats(data.turn_scorings, currentGame.players)
+  if (data && data.turns) {
+    stats = gameStats(data.turns, currentGame.players)
   }
 
   const shareContent = t(

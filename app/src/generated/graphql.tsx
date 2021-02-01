@@ -3013,12 +3013,17 @@ export type RejectCardMutationVariables = {
 
 export type RejectCardMutation = { update_cards_by_pk?: Maybe<Pick<Cards, 'id' | 'is_allowed'>> };
 
+export type TurnScoringFragment = (
+  Pick<TurnScorings, 'id' | 'started_at' | 'ended_at' | 'status' | 'score'>
+  & { card: Pick<Cards, 'id' | 'player_id' | 'word'> }
+);
+
 export type GameStatsQueryVariables = {};
 
 
-export type GameStatsQuery = { turn_scorings: Array<(
-    Pick<TurnScorings, 'id' | 'started_at' | 'ended_at' | 'status' | 'score'>
-    & { card: Pick<Cards, 'id' | 'player_id' | 'word'>, turn: Pick<Turns, 'id' | 'player_id' | 'review_started_at'> }
+export type GameStatsQuery = { turns: Array<(
+    Pick<Turns, 'id' | 'player_id' | 'review_started_at'>
+    & { scorings: Array<TurnScoringFragment> }
   )> };
 
 export type StartGameMutationVariables = {};
@@ -3171,6 +3176,20 @@ export const TurnFragmentDoc = gql`
   review_started_at
   completed_card_ids
   seconds_per_turn_override
+}
+    `;
+export const TurnScoringFragmentDoc = gql`
+    fragment TurnScoring on turn_scorings {
+  id
+  started_at
+  ended_at
+  status
+  score
+  card {
+    id
+    player_id
+    word
+  }
 }
     `;
 export const CurrentPlayerDocument = gql`
@@ -3416,25 +3435,16 @@ export type RejectCardMutationResult = ApolloReactCommon.MutationResult<RejectCa
 export type RejectCardMutationOptions = ApolloReactCommon.BaseMutationOptions<RejectCardMutation, RejectCardMutationVariables>;
 export const GameStatsDocument = gql`
     query GameStats {
-  turn_scorings {
+  turns {
     id
-    started_at
-    ended_at
-    status
-    score
-    card {
-      id
-      player_id
-      word
-    }
-    turn {
-      id
-      player_id
-      review_started_at
+    player_id
+    review_started_at
+    scorings {
+      ...TurnScoring
     }
   }
 }
-    `;
+    ${TurnScoringFragmentDoc}`;
 
 /**
  * __useGameStatsQuery__

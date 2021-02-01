@@ -10,7 +10,7 @@ import {
   max,
   reject,
   sortBy,
-  values
+  values,
 } from "lodash"
 
 export enum ActiveTurnPlayState {
