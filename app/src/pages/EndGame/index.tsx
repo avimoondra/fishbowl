@@ -3,10 +3,11 @@ import BuyMeACoffeeButton from "components/BuyMeACoffeeButton"
 import PlayerChip from "components/PlayerChip"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
+import { useGameStatsQuery } from "generated/graphql"
 import { useTitleStyle } from "index"
-import { teamScore } from "lib/score"
+import { gameStats } from "lib/score"
 import { Team, TeamColor } from "lib/team"
-import { filter, flatMap, isEmpty, reject } from "lodash"
+import { isEmpty } from "lodash"
 import * as React from "react"
 import { Trans, useTranslation } from "react-i18next"
 import { Redirect } from "react-router-dom"
@@ -14,7 +15,7 @@ import {
   FacebookIcon,
   FacebookShareButton,
   TwitterIcon,
-  TwitterShareButton,
+  TwitterShareButton
 } from "react-share"
 import routes from "routes"
 
@@ -23,43 +24,13 @@ function EndGame() {
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const titleClasses = useTitleStyle()
-  const [redirectHome, setRedirectHome] = React.useState(false)
+  const [redirectHome, setRedirectHome] = React.useState(false) 
+  const { data } = useGameStatsQuery()
 
-  const turnsByPlayer = new Map()
-  currentGame.turns.forEach((turn) => {
-    turnsByPlayer.set(
-      turn.player_id,
-      reject(
-        (turnsByPlayer.get(turn.player_id) || []).concat([
-          turn.completed_card_ids,
-        ]),
-        (arr) => isEmpty(arr)
-      )
-    )
-  })
-
-  const scoresByPlayer = new Map()
-  turnsByPlayer.forEach((value, key) => {
-    scoresByPlayer.set(key, flatMap(value).length)
-  })
-
-  let highScore = -1
-  scoresByPlayer.forEach((value, key) => {
-    if (value > highScore) {
-      highScore = value
-    }
-  })
-
-  const highScorePlayers = filter(
-    currentGame.players,
-    (player) => scoresByPlayer.get(player.id) === highScore
-  )
-
-  const redScore = teamScore(Team.Red, currentGame.turns, currentGame.players)
-  const blueScore = teamScore(Team.Blue, currentGame.turns, currentGame.players)
-
-  const tie = redScore === blueScore
-  const winningTeam = redScore > blueScore ? Team.Red : Team.Blue
+  let stats
+  if (data && data.turn_scorings) {
+    stats = gameStats(data.turn_scorings, currentGame.players)
+  }
 
   const shareContent = t(
     "end.shareContent",
@@ -78,24 +49,32 @@ function EndGame() {
         </Grid>
         <Grid item style={{ textAlign: "center" }}>
           <Box style={{ fontSize: "24px", lineHeight: "0.9" }}>
-            {<span style={{ color: TeamColor[Team.Red] }}>{redScore}</span>}
+            {stats && (
+              <span style={{ color: TeamColor[Team.Red] }}>
+                {stats.teamScores[Team.Red]}
+              </span>
+            )}
             {" - "}
-            {<span style={{ color: TeamColor[Team.Blue] }}>{blueScore}</span>}
+            {stats && (
+              <span style={{ color: TeamColor[Team.Blue] }}>
+                {stats.teamScores[Team.Blue]}
+              </span>
+            )}
           </Box>
         </Grid>
         <Grid item>
           <Divider variant="fullWidth"></Divider>
         </Grid>
         <Grid item>
-          {tie
+          {stats.tie
             ? t("end.result.tie", "It's a tie! Play again to break it.")
             : t("end.result.win", "{{ teamName }} wins! Bask in the glory.", {
-                teamName: winningTeam.toLocaleUpperCase(),
+                teamName: stats.winningTeam.toLocaleUpperCase(),
               })}
         </Grid>
-        {!isEmpty(highScorePlayers) && (
+        {!isEmpty(stats.highScorePlayers) && (
           <Grid item>
-            {highScorePlayers.map((player) => (
+            {stats.highScorePlayers.map((player) => (
               <PlayerChip
                 key={player.id}
                 username={player?.username || ""}
@@ -105,13 +84,13 @@ function EndGame() {
             {t(
               "end.highScore",
               "put the team on their back. They got their team to guess the most number of cards ({{ highScore }}!), across all rounds.",
-              { highScore }
+              { highScore: stats.highScore }
             )}
           </Grid>
         )}
         <Grid item>
           {t("end.yourScore", "You scored {{ score }} across all rounds.", {
-            score: scoresByPlayer.get(currentPlayer.id) || 0,
+            score: stats.playerScores[currentPlayer.id] || 0,
           })}
         </Grid>
         <Grid item>

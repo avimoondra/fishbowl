@@ -5934,6 +5934,16 @@
             "defaultValue": null
           },
           {
+            "name": "card",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "cards_bool_exp",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "card_id",
             "description": "",
             "type": {
@@ -10181,6 +10191,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "card",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "cards_order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "card_id",
             "description": "",
             "type": {
@@ -10290,6 +10310,22 @@
         "name": "turn_scorings",
         "description": "",
         "fields": [
+          {
+            "name": "card",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "cards",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "card_id",
             "description": "",
@@ -17195,6 +17231,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "card",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "cards_obj_rel_insert_input",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "card_id",
             "description": "",
             "type": {
@@ -17290,6 +17336,41 @@
             "type": {
               "kind": "SCALAR",
               "name": "timestamptz",
+              "ofType": null
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "cards_obj_rel_insert_input",
+        "description": "",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "data",
+            "description": "",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "cards_insert_input",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "on_conflict",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "cards_on_conflict",
               "ofType": null
             },
             "defaultValue": null
@@ -21762,41 +21843,6 @@
             "deprecationReason": null
           }
         ],
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "cards_obj_rel_insert_input",
-        "description": "",
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "data",
-            "description": "",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "cards_insert_input",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "on_conflict",
-            "description": "",
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "cards_on_conflict",
-              "ofType": null
-            },
-            "defaultValue": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
         "possibleTypes": null
       },
       {

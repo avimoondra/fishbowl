@@ -7,6 +7,7 @@ import {
   Theme,
 } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
+import { useGameStatsQuery } from "generated/graphql"
 import { teamScore } from "lib/score"
 import { Team, TeamColor } from "lib/team"
 import { drawableCards } from "lib/turn"
@@ -29,19 +30,22 @@ function CardsLeftItem() {
 function ScoreCardItem() {
   const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
+  const { data } = useGameStatsQuery({
+    fetchPolicy: "cache-and-network"
+  })
 
   return (
     <Box pl={2} pr={2}>
       <Box style={{ fontSize: "24px", lineHeight: "0.9" }}>
         {
           <span style={{ color: TeamColor[Team.Red] }}>
-            {teamScore(Team.Red, currentGame.turns, currentGame.players)}
+            {data?.turn_scorings && teamScore(Team.Red, data.turn_scorings, currentGame.players)}
           </span>
         }
         {" - "}
         {
           <span style={{ color: TeamColor[Team.Blue] }}>
-            {teamScore(Team.Blue, currentGame.turns, currentGame.players)}
+            {data?.turn_scorings && teamScore(Team.Blue, data.turn_scorings, currentGame.players)}
           </span>
         }
       </Box>

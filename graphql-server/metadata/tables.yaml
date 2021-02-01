@@ -345,6 +345,9 @@
     schema: public
     name: turn_scorings
   object_relationships:
+  - name: card
+    using:
+      foreign_key_constraint_on: card_id
   - name: turn
     using:
       foreign_key_constraint_on: turn_id

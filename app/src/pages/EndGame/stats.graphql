@@ -1,0 +1,17 @@
+query GameStats {
+  turn_scorings {
+    id
+    started_at
+    ended_at
+    status
+    score
+    card {
+      id
+      player_id
+      word
+    }
+    turn {
+      player_id
+    }
+  }
+}
