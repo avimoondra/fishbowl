@@ -1,8 +1,10 @@
 import { Box, Button, TextField } from "@material-ui/core"
 import { Players, useUpdatePlayerMutation } from "generated/graphql"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 function UsernameInput(props: { playerId: Players["id"]; username: string }) {
+  const { t } = useTranslation("lobby")
   const [updatePlayer] = useUpdatePlayerMutation()
   const [value, setValue] = React.useState(props.username || "")
   const [savedName, setSavedName] = React.useState(value)
@@ -25,14 +27,16 @@ function UsernameInput(props: { playerId: Players["id"]; username: string }) {
       <Box display="flex" alignItems="flex-start" justifyContent="flex-start">
         <Box>
           <TextField
-            label="Username"
+            label={t("username.label", "Username")}
             variant="outlined"
             size="small"
             defaultValue={props.username || ""}
             onChange={({ target: { value } }) => {
               setValue(value)
             }}
-            helperText={<span>Emojis encouraged! 🌍🚀✨</span>}
+            helperText={
+              <span>{t("username.helper", "Emojis encouraged!")} 🌍🚀✨</span>
+            }
           />
         </Box>
         <Box pl={2}>
@@ -42,7 +46,9 @@ function UsernameInput(props: { playerId: Players["id"]; username: string }) {
             variant="outlined"
             size="large"
           >
-            {!!savedName ? "Change" : "Join"}
+            {!!savedName
+              ? t("username.changeButton", "Change")
+              : t("username.joinButton", "Join")}
           </Button>
         </Box>
       </Box>

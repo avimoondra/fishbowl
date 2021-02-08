@@ -21,7 +21,7 @@ enum PlayerState {
 }
 
 function Home() {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation(["home", "common"])
   const titleClasses = useTitleStyle()
   const currentAuth = React.useContext(CurrentAuthContext)
   const [gameId, setGameId] = React.useState<Games["id"] | null>(null)
@@ -40,7 +40,7 @@ function Home() {
       <Grid container spacing={5} alignItems="center" direction="column">
         <Grid item>
           <Typography variant="h2" className={titleClasses.title}>
-            Fishbowl
+            {t("common:title", "Fishbowl")}
           </Typography>
         </Grid>
         <Grid item>

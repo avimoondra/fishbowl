@@ -4,6 +4,7 @@ import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useUpdateGameSettingsMutation } from "generated/graphql"
 import { debounce, sample } from "lodash"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 const DEBOUNCE_SECONDS = 2000
 
@@ -16,6 +17,7 @@ function HelperText(props: { children: React.ReactNode }) {
 }
 
 export function LetterInput(props: { value: string }) {
+  const { t } = useTranslation("lobby")
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
@@ -39,7 +41,7 @@ export function LetterInput(props: { value: string }) {
 
   return (
     <TextField
-      label="Letter"
+      label={t("settings.cards.letter.label", "Letter")}
       variant="outlined"
       size="medium"
       helperText={
@@ -47,8 +49,11 @@ export function LetterInput(props: { value: string }) {
           {currentPlayer.role === PlayerRole.Host ? (
             <>
               <span>
-                One style of play is that all words or phrases must start with
-                the same letter - Ask your group!
+                {t(
+                  "settings.cards.letter.helper",
+                  "One style of play is that all words or phrases must start with the same letter."
+                )}{" "}
+                {t("settings.cards.letter.helperHost", "Ask your group!")}
               </span>
               <br />
               <Link
@@ -61,13 +66,22 @@ export function LetterInput(props: { value: string }) {
                   debouncedUpdateGameSettings(randomLetter)
                 }}
               >
-                Generate random letter
+                {t(
+                  "settings.cards.letter.generateRandom",
+                  "Generate random letter"
+                )}
               </Link>
             </>
           ) : (
             <span>
-              One style of play is that all words or phrases must start with the
-              same letter. If none is chosen, any word or phrase is fair game!
+              {t(
+                "settings.cards.letter.helper",
+                "One style of play is that all words or phrases must start with the same letter."
+              )}{" "}
+              {t(
+                "settings.cards.letter.helperPlayers",
+                "If none is chosen, any word or phrase is fair game!"
+              )}
             </span>
           )}
         </HelperText>
@@ -87,6 +101,7 @@ export function SecondsPerTurnInput(props: {
   value: string
   disabled?: boolean
 }) {
+  const { t } = useTranslation("lobby")
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
@@ -111,13 +126,19 @@ export function SecondsPerTurnInput(props: {
   return (
     <TextField
       type="number"
-      label="Seconds Per Turn"
+      label={t("settings.turns.secondsPerTurn.label", "Seconds Per Turn")}
       variant="outlined"
       size="medium"
       required
-      helperText={<HelperText>Usually between 30 or 60</HelperText>}
+      helperText={
+        <HelperText>
+          {t(
+            "settings.turns.secondsPerTurn.helper",
+            "Usually between 30 or 60"
+          )}
+        </HelperText>
+      }
       value={textFieldValue}
-      inputProps={{ style: { textTransform: "uppercase" } }}
       disabled={!canConfigureSettings || props.disabled}
       onChange={({ target: { value } }) => {
         setTextFieldValue(value)
@@ -128,6 +149,7 @@ export function SecondsPerTurnInput(props: {
 }
 
 export function SubmissionsPerPlayerInput(props: { value: string }) {
+  const { t } = useTranslation("lobby")
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
@@ -152,13 +174,22 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
   return (
     <TextField
       type="number"
-      label="Submissions Per Player"
+      label={t(
+        "settings.cards.submissionsPerPlayer.label",
+        "Submissions Per Player"
+      )}
       variant="outlined"
       size="medium"
       required
-      helperText={<HelperText>Usually 4-6 depending on group size</HelperText>}
+      helperText={
+        <HelperText>
+          {t(
+            "settings.cards.submissionsPerPlayer.helper",
+            "Usually 4-6 depending on group size"
+          )}
+        </HelperText>
+      }
       value={textFieldValue}
-      inputProps={{ style: { textTransform: "uppercase" } }}
       disabled={!canConfigureSettings}
       onChange={({ target: { value } }) => {
         setTextFieldValue(value)

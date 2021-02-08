@@ -15,12 +15,14 @@ import { parseWordList } from "lib/cards"
 import { LetterInput, SubmissionsPerPlayerInput } from "pages/Lobby/Inputs"
 import ScreenCardsCheckbox from "pages/Lobby/Inputs/ScreenCardsCheckbox"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 function CardSettings(props: {
   cardPlayStyle: GameCardPlayStyleEnum
   setCardPlayStyle?: (cardPlayStyle: GameCardPlayStyleEnum) => void
   debouncedSetWordList?: (wordList: string) => void
 }) {
+  const { t } = useTranslation("lobby")
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [wordList, setWordList] = React.useState("")
@@ -42,12 +44,18 @@ function CardSettings(props: {
             <FormControlLabel
               value={GameCardPlayStyleEnum.PlayersSubmitWords}
               control={<Radio color="primary"></Radio>}
-              label="Players submit words (default)"
+              label={t(
+                "settings.cards.cardStyle.playersSubmit",
+                "Players submit words (default)"
+              )}
             ></FormControlLabel>
             <FormControlLabel
               value={GameCardPlayStyleEnum.HostProvidesWords}
               control={<Radio color="primary"></Radio>}
-              label="Host provides words"
+              label={t(
+                "settings.cards.cardStyle.hostProvides",
+                "Host provides words"
+              )}
             ></FormControlLabel>
           </RadioGroup>
         </FormControl>
@@ -79,11 +87,14 @@ function CardSettings(props: {
                 props.debouncedSetWordList && props.debouncedSetWordList(value)
               }}
               fullWidth
-              label="Words"
+              label={t("settings.cards.words.label", "Words")}
               multiline
               rows={5}
               variant="outlined"
-              placeholder="Comma separated list of words here..."
+              placeholder={t(
+                "settings.cards.words.placeholder",
+                "Comma separated list of words here..."
+              )}
             ></TextField>
             <Box
               display="flex"
@@ -91,7 +102,10 @@ function CardSettings(props: {
               pt={0.5}
               color={grey[600]}
             >
-              {wordListLength ? `${wordListLength} words detected` : ""}
+              {t("settings.cards.words.helper", "{{ count }} word detected", {
+                count: wordListLength,
+                defaultValue_plural: "{{ count }} words detected",
+              })}
             </Box>
           </Grid>
         )}

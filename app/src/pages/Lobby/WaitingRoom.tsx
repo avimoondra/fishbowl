@@ -15,11 +15,13 @@ import { parseWordList } from "lib/cards"
 import { teamsWithSequence } from "lib/team"
 import { filter, find, isEmpty, reject } from "lodash"
 import * as React from "react"
+import { Trans, useTranslation } from "react-i18next"
 
 function WaitingRoom(props: {
   cardPlayStyle: GameCardPlayStyleEnum
   wordList?: string
 }) {
+  const { t } = useTranslation("lobby")
   const MIN_NUMBER_OF_PLAYERS = 2 // TODO: Update to 4.
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
@@ -53,12 +55,16 @@ function WaitingRoom(props: {
         {currentPlayer.role === PlayerRole.Host && (
           <>
             <Box mt={2} color={grey[600]}>
-              In case someone is switching devices or browsers, you can remove
-              them as the host.
+              {t(
+                "hostHelper.removeHost",
+                "In case someone is switching devices or browsers, you can remove them as the host."
+              )}
             </Box>
             <Box my={2} color={grey[600]}>
-              <b>Once you start the game, new players cannot join</b>. We'll add
-              support for players joining late soon!
+              <Trans t={t} i18nKey="hostHelper.lateJoining">
+                <b>Once you start the game, new players cannot join.</b> We'll
+                add support for players joining late soon!
+              </Trans>
             </Box>
           </>
         )}
@@ -125,7 +131,7 @@ function WaitingRoom(props: {
             variant="contained"
             color="primary"
           >
-            Everyone's Here!
+            {t("everyoneHereButton", "Everyone's Here!")}
           </Button>
         )}
       </Grid>

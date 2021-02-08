@@ -20,6 +20,7 @@ import SettingsSection from "pages/Lobby/SettingsSection"
 import ShareSection from "pages/Lobby/ShareSection"
 import WaitingRoom from "pages/Lobby/WaitingRoom"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 import { useLocation } from "react-router-dom"
 
 const DEBOUNCE_SECONDS = 1000
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 function Lobby() {
+  const { t } = useTranslation(["lobby", "common"])
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updatePlayer] = useUpdatePlayerMutation()
@@ -84,7 +86,7 @@ function Lobby() {
           style={{ textAlign: "center", marginBottom: "1em" }}
           className={titleClasses.title}
         >
-          Fishbowl
+          {t("common:title", "Fishbowl")}
         </Typography>
       )}
 
@@ -118,7 +120,7 @@ function Lobby() {
           <Grid container spacing={2} direction="column">
             <Grid item>
               <Typography variant="h4" className={titleClasses.title}>
-                Lobby
+                {t("heading", "Lobby")}
               </Typography>
             </Grid>
             <Grid item>
