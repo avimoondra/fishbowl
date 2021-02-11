@@ -179,6 +179,14 @@
   - name: game
     using:
       foreign_key_constraint_on: game_id
+  array_relationships:
+  - name: cards
+    using:
+      foreign_key_constraint_on:
+        column: player_id
+        table:
+          schema: public
+          name: cards
   insert_permissions:
   - role: anonymous
     permission:
