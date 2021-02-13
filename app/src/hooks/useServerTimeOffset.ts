@@ -72,7 +72,9 @@ export default function useServerTimeOffset(): number {
         .filter((sample) => sample.roundtrip < limit) // exclude long request outliers
         .map((sample) => sample.offset)
 
-      setOffset(mean(offsets))
+      if (offsets.length) {
+        setOffset(mean(offsets))
+      }
     }
 
     computeOffset()
