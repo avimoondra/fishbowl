@@ -16,10 +16,12 @@ import { OtherTeamContent, YourTeamTurnContent } from "pages/Play/TeamContent"
 import TurnContextPanel from "pages/Play/TurnContextPanel"
 import YourTurnContent from "pages/Play/YourTurnContent"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 import { playStateFromTurn } from "./functions"
 import useSecondsLeft from "./useSecondsLeft"
 
 function Play() {
+  const { t } = useTranslation("play")
   const titleClasses = useTitleStyle()
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
@@ -88,7 +90,12 @@ function Play() {
   let round = ""
   if (roundMarkers.includes(roundMarker)) {
     const value = capitalize(currentGame.rounds[roundMarker].value)
-    round = GameRound[value as GameRound] || value
+    round = GameRound[value as GameRound]
+    if (round) {
+      round = t(`round.${round.toLowerCase()}.name`, round)
+    } else {
+      round = value
+    }
   }
 
   const yourTurn = activePlayer.id === currentPlayer.id
@@ -99,7 +106,7 @@ function Play() {
   let titleText = null
   let content = null
   if (yourTurn) {
-    titleText = "Your Turn"
+    titleText = t("yourTurn.title", "Your Turn")
     content = (
       <YourTurnContent
         yourTeamPlayers={filter(
@@ -127,7 +134,7 @@ function Play() {
       />
     )
   } else if (yourTeamTurn) {
-    titleText = "You're Guessin'"
+    titleText = t("yourTeam.title", "You're Guessin'")
     content = (
       <YourTeamTurnContent
         activePlayer={activePlayer}
@@ -135,7 +142,7 @@ function Play() {
       />
     )
   } else {
-    titleText = "You're Chillin'"
+    titleText = t("otherTeam.title", "You're Chillin'")
     content = (
       <OtherTeamContent activePlayer={activePlayer} activeTurn={activeTurn} />
     )

@@ -9,12 +9,14 @@ import {
 import { useTitleStyle } from "index"
 import { nextPlayerForNextTeam, nextPlayerForSameTeam } from "lib/turn"
 import * as React from "react"
+import { Trans, useTranslation } from "react-i18next"
 
 function HostControls(props: {
   activeTurn: CurrentGameSubscription["games"][0]["turns"][0]
   activePlayer: CurrentGameSubscription["games"][0]["players"][0]
   currentRoundId: number
 }) {
+  const { t } = useTranslation("play")
   const currentGame = React.useContext(CurrentGameContext)
   const titleClasses = useTitleStyle()
   const [endTurn] = useEndCurrentTurnAndStartNextTurnMutation()
@@ -34,7 +36,7 @@ function HostControls(props: {
     <Grid container direction="column" alignItems="center" spacing={2}>
       <Grid item>
         <Typography variant="h4" className={titleClasses.title}>
-          Host Controls
+          {t("hostControls.title", "Host Controls")}
         </Typography>
       </Grid>
       <Grid item>
@@ -56,7 +58,15 @@ function HostControls(props: {
               onClick={() => {
                 if (
                   window.confirm(
-                    `Are you sure you want to skip ${props.activePlayer.username} (team ${props.activePlayer.team})? ${nextPlayerActiveTeam.username} from the same team would go instead.`
+                    t(
+                      "hostControls.skipPlayer.confirmation",
+                      "Are you sure you want to skip {{ activePlayerName }} (team {{ activePlayerTeam }})? {{ nextPlayerName }} from the same team would go instead.",
+                      {
+                        activePlayerName: props.activePlayer.username,
+                        activePlayerTeam: props.activePlayer.team,
+                        nextPlayerName: nextPlayerActiveTeam.username,
+                      }
+                    )
                   )
                 ) {
                   endTurn({
@@ -72,7 +82,7 @@ function HostControls(props: {
                 }
               }}
             >
-              Skip player
+              {t("hostControls.skipPlayer.button", "Skip player")}
             </Button>
           </Box>
 
@@ -81,7 +91,7 @@ function HostControls(props: {
               username={nextPlayerActiveTeam.username || ""}
               team={nextPlayerActiveTeam.team}
             ></PlayerChip>{" "}
-            would be next
+            {t("hostControls.skipHelperPredicate", "would be next")}
           </Box>
         </Box>
       </Grid>
@@ -93,7 +103,15 @@ function HostControls(props: {
               onClick={() => {
                 if (
                   window.confirm(
-                    `Are you sure you want to skip ${props.activePlayer.username} (team ${props.activePlayer.team})? ${nextPlayerNextTeam.username} from the other team would go next.`
+                    t(
+                      "hostControls.skipTeam.confirmation",
+                      "Are you sure you want to skip {{ activePlayerName }} (team {{ activePlayerTeam }})? {{ nextPlayerName }} from the other team would go next.",
+                      {
+                        activePlayerName: props.activePlayer.username,
+                        activePlayerTeam: props.activePlayer.team,
+                        nextPlayerName: nextPlayerNextTeam.username,
+                      }
+                    )
                   )
                 ) {
                   endTurn({
@@ -109,7 +127,7 @@ function HostControls(props: {
                 }
               }}
             >
-              Skip team
+              {t("hostControls.skipTeam.button", "Skip team")}
             </Button>
           </Box>
           <Box ml={2}>
@@ -117,19 +135,29 @@ function HostControls(props: {
               username={nextPlayerNextTeam.username || ""}
               team={nextPlayerNextTeam.team}
             ></PlayerChip>{" "}
-            would be next
+            {t("hostControls.skipHelperPredicate", "would be next")}
           </Box>
         </Box>
       </Grid>
       <Grid item>
-        Someone drop out or lose connection? They can join back in with code{" "}
-        <b>{currentGame.join_code?.toLocaleUpperCase()}</b> from the same
-        browser!
+        <Trans t={t} i18nKey="hostControls.description.joinCode">
+          {
+            "Someone drop out or lose connection? They can join back in with code "
+          }
+          <b>{{ joinCode: currentGame.join_code?.toLocaleUpperCase() }}</b>
+          {" from the same browser!"}
+        </Trans>
       </Grid>
       <Grid item>
-        Or if they need additional help, click the settings button ⚙️ to send a
-        unique join link for that player. From here, you can also adjust other
-        settings, including seconds per turn, skips, etc.
+        <Trans t={t} i18nKey="hostControls.description.joinLink">
+          {"Or if they need additional help, click the settings button "}
+          <span role="img" aria-label="settings button">
+            ⚙️
+          </span>
+          {
+            " to send a unique join link for that player. From here, you can also adjust other settings, including seconds per turn, skips, etc."
+          }
+        </Trans>
       </Grid>
     </Grid>
   )

@@ -17,8 +17,10 @@ import { SecondsPerTurnInput } from "pages/Lobby/Inputs"
 import AllowCardSkipsCheckbox from "pages/Lobby/Inputs/AllowCardSkipsCheckbox"
 import * as React from "react"
 import Clipboard from "react-clipboard.js"
+import { Trans, useTranslation } from "react-i18next"
 
 function Settings() {
+  const { t } = useTranslation(["play", "common"])
   const currentGame = React.useContext(CurrentGameContext)
   const players = currentGame.players
   const [selectedPlayerId, setSelectedPlayerId] = React.useState<
@@ -51,17 +53,21 @@ function Settings() {
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
-        Players can rejoin the game with code{" "}
-        <b>{currentGame.join_code?.toLocaleUpperCase()}</b>
+        <Trans t={t} i18nKey="settings.join.codeDescription">
+          {"Players can rejoin the game with code "}
+          <b>{{ joinCode: currentGame.join_code?.toLocaleUpperCase() }}</b>
+        </Trans>
       </Grid>
       <Grid item>
-        If that's not working, send a unique join link by selecting a player's
-        username below.
+        {t(
+          "settings.join.link.description",
+          "If that's not working, send a unique join link by selecting a player's username below."
+        )}
       </Grid>
       <Grid item>
         <FormControl style={{ width: "200px" }}>
           <InputLabel htmlFor="player-name-native-simple">
-            Player username
+            {t("settings.join.link.playerSelectLabel", "Player username")}
           </InputLabel>
           <Select
             native
@@ -77,7 +83,7 @@ function Settings() {
             <option aria-label="None" value="" />
             {players.map((player) => {
               return (
-                <option value={player.id || "unknown"}>
+                <option key={player.id} value={player.id || "unknown"}>
                   {player.username}
                 </option>
               )
@@ -113,15 +119,19 @@ function Settings() {
                   }
                   onClick={() => setCopyButtonClicked(true)}
                 >
-                  {copyButtonClicked ? "Copied" : "Copy"}
+                  {copyButtonClicked
+                    ? t("common:copied", "Copied")
+                    : t("common:copy", "Copy")}
                 </Button>
               </Clipboard>
             </Grid>
           </Grid>
           <Grid item>
-            Send this to{" "}
-            <PlayerChip username={selectedPlayer?.username || ""}></PlayerChip>{" "}
-            so they can get back in the game!
+            <Trans t={t} i18nKey="settings.join.link.helper">
+              {"Send this to "}
+              <PlayerChip>{{ username: selectedPlayer?.username }}</PlayerChip>
+              {" so they can get back in the game!"}
+            </Trans>
           </Grid>
         </>
       )}
@@ -132,8 +142,10 @@ function Settings() {
       </Grid>
       <Grid item>
         <Box pb={1}>
-          As the host, you can adjust these settings before each turn or round
-          starts.
+          {t(
+            "settings.description",
+            "As the host, you can adjust these settings before each turn or round starts."
+          )}
         </Box>
       </Grid>
       <Grid item>

@@ -4,8 +4,10 @@ import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { GameStateEnum, useUpdateGameStateMutation } from "generated/graphql"
 import { useTitleStyle } from "index"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 function NoMoreRounds() {
+  const { t } = useTranslation(["play", "end"])
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const titleClasses = useTitleStyle()
@@ -15,10 +17,15 @@ function NoMoreRounds() {
     <Grid container direction="column" alignItems="center" spacing={2}>
       <Grid item>
         <Typography variant="h4" className={titleClasses.title}>
-          Game Over
+          {t("end:title", "Game Over")}
         </Typography>
       </Grid>
-      <Grid item>Your host will end the game to show some stats!</Grid>
+      <Grid item>
+        {t(
+          "endGame.description",
+          "Your host will end the game to show some stats!"
+        )}
+      </Grid>
       {currentPlayer.role === PlayerRole.Host && (
         <Grid item>
           <Button
@@ -33,7 +40,7 @@ function NoMoreRounds() {
               })
             }}
           >
-            End Game
+            {t("endGame.button", "End Game")}
           </Button>
         </Grid>
       )}

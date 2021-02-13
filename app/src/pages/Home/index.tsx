@@ -134,7 +134,7 @@ function Home() {
       <Box pb={4} pl={1} pr={1} style={{ textAlign: "center" }}>
         <p>
           <Trans t={t} i18nKey="footer1">
-            Free,{" "}
+            {"Free, "}
             <Link href="https://github.com/avimoondra/fishbowl" target="_blank">
               open source
             </Link>

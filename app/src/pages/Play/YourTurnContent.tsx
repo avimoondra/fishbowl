@@ -29,7 +29,9 @@ import {
 import { compact, filter, includes, reject, sample } from "lodash"
 import * as React from "react"
 import { isMobile } from "react-device-detect"
+import { useTranslation } from "react-i18next"
 import useSound from "use-sound"
+
 enum ShownCardStatus {
   Complete = "complete",
   Skipped = "skipped",
@@ -59,6 +61,7 @@ function YourTurnContent(props: {
   onStart: () => void
   onOutOfCards: () => void
 }) {
+  const { t } = useTranslation("play")
   const { serverTimeOffset } = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [startTurn] = useStartTurnMutation()
@@ -161,14 +164,31 @@ function YourTurnContent(props: {
     }
   }
 
+  const yourTeammates = React.useMemo(
+    () =>
+      reject(
+        props.yourTeamPlayers,
+        (player) => player.id === props.activePlayer.id
+      ),
+    [props.activePlayer.id, props.yourTeamPlayers]
+  )
+
   return (
     <Box p={2}>
       <Grid container direction="column" spacing={4} alignItems="center">
         {props.activeTurnPlayState === ActiveTurnPlayState.Reviewing &&
         props.secondsLeft >= 0 ? (
-          <Grid item>{`You'll be starting the next round with ${Math.round(
-            props.secondsLeft
-          )} seconds leftover from this turn!`}</Grid>
+          <Grid item>
+            {t(
+              "yourTurn.leftoverSeconds",
+              "You'll be starting the next round with {{ count }} second leftover from this turn!",
+              {
+                count: props.secondsLeft,
+                defaultValue_plural:
+                  "You'll be starting the next round with {{ count }} seconds leftover from this turn!",
+              }
+            )}
+          </Grid>
         ) : null}
 
         {/* Cards */}
@@ -176,31 +196,40 @@ function YourTurnContent(props: {
           props.activeTurnPlayState
         ) && (
           <>
-            <Grid item container>
-              {reject(
-                props.yourTeamPlayers,
-                (player) => player.id === props.activePlayer.id
-              ).map((player) => {
-                return (
-                  <>
-                    <PlayerChip
-                      key={player.id}
-                      username={player.username || ""}
-                      team={player.team}
-                    ></PlayerChip>
-                    <div style={{ width: 4 }}></div>
-                  </>
-                )
-              })}
-              <div> from your team are guessing!</div>
-            </Grid>
+            {!!yourTeammates.length && (
+              <Grid item container>
+                {yourTeammates.map((player) => {
+                  return (
+                    <React.Fragment key={player.id}>
+                      <PlayerChip
+                        username={player.username || ""}
+                        team={player.team}
+                      ></PlayerChip>
+                      <div style={{ width: 4 }}></div>
+                    </React.Fragment>
+                  )
+                })}
+                <div>
+                  {" "}
+                  {t(
+                    "yourTurn.contextPredicate",
+                    "from your team is guessing!",
+                    {
+                      count: yourTeammates.length,
+                      defaultValue_plural: "from your team are guessing!",
+                    }
+                  )}
+                </div>
+              </Grid>
+            )}
+
             <Grid item>
               <BowlCard>
                 {activeCard ? (
                   <Typography variant="h5">{activeCard.word}</Typography>
                 ) : (
                   <div style={{ textAlign: "center", color: grey[600] }}>
-                    You'll see cards here!
+                    {t("yourTurn.emptyCard", "You'll see cards here!")}
                   </div>
                 )}
               </BowlCard>
@@ -210,9 +239,19 @@ function YourTurnContent(props: {
         {props.activeTurnPlayState === ActiveTurnPlayState.Reviewing && (
           <>
             <Grid item>
-              Review the cards you went through this turn. If you
-              {currentGame.allow_card_skips && " skipped or "}
-              missed any, just uncheck them.
+              {t(
+                "yourTurn.reviewHelper.default",
+                "Review the cards you went through this turn."
+              )}{" "}
+              {currentGame.allow_card_skips
+                ? t(
+                    "yourTurn.reviewHelper.withSkips",
+                    "If you skipped or missed any, just uncheck them."
+                  )
+                : t(
+                    "yourTurn.reviewHelper.withoutSkips",
+                    "If you missed any, just uncheck them."
+                  )}
             </Grid>
             <Grid item container direction="column" spacing={2}>
               {[...shownCardsInActiveTurn.keys()].map((cardId) => {
@@ -252,7 +291,14 @@ function YourTurnContent(props: {
                       </Box>
                       {shownCardsInActiveTurn.get(cardId)?.status ===
                         ShownCardStatus.Skipped && (
-                        <Box color={grey[600]}>(skip)</Box>
+                        <Box color={grey[600]}>
+                          (
+                          {t(
+                            "yourTurn.cardButton.skip",
+                            "Skip"
+                          ).toLocaleLowerCase()}
+                          )
+                        </Box>
                       )}
                     </Grid>
                     <Grid item>
@@ -282,7 +328,7 @@ function YourTurnContent(props: {
                       onNextCardClick(ShownCardStatus.Skipped)
                     }}
                   >
-                    Skip
+                    {t("yourTurn.cardButton.skip", "Skip")}
                   </Button>
                 </Grid>
               )}
@@ -294,7 +340,7 @@ function YourTurnContent(props: {
                     onNextCardClick(ShownCardStatus.Complete)
                   }}
                 >
-                  Correct
+                  {t("yourTurn.cardButton.correct", "Correct")}
                 </Button>
               </Grid>
             </>
@@ -307,7 +353,12 @@ function YourTurnContent(props: {
                 onClick={async () => {
                   setSkippingTurn(true)
                   if (
-                    window.confirm(`Are you sure you want to skip your turn?`)
+                    window.confirm(
+                      t(
+                        "yourTurn.skipTurnConfirmation",
+                        "Are you sure you want to skip your turn?"
+                      )
+                    )
                   ) {
                     const response = await endTurn({
                       variables: {
@@ -330,7 +381,7 @@ function YourTurnContent(props: {
                   }
                 }}
               >
-                Skip turn
+                {t("yourTurn.skipTurnButton", "Skip turn")}
               </Button>
             </Grid>
           )}
@@ -412,7 +463,7 @@ function YourTurnContent(props: {
                   }
                 }}
               >
-                End turn
+                {t("yourTurn.endTurnButton", "End turn")}
               </Button>
             </Grid>
           )}
@@ -459,7 +510,7 @@ function YourTurnContent(props: {
                   }
                 }}
               >
-                Start Turn
+                {t("yourTurn.startTurnButton", "Start Turn")}
               </Button>
             </Grid>
           )}
@@ -468,8 +519,28 @@ function YourTurnContent(props: {
         {!isMobile &&
           props.activeTurnPlayState === ActiveTurnPlayState.Playing && (
             <Grid item style={{ color: grey[600] }}>
-              Hint: Press the spacebar for "Correct"
-              {currentGame.allow_card_skips && ', and S for "Skip"'}
+              {currentGame.allow_card_skips
+                ? t(
+                    "yourTurn.shortcutHelper.withSkips",
+                    'Hint: Press the spacebar for "{{ correctButton }}", and S for "{{ skipButton }}"',
+                    {
+                      correctButton: t(
+                        "yourTurn.cardButton.correct",
+                        "Correct"
+                      ),
+                      skipButton: t("yourTurn.cardButton.skip", "Skip"),
+                    }
+                  )
+                : t(
+                    "yourTurn.shortcutHelper.withoutSkips",
+                    'Hint: Press the spacebar for "{{ correctButton }}"',
+                    {
+                      correctButton: t(
+                        "yourTurn.cardButton.correct",
+                        "Correct"
+                      ),
+                    }
+                  )}
             </Grid>
           )}
       </Grid>

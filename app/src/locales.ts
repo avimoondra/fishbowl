@@ -8,6 +8,7 @@ export const Namespaces = [
   "cardSubmission",
   "teams",
   "play",
+  "end",
 ] as const
 
 /**

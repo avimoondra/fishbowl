@@ -11,20 +11,23 @@ import { teamScore } from "lib/score"
 import { Team, TeamColor } from "lib/team"
 import { drawableCards } from "lib/turn"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 function CardsLeftItem() {
+  const { t } = useTranslation("play")
   const currentGame = React.useContext(CurrentGameContext)
   const numCardsLeft = drawableCards(currentGame.turns, currentGame.cards)
     .length
   return (
     <Box pl={2} pr={2}>
       <Box style={{ fontSize: "24px", lineHeight: "0.9" }}>{numCardsLeft}</Box>
-      <Box>cards</Box>
+      <Box>{t("turnContext.cards", "cards")}</Box>
     </Box>
   )
 }
 
 function ScoreCardItem() {
+  const { t } = useTranslation("play")
   const currentGame = React.useContext(CurrentGameContext)
 
   return (
@@ -42,18 +45,19 @@ function ScoreCardItem() {
           </span>
         }
       </Box>
-      <Box>score</Box>
+      <Box>{t("turnContext.score", "score")}</Box>
     </Box>
   )
 }
 
 function CountdownTimerItem(props: { secondsLeft: number }) {
+  const { t } = useTranslation("play")
   return (
     <Box pl={2} pr={2}>
       <Box style={{ fontSize: "24px", lineHeight: "0.9" }}>
         {props.secondsLeft}
       </Box>
-      <Box>seconds</Box>
+      <Box>{t("turnContext.seconds", "seconds")}</Box>
     </Box>
   )
 }

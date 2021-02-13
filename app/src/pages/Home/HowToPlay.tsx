@@ -39,9 +39,11 @@ function HowToPlay() {
         return (
           <Box key={roundKey} pt={2} pl={2}>
             <b>
-              {t("play:round.heading", "Round")}
-              {` ${1 + index}: `}
-              {t(`play:round.${roundKey}.name`, round)}.
+              {t("play:round.heading", "Round {{ number }}: {{ name }}", {
+                number: 1 + index,
+                name: t(`play:round.${roundKey}.name`, round),
+              })}
+              .
             </b>{" "}
             {t(
               `play:round.${roundKey}.description`,
