@@ -9,6 +9,7 @@ import {
 } from "generated/graphql"
 import { Team, teamsWithSequenceWithUpdate } from "lib/team"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,6 +34,7 @@ function PlayerArena(props: {
   hostCanRemovePlayer?: boolean
   hostCanSwitchTeams?: boolean
 }) {
+  const { t } = useTranslation("lobby")
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const classes = useStyles()
@@ -85,7 +87,10 @@ function PlayerArena(props: {
                   ? () => {
                       if (
                         window.confirm(
-                          "Are you sure you want to delete this player?"
+                          t(
+                            "deletePlayerConfirmation",
+                            "Are you sure you want to delete this player?"
+                          )
                         )
                       ) {
                         removePlayer({

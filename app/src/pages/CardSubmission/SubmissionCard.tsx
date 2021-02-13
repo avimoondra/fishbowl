@@ -3,11 +3,13 @@ import BowlCard from "components/BowlCard"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { lowerCase } from "lodash"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 function SubmissionCard(props: {
   onChange: (value: string) => void
   word: string
 }) {
+  const { t } = useTranslation("cardSubmission")
   const currentGame = React.useContext(CurrentGameContext)
 
   const hasStartingLetterError = (word: string) => {
@@ -36,9 +38,14 @@ function SubmissionCard(props: {
         helperText={
           (currentGame.starting_letter &&
             hasStartingLetterError(props.word) &&
-            `Must start with letter ${currentGame.starting_letter.toLocaleUpperCase()}!`) ||
+            t("card.helperLetter", `Must start with letter {{ letter }}!`, {
+              letter: currentGame.starting_letter.toLocaleUpperCase(),
+            })) ||
           (hasSimilarSubmissionError(props.word) &&
-            "Someone made a similar submission - try a new word!")
+            t(
+              "card.helperSimilar",
+              "Someone made a similar submission - try a new word!"
+            ))
         }
         onChange={({ target: { value } }) => {
           props.onChange(value)

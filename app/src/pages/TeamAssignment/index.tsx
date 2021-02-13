@@ -14,8 +14,10 @@ import { nextPlayerForNextTeam } from "lib/turn"
 import { filter } from "lodash"
 import { Title } from "pages/CardSubmission"
 import * as React from "react"
+import { Trans, useTranslation } from "react-i18next"
 
 function TeamAssignment() {
+  const { t } = useTranslation("teams")
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameState] = useUpdateGameStateMutation()
@@ -39,7 +41,7 @@ function TeamAssignment() {
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item style={{ textAlign: "center" }}>
-        <Title text="Teams"></Title>
+        <Title text={t("title", "Teams")}></Title>
       </Grid>
 
       <Grid
@@ -53,11 +55,14 @@ function TeamAssignment() {
         <Grid item container direction="row" alignItems="center" spacing={1}>
           <Grid item>
             <Typography variant="h6" style={{ color: TeamColor[myTeamColor] }}>
-              {`Team ${myTeamColor}`.toLocaleUpperCase()}
+              {t(
+                `teamName.${myTeamColor}`,
+                `Team ${myTeamColor}`
+              ).toLocaleUpperCase()}
             </Typography>
           </Grid>
           <Grid item style={{ color: grey[600], fontStyle: "italic" }}>
-            (your team)
+            {t("teamName.yourSubtitle", "(your team)")}
           </Grid>
         </Grid>
 
@@ -68,7 +73,7 @@ function TeamAssignment() {
       </Grid>
 
       <Grid item style={{ textAlign: "center" }}>
-        <Typography variant="h6">- vs -</Typography>
+        <Typography variant="h6">- {t("versusDivider", "vs")} -</Typography>
       </Grid>
 
       <Grid
@@ -76,7 +81,10 @@ function TeamAssignment() {
         style={{ textAlign: "right", color: TeamColor[otherTeamColor] }}
       >
         <Typography variant="h6">
-          {`Team ${otherTeamColor}`.toLocaleUpperCase()}
+          {t(
+            `teamName.${otherTeamColor}`,
+            `Team ${otherTeamColor}`
+          ).toLocaleUpperCase()}
         </Typography>
         <PlayerArena
           players={otherTeamPlayers}
@@ -87,8 +95,10 @@ function TeamAssignment() {
       {currentPlayer.role === PlayerRole.Participant && (
         <Grid item>
           <Box mt={1} mb={1}>
-            Don't like the teams? Your host can re-randomize them or switch
-            players from one team to another.
+            {t(
+              "description.player",
+              "Don't like the teams? Your host can re-randomize them or switch players from one team to another."
+            )}
           </Box>
         </Grid>
       )}
@@ -97,12 +107,11 @@ function TeamAssignment() {
         <>
           <Grid item>
             <Box mt={1} mb={1}>
-              Don't like the teams?{" "}
-              <span>
+              <Trans t={t} i18nKey="description.host">
+                {"Don't like the teams? "}
                 <Link
-                  href=""
-                  onClick={(e: React.MouseEvent<HTMLElement>) => {
-                    e.preventDefault()
+                  component="button"
+                  onClick={() => {
                     const players = teamsWithSequence(currentGame.players)
                     updateAllPlayers({
                       variables: {
@@ -118,8 +127,8 @@ function TeamAssignment() {
                 >
                   Re-randomize
                 </Link>
-              </span>{" "}
-              them. Or switch players from one team to another.
+                {" them. Or switch players from one team to another."}
+              </Trans>
             </Box>
           </Grid>
           <Grid item style={{ textAlign: "center" }}>
@@ -147,7 +156,7 @@ function TeamAssignment() {
                 })
               }}
             >
-              Start Game
+              {t("startGameButton", "Start Game")}
             </Button>
           </Grid>
         </>

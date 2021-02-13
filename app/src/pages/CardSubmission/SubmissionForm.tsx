@@ -2,12 +2,14 @@ import { Button, Grid } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { useSubmitCardsMutation } from "generated/graphql"
-import { cloneDeep, filter } from "lodash"
+import { cloneDeep, filter, startCase } from "lodash"
 import { Title } from "pages/CardSubmission"
 import SubmissionCard from "pages/CardSubmission/SubmissionCard"
 import * as React from "react"
+import { Trans, useTranslation } from "react-i18next"
 
 function SubmissionForm(props: { onSubmit: () => void }) {
+  const { t } = useTranslation("cardSubmission")
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [submitCards, { called }] = useSubmitCardsMutation()
@@ -48,23 +50,32 @@ function SubmissionForm(props: { onSubmit: () => void }) {
     <>
       <Grid item>
         <Title
-          text={`Submit ${numToSubmit}
-          card${1 === numToSubmit ? "" : "s"}`}
+          text={t("title", "Submit {{ count }} card", {
+            count: numToSubmit,
+            defaultValue_plural: "Submit {{ count }} cards",
+          })}
         />
       </Grid>
 
       <Grid item>
-        These cards will be put into the "fishbowl," and drawn randomly in
-        rounds of Taboo, Charades, and Password. They can be words, familiar
-        phrases, or inside jokes!
+        {t(
+          "description",
+          'These cards will be put into the "fishbowl," and drawn randomly in rounds of {{ rounds }}. They can be words, familiar phrases, or inside jokes!',
+          {
+            rounds: currentGame.rounds
+              .map((round) => startCase(round.value))
+              .join(", "),
+          }
+        )}
       </Grid>
 
       {currentGame.starting_letter && (
         <Grid item>
-          <>
-            They must start with the letter{" "}
-            <b>{currentGame.starting_letter.toLocaleUpperCase()}</b>.
-          </>
+          <Trans t={t} i18nKey="descriptionLetter">
+            {"They must start with the letter "}
+            <b>{{ letter: currentGame.starting_letter.toLocaleUpperCase() }}</b>
+            .
+          </Trans>
         </Grid>
       )}
 
@@ -106,7 +117,7 @@ function SubmissionForm(props: { onSubmit: () => void }) {
             props.onSubmit()
           }}
         >
-          Submit
+          {t("submitButton", "Submit")}
         </Button>
       </Grid>
     </>

@@ -7,8 +7,10 @@ import {
 } from "generated/graphql"
 import { teamsWithSequence } from "lib/team"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 function AssignTeamsButton() {
+  const { t } = useTranslation("cardSubmission")
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameState] = useUpdateGameStateMutation()
   const [updateAllPlayers] = useUpdateAllPlayersMutation()
@@ -38,7 +40,7 @@ function AssignTeamsButton() {
         })
       }}
     >
-      Assign Teams
+      {t("assignTeamsButton", "Assign Teams")}
     </Button>
   )
 }

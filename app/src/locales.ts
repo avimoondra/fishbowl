@@ -4,8 +4,10 @@ export const Namespaces = [
   "translation",
   "common",
   "home",
-  "play",
   "lobby",
+  "cardSubmission",
+  "teams",
+  "play",
 ] as const
 
 /**
