@@ -8,6 +8,7 @@ import { teamScore } from "lib/score"
 import { Team, TeamColor } from "lib/team"
 import { filter, flatMap, isEmpty, reject } from "lodash"
 import * as React from "react"
+import { Trans, useTranslation } from "react-i18next"
 import { Redirect } from "react-router-dom"
 import {
   FacebookIcon,
@@ -18,6 +19,7 @@ import {
 import routes from "routes"
 
 function EndGame() {
+  const { t } = useTranslation("end")
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const titleClasses = useTitleStyle()
@@ -59,8 +61,11 @@ function EndGame() {
   const tie = redScore === blueScore
   const winningTeam = redScore > blueScore ? Team.Red : Team.Blue
 
-  const shareContent =
-    "Just had a great time playing fishbowl-game.com online, you should check it out!"
+  const shareContent = t(
+    "shareContent",
+    "Just had a great time playing {{ url }} online, you should check it out!",
+    { url: "fishbowl-game.com" }
+  )
 
   return (
     <>
@@ -68,7 +73,7 @@ function EndGame() {
       <Grid container direction="column" spacing={2}>
         <Grid item style={{ textAlign: "center" }}>
           <Typography variant="h4" className={titleClasses.title}>
-            Game Over
+            {t("title", "Game Over")}
           </Typography>
         </Grid>
         <Grid item style={{ textAlign: "center" }}>
@@ -83,8 +88,10 @@ function EndGame() {
         </Grid>
         <Grid item>
           {tie
-            ? "It's a tie! Play again to break it."
-            : `${winningTeam.toLocaleUpperCase()} wins! Bask in the glory.`}
+            ? t("result.tie", "It's a tie! Play again to break it.")
+            : t("result.win", "{{ teamName }} wins! Bask in the glory.", {
+                teamName: winningTeam.toLocaleUpperCase(),
+              })}
         </Grid>
         {!isEmpty(highScorePlayers) && (
           <Grid item>
@@ -94,13 +101,19 @@ function EndGame() {
                 username={player?.username || ""}
                 team={player?.team}
               ></PlayerChip>
-            ))}
-            {` put the team on their back. They got their team to guess the most number of cards (${highScore}!), across all rounds.`}
+            ))}{" "}
+            {t(
+              "highScore",
+              "put the team on their back. They got their team to guess the most number of cards ({{ highScore }}!), across all rounds.",
+              { highScore }
+            )}
           </Grid>
         )}
-        <Grid item>{`You scored ${
-          scoresByPlayer.get(currentPlayer.id) || 0
-        } across all rounds.`}</Grid>
+        <Grid item>
+          {t("yourScore", "You scored {{ score }} across all rounds.", {
+            score: scoresByPlayer.get(currentPlayer.id) || 0,
+          })}
+        </Grid>
         <Grid item>
           <Divider variant="fullWidth"></Divider>
         </Grid>
@@ -112,7 +125,10 @@ function EndGame() {
           alignItems="center"
         >
           <Box pb={2}>
-            Thanks for playing -- if you had fun, share it with your friends!
+            {t(
+              "thanks.share",
+              "Thanks for playing -- if you had fun, share it with your friends!"
+            )}
           </Box>
 
           <Grid container justify="center" spacing={2}>
@@ -133,18 +149,20 @@ function EndGame() {
               </FacebookShareButton>
             </Grid>
           </Grid>
-          <Box pb={1} pt={2}>
-            Or support the project by
-          </Box>
-          <Box py={2}>
-            <BuyMeACoffeeButton></BuyMeACoffeeButton>
-          </Box>
-          <Box py={1}>
-            <Link href="https://forms.gle/L9qWMsnAUghXqqxE9" target="_blank">
-              sharing your feedback
-            </Link>
-            , and playing again soon!
-          </Box>
+          <Trans t={t} i18nKey="thanks.support">
+            <Box pb={1} pt={2}>
+              Or support the project by
+            </Box>
+            <Box py={2}>
+              <BuyMeACoffeeButton>Buying us a coffee</BuyMeACoffeeButton>
+            </Box>
+            <Box py={1}>
+              <Link href="https://forms.gle/L9qWMsnAUghXqqxE9" target="_blank">
+                sharing your feedback
+              </Link>
+              , and playing again soon!
+            </Box>
+          </Trans>
         </Grid>
         <Grid item>
           <Divider variant="fullWidth"></Divider>
@@ -152,7 +170,7 @@ function EndGame() {
         <Grid item container justify="center">
           <Box py={1}>
             <Button variant="outlined" onClick={() => setRedirectHome(true)}>
-              Play Again
+              {t("playAgainButton", "Play Again")}
             </Button>
           </Box>
         </Grid>
