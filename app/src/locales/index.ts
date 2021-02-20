@@ -9,6 +9,7 @@ export const Namespaces = [
   "teams",
   "play",
   "end",
+  "error",
 ] as const
 
 /**
@@ -23,3 +24,7 @@ export const EmptyResourceLanguage: ResourceLanguage = Namespaces.reduce<
 
   return resource
 }, {})
+
+export const SupportedLanguages = ["en", "es"] as const
+
+export type SupportedLanguage = typeof SupportedLanguages[number]

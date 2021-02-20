@@ -1,4 +1,6 @@
-# https://fishbowl-game.com
+![build](https://github.com/avimoondra/fishbowl/workflows/build/badge.svg) ![locize](https://img.shields.io/badge/dynamic/json.svg?style=plastic&color=2096F3&label=locize&query=%24.versions%5B'production'%5D.translatedPercentage&url=https://api.locize.app/badgedata/3ff96254-e310-4d55-8076-f0cc49f57a8f&suffix=%+translated&link=https://www.locize.com)
+
+# [fishbowl-game.com](https://fishbowl-game.com)
 
 Play the Fishbowl game online! Also known as Salad bowl, The Hat Game, The Bucket Game, Monikers, or Celebrities...
 
@@ -10,7 +12,7 @@ Fishbowl is built with [Material UI](https://material-ui.com/), [Typescript](htt
 
 CI/CD via [Github Actions](https://github.com/features/actions). Hosted on [Render](https://render.com/).
 
-![build](https://github.com/avimoondra/fishbowl/workflows/build/badge.svg)
+Localization via [i18next](https://www.i18next.com/), powered by our friends at [locize](https://locize.com/).
 
 # Roadmap
 
@@ -144,6 +146,20 @@ psql postgres://postgres:password@localhost:5432/postgres
 ```
 
 You can also find a SQL runner in Hasura itself, [here](http://localhost:9695/data/sql).
+
+# Localization
+
+Translation management is powered by our friends at [locize](https://locize.com/).
+
+## Development
+
+English fallback strings, inlined throughout the code represent the source of truth. When [configured](.env.local.sample) with a [locize API key](https://www.locize.app/p/9svqlsjm/developer), new keys and updated default values will by synchronized to locize during local development.
+
+## Production
+
+Non-English language resources are served via a cached (1 day) [`production` version](https://www.locize.app/p/9svqlsjm/v/production) on [locize's CDN](https://docs.locize.com/guides-tips-and-tricks/going-production#use-the-locize-cdn).
+
+Given the inlined fallback strings, it is unnecessary to load external English resources; an empty in-memory `en` language is provided to i18next via [`partialBundledLanguages`](https://www.i18next.com/overview/configuration-options#languages-namespaces-resources).
 
 # Contribute w/code
 

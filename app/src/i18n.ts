@@ -2,7 +2,7 @@ import i18n from "i18next"
 import LanguageDetector from "i18next-browser-languagedetector"
 import Locize from "i18next-locize-backend"
 import { initReactI18next } from "react-i18next"
-import { EmptyResourceLanguage } from "./locales"
+import { EmptyResourceLanguage, SupportedLanguages } from "locales"
 
 const development = "development" === process.env.NODE_ENV
 const locizeApiKey = development
@@ -19,7 +19,7 @@ i18n
 
     // @see https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
     fallbackLng: "en",
-    supportedLngs: false, // TODO
+    supportedLngs: SupportedLanguages as any,
     partialBundledLanguages: true,
     resources: saveMissing ? undefined : { en: EmptyResourceLanguage },
     interpolation: {
@@ -36,6 +36,8 @@ i18n
       projectId: "3ff96254-e310-4d55-8076-f0cc49f57a8f",
       apiKey: locizeApiKey,
       referenceLng: "en",
+      // @see https://docs.locize.com/guides-tips-and-tricks/going-production#versions-and-caching
+      version: development ? "latest" : "production",
     },
   })
 

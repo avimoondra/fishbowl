@@ -26,6 +26,7 @@ import Settings from "pages/Settings"
 import TeamAssignment from "pages/TeamAssignment"
 import queryString from "query-string"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 import {
   generatePath,
   Redirect,
@@ -39,6 +40,7 @@ function CurrentPlayerProvider(props: {
   joinCode: string
   children: React.ReactNode
 }) {
+  const { t } = useTranslation("error")
   const currentAuth = React.useContext(CurrentAuthContext)
   const notification = React.useContext(NotificationContext)
   const serverTimeOffset = useServerTimeOffset()
@@ -87,7 +89,11 @@ function CurrentPlayerProvider(props: {
       } else {
         // cannot find game
         notification.send(
-          `Cannot find game ${props.joinCode.toLocaleUpperCase()}. Double check the url! 👀`
+          t(
+            "invalidJoinCode",
+            `Cannot find game {{ joinCode }}. Double check the url! 👀`,
+            { joinCode: props.joinCode.toLocaleUpperCase() }
+          )
         )
         setRedirectRoute(routes.root)
       }

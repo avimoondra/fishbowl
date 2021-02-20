@@ -13,6 +13,7 @@ import HowToPlay from "pages/Home/HowToPlay"
 import Join from "pages/Home/Join"
 import * as React from "react"
 import { Trans, useTranslation } from "react-i18next"
+import { LanguagePicker } from "./LanguagePicker"
 
 enum PlayerState {
   Joining = 1,
@@ -128,10 +129,13 @@ function Home() {
           </Box>
         </Grid>
       </Grid>
+      <Box pt={4}>
+        <LanguagePicker />
+      </Box>
       <Box p={4}>
         <Divider variant="middle"></Divider>
       </Box>
-      <Box pb={4} pl={1} pr={1} style={{ textAlign: "center" }}>
+      <Box textAlign="center" pb={4} px={1}>
         <p>
           <Trans t={t} i18nKey="footer1">
             {"Free, "}
