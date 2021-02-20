@@ -66,8 +66,12 @@ export default function useServerTimeOffset(): number {
 
       // calculate the limit for outliers
       const roundtrips = compact(samples).map((sample) => sample.roundtrip)
-      const limit = median(roundtrips) + std(roundtrips)
 
+      if (!roundtrips.length) {
+        return
+      }
+
+      const limit = median(roundtrips) + std(roundtrips)
       const offsets = compact(samples)
         .filter((sample) => sample.roundtrip < limit) // exclude long request outliers
         .map((sample) => sample.offset)
