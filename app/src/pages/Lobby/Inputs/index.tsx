@@ -134,7 +134,11 @@ export function SecondsPerTurnInput(props: {
         <HelperText>
           {t(
             "settings.turns.secondsPerTurn.helper",
-            "Usually between 30 or 60"
+            "Usually between {{ secondsLowerBound }} or {{ secondsUpperBound }}",
+            {
+              secondsLowerBound: 30,
+              secondsUpperBound: 60,
+            }
           )}
         </HelperText>
       }
@@ -185,7 +189,8 @@ export function SubmissionsPerPlayerInput(props: { value: string }) {
         <HelperText>
           {t(
             "settings.cards.submissionsPerPlayer.helper",
-            "Usually 4-6 depending on group size"
+            "Usually {{ range }} depending on group size",
+            { range: "4-6" }
           )}
         </HelperText>
       }
