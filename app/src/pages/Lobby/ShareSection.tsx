@@ -22,7 +22,7 @@ function ShareSection() {
 
   return (
     <Grid item>
-      {t("shareGame.linkLabel", "Share your link with everyone playing")}
+      {t("lobby.shareGame.linkLabel", "Share your link with everyone playing")}
       <Grid container spacing={2} style={{ paddingTop: 8, paddingBottom: 8 }}>
         <Grid item xs={8}>
           <TextField
@@ -57,7 +57,7 @@ function ShareSection() {
           </Clipboard>
         </Grid>
       </Grid>
-      {t("shareGame.codeLabel", "Or the code")}
+      {t("lobby.shareGame.codeLabel", "Or the code")}
       <Typography variant="h6">{currentGame.join_code}</Typography>
     </Grid>
   )

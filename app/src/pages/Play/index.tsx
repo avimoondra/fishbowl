@@ -134,7 +134,7 @@ function Play() {
       />
     )
   } else if (yourTeamTurn) {
-    titleText = t("yourTeam.title", "You're Guessin'")
+    titleText = t("play.yourTeam.title", "You're Guessin'")
     content = (
       <YourTeamTurnContent
         activePlayer={activePlayer}

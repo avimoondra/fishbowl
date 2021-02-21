@@ -528,7 +528,7 @@ function YourTurnContent(props: {
                         "play.yourTurn.cardButton.correct",
                         "Correct"
                       ),
-                      skipButton: t("yourTurn.cardButton.skip", "Skip"),
+                      skipButton: t("play.yourTurn.cardButton.skip", "Skip"),
                     }
                   )
                 : t(
