@@ -34,7 +34,7 @@ function PlayerArena(props: {
   hostCanRemovePlayer?: boolean
   hostCanSwitchTeams?: boolean
 }) {
-  const { t } = useTranslation("lobby")
+  const { t } = useTranslation()
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const classes = useStyles()
@@ -88,7 +88,7 @@ function PlayerArena(props: {
                       if (
                         window.confirm(
                           t(
-                            "deletePlayerConfirmation",
+                            "lobby.deletePlayerConfirmation",
                             "Are you sure you want to delete this player?"
                           )
                         )

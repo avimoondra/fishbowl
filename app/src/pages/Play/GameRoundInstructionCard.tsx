@@ -29,18 +29,18 @@ function GameRoundInstructionCard(props: {
   roundNumber: number
   onDismiss: () => void
 }) {
-  const { t } = useTranslation(["play", "common"])
+  const { t } = useTranslation()
   const titleClasses = useTitleStyle()
   let description = GameRoundDescription[props.round as GameRound]
 
   if (description) {
     description = t(
-      `round.${props.round.toLowerCase()}.description`,
+      `howToPlay.round.${props.round.toLowerCase()}.description`,
       description
     )
   } else {
     description = t(
-      "round.customDescription",
+      "howToPlay.round.customDescription",
       "Your host will give you the rules for this one!"
     )
   }
@@ -49,7 +49,7 @@ function GameRoundInstructionCard(props: {
     <StyledPaper elevation={2}>
       <Box p={1}>
         <Typography className={titleClasses.title} variant="h5">
-          {t("round.heading", "Round {{ number }}: {{ name }}", {
+          {t("howToPlay.round.heading", "Round {{ number }}: {{ name }}", {
             number: props.roundNumber,
             name: props.round,
           })}
@@ -64,7 +64,7 @@ function GameRoundInstructionCard(props: {
             props.onDismiss()
           }}
         >
-          {t("common:dismiss", "Dismiss")}
+          {t("dismiss", "Dismiss")}
         </Button>
       </Box>
     </StyledPaper>

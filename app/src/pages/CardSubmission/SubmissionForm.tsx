@@ -9,7 +9,7 @@ import * as React from "react"
 import { Trans, useTranslation } from "react-i18next"
 
 function SubmissionForm(props: { onSubmit: () => void }) {
-  const { t } = useTranslation("cardSubmission")
+  const { t } = useTranslation()
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [submitCards, { called }] = useSubmitCardsMutation()
@@ -50,7 +50,7 @@ function SubmissionForm(props: { onSubmit: () => void }) {
     <>
       <Grid item>
         <Title
-          text={t("title", "Submit {{ count }} card", {
+          text={t("cardSubmission.title", "Submit {{ count }} card", {
             count: numToSubmit,
             defaultValue_plural: "Submit {{ count }} cards",
           })}
@@ -59,7 +59,7 @@ function SubmissionForm(props: { onSubmit: () => void }) {
 
       <Grid item>
         {t(
-          "description",
+          "cardSubmission.description",
           'These cards will be put into the "fishbowl," and drawn randomly in rounds of {{ rounds }}. They can be words, familiar phrases, or inside jokes!',
           {
             rounds: currentGame.rounds
@@ -71,7 +71,7 @@ function SubmissionForm(props: { onSubmit: () => void }) {
 
       {currentGame.starting_letter && (
         <Grid item>
-          <Trans t={t} i18nKey="descriptionLetter">
+          <Trans t={t} i18nKey="cardSubmission.descriptionLetter">
             {"They must start with the letter "}
             <b>{{ letter: currentGame.starting_letter.toLocaleUpperCase() }}</b>
             .
@@ -117,7 +117,7 @@ function SubmissionForm(props: { onSubmit: () => void }) {
             props.onSubmit()
           }}
         >
-          {t("submitButton", "Submit")}
+          {t("cardSubmission.submitButton", "Submit")}
         </Button>
       </Grid>
     </>

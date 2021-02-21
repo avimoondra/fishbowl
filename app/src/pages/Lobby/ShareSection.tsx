@@ -6,7 +6,7 @@ import Clipboard from "react-clipboard.js"
 import { useTranslation } from "react-i18next"
 
 function ShareSection() {
-  const { t } = useTranslation(["lobby", "common"])
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
   const [copyButtonClicked, setCopyButtonClicked] = React.useState(false)
 
@@ -52,9 +52,7 @@ function ShareSection() {
               }
               onClick={() => setCopyButtonClicked(true)}
             >
-              {copyButtonClicked
-                ? t("common:copied", "Copied")
-                : t("common:copy", "Copy")}
+              {copyButtonClicked ? t("copied", "Copied") : t("copy", "Copy")}
             </Button>
           </Clipboard>
         </Grid>

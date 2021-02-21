@@ -5,7 +5,7 @@ import * as React from "react"
 import { useTranslation } from "react-i18next"
 
 function SettingsSummary() {
-  const { t } = useTranslation("lobby")
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
   let cardPlayStyle = ""
   switch (currentGame.card_play_style) {

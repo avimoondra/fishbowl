@@ -16,7 +16,7 @@ function HostControls(props: {
   activePlayer: CurrentGameSubscription["games"][0]["players"][0]
   currentRoundId: number
 }) {
-  const { t } = useTranslation("play")
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
   const titleClasses = useTitleStyle()
   const [endTurn] = useEndCurrentTurnAndStartNextTurnMutation()

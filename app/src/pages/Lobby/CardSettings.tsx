@@ -22,7 +22,7 @@ function CardSettings(props: {
   setCardPlayStyle?: (cardPlayStyle: GameCardPlayStyleEnum) => void
   debouncedSetWordList?: (wordList: string) => void
 }) {
-  const { t } = useTranslation("lobby")
+  const { t } = useTranslation()
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [wordList, setWordList] = React.useState("")

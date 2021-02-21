@@ -4,7 +4,7 @@ import * as React from "react"
 import { useTranslation } from "react-i18next"
 
 function UsernameInput(props: { playerId: Players["id"]; username: string }) {
-  const { t } = useTranslation("lobby")
+  const { t } = useTranslation()
   const [updatePlayer] = useUpdatePlayerMutation()
   const [value, setValue] = React.useState(props.username || "")
   const [savedName, setSavedName] = React.useState(value)
@@ -27,7 +27,7 @@ function UsernameInput(props: { playerId: Players["id"]; username: string }) {
       <Box display="flex" alignItems="flex-start" justifyContent="flex-start">
         <Box>
           <TextField
-            label={t("username.label", "Username")}
+            label={t("lobby.username.label", "Username")}
             variant="outlined"
             size="small"
             defaultValue={props.username || ""}
@@ -35,7 +35,9 @@ function UsernameInput(props: { playerId: Players["id"]; username: string }) {
               setValue(value)
             }}
             helperText={
-              <span>{t("username.helper", "Emojis encouraged!")} 🌍🚀✨</span>
+              <span>
+                {t("lobby.username.helper", "Emojis encouraged!")} 🌍🚀✨
+              </span>
             }
           />
         </Box>
@@ -47,8 +49,8 @@ function UsernameInput(props: { playerId: Players["id"]; username: string }) {
             size="large"
           >
             {!!savedName
-              ? t("username.changeButton", "Change")
-              : t("username.joinButton", "Join")}
+              ? t("lobby.username.changeButton", "Change")
+              : t("lobby.username.joinButton", "Join")}
           </Button>
         </Box>
       </Box>

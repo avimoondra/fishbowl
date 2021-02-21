@@ -17,7 +17,7 @@ import * as React from "react"
 import { Trans, useTranslation } from "react-i18next"
 
 function TeamAssignment() {
-  const { t } = useTranslation("teams")
+  const { t } = useTranslation()
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameState] = useUpdateGameStateMutation()
@@ -41,7 +41,7 @@ function TeamAssignment() {
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item style={{ textAlign: "center" }}>
-        <Title text={t("title", "Teams")}></Title>
+        <Title text={t("teams.title", "Teams")}></Title>
       </Grid>
 
       <Grid
@@ -56,13 +56,13 @@ function TeamAssignment() {
           <Grid item>
             <Typography variant="h6" style={{ color: TeamColor[myTeamColor] }}>
               {t(
-                `teamName.${myTeamColor}`,
+                `teams.teamName.${myTeamColor}`,
                 `Team ${myTeamColor}`
               ).toLocaleUpperCase()}
             </Typography>
           </Grid>
           <Grid item style={{ color: grey[600], fontStyle: "italic" }}>
-            {t("teamName.yourSubtitle", "(your team)")}
+            {t("teams.teamName.yourSubtitle", "(your team)")}
           </Grid>
         </Grid>
 
@@ -73,7 +73,9 @@ function TeamAssignment() {
       </Grid>
 
       <Grid item style={{ textAlign: "center" }}>
-        <Typography variant="h6">- {t("versusDivider", "vs")} -</Typography>
+        <Typography variant="h6">
+          - {t("teams.versusDivider", "vs")} -
+        </Typography>
       </Grid>
 
       <Grid
@@ -82,7 +84,7 @@ function TeamAssignment() {
       >
         <Typography variant="h6">
           {t(
-            `teamName.${otherTeamColor}`,
+            `teams.teamName.${otherTeamColor}`,
             `Team ${otherTeamColor}`
           ).toLocaleUpperCase()}
         </Typography>
@@ -96,7 +98,7 @@ function TeamAssignment() {
         <Grid item>
           <Box mt={1} mb={1}>
             {t(
-              "description.player",
+              "teams.description.player",
               "Don't like the teams? Your host can re-randomize them or switch players from one team to another."
             )}
           </Box>
@@ -107,7 +109,7 @@ function TeamAssignment() {
         <>
           <Grid item>
             <Box mt={1} mb={1}>
-              <Trans t={t} i18nKey="description.host">
+              <Trans t={t} i18nKey="teams.description.host">
                 {"Don't like the teams? "}
                 <Link
                   component="button"
@@ -156,7 +158,7 @@ function TeamAssignment() {
                 })
               }}
             >
-              {t("startGameButton", "Start Game")}
+              {t("teams.startGameButton", "Start Game")}
             </Button>
           </Grid>
         </>

@@ -10,7 +10,7 @@ import { generatePath, Redirect } from "react-router-dom"
 import routes from "routes"
 
 function Join(props: { onBack: () => void }) {
-  const { t } = useTranslation(["home", "common"])
+  const { t } = useTranslation()
   const currentAuth = React.useContext(CurrentAuthContext)
   const notification = React.useContext(NotificationContext)
 
@@ -56,7 +56,7 @@ function Join(props: { onBack: () => void }) {
         // cannot find game
         notification.send(
           t(
-            "invalidJoinCode",
+            "home.invalidJoinCode",
             "Cannot find game {{ joinCode }}. Double check the code! 👀",
             { joinCode: joinCode?.toLocaleUpperCase() }
           )
@@ -77,7 +77,7 @@ function Join(props: { onBack: () => void }) {
           <TextField
             autoFocus
             size="medium"
-            label={t("joinCodeLabel", "4-letter code")}
+            label={t("home.joinCodeLabel", "4-letter code")}
             variant="outlined"
             value={joinCode}
             onChange={({ target: { value } }) => setJoinCode(value)}
@@ -87,7 +87,7 @@ function Join(props: { onBack: () => void }) {
         </Grid>
         <Grid container item>
           <Button size="small" onClick={props.onBack}>
-            {t("common:backButton", "Back")}
+            {t("backButton", "Back")}
           </Button>
           <Button
             variant="outlined"
@@ -104,7 +104,7 @@ function Join(props: { onBack: () => void }) {
             }}
             disabled={!joinCode || joinCode.length < 4 || joining}
           >
-            {t("joinGameButton", "Join Game")}
+            {t("home.joinGameButton", "Join Game")}
           </Button>
         </Grid>
       </Grid>

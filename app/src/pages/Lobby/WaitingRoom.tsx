@@ -21,7 +21,7 @@ function WaitingRoom(props: {
   cardPlayStyle: GameCardPlayStyleEnum
   wordList?: string
 }) {
-  const { t } = useTranslation("lobby")
+  const { t } = useTranslation()
   const MIN_NUMBER_OF_PLAYERS = 2 // TODO: Update to 4.
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
@@ -56,12 +56,12 @@ function WaitingRoom(props: {
           <>
             <Box mt={2} color={grey[600]}>
               {t(
-                "hostHelper.removeHost",
+                "lobby.hostHelper.removeHost",
                 "In case someone is switching devices or browsers, you can remove them as the host."
               )}
             </Box>
             <Box my={2} color={grey[600]}>
-              <Trans t={t} i18nKey="hostHelper.lateJoining">
+              <Trans t={t} i18nKey="lobby.hostHelper.lateJoining">
                 <b>Once you start the game, new players cannot join.</b> We'll
                 add support for players joining late soon!
               </Trans>
@@ -131,7 +131,7 @@ function WaitingRoom(props: {
             variant="contained"
             color="primary"
           >
-            {t("everyoneHereButton", "Everyone's Here!")}
+            {t("lobby.everyoneHereButton", "Everyone's Here!")}
           </Button>
         )}
       </Grid>

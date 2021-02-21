@@ -6,7 +6,7 @@ import { Link as RouterLink } from "react-router-dom"
 import routes from "routes"
 
 function Pending(props: { joinCode: string }) {
-  const { t } = useTranslation("error")
+  const { t } = useTranslation()
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>

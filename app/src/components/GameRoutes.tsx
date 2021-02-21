@@ -40,7 +40,7 @@ function CurrentPlayerProvider(props: {
   joinCode: string
   children: React.ReactNode
 }) {
-  const { t } = useTranslation("error")
+  const { t } = useTranslation()
   const currentAuth = React.useContext(CurrentAuthContext)
   const notification = React.useContext(NotificationContext)
   const serverTimeOffset = useServerTimeOffset()

@@ -21,7 +21,7 @@ import { playStateFromTurn } from "./functions"
 import useSecondsLeft from "./useSecondsLeft"
 
 function Play() {
-  const { t } = useTranslation("play")
+  const { t } = useTranslation()
   const titleClasses = useTitleStyle()
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
@@ -92,7 +92,7 @@ function Play() {
     const value = capitalize(currentGame.rounds[roundMarker].value)
     round = GameRound[value as GameRound]
     if (round) {
-      round = t(`round.${round.toLowerCase()}.name`, round)
+      round = t(`howToPlay.round.${round.toLowerCase()}.name`, round)
     } else {
       round = value
     }
@@ -106,7 +106,7 @@ function Play() {
   let titleText = null
   let content = null
   if (yourTurn) {
-    titleText = t("yourTurn.title", "Your Turn")
+    titleText = t("play.yourTurn.title", "Your Turn")
     content = (
       <YourTurnContent
         yourTeamPlayers={filter(
@@ -142,7 +142,7 @@ function Play() {
       />
     )
   } else {
-    titleText = t("otherTeam.title", "You're Chillin'")
+    titleText = t("play.otherTeam.title", "You're Chillin'")
     content = (
       <OtherTeamContent activePlayer={activePlayer} activeTurn={activeTurn} />
     )

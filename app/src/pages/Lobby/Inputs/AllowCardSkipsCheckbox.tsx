@@ -11,7 +11,7 @@ export default function AllowCardSkipsCheckbox(props: {
   value: boolean
   disabled?: boolean
 }) {
-  const { t } = useTranslation("lobby")
+  const { t } = useTranslation()
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()

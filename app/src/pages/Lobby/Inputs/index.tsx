@@ -17,7 +17,7 @@ function HelperText(props: { children: React.ReactNode }) {
 }
 
 export function LetterInput(props: { value: string }) {
-  const { t } = useTranslation("lobby")
+  const { t } = useTranslation()
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
@@ -101,7 +101,7 @@ export function SecondsPerTurnInput(props: {
   value: string
   disabled?: boolean
 }) {
-  const { t } = useTranslation("lobby")
+  const { t } = useTranslation()
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
@@ -149,7 +149,7 @@ export function SecondsPerTurnInput(props: {
 }
 
 export function SubmissionsPerPlayerInput(props: { value: string }) {
-  const { t } = useTranslation("lobby")
+  const { t } = useTranslation()
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()

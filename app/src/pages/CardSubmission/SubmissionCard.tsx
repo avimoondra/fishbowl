@@ -9,7 +9,7 @@ function SubmissionCard(props: {
   onChange: (value: string) => void
   word: string
 }) {
-  const { t } = useTranslation("cardSubmission")
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
 
   const hasStartingLetterError = (word: string) => {
@@ -38,12 +38,16 @@ function SubmissionCard(props: {
         helperText={
           (currentGame.starting_letter &&
             hasStartingLetterError(props.word) &&
-            t("card.helperLetter", `Must start with letter {{ letter }}!`, {
-              letter: currentGame.starting_letter.toLocaleUpperCase(),
-            })) ||
+            t(
+              "cardSubmission.card.helperLetter",
+              `Must start with letter {{ letter }}!`,
+              {
+                letter: currentGame.starting_letter.toLocaleUpperCase(),
+              }
+            )) ||
           (hasSimilarSubmissionError(props.word) &&
             t(
-              "card.helperSimilar",
+              "cardSubmission.card.helperSimilar",
               "Someone made a similar submission - try a new word!"
             ))
         }

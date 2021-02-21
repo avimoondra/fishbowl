@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 function Lobby() {
-  const { t } = useTranslation(["lobby", "common"])
+  const { t } = useTranslation()
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updatePlayer] = useUpdatePlayerMutation()
@@ -86,7 +86,7 @@ function Lobby() {
           style={{ textAlign: "center", marginBottom: "1em" }}
           className={titleClasses.title}
         >
-          {t("common:title", "Fishbowl")}
+          {t("title", "Fishbowl")}
         </Typography>
       )}
 
@@ -120,7 +120,7 @@ function Lobby() {
           <Grid container spacing={2} direction="column">
             <Grid item>
               <Typography variant="h4" className={titleClasses.title}>
-                {t("heading", "Lobby")}
+                {t("lobby.heading", "Lobby")}
               </Typography>
             </Grid>
             <Grid item>

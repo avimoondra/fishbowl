@@ -61,7 +61,7 @@ function YourTurnContent(props: {
   onStart: () => void
   onOutOfCards: () => void
 }) {
-  const { t } = useTranslation("play")
+  const { t } = useTranslation()
   const { serverTimeOffset } = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [startTurn] = useStartTurnMutation()
@@ -180,7 +180,7 @@ function YourTurnContent(props: {
         props.secondsLeft >= 0 ? (
           <Grid item>
             {t(
-              "yourTurn.leftoverSeconds",
+              "play.yourTurn.leftoverSeconds",
               "You'll be starting the next round with {{ count }} second leftover from this turn!",
               {
                 count: props.secondsLeft,
@@ -212,7 +212,7 @@ function YourTurnContent(props: {
                 <div>
                   {" "}
                   {t(
-                    "yourTurn.contextPredicate",
+                    "play.yourTurn.contextPredicate",
                     "from your team is guessing!",
                     {
                       count: yourTeammates.length,
@@ -229,7 +229,7 @@ function YourTurnContent(props: {
                   <Typography variant="h5">{activeCard.word}</Typography>
                 ) : (
                   <div style={{ textAlign: "center", color: grey[600] }}>
-                    {t("yourTurn.emptyCard", "You'll see cards here!")}
+                    {t("play.yourTurn.emptyCard", "You'll see cards here!")}
                   </div>
                 )}
               </BowlCard>
@@ -240,16 +240,16 @@ function YourTurnContent(props: {
           <>
             <Grid item>
               {t(
-                "yourTurn.reviewHelper.default",
+                "play.yourTurn.reviewHelper.default",
                 "Review the cards you went through this turn."
               )}{" "}
               {currentGame.allow_card_skips
                 ? t(
-                    "yourTurn.reviewHelper.withSkips",
+                    "play.yourTurn.reviewHelper.withSkips",
                     "If you skipped or missed any, just uncheck them."
                   )
                 : t(
-                    "yourTurn.reviewHelper.withoutSkips",
+                    "play.yourTurn.reviewHelper.withoutSkips",
                     "If you missed any, just uncheck them."
                   )}
             </Grid>
@@ -294,7 +294,7 @@ function YourTurnContent(props: {
                         <Box color={grey[600]}>
                           (
                           {t(
-                            "yourTurn.cardButton.skip",
+                            "play.yourTurn.cardButton.skip",
                             "Skip"
                           ).toLocaleLowerCase()}
                           )
@@ -328,7 +328,7 @@ function YourTurnContent(props: {
                       onNextCardClick(ShownCardStatus.Skipped)
                     }}
                   >
-                    {t("yourTurn.cardButton.skip", "Skip")}
+                    {t("play.yourTurn.cardButton.skip", "Skip")}
                   </Button>
                 </Grid>
               )}
@@ -340,7 +340,7 @@ function YourTurnContent(props: {
                     onNextCardClick(ShownCardStatus.Complete)
                   }}
                 >
-                  {t("yourTurn.cardButton.correct", "Correct")}
+                  {t("play.yourTurn.cardButton.correct", "Correct")}
                 </Button>
               </Grid>
             </>
@@ -355,7 +355,7 @@ function YourTurnContent(props: {
                   if (
                     window.confirm(
                       t(
-                        "yourTurn.skipTurnConfirmation",
+                        "play.yourTurn.skipTurnConfirmation",
                         "Are you sure you want to skip your turn?"
                       )
                     )
@@ -381,7 +381,7 @@ function YourTurnContent(props: {
                   }
                 }}
               >
-                {t("yourTurn.skipTurnButton", "Skip turn")}
+                {t("play.yourTurn.skipTurnButton", "Skip turn")}
               </Button>
             </Grid>
           )}
@@ -463,7 +463,7 @@ function YourTurnContent(props: {
                   }
                 }}
               >
-                {t("yourTurn.endTurnButton", "End turn")}
+                {t("play.yourTurn.endTurnButton", "End turn")}
               </Button>
             </Grid>
           )}
@@ -510,7 +510,7 @@ function YourTurnContent(props: {
                   }
                 }}
               >
-                {t("yourTurn.startTurnButton", "Start Turn")}
+                {t("play.yourTurn.startTurnButton", "Start Turn")}
               </Button>
             </Grid>
           )}
@@ -521,22 +521,22 @@ function YourTurnContent(props: {
             <Grid item style={{ color: grey[600] }}>
               {currentGame.allow_card_skips
                 ? t(
-                    "yourTurn.shortcutHelper.withSkips",
+                    "play.yourTurn.shortcutHelper.withSkips",
                     'Hint: Press the spacebar for "{{ correctButton }}", and S for "{{ skipButton }}"',
                     {
                       correctButton: t(
-                        "yourTurn.cardButton.correct",
+                        "play.yourTurn.cardButton.correct",
                         "Correct"
                       ),
                       skipButton: t("yourTurn.cardButton.skip", "Skip"),
                     }
                   )
                 : t(
-                    "yourTurn.shortcutHelper.withoutSkips",
+                    "play.yourTurn.shortcutHelper.withoutSkips",
                     'Hint: Press the spacebar for "{{ correctButton }}"',
                     {
                       correctButton: t(
-                        "yourTurn.cardButton.correct",
+                        "play.yourTurn.cardButton.correct",
                         "Correct"
                       ),
                     }

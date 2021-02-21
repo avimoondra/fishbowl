@@ -13,7 +13,7 @@ type Props = {
 }
 
 export function YourTeamTurnContent(props: Props) {
-  const { t } = useTranslation("play")
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
   const nextActivePlayer = nextPlayerForNextTeam(
     props.activePlayer,
@@ -30,7 +30,7 @@ export function YourTeamTurnContent(props: Props) {
               username={props.activePlayer.username || ""}
               team={props.activePlayer.team}
             ></PlayerChip>{" "}
-            {t("yourTeam.contextPredicate.active", "has started!")}
+            {t("play.yourTeam.contextPredicate.active", "has started!")}
           </Grid>
         ) : (
           <Grid item>
@@ -39,7 +39,7 @@ export function YourTeamTurnContent(props: Props) {
               team={props.activePlayer.team}
             ></PlayerChip>{" "}
             {t(
-              "yourTeam.contextPredicate.inactive",
+              "play.yourTeam.contextPredicate.inactive",
               "from your team is about to start. Pay attention!"
             )}
           </Grid>
@@ -51,7 +51,7 @@ export function YourTeamTurnContent(props: Props) {
             team={nextActivePlayer.team}
           ></PlayerChip>{" "}
           {t(
-            "yourTeam.contextPredicate.nextTurn",
+            "play.yourTeam.contextPredicate.nextTurn",
             "from the other team is next!"
           )}
         </Grid>
@@ -61,7 +61,7 @@ export function YourTeamTurnContent(props: Props) {
 }
 
 export function OtherTeamContent(props: Props) {
-  const { t } = useTranslation("play")
+  const { t } = useTranslation()
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const nextActivePlayer = nextPlayerForNextTeam(
@@ -80,7 +80,7 @@ export function OtherTeamContent(props: Props) {
               team={props.activePlayer.team}
             ></PlayerChip>{" "}
             {t(
-              "otherTeam.contextPredicate.active",
+              "play.otherTeam.contextPredicate.active",
               "has started! Pay attention to the words or phrases the other team is guessing!"
             )}
           </Grid>
@@ -91,7 +91,7 @@ export function OtherTeamContent(props: Props) {
               team={props.activePlayer.team}
             ></PlayerChip>{" "}
             {t(
-              "otherTeam.contextPredicate.inactive",
+              "play.otherTeam.contextPredicate.inactive",
               "from the other team is about to start. Pay attention to the words or phrases the other team is guessing!"
             )}
           </Grid>
@@ -104,11 +104,11 @@ export function OtherTeamContent(props: Props) {
           ></PlayerChip>{" "}
           {nextActivePlayer.id === currentPlayer.id
             ? t(
-                "otherTeam.contextPredicate.yourNextTurn",
+                "play.otherTeam.contextPredicate.yourNextTurn",
                 "is next! (that's you!)"
               )
             : t(
-                "otherTeam.contextPredicate.nextTurn",
+                "play.otherTeam.contextPredicate.nextTurn",
                 "from your team is next!"
               )}
         </Grid>

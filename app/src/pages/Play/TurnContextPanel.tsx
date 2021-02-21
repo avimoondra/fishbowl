@@ -14,20 +14,20 @@ import * as React from "react"
 import { useTranslation } from "react-i18next"
 
 function CardsLeftItem() {
-  const { t } = useTranslation("play")
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
   const numCardsLeft = drawableCards(currentGame.turns, currentGame.cards)
     .length
   return (
     <Box pl={2} pr={2}>
       <Box style={{ fontSize: "24px", lineHeight: "0.9" }}>{numCardsLeft}</Box>
-      <Box>{t("turnContext.cards", "cards")}</Box>
+      <Box>{t("play.turnContext.cards", "cards")}</Box>
     </Box>
   )
 }
 
 function ScoreCardItem() {
-  const { t } = useTranslation("play")
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
 
   return (
@@ -45,19 +45,19 @@ function ScoreCardItem() {
           </span>
         }
       </Box>
-      <Box>{t("turnContext.score", "score")}</Box>
+      <Box>{t("play.turnContext.score", "score")}</Box>
     </Box>
   )
 }
 
 function CountdownTimerItem(props: { secondsLeft: number }) {
-  const { t } = useTranslation("play")
+  const { t } = useTranslation()
   return (
     <Box pl={2} pr={2}>
       <Box style={{ fontSize: "24px", lineHeight: "0.9" }}>
         {props.secondsLeft}
       </Box>
-      <Box>{t("turnContext.seconds", "seconds")}</Box>
+      <Box>{t("play.turnContext.seconds", "seconds")}</Box>
     </Box>
   )
 }

@@ -8,28 +8,28 @@ import * as React from "react"
 import { useTranslation } from "react-i18next"
 
 function HowToPlay() {
-  const { t } = useTranslation(["home", "play"])
+  const { t } = useTranslation()
   const titleClasses = useTitleStyle()
   return (
     <>
       <Typography variant="h4" className={titleClasses.title}>
-        {t("howDoIPlay.heading", "How do I play?")}
+        {t("howToPlay.heading", "How do I play?")}
       </Typography>
       <Box pt={2}>
         {t(
-          "howDoIPlay.content1",
+          "howToPlay.content1",
           'It\'s easy! One person will "host" the game, and after everyone has joined in with a link or 4-character code, the game can start!'
         )}
       </Box>
       <Box pt={2}>
         {t(
-          "howDoIPlay.content2",
+          "howToPlay.content2",
           'First, everyone writes down a few words or phrases on "cards" that will be guessed later. The group will then randomly be split into two teams!'
         )}
       </Box>
       <Box pt={2}>
         {t(
-          "howDoIPlay.content3",
+          "howToPlay.content3",
           "Players from each team will alternate turns, giving clues to their team to guess as many cards as possible against the clock. There'll be 3 rounds, and cards will get recycled after each round!"
         )}
       </Box>
@@ -39,14 +39,14 @@ function HowToPlay() {
         return (
           <Box key={roundKey} pt={2} pl={2}>
             <b>
-              {t("play:round.heading", "Round {{ number }}: {{ name }}", {
+              {t("howToPlay.round.heading", "Round {{ number }}: {{ name }}", {
                 number: 1 + index,
-                name: t(`play:round.${roundKey}.name`, round),
+                name: t(`howToPlay.round.${roundKey}.name`, round),
               })}
               .
             </b>{" "}
             {t(
-              `play:round.${roundKey}.description`,
+              `howToPlay.round.${roundKey}.description`,
               GameRoundDescription[round]
             )}
           </Box>
@@ -54,7 +54,7 @@ function HowToPlay() {
       })}
       <Box pt={2}>
         {t(
-          "howDoIPlay.content4",
+          "howToPlay.content4",
           "The team that guesses the most cards across all rounds wins!"
         )}
       </Box>

@@ -19,7 +19,7 @@ import {
 import routes from "routes"
 
 function EndGame() {
-  const { t } = useTranslation("end")
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const titleClasses = useTitleStyle()
@@ -62,7 +62,7 @@ function EndGame() {
   const winningTeam = redScore > blueScore ? Team.Red : Team.Blue
 
   const shareContent = t(
-    "shareContent",
+    "end.shareContent",
     "Just had a great time playing {{ url }} online, you should check it out!",
     { url: "fishbowl-game.com" }
   )
@@ -73,7 +73,7 @@ function EndGame() {
       <Grid container direction="column" spacing={2}>
         <Grid item style={{ textAlign: "center" }}>
           <Typography variant="h4" className={titleClasses.title}>
-            {t("title", "Game Over")}
+            {t("end.title", "Game Over")}
           </Typography>
         </Grid>
         <Grid item style={{ textAlign: "center" }}>
@@ -88,8 +88,8 @@ function EndGame() {
         </Grid>
         <Grid item>
           {tie
-            ? t("result.tie", "It's a tie! Play again to break it.")
-            : t("result.win", "{{ teamName }} wins! Bask in the glory.", {
+            ? t("end.result.tie", "It's a tie! Play again to break it.")
+            : t("end.result.win", "{{ teamName }} wins! Bask in the glory.", {
                 teamName: winningTeam.toLocaleUpperCase(),
               })}
         </Grid>
@@ -103,14 +103,14 @@ function EndGame() {
               ></PlayerChip>
             ))}{" "}
             {t(
-              "highScore",
+              "end.highScore",
               "put the team on their back. They got their team to guess the most number of cards ({{ highScore }}!), across all rounds.",
               { highScore }
             )}
           </Grid>
         )}
         <Grid item>
-          {t("yourScore", "You scored {{ score }} across all rounds.", {
+          {t("end.yourScore", "You scored {{ score }} across all rounds.", {
             score: scoresByPlayer.get(currentPlayer.id) || 0,
           })}
         </Grid>
@@ -126,7 +126,7 @@ function EndGame() {
         >
           <Box pb={2}>
             {t(
-              "thanks.share",
+              "end.thanks.share",
               "Thanks for playing -- if you had fun, share it with your friends!"
             )}
           </Box>
@@ -149,7 +149,7 @@ function EndGame() {
               </FacebookShareButton>
             </Grid>
           </Grid>
-          <Trans t={t} i18nKey="thanks.support">
+          <Trans t={t} i18nKey="end.thanks.support">
             <Box pb={1} pt={2}>
               Or support the project by
             </Box>
@@ -170,7 +170,7 @@ function EndGame() {
         <Grid item container justify="center">
           <Box py={1}>
             <Button variant="outlined" onClick={() => setRedirectHome(true)}>
-              {t("playAgainButton", "Play Again")}
+              {t("end.playAgainButton", "Play Again")}
             </Button>
           </Box>
         </Grid>

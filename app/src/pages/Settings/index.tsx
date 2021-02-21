@@ -20,7 +20,7 @@ import Clipboard from "react-clipboard.js"
 import { Trans, useTranslation } from "react-i18next"
 
 function Settings() {
-  const { t } = useTranslation(["play", "common"])
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
   const players = currentGame.players
   const [selectedPlayerId, setSelectedPlayerId] = React.useState<
@@ -120,8 +120,8 @@ function Settings() {
                   onClick={() => setCopyButtonClicked(true)}
                 >
                   {copyButtonClicked
-                    ? t("common:copied", "Copied")
-                    : t("common:copy", "Copy")}
+                    ? t("copied", "Copied")
+                    : t("copy", "Copy")}
                 </Button>
               </Clipboard>
             </Grid>
@@ -143,7 +143,7 @@ function Settings() {
       <Grid item>
         <Box pb={1}>
           {t(
-            "settings.description",
+            "settings.playDescription",
             "As the host, you can adjust these settings before each turn or round starts."
           )}
         </Box>

@@ -10,7 +10,7 @@ import * as React from "react"
 import { useTranslation } from "react-i18next"
 
 function AssignTeamsButton() {
-  const { t } = useTranslation("cardSubmission")
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameState] = useUpdateGameStateMutation()
   const [updateAllPlayers] = useUpdateAllPlayersMutation()
@@ -40,7 +40,7 @@ function AssignTeamsButton() {
         })
       }}
     >
-      {t("assignTeamsButton", "Assign Teams")}
+      {t("cardSubmission.assignTeamsButton", "Assign Teams")}
     </Button>
   )
 }
