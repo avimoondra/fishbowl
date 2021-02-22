@@ -22,10 +22,22 @@ type PlayerScore = {
   [key: string]: number
 }
 
+export type Stats = {
+  playerScores: PlayerScore
+  highScore: number
+  highScorePlayers: CurrentGameSubscription["games"][0]["players"]
+  teamScores: {
+    [Team.Blue]: number
+    [Team.Red]: number
+  }
+  winningTeam: Team
+  tie: boolean
+}
+
 export function gameStats(
   turns: GameStatsQuery["turns"],
   players: CurrentGameSubscription["games"][0]["players"]
-) {
+): Stats {
   const playerScores: PlayerScore = {}
   players.forEach((player) => {
     const playerScorings = flatten(

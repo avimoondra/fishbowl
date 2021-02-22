@@ -5,7 +5,7 @@ import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { useGameStatsQuery } from "generated/graphql"
 import { useTitleStyle } from "index"
-import { gameStats } from "lib/score"
+import { gameStats, Stats } from "lib/score"
 import { Team, TeamColor } from "lib/team"
 import { isEmpty } from "lodash"
 import * as React from "react"
@@ -29,7 +29,7 @@ function EndGame() {
     fetchPolicy: "no-cache",
   })
 
-  let stats
+  let stats: Stats | undefined
   if (data && data.turns) {
     stats = gameStats(data.turns, currentGame.players)
   }
@@ -67,16 +67,18 @@ function EndGame() {
         <Grid item>
           <Divider variant="fullWidth"></Divider>
         </Grid>
-        <Grid item>
-          {stats.tie
-            ? t("end.result.tie", "It's a tie! Play again to break it.")
-            : t("end.result.win", "{{ teamName }} wins! Bask in the glory.", {
-                teamName: stats.winningTeam.toLocaleUpperCase(),
-              })}
-        </Grid>
-        {!isEmpty(stats.highScorePlayers) && (
+        {stats && (
           <Grid item>
-            {stats.highScorePlayers.map((player) => (
+            {stats.tie
+              ? t("end.result.tie", "It's a tie! Play again to break it.")
+              : t("end.result.win", "{{ teamName }} wins! Bask in the glory.", {
+                  teamName: stats.winningTeam.toLocaleUpperCase(),
+                })}
+          </Grid>
+        )}
+        {!isEmpty(stats?.highScorePlayers) && (
+          <Grid item>
+            {stats?.highScorePlayers.map((player) => (
               <PlayerChip
                 key={player.id}
                 username={player?.username || ""}
@@ -86,15 +88,17 @@ function EndGame() {
             {t(
               "end.highScore",
               "put the team on their back. They got their team to guess the most number of cards ({{ highScore }}!), across all rounds.",
-              { highScore: stats.highScore }
+              { highScore: stats?.highScore }
             )}
           </Grid>
         )}
-        <Grid item>
-          {t("end.yourScore", "You scored {{ score }} across all rounds.", {
-            score: stats.playerScores[currentPlayer.id] || 0,
-          })}
-        </Grid>
+        {stats && (
+          <Grid item>
+            {t("end.yourScore", "You scored {{ score }} across all rounds.", {
+              score: stats.playerScores[currentPlayer.id] || 0,
+            })}
+          </Grid>
+        )}
         <Grid item>
           <Divider variant="fullWidth"></Divider>
         </Grid>
