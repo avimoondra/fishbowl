@@ -129,9 +129,9 @@ function Home() {
           </Box>
         </Grid>
       </Grid>
-      <Box pt={4}>
+      {/* <Box pt={4}>
         <LanguagePicker />
-      </Box>
+      </Box> */}
       <Box p={4}>
         <Divider variant="middle"></Divider>
       </Box>
