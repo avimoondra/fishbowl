@@ -2294,6 +2294,7 @@ export type TimestamptzComparisonExp = {
 };
 
 export type TurnScorings = {
+  card: Cards;
   card_id: Scalars['uuid'];
   created_at: Scalars['timestamptz'];
   ended_at: Scalars['timestamptz'];
@@ -2362,6 +2363,7 @@ export type TurnScoringsBoolExp = {
   _and?: Maybe<Array<Maybe<TurnScoringsBoolExp>>>;
   _not?: Maybe<TurnScoringsBoolExp>;
   _or?: Maybe<Array<Maybe<TurnScoringsBoolExp>>>;
+  card?: Maybe<CardsBoolExp>;
   card_id?: Maybe<UuidComparisonExp>;
   created_at?: Maybe<TimestamptzComparisonExp>;
   ended_at?: Maybe<TimestamptzComparisonExp>;
@@ -2383,6 +2385,7 @@ export type TurnScoringsIncInput = {
 };
 
 export type TurnScoringsInsertInput = {
+  card?: Maybe<CardsObjRelInsertInput>;
   card_id?: Maybe<Scalars['uuid']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   ended_at?: Maybe<Scalars['timestamptz']>;
@@ -2460,6 +2463,7 @@ export type TurnScoringsOnConflict = {
 };
 
 export type TurnScoringsOrderBy = {
+  card?: Maybe<CardsOrderBy>;
   card_id?: Maybe<OrderBy>;
   created_at?: Maybe<OrderBy>;
   ended_at?: Maybe<OrderBy>;
@@ -3009,6 +3013,19 @@ export type RejectCardMutationVariables = {
 
 export type RejectCardMutation = { update_cards_by_pk?: Maybe<Pick<Cards, 'id' | 'is_allowed'>> };
 
+export type TurnScoringFragment = (
+  Pick<TurnScorings, 'id' | 'started_at' | 'ended_at' | 'status' | 'score'>
+  & { card: Pick<Cards, 'id' | 'player_id' | 'word'> }
+);
+
+export type GameStatsQueryVariables = {};
+
+
+export type GameStatsQuery = { turns: Array<(
+    Pick<Turns, 'id' | 'player_id' | 'review_started_at'>
+    & { scorings: Array<TurnScoringFragment> }
+  )> };
+
 export type StartGameMutationVariables = {};
 
 
@@ -3159,6 +3176,20 @@ export const TurnFragmentDoc = gql`
   review_started_at
   completed_card_ids
   seconds_per_turn_override
+}
+    `;
+export const TurnScoringFragmentDoc = gql`
+    fragment TurnScoring on turn_scorings {
+  id
+  started_at
+  ended_at
+  status
+  score
+  card {
+    id
+    player_id
+    word
+  }
 }
     `;
 export const CurrentPlayerDocument = gql`
@@ -3402,6 +3433,43 @@ export function useRejectCardMutation(baseOptions?: ApolloReactHooks.MutationHoo
 export type RejectCardMutationHookResult = ReturnType<typeof useRejectCardMutation>;
 export type RejectCardMutationResult = ApolloReactCommon.MutationResult<RejectCardMutation>;
 export type RejectCardMutationOptions = ApolloReactCommon.BaseMutationOptions<RejectCardMutation, RejectCardMutationVariables>;
+export const GameStatsDocument = gql`
+    query GameStats {
+  turns {
+    id
+    player_id
+    review_started_at
+    scorings {
+      ...TurnScoring
+    }
+  }
+}
+    ${TurnScoringFragmentDoc}`;
+
+/**
+ * __useGameStatsQuery__
+ *
+ * To run a query within a React component, call `useGameStatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGameStatsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGameStatsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGameStatsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GameStatsQuery, GameStatsQueryVariables>) {
+        return ApolloReactHooks.useQuery<GameStatsQuery, GameStatsQueryVariables>(GameStatsDocument, baseOptions);
+      }
+export function useGameStatsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GameStatsQuery, GameStatsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GameStatsQuery, GameStatsQueryVariables>(GameStatsDocument, baseOptions);
+        }
+export type GameStatsQueryHookResult = ReturnType<typeof useGameStatsQuery>;
+export type GameStatsLazyQueryHookResult = ReturnType<typeof useGameStatsLazyQuery>;
+export type GameStatsQueryResult = ApolloReactCommon.QueryResult<GameStatsQuery, GameStatsQueryVariables>;
 export const StartGameDocument = gql`
     mutation StartGame {
   insert_games_one(object: {}) {

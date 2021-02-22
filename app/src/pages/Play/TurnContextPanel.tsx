@@ -7,9 +7,11 @@ import {
   Theme,
 } from "@material-ui/core"
 import { CurrentGameContext } from "contexts/CurrentGame"
+import { useGameStatsLazyQuery } from "generated/graphql"
 import { teamScore } from "lib/score"
 import { Team, TeamColor } from "lib/team"
 import { drawableCards } from "lib/turn"
+import { flatten } from "lodash"
 import * as React from "react"
 import { useTranslation } from "react-i18next"
 
@@ -29,19 +31,29 @@ function CardsLeftItem() {
 function ScoreCardItem() {
   const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
+  const numTurns = currentGame.turns.length
+  const [fetchStats, { data }] = useGameStatsLazyQuery({
+    fetchPolicy: "no-cache",
+  })
+
+  React.useEffect(() => {
+    fetchStats()
+  }, [numTurns, fetchStats])
 
   return (
     <Box pl={2} pr={2}>
       <Box style={{ fontSize: "24px", lineHeight: "0.9" }}>
         {
           <span style={{ color: TeamColor[Team.Red] }}>
-            {teamScore(Team.Red, currentGame.turns, currentGame.players)}
+            {data?.turns &&
+              teamScore(Team.Red, data.turns, currentGame.players)}
           </span>
         }
         {" - "}
         {
           <span style={{ color: TeamColor[Team.Blue] }}>
-            {teamScore(Team.Blue, currentGame.turns, currentGame.players)}
+            {data?.turns &&
+              teamScore(Team.Blue, data.turns, currentGame.players)}
           </span>
         }
       </Box>
@@ -65,7 +77,6 @@ function CountdownTimerItem(props: { secondsLeft: number }) {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      // width: "fit-content",
       border: `1px solid ${theme.palette.divider}`,
       borderRadius: theme.shape.borderRadius,
     },
