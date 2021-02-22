@@ -19,12 +19,14 @@ import AllowCardSkipsCheckbox from "pages/Lobby/Inputs/AllowCardSkipsCheckbox"
 import RoundSettings from "pages/Lobby/RoundSettings"
 import SettingsSummary from "pages/Lobby/SettingsSummary"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 function SettingsSection(props: {
   cardPlayStyle: GameCardPlayStyleEnum
   setCardPlayStyle?: (cardPlayStyle: GameCardPlayStyleEnum) => void
   debouncedSetWordList?: (wordList: string) => void
 }) {
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const titleClasses = useTitleStyle()
@@ -50,7 +52,7 @@ function SettingsSection(props: {
       >
         <Box display="flex" flexDirection="column">
           <Typography variant="h4" className={titleClasses.title}>
-            Settings
+            {t("settings.heading", "Settings")}
           </Typography>
           {!expanded && (
             <Box mt={2} pr={4} style={{ color: grey[600] }}>
@@ -65,20 +67,23 @@ function SettingsSection(props: {
             <Grid item>
               {currentPlayer.role === PlayerRole.Participant && (
                 <div style={{ color: grey[600] }}>
-                  (Only your host can set these)
+                  {t(
+                    "settings.playerClarification",
+                    "(Only your host can set these)"
+                  )}
                 </div>
               )}
             </Grid>
             <Grid item>
               <Typography variant="h6" className={titleClasses.title}>
-                Cards
+                {t("settings.cards.heading", "Cards")}
               </Typography>
             </Grid>
             <CardSettings {...props}></CardSettings>
 
             <Grid item>
               <Typography variant="h6" className={titleClasses.title}>
-                Turns
+                {t("settings.turns.heading", "Turns")}
               </Typography>
             </Grid>
             <Grid item>
@@ -93,11 +98,14 @@ function SettingsSection(props: {
             </Grid>
             <Grid item>
               <Typography variant="h6" className={titleClasses.title}>
-                Rounds
+                {t("settings.rounds.heading", "Rounds")}
               </Typography>
               <Box pl={2} pt={1} fontSize="0.75rem" color={grey[600]}>
                 {currentPlayer.role === PlayerRole.Host &&
-                  "You can add, remove, or reorder rounds. By default, cards submitted will be re-used across rounds of Taboo, Charades, and Password."}
+                  t(
+                    "settings.rounds.description",
+                    "You can add, remove, or reorder rounds. By default, cards submitted will be re-used across rounds of Taboo, Charades, and Password."
+                  )}
               </Box>
             </Grid>
             <Grid item>

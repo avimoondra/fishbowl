@@ -3,8 +3,10 @@ import { green } from "@material-ui/core/colors"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import * as React from "react"
 import Clipboard from "react-clipboard.js"
+import { useTranslation } from "react-i18next"
 
 function ShareSection() {
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
   const [copyButtonClicked, setCopyButtonClicked] = React.useState(false)
 
@@ -20,7 +22,7 @@ function ShareSection() {
 
   return (
     <Grid item>
-      {`Share your link with everyone playing`}
+      {t("lobby.shareGame.linkLabel", "Share your link with everyone playing")}
       <Grid container spacing={2} style={{ paddingTop: 8, paddingBottom: 8 }}>
         <Grid item xs={8}>
           <TextField
@@ -50,12 +52,12 @@ function ShareSection() {
               }
               onClick={() => setCopyButtonClicked(true)}
             >
-              {copyButtonClicked ? "Copied" : "Copy"}
+              {copyButtonClicked ? t("copied", "Copied") : t("copy", "Copy")}
             </Button>
           </Clipboard>
         </Grid>
       </Grid>
-      {`Or the code`}
+      {t("lobby.shareGame.codeLabel", "Or the code")}
       <Typography variant="h6">{currentGame.join_code}</Typography>
     </Grid>
   )

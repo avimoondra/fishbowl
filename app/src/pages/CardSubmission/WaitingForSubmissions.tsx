@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@material-ui/core"
-import Fishbowl from "components/FishbowlAnimation"
+import Fishbowl from "components/Fishbowl"
 import PlayerChip from "components/PlayerChip"
 import ScreenCard from "components/ScreenCard"
 import { CurrentGameContext } from "contexts/CurrentGame"
@@ -8,6 +8,7 @@ import { filter, reject } from "lodash"
 import { Title } from "pages/CardSubmission"
 import AssignTeamsButton from "pages/CardSubmission/AssignTeamsButton"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 enum WaitingForSubmissionsState {
   Waiting,
@@ -16,6 +17,7 @@ enum WaitingForSubmissionsState {
 }
 
 function WaitingForSubmissions() {
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
   const currentPlayer = React.useContext(CurrentPlayerContext)
 
@@ -61,7 +63,7 @@ function WaitingForSubmissions() {
   return (
     <>
       <Grid item>
-        <Title text="Well done!" />
+        <Title text={t("cardSubmission.waiting.title", "Well done!")} />
       </Grid>
 
       {
@@ -69,7 +71,10 @@ function WaitingForSubmissions() {
           [WaitingForSubmissionsState.Waiting]: (
             <>
               <Grid item container justify="center">
-                Just waiting for everyone else...
+                {t(
+                  "cardSubmission.waiting.description",
+                  "Just waiting for everyone else..."
+                )}
                 <div style={{ width: 4 }} />
                 {waitingForPlayers.map((player) => (
                   <>
@@ -80,20 +85,32 @@ function WaitingForSubmissions() {
               </Grid>
               <Grid item>
                 <Typography variant="h5">
-                  {submittedOrAcceptedSoFar}/{`${total} cards so far`}
+                  {t(
+                    "cardSubmission.waiting.progress",
+                    "{{ progress }} cards so far",
+                    {
+                      progress: `${submittedOrAcceptedSoFar}/${total}`,
+                    }
+                  )}
                 </Typography>
               </Grid>
             </>
           ),
           [WaitingForSubmissionsState.SubmittedAssign]: (
             <Grid item>
-              All players submitted! As the host, you can now assign teams.
+              {t(
+                "cardSubmission.waiting.submitted.host",
+                "All players submitted! As the host, you can now assign teams."
+              )}
             </Grid>
           ),
           [WaitingForSubmissionsState.SubmittedWait]: (
             <Grid item>
-              {`All players submitted, ${submittedOrAcceptedSoFar} cards in total. Now we
-              are waiting on the host to start the game!`}
+              {t(
+                "cardSubmission.waiting.submitted.player",
+                "All players submitted {{ cardCount }} cards in total. Now we are waiting on the host to start the game!",
+                { cardCount: submittedOrAcceptedSoFar }
+              )}
             </Grid>
           ),
         }[state]

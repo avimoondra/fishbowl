@@ -5,11 +5,13 @@ import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useUpdateGameSettingsMutation } from "generated/graphql"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 export default function AllowCardSkipsCheckbox(props: {
   value: boolean
   disabled?: boolean
 }) {
+  const { t } = useTranslation()
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
@@ -39,7 +41,9 @@ export default function AllowCardSkipsCheckbox(props: {
         />
       }
       label={
-        <span style={{ color: grey[600] }}>Allow card skips during turn</span>
+        <span style={{ color: grey[600] }}>
+          {t("settings.turns.skipLabel", "Allow card skips during turn")}
+        </span>
       }
     />
   )

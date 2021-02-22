@@ -5,11 +5,13 @@ import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext, PlayerRole } from "contexts/CurrentPlayer"
 import { useUpdateGameSettingsMutation } from "generated/graphql"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 export default function ScreenCardsCheckbox(props: {
   value: boolean
   disabled?: boolean
 }) {
+  const { t } = useTranslation()
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const [updateGameSettings] = useUpdateGameSettingsMutation()
@@ -40,9 +42,11 @@ export default function ScreenCardsCheckbox(props: {
       }
       label={
         <div>
-          <span style={{ color: grey[600] }}>Allow host to screen cards</span>
+          <span style={{ color: grey[600] }}>
+            {t("settings.cards.screen.label", "Allow host to screen cards")}
+          </span>
           <div style={{ fontSize: "12px", color: grey[600] }}>
-            e.g. for profanity
+            {t("settings.cards.screen.helper", "e.g. for profanity")}
           </div>
         </div>
       }

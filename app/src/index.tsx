@@ -9,10 +9,12 @@ import * as Sentry from "@sentry/browser"
 import ApolloWrapper from "ApolloWrapper"
 import App from "App"
 import AuthWrapper from "AuthWrapper"
+import { FishbowlLoading } from "components/Fishbowl/FishbowlLoading"
 import "index.css"
-import React from "react"
+import React, { Suspense } from "react"
 import ReactDOM from "react-dom"
 import * as serviceWorker from "serviceWorker"
+import "./i18n"
 
 if (process.env.NODE_ENV !== "development") {
   Sentry.init({
@@ -37,7 +39,9 @@ ReactDOM.render(
         <ThemeProvider theme={theme}>
           <CssBaseline>
             <Container maxWidth="sm" style={{ marginTop: "30px" }}>
-              <App></App>
+              <Suspense fallback={<FishbowlLoading />}>
+                <App />
+              </Suspense>
             </Container>
           </CssBaseline>
         </ThemeProvider>

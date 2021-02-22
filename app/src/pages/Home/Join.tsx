@@ -5,10 +5,12 @@ import { clientUuid } from "contexts/CurrentPlayer"
 import { NotificationContext } from "contexts/Notification"
 import { GameByJoinCodeDocument, useJoinGameMutation } from "generated/graphql"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 import { generatePath, Redirect } from "react-router-dom"
 import routes from "routes"
 
 function Join(props: { onBack: () => void }) {
+  const { t } = useTranslation()
   const currentAuth = React.useContext(CurrentAuthContext)
   const notification = React.useContext(NotificationContext)
 
@@ -53,7 +55,11 @@ function Join(props: { onBack: () => void }) {
       } else {
         // cannot find game
         notification.send(
-          `Cannot find game ${joinCode?.toLocaleUpperCase()}. Double check the code! 👀`
+          t(
+            "home.invalidJoinCode",
+            "Cannot find game {{ joinCode }}. Double check the code! 👀",
+            { joinCode: joinCode?.toLocaleUpperCase() }
+          )
         )
         props.onBack()
       }
@@ -71,7 +77,7 @@ function Join(props: { onBack: () => void }) {
           <TextField
             autoFocus
             size="medium"
-            label="4-letter code"
+            label={t("home.joinCodeLabel", "4-letter code")}
             variant="outlined"
             value={joinCode}
             onChange={({ target: { value } }) => setJoinCode(value)}
@@ -81,7 +87,7 @@ function Join(props: { onBack: () => void }) {
         </Grid>
         <Grid container item>
           <Button size="small" onClick={props.onBack}>
-            Back
+            {t("backButton", "Back")}
           </Button>
           <Button
             variant="outlined"
@@ -98,7 +104,7 @@ function Join(props: { onBack: () => void }) {
             }}
             disabled={!joinCode || joinCode.length < 4 || joining}
           >
-            Join Game
+            {t("home.joinGameButton", "Join Game")}
           </Button>
         </Grid>
       </Grid>

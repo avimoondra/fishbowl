@@ -5,6 +5,7 @@ import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { CurrentGameSubscription } from "generated/graphql"
 import { nextPlayerForNextTeam } from "lib/turn"
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 
 type Props = {
   activePlayer: CurrentGameSubscription["games"][0]["players"][0]
@@ -12,6 +13,7 @@ type Props = {
 }
 
 export function YourTeamTurnContent(props: Props) {
+  const { t } = useTranslation()
   const currentGame = React.useContext(CurrentGameContext)
   const nextActivePlayer = nextPlayerForNextTeam(
     props.activePlayer,
@@ -27,16 +29,19 @@ export function YourTeamTurnContent(props: Props) {
             <PlayerChip
               username={props.activePlayer.username || ""}
               team={props.activePlayer.team}
-            ></PlayerChip>
-            {" has started!"}
+            ></PlayerChip>{" "}
+            {t("play.yourTeam.contextPredicate.active", "has started!")}
           </Grid>
         ) : (
           <Grid item>
             <PlayerChip
               username={props.activePlayer.username || ""}
               team={props.activePlayer.team}
-            ></PlayerChip>
-            {" from your team is about to start. Pay attention!"}
+            ></PlayerChip>{" "}
+            {t(
+              "play.yourTeam.contextPredicate.inactive",
+              "from your team is about to start. Pay attention!"
+            )}
           </Grid>
         )}
 
@@ -44,8 +49,11 @@ export function YourTeamTurnContent(props: Props) {
           <PlayerChip
             username={nextActivePlayer.username || ""}
             team={nextActivePlayer.team}
-          ></PlayerChip>
-          {" from the other team is next!"}
+          ></PlayerChip>{" "}
+          {t(
+            "play.yourTeam.contextPredicate.nextTurn",
+            "from the other team is next!"
+          )}
         </Grid>
       </Grid>
     </Box>
@@ -53,6 +61,7 @@ export function YourTeamTurnContent(props: Props) {
 }
 
 export function OtherTeamContent(props: Props) {
+  const { t } = useTranslation()
   const currentPlayer = React.useContext(CurrentPlayerContext)
   const currentGame = React.useContext(CurrentGameContext)
   const nextActivePlayer = nextPlayerForNextTeam(
@@ -69,18 +78,22 @@ export function OtherTeamContent(props: Props) {
             <PlayerChip
               username={props.activePlayer.username || ""}
               team={props.activePlayer.team}
-            ></PlayerChip>
-            {` has started! Pay attention to the words or phrases the other team is guessing!`}
+            ></PlayerChip>{" "}
+            {t(
+              "play.otherTeam.contextPredicate.active",
+              "has started! Pay attention to the words or phrases the other team is guessing!"
+            )}
           </Grid>
         ) : (
           <Grid item>
             <PlayerChip
               username={props.activePlayer.username || ""}
               team={props.activePlayer.team}
-            ></PlayerChip>
-            {
-              " from the other team is about to start. Pay attention to the words or phrases the other team is guessing!"
-            }
+            ></PlayerChip>{" "}
+            {t(
+              "play.otherTeam.contextPredicate.inactive",
+              "from the other team is about to start. Pay attention to the words or phrases the other team is guessing!"
+            )}
           </Grid>
         )}
 
@@ -88,10 +101,16 @@ export function OtherTeamContent(props: Props) {
           <PlayerChip
             username={nextActivePlayer.username || ""}
             team={nextActivePlayer.team}
-          ></PlayerChip>
+          ></PlayerChip>{" "}
           {nextActivePlayer.id === currentPlayer.id
-            ? " is next! (that's you!)"
-            : " from your team is next!"}
+            ? t(
+                "play.otherTeam.contextPredicate.yourNextTurn",
+                "is next! (that's you!)"
+              )
+            : t(
+                "play.otherTeam.contextPredicate.nextTurn",
+                "from your team is next!"
+              )}
         </Grid>
       </Grid>
     </Box>

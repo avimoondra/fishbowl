@@ -4,12 +4,16 @@ import LoopIcon from "@material-ui/icons/Loop"
 import { Team } from "lib/team"
 import * as React from "react"
 
-function PlayerChip(props: {
-  username: string
+interface Props {
+  username?: string
   team?: string | null | undefined
   handleDelete?: () => void
   handleSwitch?: () => void
-}) {
+}
+
+const PlayerChip: React.FC<Props> = (props) => {
+  const username =
+    props.username ?? (props.children ? String(props.children) : "")
   return (
     <Chip
       avatar={
@@ -24,7 +28,7 @@ function PlayerChip(props: {
           ></LoopIcon>
         )
       }
-      key={props.username}
+      key={username}
       color={
         props.team
           ? props.team === Team.Red
@@ -34,7 +38,7 @@ function PlayerChip(props: {
       }
       variant="outlined"
       size="small"
-      label={props.username}
+      label={username}
       onDelete={props.handleDelete}
     ></Chip>
   )
