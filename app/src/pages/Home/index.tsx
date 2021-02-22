@@ -132,7 +132,7 @@ function Home() {
       {/* <Box pt={4}>
         <LanguagePicker />
       </Box> */}
-      <Box p={4}>
+      <Box pt={4} pb={2}>
         <Divider variant="middle"></Divider>
       </Box>
       <Box textAlign="center" pb={4} px={1}>
