@@ -90,7 +90,10 @@ function EndGame() {
           {tie
             ? t("end.result.tie", "It's a tie! Play again to break it.")
             : t("end.result.win", "{{ teamName }} wins! Bask in the glory.", {
-                teamName: winningTeam.toLocaleUpperCase(),
+                teamName: t(
+                  `teams.teamName.${winningTeam}`,
+                  `Team ${winningTeam}`
+                ).toLocaleUpperCase(),
               })}
         </Grid>
         {!isEmpty(highScorePlayers) && (

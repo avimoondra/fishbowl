@@ -39,11 +39,10 @@ function HowToPlay() {
         return (
           <Box key={roundKey} pt={2} pl={2}>
             <b>
-              {t("howToPlay.round.heading", "Round {{ number }}: {{ name }}", {
-                number: 1 + index,
-                name: t(`howToPlay.round.${roundKey}.name`, round),
-              })}
-              .
+              {`${t("howToPlay.round.heading", "Round")} ${1 + index}: ${t(
+                `howToPlay.round.${roundKey}.name`,
+                round
+              )}.`}
             </b>{" "}
             {t(
               `howToPlay.round.${roundKey}.description`,

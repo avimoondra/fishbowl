@@ -49,10 +49,9 @@ function GameRoundInstructionCard(props: {
     <StyledPaper elevation={2}>
       <Box p={1}>
         <Typography className={titleClasses.title} variant="h5">
-          {t("howToPlay.round.heading", "Round {{ number }}: {{ name }}", {
-            number: props.roundNumber,
-            name: props.round,
-          })}
+          {`${t("howToPlay.round.heading", "Round")} ${props.roundNumber}: ${
+            props.round
+          }`}
         </Typography>
       </Box>
       <Box p={1}>{description}</Box>

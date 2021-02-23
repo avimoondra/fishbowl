@@ -57,9 +57,9 @@ function Join(props: { onBack: () => void }) {
         notification.send(
           t(
             "home.invalidJoinCode",
-            "Cannot find game {{ joinCode }}. Double check the code! 👀",
+            "Cannot find game {{ joinCode }}. Double check the code!",
             { joinCode: joinCode?.toLocaleUpperCase() }
-          )
+          ) + " 👀"
         )
         props.onBack()
       }

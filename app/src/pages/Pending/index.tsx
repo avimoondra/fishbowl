@@ -15,23 +15,15 @@ function Pending(props: { joinCode: string }) {
             "This is embarrassing, we cannot seem to figure out which player you are in game "
           }
           <strong>{{ joinCode: props.joinCode.toLocaleUpperCase() }}</strong>...
-          😳
         </Trans>
+        😳
       </Grid>
       <Grid item>
-        <Trans t={t} i18nKey="pending.explanation2">
-          {"Ask your host to "}
-          <strong>
-            {"click the settings button "}
-            <span role="img" aria-label="settings button">
-              ⚙️
-            </span>
-            {" in the bottom right corner"}
-          </strong>
-          {
-            " of their page to send your unique join link so you can get back in it!"
-          }
-        </Trans>
+        {t(
+          "pending.explanation2",
+          "Ask your host to click the settings button {{ settingsIcon }} in the bottom right corner of their page to send your unique join link so you can get back in it!",
+          { settingsIcon: "⚙️" }
+        )}
       </Grid>
       <Grid item>
         <Box

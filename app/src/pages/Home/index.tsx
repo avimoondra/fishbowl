@@ -129,9 +129,9 @@ function Home() {
           </Box>
         </Grid>
       </Grid>
-      {/* <Box pt={4}>
+      <Box pt={4}>
         <LanguagePicker />
-      </Box> */}
+      </Box>
       <Box pt={4} pb={2}>
         <Divider variant="middle"></Divider>
       </Box>
@@ -142,7 +142,8 @@ function Home() {
             <Link href="https://github.com/avimoondra/fishbowl" target="_blank">
               open source
             </Link>
-            , and made with <span style={{ color: "red" }}>♥</span>
+            {", and made with "}
+            <span style={{ color: "red" }}>{{ heartIcon: "♥" }}</span>
           </Trans>
         </p>
         <p>

@@ -149,15 +149,11 @@ function HostControls(props: {
         </Trans>
       </Grid>
       <Grid item>
-        <Trans t={t} i18nKey="hostControls.description.joinLink">
-          {"Or if they need additional help, click the settings button "}
-          <span role="img" aria-label="settings button">
-            ⚙️
-          </span>
-          {
-            " to send a unique join link for that player. From here, you can also adjust other settings, including seconds per turn, skips, etc."
-          }
-        </Trans>
+        {t(
+          "hostControls.description.joinLink",
+          "Or if they need additional help, click the settings button {{ settingsIcon }} to send a unique join link for that player. From here, you can also adjust other settings, including seconds per turn, skips, etc.",
+          { settingsIcon: "⚙️" }
+        )}
       </Grid>
     </Grid>
   )
