@@ -129,7 +129,9 @@ function Settings() {
           <Grid item>
             <Trans t={t} i18nKey="settings.join.link.helper">
               {"Send this to "}
-              <PlayerChip>{{ username: selectedPlayer?.username }}</PlayerChip>
+              <PlayerChip>
+                {{ playerUsername: selectedPlayer?.username }}
+              </PlayerChip>
               {" so they can get back in the game!"}
             </Trans>
           </Grid>

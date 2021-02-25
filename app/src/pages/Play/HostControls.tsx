@@ -87,11 +87,12 @@ function HostControls(props: {
           </Box>
 
           <Box ml={2}>
-            <PlayerChip
-              username={nextPlayerActiveTeam.username || ""}
-              team={nextPlayerActiveTeam.team}
-            ></PlayerChip>{" "}
-            {t("hostControls.skipHelperPredicate", "would be next")}
+            <Trans t={t} i18nKey="hostControls.skipHelper">
+              <PlayerChip team={nextPlayerActiveTeam.team}>
+                {{ playerUsername: nextPlayerActiveTeam.username }}
+              </PlayerChip>
+              {" would be next"}
+            </Trans>
           </Box>
         </Box>
       </Grid>
@@ -131,11 +132,12 @@ function HostControls(props: {
             </Button>
           </Box>
           <Box ml={2}>
-            <PlayerChip
-              username={nextPlayerNextTeam.username || ""}
-              team={nextPlayerNextTeam.team}
-            ></PlayerChip>{" "}
-            {t("hostControls.skipHelperPredicate", "would be next")}
+            <Trans t={t} i18nKey="hostControls.skipHelper">
+              <PlayerChip team={nextPlayerNextTeam.team}>
+                {{ playerUsername: nextPlayerNextTeam.username }}
+              </PlayerChip>
+              {" would be next"}
+            </Trans>
           </Box>
         </Box>
       </Grid>

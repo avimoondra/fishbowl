@@ -5,7 +5,7 @@ import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { CurrentGameSubscription } from "generated/graphql"
 import { nextPlayerForNextTeam } from "lib/turn"
 import * as React from "react"
-import { useTranslation } from "react-i18next"
+import { Trans, useTranslation } from "react-i18next"
 
 type Props = {
   activePlayer: CurrentGameSubscription["games"][0]["players"][0]
@@ -26,34 +26,31 @@ export function YourTeamTurnContent(props: Props) {
       <Grid item container direction="column" spacing={2}>
         {props.activeTurn.started_at !== null ? (
           <Grid item>
-            <PlayerChip
-              username={props.activePlayer.username || ""}
-              team={props.activePlayer.team}
-            ></PlayerChip>{" "}
-            {t("play.yourTeam.contextPredicate.active", "has started!")}
+            <Trans t={t} i18nKey="play.yourTeam.context.active">
+              <PlayerChip team={props.activePlayer.team}>
+                {{ playerUsername: props.activePlayer.username }}
+              </PlayerChip>
+              {" has started!"}
+            </Trans>
           </Grid>
         ) : (
           <Grid item>
-            <PlayerChip
-              username={props.activePlayer.username || ""}
-              team={props.activePlayer.team}
-            ></PlayerChip>{" "}
-            {t(
-              "play.yourTeam.contextPredicate.inactive",
-              "from your team is about to start. Pay attention!"
-            )}
+            <Trans t={t} i18nKey="play.yourTeam.context.inactive">
+              <PlayerChip team={props.activePlayer.team}>
+                {{ playerUsername: props.activePlayer.username }}
+              </PlayerChip>
+              {" from your team is about to start. Pay attention!"}
+            </Trans>
           </Grid>
         )}
 
         <Grid item>
-          <PlayerChip
-            username={nextActivePlayer.username || ""}
-            team={nextActivePlayer.team}
-          ></PlayerChip>{" "}
-          {t(
-            "play.yourTeam.contextPredicate.nextTurn",
-            "from the other team is next!"
-          )}
+          <Trans t={t} i18nKey="play.yourTeam.context.nextTurn">
+            <PlayerChip team={nextActivePlayer.team}>
+              {{ playerUsername: nextActivePlayer.username }}
+            </PlayerChip>
+            {" from the other team is next!"}
+          </Trans>
         </Grid>
       </Grid>
     </Box>
@@ -75,42 +72,44 @@ export function OtherTeamContent(props: Props) {
       <Grid item container direction="column" spacing={2}>
         {props.activeTurn.started_at !== null ? (
           <Grid item>
-            <PlayerChip
-              username={props.activePlayer.username || ""}
-              team={props.activePlayer.team}
-            ></PlayerChip>{" "}
-            {t(
-              "play.otherTeam.contextPredicate.active",
-              "has started! Pay attention to the words or phrases the other team is guessing!"
-            )}
+            <Trans t={t} i18nKey="play.otherTeam.context.active">
+              <PlayerChip team={props.activePlayer.team}>
+                {{ playerUsername: props.activePlayer.username }}
+              </PlayerChip>
+              {
+                " has started! Pay attention to the words or phrases the other team is guessing!"
+              }
+            </Trans>
           </Grid>
         ) : (
           <Grid item>
-            <PlayerChip
-              username={props.activePlayer.username || ""}
-              team={props.activePlayer.team}
-            ></PlayerChip>{" "}
-            {t(
-              "play.otherTeam.contextPredicate.inactive",
-              "from the other team is about to start. Pay attention to the words or phrases the other team is guessing!"
-            )}
+            <Trans t={t} i18nKey="play.otherTeam.context.inactive">
+              <PlayerChip team={props.activePlayer.team}>
+                {{ playerUsername: props.activePlayer.username }}
+              </PlayerChip>
+              {
+                " from the other team is about to start. Pay attention to the words or phrases the other team is guessing!"
+              }
+            </Trans>
           </Grid>
         )}
 
         <Grid item>
-          <PlayerChip
-            username={nextActivePlayer.username || ""}
-            team={nextActivePlayer.team}
-          ></PlayerChip>{" "}
-          {nextActivePlayer.id === currentPlayer.id
-            ? t(
-                "play.otherTeam.contextPredicate.yourNextTurn",
-                "is next! (that's you!)"
-              )
-            : t(
-                "play.otherTeam.contextPredicate.nextTurn",
-                "from your team is next!"
-              )}
+          {nextActivePlayer.id === currentPlayer.id ? (
+            <Trans t={t} i18nKey="play.otherTeam.context.yourNextTurn">
+              <PlayerChip team={nextActivePlayer.team}>
+                {{ playerUsername: nextActivePlayer.username }}
+              </PlayerChip>
+              {" is next! (that's you!)"}
+            </Trans>
+          ) : (
+            <Trans t={t} i18nKey="play.otherTeam.context.nextTurn">
+              <PlayerChip team={nextActivePlayer.team}>
+                {{ playerUsername: nextActivePlayer.username }}
+              </PlayerChip>
+              {" from your team is next!"}
+            </Trans>
+          )}
         </Grid>
       </Grid>
     </Box>
