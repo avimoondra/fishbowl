@@ -6429,10 +6429,10 @@ i18next-locize-backend@^4.1.9:
   dependencies:
     node-fetch "2.6.1"
 
-i18next@^19.8.5:
-  version "19.8.5"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-19.8.5.tgz#8275c98ab98faffa348de2c34c2fd80ffeadb999"
-  integrity sha512-mDuH/mvnNXZmvqxl3akSZuJtbX7ou7M66kzfXQTfRngTZ9cAjktlx4yVzA+gS9VPZp51eZOQAGfEDbFcnyvliw==
+i18next@^19.9.0:
+  version "19.9.0"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-19.9.0.tgz#0a8cdacac4c8fb384f81f1cfcce823772b37e5d3"
+  integrity sha512-5zRG3aFl+e+LsdpVUp0dKkVhYH2iCv+gxyzXP1q2oJUc3BV26fqX87cBE3AHkMOir1X0liOaSoxS/Kg95iEcEQ==
   dependencies:
     "@babel/runtime" "^7.12.0"
 
@@ -7985,6 +7985,11 @@ locate-path@^5.0.0:
   integrity sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==
   dependencies:
     p-locate "^4.1.0"
+
+locize@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/locize/-/locize-2.2.4.tgz#d498f02fe97e7475236853708c755847f907fd81"
+  integrity sha512-JgPcuP6NUDN9WTPJZ94+ehwlQ0Z9OZqnkWoR6xnzrb/OaCTGL/K/ACFve7szKH7cWf+UbKkA2ra6i5t0ZFiGWw==
 
 lodash._reinterpolate@^3.0.0:
   version "3.0.0"

@@ -6,6 +6,8 @@ export function languageNameFromCode(code: SupportedLanguage): string {
       return "English"
     case "es":
       return "Español"
+    case "fr":
+      return "Français"
     default:
       return assertNever(code)
   }
