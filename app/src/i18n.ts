@@ -1,14 +1,21 @@
 import i18n from "i18next"
 import LanguageDetector from "i18next-browser-languagedetector"
 import Locize from "i18next-locize-backend"
-import { initReactI18next } from "react-i18next"
 import { EmptyResourceLanguage, SupportedLanguages } from "locales"
+import { locizePlugin } from "locize"
+import queryString from "query-string"
+import { initReactI18next } from "react-i18next"
 
 const development = "development" === process.env.NODE_ENV
 const locizeApiKey = development
   ? process.env.REACT_APP_FISHBOWL_LOCIZE_API_KEY
   : undefined
 const saveMissing = Boolean(development && locizeApiKey)
+const inContext = "1" === queryString.parse(window.location.search).locize
+
+if (inContext) {
+  i18n.use(locizePlugin)
+}
 
 i18n
   .use(Locize)
@@ -37,7 +44,7 @@ i18n
       apiKey: locizeApiKey,
       referenceLng: "en",
       // @see https://docs.locize.com/guides-tips-and-tricks/going-production#versions-and-caching
-      version: development ? "latest" : "production",
+      version: development || inContext ? "latest" : "production",
     },
   })
 

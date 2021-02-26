@@ -4,8 +4,8 @@ export function languageNameFromCode(code: SupportedLanguage): string {
   switch (code) {
     case "en":
       return "English"
-    case "es":
-      return "Español"
+    case "fr":
+      return "Français"
     default:
       return assertNever(code)
   }

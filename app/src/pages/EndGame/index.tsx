@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Grid, Link, Typography } from "@material-ui/core"
 import BuyMeACoffeeButton from "components/BuyMeACoffeeButton"
-import PlayerChip from "components/PlayerChip"
+import { PlayerChipList } from "components/PlayerChipList"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import { useTitleStyle } from "index"
@@ -90,23 +90,31 @@ function EndGame() {
           {tie
             ? t("end.result.tie", "It's a tie! Play again to break it.")
             : t("end.result.win", "{{ teamName }} wins! Bask in the glory.", {
-                teamName: winningTeam.toLocaleUpperCase(),
+                teamName: t(
+                  `teams.teamName.${winningTeam}`,
+                  `Team ${winningTeam}`
+                ).toLocaleUpperCase(),
               })}
         </Grid>
         {!isEmpty(highScorePlayers) && (
           <Grid item>
-            {highScorePlayers.map((player) => (
-              <PlayerChip
-                key={player.id}
-                username={player?.username || ""}
-                team={player?.team}
-              ></PlayerChip>
-            ))}{" "}
-            {t(
-              "end.highScore",
-              "put the team on their back. They got their team to guess the most number of cards ({{ highScore }}!), across all rounds.",
-              { highScore }
-            )}
+            <Trans
+              t={t}
+              i18nKey="end.highScore"
+              count={highScorePlayers.length}
+              values={{ highScore }}
+              tOptions={{
+                defaultValue_plural:
+                  "<0>{{playerUsernames}}</0> put the team on their back. They got their team to guess the most number of cards ({{ highScore }}!), across all rounds.",
+              }}
+            >
+              <PlayerChipList players={highScorePlayers}>
+                {{ playerUsernames: null }}
+              </PlayerChipList>
+              {
+                " put the team on their back. They got their team to guess the most number of cards ({{ highScore }}!), across all rounds."
+              }
+            </Trans>
           </Grid>
         )}
         <Grid item>

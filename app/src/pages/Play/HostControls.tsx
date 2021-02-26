@@ -87,11 +87,12 @@ function HostControls(props: {
           </Box>
 
           <Box ml={2}>
-            <PlayerChip
-              username={nextPlayerActiveTeam.username || ""}
-              team={nextPlayerActiveTeam.team}
-            ></PlayerChip>{" "}
-            {t("hostControls.skipHelperPredicate", "would be next")}
+            <Trans t={t} i18nKey="hostControls.skipHelper">
+              <PlayerChip team={nextPlayerActiveTeam.team}>
+                {{ playerUsername: nextPlayerActiveTeam.username }}
+              </PlayerChip>
+              {" would be next"}
+            </Trans>
           </Box>
         </Box>
       </Grid>
@@ -131,11 +132,12 @@ function HostControls(props: {
             </Button>
           </Box>
           <Box ml={2}>
-            <PlayerChip
-              username={nextPlayerNextTeam.username || ""}
-              team={nextPlayerNextTeam.team}
-            ></PlayerChip>{" "}
-            {t("hostControls.skipHelperPredicate", "would be next")}
+            <Trans t={t} i18nKey="hostControls.skipHelper">
+              <PlayerChip team={nextPlayerNextTeam.team}>
+                {{ playerUsername: nextPlayerNextTeam.username }}
+              </PlayerChip>
+              {" would be next"}
+            </Trans>
           </Box>
         </Box>
       </Grid>
@@ -149,15 +151,11 @@ function HostControls(props: {
         </Trans>
       </Grid>
       <Grid item>
-        <Trans t={t} i18nKey="hostControls.description.joinLink">
-          {"Or if they need additional help, click the settings button "}
-          <span role="img" aria-label="settings button">
-            ⚙️
-          </span>
-          {
-            " to send a unique join link for that player. From here, you can also adjust other settings, including seconds per turn, skips, etc."
-          }
-        </Trans>
+        {t(
+          "hostControls.description.joinLink",
+          "Or if they need additional help, click the settings button {{ settingsIcon }} to send a unique join link for that player. From here, you can also adjust other settings, including seconds per turn, skips, etc.",
+          { settingsIcon: "⚙️" }
+        )}
       </Grid>
     </Grid>
   )

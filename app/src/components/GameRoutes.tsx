@@ -91,9 +91,9 @@ function CurrentPlayerProvider(props: {
         notification.send(
           t(
             "invalidJoinCode",
-            `Cannot find game {{ joinCode }}. Double check the url! 👀`,
+            "Cannot find game {{ joinCode }}. Double check the url!",
             { joinCode: props.joinCode.toLocaleUpperCase() }
-          )
+          ) + " 👀"
         )
         setRedirectRoute(routes.root)
       }

@@ -10,7 +10,7 @@ import {
 import { green, grey } from "@material-ui/core/colors"
 import bell from "assets/audio/bell.mp3"
 import BowlCard from "components/BowlCard"
-import PlayerChip from "components/PlayerChip"
+import { PlayerChipList } from "components/PlayerChipList"
 import { CurrentGameContext } from "contexts/CurrentGame"
 import { CurrentPlayerContext } from "contexts/CurrentPlayer"
 import {
@@ -29,7 +29,7 @@ import {
 import { compact, filter, includes, reject, sample } from "lodash"
 import * as React from "react"
 import { isMobile } from "react-device-detect"
-import { useTranslation } from "react-i18next"
+import { Trans, useTranslation } from "react-i18next"
 import useSound from "use-sound"
 
 enum ShownCardStatus {
@@ -197,29 +197,21 @@ function YourTurnContent(props: {
         ) && (
           <>
             {!!yourTeammates.length && (
-              <Grid item container>
-                {yourTeammates.map((player) => {
-                  return (
-                    <React.Fragment key={player.id}>
-                      <PlayerChip
-                        username={player.username || ""}
-                        team={player.team}
-                      ></PlayerChip>
-                      <div style={{ width: 4 }}></div>
-                    </React.Fragment>
-                  )
-                })}
-                <div>
-                  {" "}
-                  {t(
-                    "play.yourTurn.contextPredicate",
-                    "from your team is guessing!",
-                    {
-                      count: yourTeammates.length,
-                      defaultValue_plural: "from your team are guessing!",
-                    }
-                  )}
-                </div>
+              <Grid item>
+                <Trans
+                  t={t}
+                  i18nKey="play.yourTurn.context"
+                  count={yourTeammates.length}
+                  tOptions={{
+                    defaultValue_plural:
+                      "<0>{{playerUsernames}}</0> from your team are guessing!",
+                  }}
+                >
+                  <PlayerChipList players={yourTeammates}>
+                    {{ playerUsernames: null }}
+                  </PlayerChipList>
+                  {" from your team is guessing!"}
+                </Trans>
               </Grid>
             )}
 
