@@ -5,13 +5,9 @@ type Mutation {
   ): joinGameOutput
 }
 
-
 type Mutation {
   newGame : newGameOutput
 }
-
-
-
 
 type joinGameOutput {
   id : String!
