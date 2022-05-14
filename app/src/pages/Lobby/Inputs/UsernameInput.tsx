@@ -31,6 +31,7 @@ function UsernameInput(props: { playerId: Players["id"]; username: string }) {
             variant="outlined"
             size="small"
             defaultValue={props.username || ""}
+            inputProps={{ maxLength: 20 }}
             onChange={({ target: { value } }) => {
               setValue(value)
             }}
