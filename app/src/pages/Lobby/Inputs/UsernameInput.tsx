@@ -1,26 +1,26 @@
-import { Box, Button, TextField } from "@material-ui/core"
-import { Players, useUpdatePlayerMutation } from "generated/graphql"
-import * as React from "react"
-import { useTranslation } from "react-i18next"
+import { Box, Button, TextField } from "@material-ui/core";
+import { Players, useUpdatePlayerMutation } from "generated/graphql";
+import * as React from "react";
+import { useTranslation } from "react-i18next";
 
 function UsernameInput(props: { playerId: Players["id"]; username: string }) {
-  const { t } = useTranslation()
-  const [updatePlayer] = useUpdatePlayerMutation()
-  const [value, setValue] = React.useState(props.username || "")
-  const [savedName, setSavedName] = React.useState(value)
+  const { t } = useTranslation();
+  const [updatePlayer] = useUpdatePlayerMutation();
+  const [value, setValue] = React.useState(props.username || "");
+  const [savedName, setSavedName] = React.useState(value);
 
   return (
     <form
       onSubmit={async (event) => {
-        event.preventDefault()
+        event.preventDefault();
         const response = await updatePlayer({
           variables: {
             id: props.playerId,
             input: { username: value },
           },
-        })
+        });
         if (response.data?.update_players_by_pk?.username) {
-          setSavedName(value)
+          setSavedName(value);
         }
       }}
     >
@@ -31,11 +31,11 @@ function UsernameInput(props: { playerId: Players["id"]; username: string }) {
             variant="outlined"
             size="small"
             defaultValue={props.username || ""}
-			      // Added to prevent usernames longer than 20 characters, 
-			      // because many people play on mobile devices and you have to scroll with longer names.
-			      inputProps={{ maxLength: 20 }}
+            // Added to prevent usernames longer than 20 characters,
+            // because many people play on mobile devices and you have to scroll with longer names.
+            inputProps={{ maxLength: 20 }}
             onChange={({ target: { value } }) => {
-              setValue(value)
+              setValue(value);
             }}
             helperText={
               <span>
@@ -58,7 +58,8 @@ function UsernameInput(props: { playerId: Players["id"]; username: string }) {
         </Box>
       </Box>
     </form>
-  )
+  );
 }
 
-export default UsernameInput
+export default UsernameInput;
+
