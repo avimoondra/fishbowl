@@ -33,7 +33,7 @@ function UsernameInput(props: { playerId: Players["id"]; username: string }) {
             defaultValue={props.username || ""}
             // Added to prevent usernames longer than 20 characters,
             // because many people play on mobile devices and you have to scroll with longer names.
-            inputProps={{ maxLength: 20 }}
+            inputProps={{ maxLength: 20 }} // changed to 20
             onChange={({ target: { value } }) => {
               setValue(value);
             }}
