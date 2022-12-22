@@ -14,7 +14,7 @@
   "dependencies": {
     "@sentry/node": "5.15.5",
     "express": "4.16.4",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^9.0.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.19.0",
